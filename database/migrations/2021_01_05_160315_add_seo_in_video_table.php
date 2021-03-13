@@ -13,7 +13,7 @@ class AddSeoInVideoTable extends Migration
      */
     public function up()
     {
-        Schema::table('video', function (Blueprint $table) {
+        Schema::table('videos', function (Blueprint $table) {
             $table->string('title_seo')->after('user_edit')->nullable();
             $table->string('description_seo')->after('title_seo')->nullable();
             $table->string('keyword_seo')->after('description_seo')->nullable();
@@ -27,7 +27,7 @@ class AddSeoInVideoTable extends Migration
      */
     public function down()
     {
-        Schema::table('video', function (Blueprint $table) {
+        Schema::table('videos', function (Blueprint $table) {
             $table->dropColumn('title_seo');
             $table->dropColumn('description_seo');
             $table->dropColumn('keyword_seo');

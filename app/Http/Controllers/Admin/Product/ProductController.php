@@ -61,7 +61,7 @@ class ProductController extends Controller
         return view('Admin.Product.list',compact('products','category','langs','user'));
     }
     public function stock(){
-        check_admin_systems(SystemsModuleType::PRODUCT);
+        check_admin_systems(SystemsModuleType::STOCK);
 
         $products = Product::public()->orderByDesc('created_at')->get();
 

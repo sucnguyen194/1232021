@@ -26,7 +26,7 @@ class AddUserEditInNewsCategoryTable extends Migration
     public function down()
     {
         Schema::table('news_category', function (Blueprint $table) {
-            $table->dropColumn('user');
+            $table->dropColumn('user_edit');
         });
     }
 }

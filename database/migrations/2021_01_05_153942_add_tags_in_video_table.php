@@ -13,7 +13,7 @@ class AddTagsInVideoTable extends Migration
      */
     public function up()
     {
-        Schema::table('video', function (Blueprint $table) {
+        Schema::table('videos', function (Blueprint $table) {
             $table->string('tags')->after('content')->nullable();
         });
     }
@@ -25,7 +25,7 @@ class AddTagsInVideoTable extends Migration
      */
     public function down()
     {
-        Schema::table('video', function (Blueprint $table) {
+        Schema::table('videos', function (Blueprint $table) {
             $table->dropColumn('tags');
         });
     }
