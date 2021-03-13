@@ -286,5 +286,14 @@ class SystemsSeeder extends Seeder
             'icon' => 'pe-7s-box2',
             'sort' => 5,
         ]);
+
+        $systems = \App\Models\SystemsModule::all();
+        $user = \App\Models\User::whereAccount('admin')->first();
+        foreach($systems as $system):
+            \App\Models\UserModuleSystems::create([
+                'user_id'  => $user->id,
+                'type' => $system->type,
+            ]);
+        endforeach;
     }
 }

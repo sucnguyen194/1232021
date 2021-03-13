@@ -13,6 +13,7 @@
 @auth
     <a href="{{route('user.logout')}}">Đăng xuất</a>
 @endauth
+{{$systems = \App\Models\SystemsModule::all()}}
 <!-------------------------->
 <!-----------SOURCSE----------->
 <!-------------------------->
