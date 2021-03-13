@@ -98,6 +98,36 @@ class SystemsSeeder extends Seeder
             'parent_id'=> $systems->id,
         ]);
         \App\Models\SystemsModule::create([
+            'name' => 'Đơn hàng',
+            'route' => 'admin.orders.index',
+            'type' =>  \App\Enums\SystemsModuleType::HISTORY_IMPORT,
+            'parent_id'=> 0,
+            'position' => 2,
+            'icon' => 'pe-7s-cart',
+            'sort' => 3
+        ]);
+        \App\Models\SystemsModule::create([
+            'name' => 'Pages',
+            'type' =>  \App\Enums\SystemsModuleType::PAGES,
+            'parent_id'=> 0,
+            'position' => 1,
+            'icon' => 'pe-7s-wallet',
+            'sort' => 5
+        ]);
+        $systems = \App\Models\SystemsModule::whereType('PAGES')->first();
+        \App\Models\SystemsModule::create([
+            'name' => 'Thêm mới',
+            'route' => 'admin.pages.create',
+            'type' =>  \App\Enums\SystemsModuleType::ADD_PAGES,
+            'parent_id'=> $systems->id,
+        ]);
+        \App\Models\SystemsModule::create([
+            'name' => 'Danh sách bài viết',
+            'route' => 'admin.pages.index',
+            'type' =>  \App\Enums\SystemsModuleType::LIST_PAGES,
+            'parent_id'=> $systems->id,
+        ]);
+        \App\Models\SystemsModule::create([
             'name' => 'Media',
             'type' =>  \App\Enums\SystemsModuleType::MEDIA,
             'parent_id'=> 0,
