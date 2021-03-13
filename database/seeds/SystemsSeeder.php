@@ -14,7 +14,7 @@ class SystemsSeeder extends Seeder
         \App\Models\SystemsModule::create([
             'name' => 'Bảng điều khiển',
             'route' => 'admin.dashboard',
-            'type' =>  'DASHBOARD',
+            'type' =>  \App\Enums\SystemsModuleType::DASHBOARD,
             'parent_id'=> 0,
             'icon' => 'pe-7s-home',
             'sort' => 1
@@ -23,7 +23,7 @@ class SystemsSeeder extends Seeder
         \App\Models\SystemsModule::create([
             'name' => 'Tài khoản',
             'route' => 'admin.user.index',
-            'type' =>  'USER',
+            'type' =>  \App\Enums\SystemsModuleType::USER,
             'parent_id'=> 0,
             'icon' => 'pe-7s-users',
             'sort' => 7
@@ -31,7 +31,7 @@ class SystemsSeeder extends Seeder
 
         \App\Models\SystemsModule::create([
             'name' => 'Blog',
-            'type' =>  'NEWS',
+            'type' =>  \App\Enums\SystemsModuleType::NEWS,
             'parent_id'=> 0,
             'position' => 1,
             'icon' => 'pe-7s-news-paper',
@@ -41,25 +41,25 @@ class SystemsSeeder extends Seeder
         \App\Models\SystemsModule::create([
             'name' => 'Thêm bài viết',
             'route' => 'admin.news.create',
-            'type' =>  'ADD_NEWS',
+            'type' =>  \App\Enums\SystemsModuleType::ADD_NEWS,
             'parent_id'=> $systems->id,
         ]);
         \App\Models\SystemsModule::create([
             'name' => 'Danh mục bài viết',
             'route' => 'admin.news_category.index',
-            'type' =>  'NEWS_CATEGORY',
+            'type' =>  \App\Enums\SystemsModuleType::NEWS_CATEGORY,
             'parent_id'=> $systems->id,
         ]);
         \App\Models\SystemsModule::create([
             'name' => 'Danh sách bài viết',
             'route' => 'admin.news.index',
-            'type' =>  'LIST_NEWS',
+            'type' =>  \App\Enums\SystemsModuleType::LIST_NEWS,
             'parent_id'=> $systems->id,
         ]);
 
         \App\Models\SystemsModule::create([
             'name' => 'Sản phẩm',
-            'type' =>  'PRODUCT',
+            'type' =>  \App\Enums\SystemsModuleType::PRODUCT,
             'parent_id'=> 0,
             'position' => 1,
             'icon' => 'pe-7s-plugin',
@@ -69,37 +69,37 @@ class SystemsSeeder extends Seeder
         \App\Models\SystemsModule::create([
             'name' => 'Thêm sản phẩm',
             'route' => 'admin.products.create',
-            'type' =>  'ADD_PRODUCT',
+            'type' =>  \App\Enums\SystemsModuleType::ADD_PRODUCT,
             'parent_id'=> $systems->id,
         ]);
         \App\Models\SystemsModule::create([
             'name' => 'Danh mục sản phẩm',
             'route' => 'admin.product_categorys.index',
-            'type' =>  'PRODUCT_CATEGORY',
+            'type' =>  \App\Enums\SystemsModuleType::PRODUCT_CATEGORY,
             'parent_id'=> $systems->id,
         ]);
         \App\Models\SystemsModule::create([
             'name' => 'Danh sách sản phẩm',
             'route' => 'admin.products.index',
-            'type' =>  'LIST_PRODUCT',
+            'type' =>  \App\Enums\SystemsModuleType::LIST_PRODUCT,
             'parent_id'=> $systems->id,
         ]);
 
         \App\Models\SystemsModule::create([
             'name' => 'Danh sách thuộc tính',
             'route' => 'admin.attributes.index',
-            'type' =>  'ATTRIBUTE',
+            'type' =>  \App\Enums\SystemsModuleType::ATTRIBUTE,
             'parent_id'=> $systems->id,
         ]);
         \App\Models\SystemsModule::create([
             'name' => 'Danh mục thuộc tính',
             'route' => 'admin.attribute_categorys.index',
-            'type' =>  'ATTRIBUTE_CATEGORY',
+            'type' =>  \App\Enums\SystemsModuleType::ATTRIBUTE_CATEGORY,
             'parent_id'=> $systems->id,
         ]);
         \App\Models\SystemsModule::create([
             'name' => 'Media',
-            'type' =>  'MEDIA',
+            'type' =>  \App\Enums\SystemsModuleType::MEDIA,
             'parent_id'=> 0,
             'icon' => 'pe-7s-musiclist',
             'sort' => 7
@@ -108,32 +108,32 @@ class SystemsSeeder extends Seeder
         \App\Models\SystemsModule::create([
             'name' => 'Thư viện hình ảnh',
             'route' => 'admin.media.index',
-            'type' =>  'IMAGE',
+            'type' =>  \App\Enums\SystemsModuleType::IMAGE,
             'parent_id'=> $systems->id,
         ]);
         \App\Models\SystemsModule::create([
             'name' => 'Thư viện video',
             'route' => 'admin.videos.index',
-            'type' =>  'VIDEO',
+            'type' =>  \App\Enums\SystemsModuleType::VIDEO,
             'parent_id'=> $systems->id,
         ]);
         \App\Models\SystemsModule::create([
             'name' => 'Gallery',
             'route' => 'admin.gallerys.index',
-            'type' =>  'GALLERY',
+            'type' =>  \App\Enums\SystemsModuleType::GALLERY,
             'parent_id'=> $systems->id,
         ]);
         \App\Models\SystemsModule::create([
             'name' => 'Quản lý menu',
             'route' => 'admin.menus.index',
-            'type' =>  'MENU',
+            'type' =>  \App\Enums\SystemsModuleType::MENU,
             'parent_id'=> 0,
             'icon' => 'pe-7s-menu',
             'sort' => 8
         ]);
         \App\Models\SystemsModule::create([
             'name' => 'Khách hàng',
-            'type' =>  'CUSTOMER',
+            'type' =>  \App\Enums\SystemsModuleType::CUSTOMER,
             'parent_id'=> 0,
             'icon' => 'pe-7s-micro',
             'sort' => 9
@@ -142,30 +142,25 @@ class SystemsSeeder extends Seeder
         \App\Models\SystemsModule::create([
             'name' => 'Ý kiến khách hàng',
             'route' => 'admin.customer.index',
-            'type' =>  'CUSTOMER_COMMENT',
+            'type' =>  \App\Enums\SystemsModuleType::CUSTOMER_COMMENT,
             'parent_id'=> $systems->id,
         ]);
-        \App\Models\SystemsModule::create([
-            'name' => 'Ý kiến khách hàng',
-            'route' => 'admin.customer.index',
-            'type' =>  'CUSTOMER_COMMENT',
-            'parent_id'=> $systems->id,
-        ]);
+
         \App\Models\SystemsModule::create([
             'name' => 'Đội ngũ hỗ trợ',
             'route' => 'admin.support.index',
-            'type' =>   'SUPPORT',
+            'type' =>   \App\Enums\SystemsModuleType::SUPPORT,
             'parent_id'=> $systems->id,
         ]);
         \App\Models\SystemsModule::create([
             'name' => 'Tin nhắn',
             'route' => 'admin.contact.index',
-            'type' =>   'CONTACT',
+            'type' =>   \App\Enums\SystemsModuleType::CONTACT,
             'parent_id'=> $systems->id,
         ]);
         \App\Models\SystemsModule::create([
             'name' => 'Website',
-            'type' =>  'WEBSITE',
+            'type' =>  \App\Enums\SystemsModuleType::WEBSITE,
             'position' => 3,
             'parent_id'=> 0,
             'icon' => 'pe-7s-global',
@@ -175,30 +170,30 @@ class SystemsSeeder extends Seeder
         \App\Models\SystemsModule::create([
             'name' => 'Cấu hình hệ thống',
             'route' => 'admin.site.setting',
-            'type' =>   'SITE_SETTING',
+            'type' =>   \App\Enums\SystemsModuleType::SITE_SETTING,
             'parent_id'=> $systems->id,
         ]);
         \App\Models\SystemsModule::create([
             'name' => 'Đường dẫn',
             'route' => 'admin.alias.index',
-            'type' =>   'ALIAS',
+            'type' =>   \App\Enums\SystemsModuleType::ALIAS,
             'parent_id'=> $systems->id,
         ]);
         \App\Models\SystemsModule::create([
             'name' => 'Sửa website',
             'route' => 'admin.source.index',
-            'type' =>   'SOURCE',
+            'type' =>   \App\Enums\SystemsModuleType::SOURCE,
             'parent_id'=> $systems->id,
         ]);
         \App\Models\SystemsModule::create([
             'name' => 'Ngôn ngữ',
             'route' => 'admin.lang.index',
-            'type' =>   'LANG',
+            'type' =>   \App\Enums\SystemsModuleType::LANG,
             'parent_id'=> $systems->id,
         ]);
         \App\Models\SystemsModule::create([
             'name' => 'Config Module',
-            'type' =>  'CONFIG_MODULE',
+            'type' =>  \App\Enums\SystemsModuleType::CONFIG_MODULE,
             'position' => 3,
             'parent_id'=> 0,
             'icon' => 'pe-7s-science',
@@ -207,19 +202,19 @@ class SystemsSeeder extends Seeder
         \App\Models\SystemsModule::create([
             'name' => 'Action Modules',
             'route' => 'admin.modules.index',
-            'type' =>   'ADD_MODULE',
+            'type' =>   \App\Enums\SystemsModuleType::ADD_MODULE,
             'parent_id'=> $systems->id,
         ]);
         \App\Models\SystemsModule::create([
             'name' => 'Modules Systems',
             'route' => 'admin.systems.index',
-            'type' =>   'SYSTEMS_MODULE',
+            'type' =>   \App\Enums\SystemsModuleType::SYSTEMS_MODULE,
             'parent_id'=> $systems->id,
         ]);
         \App\Models\SystemsModule::create([
             'name' => 'Nhà cung cấp',
             'route' => 'admin.agencys.index',
-            'type' =>  'AGENCY',
+            'type' =>  \App\Enums\SystemsModuleType::AGENCY,
             'position' => 2,
             'parent_id'=> 0,
             'icon' => 'pe-7s-id',
@@ -228,7 +223,7 @@ class SystemsSeeder extends Seeder
         \App\Models\SystemsModule::create([
             'name' => 'Nhập hàng',
             'route' => 'admin.imports.create',
-            'type' =>  'IMPORT',
+            'type' =>  \App\Enums\SystemsModuleType::IMPORT,
             'position' => 2,
             'parent_id'=> 0,
             'icon' => 'pe-7s-next-2',
@@ -237,7 +232,7 @@ class SystemsSeeder extends Seeder
         \App\Models\SystemsModule::create([
             'name' => 'Xuất hàng',
             'route' => 'admin.orders.create',
-            'type' =>  'EXPORT',
+            'type' =>  \App\Enums\SystemsModuleType::EXPORT,
             'position' => 2,
             'parent_id'=> 0,
             'icon' => 'pe-7s-back',
@@ -246,7 +241,7 @@ class SystemsSeeder extends Seeder
         \App\Models\SystemsModule::create([
             'name' => 'Kho hàng',
             'route' => 'admin.imports.index',
-            'type' =>  'HISTORY_IMPORT',
+            'type' =>  \App\Enums\SystemsModuleType::HISTORY_IMPORT,
             'position' => 2,
             'parent_id'=> 0,
             'icon' => 'pe-7s-copy-file',
@@ -255,7 +250,7 @@ class SystemsSeeder extends Seeder
         \App\Models\SystemsModule::create([
             'name' => 'Thẻ kho',
             'route' => 'admin.products.stock',
-            'type' =>  'STOCK',
+            'type' =>  \App\Enums\SystemsModuleType::STOCK,
             'position' => 2,
             'parent_id'=> 0,
             'icon' => 'pe-7s-box2',
