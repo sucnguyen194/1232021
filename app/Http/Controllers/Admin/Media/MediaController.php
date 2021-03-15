@@ -8,7 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Media;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use Image;
+use Image, Schema;
 
 class MediaController extends Controller
 {
@@ -28,7 +28,9 @@ class MediaController extends Controller
             })
             ->orderByDesc('updated_at')
             ->get();
-        $position = \DB::table('position_image')->orderby('id','desc')->get();
+        $position = [];
+        if(Schema::hasTable('position_image'))
+            $position = \DB::table('position_image')->orderby('id','desc')->get();
 
         return view('Admin.Image.list',compact('media','position'));
     }
@@ -42,6 +44,8 @@ class MediaController extends Controller
     {
         if(check_admin_systems(SystemsModuleType::MEDIA))
 
+            $position = [];
+        if(Schema::hasTable('position_image'))
             $position = \DB::table('position_image')->orderby('id','desc')->get();
             $media = Media::whereType(MediaType::MEDIA)
                 ->when(\request()->position,function($q, $position){
@@ -141,6 +145,8 @@ class MediaController extends Controller
             ->orderByDesc('id')
             ->get();
 
+        $position = [];
+        if(Schema::hasTable('position_image'))
             $position = \DB::table('position_image')->orderby('id','desc')->get();
 
         return view('Admin.Image.edit',compact('position','media','list'));
