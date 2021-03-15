@@ -287,6 +287,16 @@ class SystemsSeeder extends Seeder
             'sort' => 5,
         ]);
 
+        \App\Models\SystemsModule::create([
+            'name' => 'Báo cáo',
+            'route' => 'admin.reports.index',
+            'type' =>  \App\Enums\SystemsModuleType::REPORT,
+            'position' => 2,
+            'parent_id'=> 0,
+            'icon' => 'pe-7s-ribbon',
+            'sort' => 7,
+        ]);
+
         $systems = \App\Models\SystemsModule::all();
         $user = \App\Models\User::whereAccount('admin')->first();
         foreach($systems as $system):
