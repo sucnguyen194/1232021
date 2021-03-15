@@ -175,14 +175,10 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
         Route::group(['namespace' => 'Import'], function () {
             Route::post('update/session/{id}','ImportController@updateSession')->name('update.session');
             Route::get('destroy/session/{id}','ImportController@destroySession')->name('destroy.session');
-            Route::get('get/session/{id}','ImportController@ajax')->name('ajax.session');
+            Route::get('ajax/session/{id}','ImportController@ajax')->name('ajax.session');
             Route::resource('imports','ImportController');
         });
 
-        Route::group(['namespace' => 'resport'],function(){
-
-        });
-        Route::resource('reports','ReportController');
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         Route::get('ajax/data_sort', 'AjaxController@getEditDataSort')->name('ajax.data.sort');
@@ -279,5 +275,3 @@ Route::get('tag/{alias}', 'TagController@index')->name('tag.show');
 Route::get('video.html', 'VideoController@index')->name('video.index');
 Route::get('gallery.html', 'GalleryController@index')->name('gallery.index');
 Route::get('search', 'SearchController@index');
-
-Route::resource('comments','CommentController');

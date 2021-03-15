@@ -7,7 +7,6 @@ use App\Models\Alias;
 use App\Models\News;
 use App\Models\NewsCategory;
 use App\Models\Pages;
-use App\Models\Product;
 use App\Models\Tags;
 use Illuminate\Http\Request;
 use Session;
@@ -40,8 +39,7 @@ class HomeController extends Controller
 
         switch ($object->type) {
             case (AliasType::PRODUCT);
-                $data['product'] = Product::whereAlias($alias)->public()->firstOrFail();
-                return view('Product.product',$data);
+                return view('Product.product');
                 break;
             case (AliasType::PRODUCT_CATEGORY);
                 return view('Product.category');
