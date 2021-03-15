@@ -44,7 +44,6 @@ class ImportController extends Controller
 
         return view('Admin.Import.index',compact('products','agencys','imports','users'));
     }
-
     /**
      * Show the form for creating a new resource.
      *

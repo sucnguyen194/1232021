@@ -34,7 +34,7 @@
 
   <!--*********************************---->
     <!-- load stylesheets -->
-    <link href="/assets/static/css/style.css" rel="stylesheet">
+
   <!--*********************************---->
     {!! @$setting->remarketing_header !!}
 </head>
