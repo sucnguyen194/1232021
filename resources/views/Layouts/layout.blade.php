@@ -50,7 +50,22 @@
 <!-- Vendor js -->
 <script src="/admin/assets/js/vendor.min.js"></script>
 <script src="/admin/assets/libs/jquery-toast/jquery.toast.min.js"></script>
-
+<style>
+    .qtv {
+        display: inline;
+        vertical-align: middle;
+        font-style: normal;
+        background-color: #eebc49;
+        color: #222;
+        font-size: 10px;
+        padding: 5px 5px 3px 5px;
+        border-radius: 2px;
+        width: auto;
+        height: auto;
+        line-height: 1;
+        margin-left: 5px;
+    }
+</style>
   @include('Errors.note')
   <!--*************************---->
 <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12"></script>

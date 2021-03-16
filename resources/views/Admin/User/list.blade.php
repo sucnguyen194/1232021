@@ -43,7 +43,7 @@
                         <tbody>
 
                         @foreach($user as $item)
-                        <tr>
+                        <tr class="font-weight-bold">
                             <td >{{$item->id}}</td>
                             <td class="font-weight-bold">{{$item->name ?? $item->account}}</td>
                             <td class="font-weight-bold">{{number_format($item->debt)}}</td>

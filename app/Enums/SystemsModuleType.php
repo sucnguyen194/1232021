@@ -55,4 +55,5 @@ final class SystemsModuleType extends Enum
     const HISTORY_EXPORT = 'HISTORY_EXPORT';
     const STOCK = 'STOCK';
     const REPORT = 'REPORT';
+    const COMMENTS = 'COMMENTS';
 }

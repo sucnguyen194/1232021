@@ -179,9 +179,7 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
             Route::resource('imports','ImportController');
         });
 
-        Route::group(['namespace' => 'resport'],function(){
-
-        });
+        Route::resource('comments','CommentController');
         Route::resource('reports','ReportController');
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

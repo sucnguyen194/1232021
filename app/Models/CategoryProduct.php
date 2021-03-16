@@ -13,6 +13,11 @@ class CategoryProduct extends Model
 
     protected $guarded = ['id'];
 
+    public function comments(){
+
+        return $this->morphMany(Comment::class,'comment');
+    }
+
     public function product(){
 
         return $this->belongsTo(Product::class,'category_id');

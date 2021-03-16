@@ -4,7 +4,20 @@ img {
 input[type=number]::-webkit-inner-spin-button {
     -webkit-appearance: none;
 }
-
+.qtv {
+    display: inline;
+    vertical-align: middle;
+    font-style: normal;
+    background-color: #eebc49;
+    color: #222;
+    font-size: 10px;
+    padding: 5px 5px 3px 5px;
+    border-radius: 2px;
+    width: auto;
+    height: auto;
+    line-height: 1;
+    margin-left: 5px;
+}
 .select2-container .select2-selection--single .select2-selection__rendered, .select2-container .select2-selection--multiple .select2-search__field {
     font-weight: 600;
 }

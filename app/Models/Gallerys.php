@@ -9,30 +9,16 @@ class Gallerys extends Model
 {
     protected $table = 'gallery';
 
-    protected $fillable = [
-        'title',
-        'alias',
-        'description',
-        'image',
-        'thumb',
-        'category_id',
-        'user_id',
-        'user_edit',
-        'title_seo',
-        'description_seo',
-        'keyword_seo',
-        'view',
-        'sort',
-        'status',
-        'public',
-        'lang',
-    ];
+    protected $guarded = ['id'];
 
     public function alias(){
 
         return $this->belongsTo(Alias::Class,'type_id')->whereType(SystemsModuleType::GALLERY);
     }
+    public function comments(){
 
+        return $this->morphMany(Comment::class,'comment');
+    }
     public function user(){
         return $this->belongsTo(User::class,'user_id');
     }

@@ -42,7 +42,7 @@
 
                         <tbody>
                         @foreach($agencys as $item)
-                            <tr>
+                            <tr class="font-weight-bold">
                                 <td >{{$item->id}}</td>
                                 <td>{{$item->name}}</td>
                                 <td>{{number_format($item->debt)}}</td>

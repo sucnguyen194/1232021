@@ -11,6 +11,10 @@ class Alias extends Model
 
     protected  $guarded = ['id'];
 
+    public function comments(){
+        return $this->hasMany(Comment::class,'comment_id','type_id');
+    }
+
     public function model(){
         switch ($this->type){
             case AliasType::PRODUCT_CATEGORY:
@@ -34,6 +38,61 @@ class Alias extends Model
             case AliasType::GALLERY:
                 return $this->belongsTo(Gallerys::class,'alias','alias');
                 break;
+        }
+    }
+
+    public function findModel($type, $id = null){
+
+        switch ($id){
+            case null:
+                switch ($type){
+                    case AliasType::PRODUCT_CATEGORY:
+                        return new CategoryProduct();
+                        break;
+                    case AliasType::PRODUCT:
+                        return new Product();
+                        break;
+                    case AliasType::NEWS_CATEGORY:
+                        return new NewsCategory();
+                        break;
+                    case AliasType::NEWS:
+                        return new News();
+                        break;
+                    case AliasType::PAGES:
+                        return new Pages();
+                        break;
+                    case AliasType::VIDEO:
+                        return new Videos();
+                        break;
+                    case AliasType::GALLERY:
+                        return new Gallerys();
+                        break;
+                }
+                break;
+                default;
+                    switch ($type){
+                        case AliasType::PRODUCT_CATEGORY:
+                            return CategoryProduct::find($id);
+                            break;
+                        case AliasType::PRODUCT:
+                            return Product::find($id);
+                            break;
+                        case AliasType::NEWS_CATEGORY:
+                            return NewsCategory::find($id);
+                            break;
+                        case AliasType::NEWS:
+                            return News::find($id);
+                            break;
+                        case AliasType::PAGES:
+                            return Pages::find($id);
+                            break;
+                        case AliasType::VIDEO:
+                            return Videos::find($id);
+                            break;
+                        case AliasType::GALLERY:
+                            return Gallerys::find($id);
+                            break;
+                    }
         }
     }
 

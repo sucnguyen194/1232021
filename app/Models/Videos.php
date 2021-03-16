@@ -9,13 +9,16 @@ class Videos extends Model
 {
     protected $table = 'videos';
 
-    protected $fillable = ['title','alias','image','thumb','video','content','tags','title_seo','description_seo','keyword_seo','user_id','user_edit','public','status','view','lang','sort'];
+    protected $guarded = ['id'];
 
     public function alias(){
 
         return $this->hasOne(Alias::Class,'type_id')->whereType(SystemsModuleType::VIDEO);
     }
+    public function comments(){
 
+        return $this->morphMany(Comment::class,'comment');
+    }
     public function user(){
         return $this->belongsTo(User::class,'user_id');
     }

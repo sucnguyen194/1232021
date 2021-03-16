@@ -1,7 +1,7 @@
-<?php
+<?php namespace App\Http\Controllers\Admin;
 
-namespace App\Http\Controllers;
-
+use App\Http\Controllers\Controller;
+use App\Enums\SystemsModuleType;
 use App\Models\Alias;
 use App\Models\Comment;
 use Illuminate\Http\Request;
@@ -16,7 +16,11 @@ class CommentController extends Controller
      */
     public function index()
     {
-        //
+        check_admin_systems(SystemsModuleType::COMMENTS);
+
+        $comments = Alias::whereHas('comments')->with('comments')->get();
+
+        return  view('Admin.Comment.index',compact('comments'));
     }
 
     /**
@@ -37,6 +41,8 @@ class CommentController extends Controller
      */
     public function store(Request $request)
     {
+        check_admin_systems(SystemsModuleType::COMMENTS);
+
         $request->validate([
             'comment' => 'required',
             'slug' => 'required',
@@ -48,22 +54,20 @@ class CommentController extends Controller
 
            $model = $alias->findModel($alias->type,$alias->type_id);
            $comment->comment()->associate($model);
-           $comment->user_id = Auth::check() ? Auth::id() : 0;
-           $comment->admin_id = Auth::user()->lever <= 2 ? Auth::id() : 0;
-           $comment->status = Auth::user()->lever <= 2 ? 1 : 0;
+           $comment->user_id = Auth::id();
+           $comment->admin_id = Auth::id();
+           $comment->status =  1;
            $comment->parent_id  = $request->parent ? $request->parent : 0;
            $comment->note = $request->comment;
            $comment->save();
 
-           if(Auth::user()->lever <= 2)
-               if($request->reply){
-                   $comment = Comment::find($request->reply);
-                   $comment->update([
-                       'status' => 1
-                   ]);
-               }
-           
-           return back()->with(['message' => 'Cám ơn bạn đã để lại bình luận!']);
+           if($request->reply){
+               $comment = Comment::findOrFail($request->reply);
+               $comment->update([
+                   'status' => 1
+               ]);
+           }
+           return back()->with(['message' => 'Thành công!']);
     }
 
     /**
@@ -85,7 +89,15 @@ class CommentController extends Controller
      */
     public function edit($id)
     {
-        //
+        check_admin_systems(SystemsModuleType::COMMENTS);
+        $slug = Alias::findOrFail($id);
+        $model = $slug->findModel($slug->type,$slug->type_id);
+
+        $comments = $model->comments->load(['user','admin']);
+        if(!$comments)
+            return redirect()->route('admin.comments.index')->withErrors(['message' => 'Lỗi thông tin!']);
+
+        return view('Admin.Comment.edit',compact('comments','model'));
     }
 
     /**
@@ -95,9 +107,20 @@ class CommentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Comment $comment)
     {
-        //
+        check_admin_systems(SystemsModuleType::COMMENTS);
+
+        if($comment->hidden == 0){
+            $comment->update([
+                'hidden' => 1
+            ]);
+        }else{
+            $comment->update([
+                'hidden' => 0
+            ]);
+        }
+        return back()->withInput()->with(['message' => 'Cập nhật thành công!']);
     }
 
     /**
@@ -108,6 +131,12 @@ class CommentController extends Controller
      */
     public function destroy($id)
     {
-        //
+        check_admin_systems(SystemsModuleType::COMMENTS);
+        $slug = Alias::findOrFail($id);
+        $model = $slug->findModel($slug->type,$slug->type_id);
+
+        $model->comments()->delete();
+
+        return back()->with(['message' => 'Xóa bình luận thành công!']);
     }
 }

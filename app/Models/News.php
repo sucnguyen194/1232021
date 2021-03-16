@@ -16,7 +16,10 @@ class News extends Model
     {
         return $this->belongsTo(NewsCategory::class);
     }
+    public function comments(){
 
+        return $this->morphMany(Comment::class,'comment');
+    }
     public function user(){
         return $this->belongsTo(User::class,'user_id');
     }

@@ -18,6 +18,11 @@ class Product extends Model
         'option' => 'array',
     ];
 
+    public function comments(){
+
+        return $this->morphMany(Comment::class,'comment');
+    }
+
     public function category(){
         return  $this->belongsTo(CategoryProduct::class,'category_id');
     }

@@ -138,6 +138,7 @@
                         $type = \App\Models\UserModuleSystems::where('user_id', Auth::id())->pluck('type');
                         $nav = \App\Models\SystemsModule::whereIn('type',$type)->orderby('sort','asc')->get();
                         $module = \App\Models\Modules::get();
+                        $comments = \App\Models\Comment::whereStatus(0)->count();
                         if(Auth::user()->lever == \App\Enums\LeverUser::SUPPERADMIN)
                             $nav = \App\Models\SystemsModule::orderby('sort','asc')->get();
                     @endphp
@@ -147,6 +148,9 @@
                             <a href="{{$item->route ? route($item->route) : "javascript:void(0)"}}">
                                 <i class="{{$item->icon}}"></i>
                                 <span>  {{$item->name}} </span>
+                                @if($item->route == 'admin.comments.index')
+                                    <span class="badge badge-danger badge-pill float-right">{{$comments}}</span>
+                                @endif
                                 @if($nav->where('parent_id', $item->id)->count()) <span class="menu-arrow"></span> @endif
                             </a>
                             @if($nav->where('parent_id', $item->id)->count())
@@ -164,6 +168,9 @@
                                 <a href="{{$item->route ? route($item->route) : "javascript:void(0)"}}">
                                     <i class="{{$item->icon}}"></i>
                                     <span>  {{$item->name}} </span>
+                                    @if($item->route == 'admin.comments.index')
+                                        <span class="badge badge-danger badge-pill float-right">{{$comments}}</span>
+                                    @endif
                                    @if($nav->where('parent_id', $item->id)->count()) <span class="menu-arrow"></span> @endif
                                 </a>
                                 @if($nav->where('parent_id', $item->id)->count())
@@ -181,6 +188,9 @@
                             <a href="{{$item->route ? route($item->route) : "javascript:void(0)"}}">
                                 <i class="{{$item->icon}}"></i>
                                 <span>  {{$item->name}} </span>
+                                @if($item->route == 'admin.comments.index')
+                                    <span class="badge badge-danger badge-pill float-right">{{$comments}}</span>
+                                @endif
                                 @if($nav->where('parent_id', $item->id)->count()) <span class="menu-arrow"></span> @endif
                             </a>
                             @if($nav->where('parent_id', $item->id)->count())
@@ -198,6 +208,9 @@
                             <a href="{{$item->route ? route($item->route) : "javascript:void(0)"}}">
                                 <i class="{{$item->icon}}"></i>
                                 <span>  {{$item->name}} </span>
+                                @if($item->route == 'admin.comments.index')
+                                    <span class="badge badge-danger badge-pill float-right">{{$comments}}</span>
+                                @endif
                                 @if($nav->where('parent_id', $item->id)->count()) <span class="menu-arrow"></span> @endif
                             </a>
                             @if($nav->where('parent_id', $item->id)->count())
@@ -210,18 +223,20 @@
                         </li>
                     @endforeach
                     @if(in_array(\App\Enums\SystemsModuleType::CONFIG_MODULE, $type->toArray()) || Auth::user()->lever == \App\Enums\LeverUser::SUPPERADMIN)
-                        <li>
-                            <a href="javascript: void(0);">
-                                <i class="pe-7s-settings"></i>
-                                <span> Action Modules </span>
-                                <span class="menu-arrow"></span>
-                            </a>
-                            <ul class="nav-second-level" aria-expanded="false">
-                                @foreach($module as $sub)
-                                    <li><a href="{{route('admin.action.module.index',$sub->table)}}">{{$sub->name}}</a></li>
-                                @endforeach
-                            </ul>
-                        </li>
+                        @if($module->count())
+                            <li>
+                                <a href="javascript: void(0);">
+                                    <i class="pe-7s-settings"></i>
+                                    <span> Action Modules </span>
+                                    <span class="menu-arrow"></span>
+                                </a>
+                                <ul class="nav-second-level" aria-expanded="false">
+                                    @foreach($module as $sub)
+                                        <li><a href="{{route('admin.action.module.index',$sub->table)}}">{{$sub->name}}</a></li>
+                                    @endforeach
+                                </ul>
+                            </li>
+                        @endif
                     @endif
                 </ul>
             </div>

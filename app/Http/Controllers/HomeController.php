@@ -40,6 +40,9 @@ class HomeController extends Controller
 
         switch ($object->type) {
             case (AliasType::PRODUCT);
+                $model = $object->findModel($object->type,$object->type_id);
+                $data['comments'] = $model->comments->load(['user','admin']);
+                $data['model'] = $model;
                 $data['product'] = Product::whereAlias($alias)->public()->firstOrFail();
                 return view('Product.product',$data);
                 break;

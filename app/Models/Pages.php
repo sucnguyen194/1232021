@@ -16,7 +16,10 @@ class Pages extends Model
 
         return $this->hasOne(Alias::Class,'type_id')->whereType(SystemsModuleType::PAGES);
     }
+    public function comments(){
 
+        return $this->morphMany(Comment::class,'comment');
+    }
     public function user(){
         return $this->belongsTo(User::class,'user_id');
     }

@@ -20,7 +20,10 @@ class NewsCategory extends Model
     public function categorys(){
         return $this->hasMany(NewsToCategory::class,'category_id');
     }
+    public function comments(){
 
+        return $this->morphMany(Comment::class,'comment');
+    }
     public function parents(){
         return $this->belongsTo(NewsCategory::class,'parent_id');
     }
