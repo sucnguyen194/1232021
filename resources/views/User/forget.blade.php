@@ -33,7 +33,7 @@
                             <div class="text-center account-logo-box">
                                 <div>
                                     <a href="{{route('home')}}">
-                                        <img src="{{asset($setting->logo)}}" alt="{{$setting->name}}" height="30">
+                                        <img src="{{asset($setting->logo)}}" alt="" height="30">
                                     </a>
                                 </div>
                             </div>

@@ -108,7 +108,7 @@
                         @foreach($sessions->whereIn('id',$id) as $item)
                             <tr class="font-weight-bold">
                                 <td >{{$item->product->id}}</td>
-                                <td><a href="{{route('admin.products.edit',$item->product->id)}}" target="_blank">{{$item->product->name}}</a> </td>
+                                <td><a href="{{route('admin.products.index',['id' => $item->product->id ?? 0])}}" target="_blank">{{$item->product->name ?? "Đã xóa"}}</a> </td>
                                 <td>{{$item->product->sessions->sum('amount')}}</td>
                                 <td>{{$item->product->sessions->sum('amount_export')}}</td>
                                 <td>{{$item->product->sessions->sum('amount') - $item->product->sessions->sum('amount_export')}}</td>

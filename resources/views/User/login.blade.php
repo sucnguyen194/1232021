@@ -53,7 +53,7 @@
 
                                     <div class="form-group row">
                                         <div class="col-12">
-                                            <a href="#" class="text-muted float-right"><small>Quên mật khẩu?</small></a>
+                                            <a href="{{route('user.forget')}}" class="text-muted float-right"><small>Quên mật khẩu?</small></a>
                                             <label for="password">Mật khẩu</label>
                                             <input class="form-control" type="password" name="password" required="" id="password" placeholder="Nhập mật khẩu của bạn!">
                                         </div>

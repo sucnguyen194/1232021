@@ -42,11 +42,11 @@
     <div class="navbar-custom">
         <ul class="list-unstyled topnav-menu float-right mb-0">
             @php
-                $contact = \App\Models\Contact::where('status', \App\Enums\ActiveDisable::DISABLE)->take(10)->get();
+                $contact = \App\Models\Contact::where('status', \App\Enums\ActiveDisable::DISABLE)->orderByDesc('created_at')->take(10)->get();
                 $langs = \App\Models\Lang::all();
             @endphp
-            <li class="redirect-website"><a href="{{route('home')}}" class="nav-link dropdown-toggle mr-0 waves-effect waves-light" target="_blank">Website</a> </li>
-            <li class="dropdown notification-list dropdown d-lg-inline-block ml-2"> <a class="nav-link dropdown-toggle mr-0 waves-effect waves-light" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">{{implode($langs->where('value',Session::get('lang'))->pluck('name')->toArray())}} </a>
+            <li class="redirect-website"><a href="{{route('home')}}" class="nav-link dropdown-toggle mr-0 waves-effect waves-light" target="_blank"><i class="fas fa-home h3 text-white"></i></a> </li>
+            <li class="dropdown notification-list dropdown d-lg-inline-block"> <a class="nav-link dropdown-toggle mr-0 waves-effect waves-light" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">{{implode($langs->where('value',Session::get('lang'))->pluck('name')->toArray())}} </a>
                 <div class="dropdown-menu dropdown-menu-right profile-dropdown ">
                     @foreach($langs->where('value','<>',Session::get('lang')) as $item)
                     <!-- item-->
