@@ -83,7 +83,7 @@ class NewsCategory extends Model
         });
 
         static::deleting(function($category){
-
+            $category->comments()->delete();
             $category->categorys()->delete();
             $category->alias()->delete();
 

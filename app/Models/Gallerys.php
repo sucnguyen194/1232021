@@ -56,6 +56,7 @@ class Gallerys extends Model
         });
 
         static::deleting(function($gallery){
+            $gallery->comments()->delete();
             $gallery->alias()->delete();
             $gallery->post_lang()->delete();
             $gallery->post_langs()->delete();

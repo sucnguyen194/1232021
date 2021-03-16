@@ -85,7 +85,7 @@ class CategoryProduct extends Model
         });
 
         static::deleting(function($category){
-
+            $category->comments()->delete();
             $category->post_lang()->delete();
             $category->post_langs()->delete();
             $category->categorys()->delete();

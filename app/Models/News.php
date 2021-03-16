@@ -88,7 +88,7 @@ class News extends Model
         });
 
         static::deleting(function($news){
-
+            $news->comments()->delete();
             $news->categorys()->delete();
             $news->alias()->delete();
             $news->tags()->delete();

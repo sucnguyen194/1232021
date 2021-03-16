@@ -95,6 +95,7 @@ class Product extends Model
         });
 
         static::deleting(function($product){
+            $product->comments()->delete();
             $product->post_lang()->delete();
             $product->post_langs()->delete();
             $product->alias()->delete();

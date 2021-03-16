@@ -73,6 +73,7 @@ class Pages extends Model
         });
 
         static::deleting(function($pages){
+            $pages->comments->delete();
             $pages->alias()->delete();
             $pages->tags()->delete();
             $pages->post_lang()->delete();

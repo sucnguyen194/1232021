@@ -60,6 +60,7 @@ class Videos extends Model
         });
 
         static::deleting(function($video){
+            $video->comments()->delete();
             $video->alias()->delete();
             $video->tags()->delete();
             $video->post_lang()->delete();

@@ -297,6 +297,13 @@ class SystemsSeeder extends Seeder
             'sort' => 7,
         ]);
 
+        \App\Models\SystemsModule::create([
+            'name' => 'Bình luận',
+            'route' => 'admin.comments.index',
+            'type' =>  \App\Enums\SystemsModuleType::COMMENTS,
+            'icon' => 'pe-7s-comment',
+        ]);
+
         $systems = \App\Models\SystemsModule::all();
         $user = \App\Models\User::whereAccount('admin')->first();
         foreach($systems as $system):

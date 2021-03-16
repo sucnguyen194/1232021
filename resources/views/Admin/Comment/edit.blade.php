@@ -23,7 +23,7 @@
         </div>
         <!-- end page title -->
         <div class="form-comment" id="comments">
-            <form method="post" action="{{route('comments.store')}}" enctype="multipart/form-data">
+            <form method="post" action="{{route('admin.comments.store')}}" enctype="multipart/form-data">
                 @csrf
                 <div class="form-group">
                     <label class="font-weight-bold">Bình luận</label>
@@ -77,7 +77,7 @@
                             </div>
                         </div>
                         <div class="box-comment mt-2" target="{{$comment->id}}">
-                            <form method="post" action="{{route('comments.store')}}" enctype="multipart/form-data">
+                            <form method="post" action="{{route('admin.comments.store')}}" enctype="multipart/form-data">
                                 @csrf
                                 <div class="form-group">
                                     <label class="font-weight-bold">Bình luận</label>
@@ -131,7 +131,7 @@
                                     </div>
                                 </div>
                                 <div class="box-comment mt-2" target="{{$sub->id}}">
-                                    <form method="post" action="{{route('comments.store')}}" enctype="multipart/form-data">
+                                    <form method="post" action="{{route('admin.comments.store')}}" enctype="multipart/form-data">
                                         @csrf
                                         <div class="form-group">
                                             <label class="font-weight-bold">Bình luận</label>
@@ -187,7 +187,7 @@
                                             </div>
                                         </div>
                                         <div class="box-comment mt-2" target="{{$sub_sub->id}}">
-                                            <form method="post" action="{{route('comments.store')}}" enctype="multipart/form-data">
+                                            <form method="post" action="{{route('admin.comments.store')}}" enctype="multipart/form-data">
                                                 @csrf
                                                 <div class="form-group">
                                                     <label class="font-weight-bold">Bình luận</label>

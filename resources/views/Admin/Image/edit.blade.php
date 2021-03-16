@@ -63,8 +63,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-5">
-
+                <div class="col-lg-5  box-action-image">
                     <div class="card-box">
                         <div class="form-group mb-0">
                             <label class="font-weight-bold">Hình ảnh</label>
@@ -74,15 +73,9 @@
 
                     </div>
                     <div class="card-box autohide-scroll" style="height:275px">
-                            <div id="grid-gallery" class="grid-gallery">
-                                <section class="grid-wrap">
-                                    <ul class="grid" id="list-item">
-                                        <span class="image-holder" id="image-holder">
-                                        @if(file_exists($media->image))<li id="item"><img src="{{asset($media->image)}}" class="rounded"> </li>@endif
-                                        </span>
-                                    </ul>
-                                </section><!-- // grid-wrap -->
-                            </div><!-- // grid-gallery -->
+                            <span class="image-holder" id="image-holder">
+                                @if(file_exists($media->image))<img src="{{asset($media->image)}}" class="rounded">@endif
+                            </span>
                         </div>
                 </div>
                 <div class="col-lg-12 text-center">
@@ -104,19 +97,23 @@
             <!-- end row -->
         </form>
     </div>
-
+<style>
+    .box-action-image img {
+        max-height: unset;
+    }
+    </style>
 @stop
 
 @section('javascript')
-    <script src="{{asset('admin/js/grid/modernizr.custom.js')}}"></script>
-    <script src="{{asset('admin/js/grid/imagesloaded.pkgd.min.js')}}"></script>
-    <script src="{{asset('admin/js/grid/masonry.pkgd.min.js')}}"></script>
-    <script src="{{asset('admin/js/grid/classie.js')}}"></script>
-    <script src="{{asset('admin/js/grid/cbpGridGallery.js')}}"></script>
+{{--    <script src="{{asset('admin/js/grid/modernizr.custom.js')}}"></script>--}}
+{{--    <script src="{{asset('admin/js/grid/imagesloaded.pkgd.min.js')}}"></script>--}}
+{{--    <script src="{{asset('admin/js/grid/masonry.pkgd.min.js')}}"></script>--}}
+{{--    <script src="{{asset('admin/js/grid/classie.js')}}"></script>--}}
+{{--    <script src="{{asset('admin/js/grid/cbpGridGallery.js')}}"></script>--}}
 
-    <script>
-        new CBPGridGallery( document.getElementById( 'grid-gallery' ) );
-    </script>
+{{--    <script>--}}
+{{--        new CBPGridGallery( document.getElementById( 'grid-gallery' ) );--}}
+{{--    </script>--}}
 
     <script src="{{asset('admin/assets/libs/switchery/switchery.min.js')}}"></script>
     <script src="{{asset('admin/assets/libs/bootstrap-tagsinput/bootstrap-tagsinput.min.js')}}"></script>
