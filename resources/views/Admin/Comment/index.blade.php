@@ -26,7 +26,6 @@
                                 <th>ID</th>
                                 <th>Bài viết</th>
                                 <th>Bình luận cuối cùng</th>
-                                <th>Người viết</th>
                                 <th>Chưa trả lời</th>
                                 <th>Cập nhật</th>
                                 <th>Hành động</th>
@@ -36,26 +35,16 @@
                             <tbody>
                             @foreach($comments as $item)
                                 <tr class="font-weight-bold">
-                                    <td>{{$item->model->id}}</td>
-                                    <td><a href="{{route('alias',$item->alias)}}" target="_blank">{{ $item->model->name ?? $item->model->title}}</a> </td>
+                                    <td>{{$item->id}}</td>
+                                     <td><a href="{{route('alias',$item->alias)}}" target="_blank"> {{$item->title ?? $item->name}}</a></td>
                                     <td>{{$item->comments->last()->note}}</td>
-                                    @if($item->comments->last()->admin_id > 0)
-                                    <td>{{$item->comments->last()->admin->email}}</td>
-                                    @else
-                                        <td>{{$item->comments->last()->user->name ?? 'Một ai đó'}}</td>
-                                    @endif
                                     <td>{{$item->comments->where('status',0)->count()}}</td>
+                                    <td>{{$item->comments->last()->updated_at->diffForHumans()}}</td>
                                     <td>
-                                        {{$item->comments->last()->updated_at->diffForHumans()}}
-                                    </td>
-                                    <td>
-                                        <a href="{{route('admin.comments.edit',$item->id)}}" class="btn btn-purple waves-effect waves-light">
+                                        <a href="{{route('admin.comments.detail',[$type,$item->id])}}" class="btn btn-purple waves-effect waves-light">
                                             <span class="icon-button"><i class="fe-edit-2"></i></span></a>
-                                        <form method="post" action="{{route('admin.comments.destroy',$item->id)}}" class="d-inline-block">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" onclick="return confirm('Xóa toàn bộ bình luận?')" class="btn btn-warning waves-effect waves-light"><span class="icon-button"><i class="fe-x"></i></span></button>
-                                        </form>
+                                        <a href="{{route('admin.comments.destroys',[$type,$item->id])}}" onclick="return confirm('Xóa toàn bộ bình luận?')" class="btn btn-warning waves-effect waves-light"><span class="icon-button"><i class="fe-x"></i></span></a>
+
                                     </td>
                                 </tr>
                             @endforeach

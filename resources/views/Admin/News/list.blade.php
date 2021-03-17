@@ -125,7 +125,7 @@
                                         </td>
                                         <td >{{$item->id}}</td>
                                         <td class="position-relative"><input style="width: 120px" type="number" class="form-control" name="sort" data-id="{{$item->id}}" value="{{$item->sort}}"> <span id="change-sort-success_{{$item->id}}" class="change-sort"></span></td>
-                                        <td style="width: 30%"><a href="{{route('alias',$item->alias)}}" title="{{$item->title}}" class="text-secondary" target="_blank">{{ $item->title}}</a> </td>
+                                        <td style="width: 30%"><a href="{{route('alias',$item->alias)}}" title="{{$item->title}}" class="font-weight-bold" target="_blank">{{ $item->title}}</a> </td>
                                         <td>{{$item->category->title ?? "Chưa có danh mục" }} </td>
 
                                         <td>{{$item->language->name}} </td>

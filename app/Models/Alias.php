@@ -11,36 +11,6 @@ class Alias extends Model
 
     protected  $guarded = ['id'];
 
-    public function comments(){
-        return $this->hasMany(Comment::class,'comment_id','type_id');
-    }
-
-    public function model(){
-        switch ($this->type){
-            case AliasType::PRODUCT_CATEGORY:
-                return $this->belongsTo(CategoryProduct::class,'alias','alias');
-                break;
-            case AliasType::PRODUCT:
-                return $this->belongsTo(Product::class,'alias','alias');
-                break;
-            case AliasType::NEWS_CATEGORY:
-                return $this->belongsTo(NewsCategory::class,'alias','alias');
-                break;
-            case AliasType::NEWS:
-                return $this->belongsTo(News::class,'alias','alias');
-                break;
-            case AliasType::PAGES:
-                return $this->belongsTo(Pages::class,'alias','alias');
-                break;
-            case AliasType::VIDEO:
-                return $this->belongsTo(Videos::class,'alias','alias');
-                break;
-            case AliasType::GALLERY:
-                return $this->belongsTo(Gallerys::class,'alias','alias');
-                break;
-        }
-    }
-
     public function findModel($type, $id = null){
 
         switch ($id){

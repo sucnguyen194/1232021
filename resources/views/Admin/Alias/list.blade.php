@@ -29,7 +29,6 @@
                             <thead>
                             <tr>
                                 <th>ID</th>
-                                <th style="width: 30%">Tiêu đề</th>
                                 <th style="width: 30%">Đường dẫn</th>
 {{--                                <th>Phân loại</th>--}}
                                 <th>Ngày tạo</th>
@@ -39,9 +38,8 @@
 
                             <tbody>
                             @foreach($alias as $item)
-                                <tr>
+                                <tr class="font-weight-bold">
                                     <td >{{$item->id}}</td>
-                                    <td style="width: 30%">{{ $item->model->name ?? $item->model->title }} </td>
                                     <td style="width: 30%">{{ $item->alias}} </td>
 {{--                                    <td>{{\App\Enums\AliasType::getDescription($item->type)}} </td>--}}
                                     <td>

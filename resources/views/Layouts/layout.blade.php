@@ -12,6 +12,8 @@
   <meta property="og:locale" content="vi_VN" />
   <meta property="og:type" content="website" />
 {{--  <meta property="fb:app_id" content="{{optional($setting)->facebook_app_id}}" />--}}
+    <meta property="fb:app_id" content="707137683311999" />
+    <meta property="fb:admins" content="100003744052092"/>
   <meta property="og:description" content="@yield('description')" />
   <meta property="og:image" content="@yield('image')" />
   <meta property="og:image:type" content="image/jpeg" />
@@ -35,6 +37,16 @@
   <!--*********************************---->
     <!-- load stylesheets -->
 
+    <!-- Facebook JavaScript SDK -->
+    <div id="fb-root"></div>
+    <script>(function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = "//connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v2.6&appId=707137683311999";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));</script>
+    <!-- End Facebook JavaScript SDK -->
   <!--*********************************---->
     {!! @$setting->remarketing_header !!}
 </head>
@@ -68,47 +80,47 @@
 </style>
   @include('Errors.note')
   <!--*************************---->
-<script src="https://cdn.jsdelivr.net/npm/vue@2.6.12"></script>
-<script type="text/javascript">
-    let alias = $('.vue-alias').val();
-    var app = new Vue({
-        el: '#app-body',
-        data:{
-            alias: alias,
-            lang: {
-                type: 0,
-                id: 0,
-                lang:0,
-            },
-           carts: {
-                rowId:0,
-               id:0,
-               qty: 0,
-               price: 0,
-               options: {
+{{--<script src="https://cdn.jsdelivr.net/npm/vue@2.6.12"></script>--}}
+{{--<script type="text/javascript">--}}
+{{--    let alias = $('.vue-alias').val();--}}
+{{--    var app = new Vue({--}}
+{{--        el: '#app-body',--}}
+{{--        data:{--}}
+{{--            alias: alias,--}}
+{{--            lang: {--}}
+{{--                type: 0,--}}
+{{--                id: 0,--}}
+{{--                lang:0,--}}
+{{--            },--}}
+{{--           carts: {--}}
+{{--                rowId:0,--}}
+{{--               id:0,--}}
+{{--               qty: 0,--}}
+{{--               price: 0,--}}
+{{--               options: {--}}
 
-               }
-           }
-        },
-        methods: {
-            changelang:function(lang){
-                fetch("{{route('ajax.change.lang',[':alias',':lang'])}}".replace(":alias", this.alias).replace(":lang", lang)).then(function(response){
-                    return response.json().then(function(data){
-                        window.location.assign(data);
-                    })
-                })
-            }
-        },
-        watch: {
-            alias:function(val){
-                this.alias = val;
-            }
-        },
-        computed:{
+{{--               }--}}
+{{--           }--}}
+{{--        },--}}
+{{--        methods: {--}}
+{{--            changelang:function(lang){--}}
+{{--                fetch("{{route('ajax.change.lang',[':alias',':lang'])}}".replace(":alias", this.alias).replace(":lang", lang)).then(function(response){--}}
+{{--                    return response.json().then(function(data){--}}
+{{--                        window.location.assign(data);--}}
+{{--                    })--}}
+{{--                })--}}
+{{--            }--}}
+{{--        },--}}
+{{--        watch: {--}}
+{{--            alias:function(val){--}}
+{{--                this.alias = val;--}}
+{{--            }--}}
+{{--        },--}}
+{{--        computed:{--}}
 
-        }
-    })
-</script>
+{{--        }--}}
+{{--    })--}}
+{{--</script>--}}
 <!--*************************---->
 @if(@$setting->numbercall)
 <!--****STARTACTION CALL*****---->

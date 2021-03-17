@@ -135,28 +135,46 @@
             <div id="sidebar-menu">
                 <ul class="metismenu" id="side-menu">
                     @php
+                        $news = new \App\Models\News();
+                        $products = new \App\Models\Product();
+                        $pages = new \App\Models\Pages();
                         $type = \App\Models\UserModuleSystems::where('user_id', Auth::id())->pluck('type');
                         $nav = \App\Models\SystemsModule::whereIn('type',$type)->orderby('sort','asc')->get();
                         $module = \App\Models\Modules::get();
-                        $comments = \App\Models\Comment::whereStatus(0)->count();
+                        $comments = \App\Models\Comment::whereStatus(0)->get();
+
+                        $news = $comments->where('comment_type',get_class($news))->count();
+                        $products = $comments->where('comment_type',get_class($products))->count();
+                        $pages = $comments->where('comment_type',get_class($pages))->count();
+
                         if(Auth::user()->lever == \App\Enums\LeverUser::SUPPERADMIN)
                             $nav = \App\Models\SystemsModule::orderby('sort','asc')->get();
                     @endphp
 
                     @foreach($nav->where('parent_id', 0)->where('position',0) as $item)
                         <li>
-                            <a href="{{$item->route ? route($item->route) : "javascript:void(0)"}}">
+                            <a href="{{!$nav->where('parent_id', $item->id)->count() ? route($item->route) : "javascript:void(0)"}}">
                                 <i class="{{$item->icon}}"></i>
                                 <span>  {{$item->name}} </span>
                                 @if($item->route == 'admin.comments.index')
-                                    <span class="badge badge-danger badge-pill float-right">{{$comments}}</span>
+                                    <span class="badge badge-danger badge-pill">{{$comments->count()}}</span>
                                 @endif
+
                                 @if($nav->where('parent_id', $item->id)->count()) <span class="menu-arrow"></span> @endif
                             </a>
                             @if($nav->where('parent_id', $item->id)->count())
                                 <ul class="nav-second-level" aria-expanded="false">
                                     @foreach($nav->where('parent_id', $item->id) as $sub)
-                                        <li><a href="{{$sub->route ? route($sub->route) : "javascript:void(0)"}}">{{$sub->name}}</a></li>
+                                        <li><a href="{{$sub->route ? route($sub->route, $sub->var ?? null) : "javascript:void(0)"}}">{{$sub->name}}
+                                                @if($sub->route == 'admin.comments.list' && $sub->var == 'news')
+                                                    <span class="badge badge-danger badge-pill float-right">{{$news}}</span>
+                                                @elseif($sub->route == 'admin.comments.list' && $sub->var == 'pages')
+                                                    <span class="badge badge-danger badge-pill float-right">{{$pages}}</span>
+                                                @elseif($sub->route == 'admin.comments.list' && $sub->var == 'products')
+                                                    <span class="badge badge-danger badge-pill float-right">{{$products}}</span>
+                                                @endif
+                                            </a>
+                                        </li>
                                     @endforeach
                                 </ul>
                             @endif

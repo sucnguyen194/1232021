@@ -60,8 +60,8 @@
                                     <tr v-if="product_id > 0  && agency_id > 0">
                                         <td>
                                             <div class="font-weight-bold mb-1"> @{{ product.name }}</div>
-                                            <span class="text-primary font-weight-bold">[Giá nhập lần trước: <strong class="text-danger">@{{product.price_in.toLocaleString()}}</strong>]</span>
-                                            <span class="text-primary font-weight-bold">[Giá nhập gần nhất: <strong class="text-danger">@{{price_in.toLocaleString()}}</strong>]</span>
+                                            <div class="text-primary font-weight-bold">[Giá nhập lần trước: <strong class="text-danger">@{{product.price_in.toLocaleString()}}</strong>]</div>
+                                            <div class="text-primary font-weight-bold">[Giá nhập gần nhất: <strong class="text-danger">@{{price_in.toLocaleString()}}</strong>]</div>
                                         </td>
                                         <td>
                                             <div class="input-group">

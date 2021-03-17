@@ -28,13 +28,13 @@
                                 <select class="form-control" data-toggle="select2" name="product">
                                     <option value="">-----</option>
                                     @foreach($products as $item)
-                                        <option value="{{$item->id}}" {{request()->product == $item->id ? "selected" : ""}}> {{$item->name}}</option>
+                                        <option value="{{$item->id}}" {{request()->product == $item->id ? "selected" : ""}}> {{$item->name}} ({{$item->amount}})</option>
                                     @endforeach
                                 </select>
                             </div>
 
                             <div class="col-md-4 mb-2 mb-lg-0 mb-md-0">
-                                <label class="font-weight-bold"> @if(\request()->type == \App\Enums\ProductSessionType::getKey(\App\Enums\ProductSessionType::export)) Ngày xuất hàng @else Ngày nhập hàng @endif</label>
+                                <label class="font-weight-bold">Thời gian</label>
                                 <input type="text" id="reportrange" name="date" value="{{request()->date}}" placeholder="Từ ngày - đến ngày" class="form-control"/>
                             </div>
                             <div class="col-md-4">

@@ -50,6 +50,8 @@ class DashboardController extends Controller {
             }elseif($total_today >=0 && $total_yesterday > 0){
                 if($total_today > $total_yesterday){
                     $percent = $total_today / $total_yesterday * 100;
+                }elseif($total_today == $total_yesterday){
+                    $percent = 0;
                 }else{
                     $percent = - $total_today / $total_yesterday * 100;
                 }
@@ -60,6 +62,8 @@ class DashboardController extends Controller {
             }elseif ($total_today < 0 && $total_yesterday < 0){
                 if($total_today > $total_yesterday){
                     $percent = $total_today / $total_yesterday * 100;
+                }elseif($total_today == $total_yesterday){
+                    $percent = 0;
                 }else{
                     $percent = - $total_yesterday / $total_today * 100;
                 }
@@ -72,6 +76,8 @@ class DashboardController extends Controller {
         }elseif($revenues_today >=0 && $revenues_yesterday > 0){
             if($revenues_today > $revenues_yesterday){
                 $percent_revenues = $revenues_today /$revenues_yesterday * 100;
+            }elseif($revenues_today == $revenues_yesterday){
+                $percent_revenues = 0;
             }else{
                 $percent_revenues = - $revenues_today / $revenues_yesterday * 100;
             }
@@ -82,6 +88,8 @@ class DashboardController extends Controller {
         }elseif ($revenues_today < 0 && $revenues_yesterday < 0){
             if($revenues_today > $revenues_yesterday){
                 $percent_revenues = $revenues_today / $revenues_yesterday * 100;
+            }elseif($revenues_today == $revenues_yesterday){
+                $percent_revenues = 0;
             }else{
                 $percent_revenues = - $revenues_yesterday / $revenues_today * 100;
             }
@@ -99,10 +107,33 @@ class DashboardController extends Controller {
             $data['percent'] = is_nan($percent) ? 0 : round($percent, 2);
             $data['percent_revenues'] = is_nan($percent_revenues) ? 0 : round($percent_revenues, 2);
 
-            $data['orders'] = Order::get();
+            $orders = Order::get();
+            $data['orders'] = $orders;
 
             $data['agency_debt'] = UserAgency::sum('debt');
             $data['user_debt'] = User::sum('debt');
+
+            $today = $orders->whereBetween('created_at', [today()->startOfDay(), today()->endOfDay()])->count();
+            $yesterday = $orders->whereBetween('created_at', [\Carbon\Carbon::yesterday()->startOfDay(), \Carbon\Carbon::yesterday()->endOfDay()])->count();
+
+            if($today > $yesterday){
+                if($yesterday > 0){
+                    $per_order = $today / $yesterday * 100;
+                }else{
+                    $per_order = $today / ($yesterday+1) * 100;
+                }
+            }elseif($today == $yesterday){
+                $per_order = 0;
+            }else{
+                if($today > 0){
+                    $per_order = - $yesterday / $today * 100;
+                }else{
+                    $per_order = - $yesterday / ($today+1) * 100;
+                }
+            }
+
+            $data['per_order'] = $per_order;
+            $data['today'] = $today;
 
 	        return view('Admin.Dashboard.dashboard', $data);
 	}

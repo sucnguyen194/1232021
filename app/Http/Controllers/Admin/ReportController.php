@@ -24,7 +24,7 @@ class ReportController extends Controller
             ->when(\request()->product,function ($q, $id){
                 $q->where('product_id',$id);
             })
-            ->orderByDesc('created_at')->get();
+            ->orderByDesc('created_at')->whereType('import')->get();
 
         $amount = $sessions->sum('amount');
         $amount_export = $sessions->sum('amount_export');
@@ -71,7 +71,7 @@ class ReportController extends Controller
             ->when(date_range(),function($q, $date){
                 $q->whereBetween('created_at', [$date['from']->startOfDay(), $date['to']->endOfDay()]);
             })
-            ->whereProductId($id)->get();
+            ->whereProductId($id)->whereType('import')->get();
         $product = Product::find($id);
         $amount = $sessions->sum('amount');
         $amount_export = $sessions->sum('amount_export');

@@ -30,7 +30,7 @@
                     <textarea rows="4" class="form-control" name="comment" required></textarea>
                     <input type="hidden" name="slug" value="{{$model->alias}}" readonly>
                 </div>
-                <div class="form-group">
+                <div class="form-group text-right">
                     <button type="submit" class="btn btn-primary"><span class="icon-button"><i class="pe-7s-paper-plane"></i> </span> Gửi</button>
                 </div>
             </form>
@@ -86,7 +86,7 @@
                                     <input type="hidden" name="parent" value="{{$comment->id}}">
                                     <input type="hidden" name="reply" value="{{$comment->id}}">
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group text-right">
                                     <button type="submit" class="btn btn-primary"><span class="icon-button"><i class="pe-7s-paper-plane"></i> </span> Gửi</button>
                                 </div>
                             </form>
@@ -140,7 +140,7 @@
                                             <input type="hidden" value="{{$sub->id}}" name="parent">
                                             <input type="hidden" name="reply" value="{{$sub->id}}">
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group text-right">
                                             <button type="submit" class="btn btn-primary"><span class="icon-button"><i class="pe-7s-paper-plane"></i> </span> Gửi</button>
                                         </div>
                                     </form>
@@ -196,7 +196,7 @@
                                                     <input type="hidden" name="reply" value="{{$sub_sub->id}}">
                                                     <textarea rows="4" class="form-control" name="comment" required></textarea>
                                                 </div>
-                                                <div class="form-group">
+                                                <div class="form-group text-right">
                                                     <button type="submit" class="btn btn-primary"><span class="icon-button"><i class="pe-7s-paper-plane"></i> </span> Gửi</button>
                                                 </div>
                                             </form>

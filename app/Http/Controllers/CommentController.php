@@ -49,20 +49,20 @@ class CommentController extends Controller
            $model = $alias->findModel($alias->type,$alias->type_id);
            $comment->comment()->associate($model);
            $comment->user_id = Auth::check() ? Auth::id() : 0;
-           $comment->admin_id = Auth::user()->lever <= 2 ? Auth::id() : 0;
-           $comment->status = Auth::user()->lever <= 2 ? 1 : 0;
+           $comment->admin_id = Auth::check() && Auth::user()->lever <= 2 ? Auth::id() : 0;
+           $comment->status = Auth::check() && Auth::user()->lever <= 2 ? 1 : 0;
            $comment->parent_id  = $request->parent ? $request->parent : 0;
            $comment->note = $request->comment;
            $comment->save();
 
-           if(Auth::user()->lever <= 2)
+           if(Auth::check() && Auth::user()->lever <= 2)
                if($request->reply){
                    $comment = Comment::find($request->reply);
                    $comment->update([
                        'status' => 1
                    ]);
                }
-           
+
            return back()->with(['message' => 'Cám ơn bạn đã để lại bình luận!']);
     }
 

@@ -185,3 +185,13 @@
         </div>
     @endforeach
 </div>
+
+<script>
+    $('.box-comment').hide();
+    function openComment(id, name){
+        $('.box-comment').hide();
+        let box = $('.box-comment[target="'+id+'"]');
+        box.show();
+        box.find('textarea').val('@'+name+': ');
+    }
+</script>

@@ -50,6 +50,9 @@ class HomeController extends Controller
                 return view('Product.category');
                 break;
             case (AliasType::NEWS);
+                $model = $object->findModel($object->type,$object->type_id);
+                $data['comments'] = $model->comments->load(['user','admin']);
+                $data['model'] = $model;
                 $news = News::whereAlias($alias)->public()->firstOrFail();
                 $data['news'] = $news;
                 $data['cate'] = NewsCategory::find($news->category_id);

@@ -50,14 +50,17 @@
                                 @endforeach
                             </select>
                         </div>
-
-                        <div class="form-group">
-                            <label>Route</label>
-                            <input type="text" class="form-control" value="{{$system->route ?? old('route')}}" id="route" name="route">
+                        <div class="row">
+                            <div class="col-lg-6 form-group">
+                                <label>Route</label>
+                                <input type="text" class="form-control" value="{{$system->route ?? old('route')}}" id="route" name="route">
+                            </div>
+                            <div class="col-lg-6 form-group">
+                                <label>Var <em>($item)</em></label>
+                                <input type="text" class="form-control" value="{{$system->var ?? old('var')}}" id="var" name="var">
+                            </div>
                         </div>
-                        @php
 
-                        @endphp
                         <div class="form-group">
                             <label>Type <span class="required">*</span></label>
                             <select class="form-control" data-toggle="select2" name="type">

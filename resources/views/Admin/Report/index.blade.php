@@ -109,9 +109,9 @@
                             <tr class="font-weight-bold">
                                 <td >{{$item->product->id}}</td>
                                 <td><a href="{{route('admin.products.index',['id' => $item->product->id ?? 0])}}" target="_blank">{{$item->product->name ?? "Đã xóa"}}</a> </td>
-                                <td>{{$item->product->sessions->sum('amount')}}</td>
-                                <td>{{$item->product->sessions->sum('amount_export')}}</td>
-                                <td>{{$item->product->sessions->sum('amount') - $item->product->sessions->sum('amount_export')}}</td>
+                                <td>{{$item->product->sessions->where('type','import')->sum('amount')}}</td>
+                                <td>{{$item->product->sessions->where('type','import')->sum('amount_export')}}</td>
+                                <td>{{$item->product->sessions->where('type','import')->sum('amount') - $item->product->sessions->where('type','import')->sum('amount_export')}}</td>
                                 <td>
                                     {{number_format($item->sum_money)}}
                                 </td>

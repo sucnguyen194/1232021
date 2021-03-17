@@ -178,7 +178,9 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
             Route::get('get/session/{id}','ImportController@ajax')->name('ajax.session');
             Route::resource('imports','ImportController');
         });
-
+        Route::get('comments/{type}','CommentController@list')->name('comments.list');
+        Route::get('comments/{type}/{id}','CommentController@detail')->name('comments.detail');
+        Route::get('comments/destroys/{type}/{id}','CommentController@destroys')->name('comments.destroys');
         Route::resource('comments','CommentController');
         Route::resource('reports','ReportController');
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////

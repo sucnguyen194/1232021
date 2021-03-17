@@ -4,6 +4,11 @@ use App\Http\Controllers\Controller;
 use App\Enums\SystemsModuleType;
 use App\Models\Alias;
 use App\Models\Comment;
+use App\Models\Gallerys;
+use App\Models\News;
+use App\Models\Pages;
+use App\Models\Product;
+use App\Models\Videos;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -16,13 +21,63 @@ class CommentController extends Controller
      */
     public function index()
     {
-        check_admin_systems(SystemsModuleType::COMMENTS);
-
-        $comments = Alias::whereHas('comments')->with('comments')->get();
-
-        return  view('Admin.Comment.index',compact('comments'));
+        return abort(404);
     }
 
+    public function list($type){
+        check_admin_systems(SystemsModuleType::COMMENTS);
+
+       $comment = new Comment();
+       $class = $comment->find_class($type);
+
+       $id = $comment->whereCommentType(get_class($class))->get()->pluck('comment_id');
+
+       $comments = $class->with('comments')
+           ->whereIn('id',$id)
+           ->latest()
+           ->get();
+
+        return  view('Admin.Comment.index',compact('comments','type'));
+    }
+    public function detail($type,$id){
+        check_admin_systems(SystemsModuleType::COMMENTS);
+        switch ($type){
+            case 'products':
+                $class = new Product();
+                break;
+            case 'news':
+                $class = new News();
+                break;
+            case 'pages':
+                $class = new Pages();
+                break;
+            case 'videos':
+                $class = new Videos();
+                break;
+            case 'gallerys':
+                $class = new Gallerys();
+                break;
+        }
+        $comment = new Comment();
+        $class = $comment->find_class($type);
+
+        $model =  $class->find($id);
+
+        $comments = $model->comments->load(['user','admin']);
+
+        return  view('Admin.Comment.edit',compact('comments','model'));
+    }
+    public function destroys($type, $id){
+
+        check_admin_systems(SystemsModuleType::COMMENTS);
+        $comment = new Comment();
+        $class = $comment->find_class($type);
+
+        $model =  $class->find($id);
+        $model->comments()->delete();
+
+        return back()->with(['message' => 'Xóa bình luận thành công!']);
+    }
     /**
      * Show the form for creating a new resource.
      *

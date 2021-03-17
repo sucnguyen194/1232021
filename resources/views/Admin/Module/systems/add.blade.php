@@ -49,9 +49,15 @@
                             </select>
                         </div>
 
-                        <div class="form-group">
-                            <label>Route</label>
-                            <input type="text" class="form-control" value="{{old('route')}}" id="route" name="route">
+                        <div class="row">
+                            <div class="col-lg-6 form-group">
+                                <label>Route</label>
+                                <input type="text" class="form-control" value="{{old('route')}}" id="route" name="route">
+                            </div>
+                            <div class="col-lg-6 form-group">
+                                <label>Var <em>($item)</em></label>
+                                <input type="text" class="form-control" value="{{old('var')}}" id="var" name="var">
+                            </div>
                         </div>
 
                         <div class="form-group">

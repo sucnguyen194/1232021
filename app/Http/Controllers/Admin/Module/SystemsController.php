@@ -51,6 +51,7 @@ class SystemsController extends Controller
                 SystemsModule::create([
                     'name' => $request->name,
                     'route' => $request->route,
+                    'var' => $request->var,
                     'type' => $request->type,
                     'icon' => $request->icon,
                     'parent_id' => $request->parent_id,
@@ -103,6 +104,7 @@ class SystemsController extends Controller
                 $system->update([
                     'name' => $request->name,
                     'route' => $request->route,
+                    'var' => $request->var,
                     'type' => $request->type,
                     'icon' => $request->icon,
                     'parent_id' => $request->parent_id,

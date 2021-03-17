@@ -83,22 +83,13 @@
                         <div class="row">
                             <div class="col-4">
                                 <div class="mb-3">
-                                    @php
-                                        $today = $orders->whereBetween('created_at', [today()->startOfDay(), today()->endOfDay()])->count();
-                                        $yesterday = $orders->whereBetween('created_at', [\Carbon\Carbon::yesterday()->startOfDay(), \Carbon\Carbon::yesterday()->endOfDay()])->count();
 
-                                        if($yesterday == 0){
-                                            $per_order = $today / ($yesterday+1) * 100;
-                                        }else{
-                                            $per_order = $today / $yesterday * 100;
-                                        }
-                                    @endphp
                                     <h3 class="mb-2"><span data-plugin="counterup">{{$today}}</span></h3>
                                     <p class="text-uppercase mb-1 font-13 font-weight-medium">Đơn hàng hôm nay</p>
-                                    @if($today >= $yesterday)
+                                    @if($per_order >= 0)
                                         <p class="text-success">+{{$per_order}}% <i class="mdi mdi-trending-up"></i></p>
                                     @else
-                                        <p class="text-danger">-{{$per_order}}% <i class="mdi mdi-trending-down"></i></p>
+                                        <p class="text-danger">{{$per_order}}% <i class="mdi mdi-trending-down"></i></p>
                                     @endif
                                 </div>
                             </div>

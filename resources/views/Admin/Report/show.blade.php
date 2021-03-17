@@ -9,7 +9,8 @@
                     <div class="page-title-right">
                         <ol class="breadcrumb m-0">
                             <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Bảng điều khiển</a></li>
-                            <li class="breadcrumb-item active">Báo cáo SP {{$product->name}}</li>
+                            <li class="breadcrumb-item"><a href="{{route('admin.reports.index')}}">Báo cáo</a></li>
+                            <li class="breadcrumb-item active">#SP {{$product->name}}</li>
                         </ol>
                     </div>
                     <h4 class="page-title">Báo cáo #SP {{$product->name}}</h4>
