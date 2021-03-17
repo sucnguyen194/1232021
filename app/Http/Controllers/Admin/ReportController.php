@@ -20,14 +20,17 @@ class ReportController extends Controller
         check_admin_systems(SystemsModuleType::REPORT);
         $id = Product::where('amount','>',0)->get()->pluck('id');
         $products = Product::public()->orderByDesc('created_at')->get();
-        $sessions = ProductSession::with('product')
+        $sessions = ProductSession::selectRaw('*, SUM(amount) as amount1, SUM(amount_export) as amount2, SUM(amount * price_in - amount_export * price_in) as balance')->with('product')
             ->when(\request()->product,function ($q, $id){
                 $q->where('product_id',$id);
             })
-            ->orderByDesc('created_at')->whereType('import')->get();
+            ->whereType('import')
+            ->groupBy('product_id')
+            ->latest()
+            ->orderByDesc('created_at')->get();
 
-        $amount = $sessions->sum('amount');
-        $amount_export = $sessions->sum('amount_export');
+        $amount = $sessions->sum('amount1');
+        $amount_export = $sessions->sum('amount2');
         $money = 0;
         foreach($sessions as $session){
             $import = $session->amount * $session->price_in;

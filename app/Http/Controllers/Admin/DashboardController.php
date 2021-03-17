@@ -46,55 +46,72 @@ class DashboardController extends Controller {
 
 
             if($total_today >= 0 && $total_yesterday == 0){
+
                 $percent = $total_today / ($total_yesterday+1) * 100;
+
             }elseif($total_today >=0 && $total_yesterday > 0){
+
                 if($total_today > $total_yesterday){
-                    $percent = $total_today / $total_yesterday * 100;
+                    $percent = ($total_today - $total_yesterday) / $total_yesterday * 100;
                 }elseif($total_today == $total_yesterday){
                     $percent = 0;
                 }else{
-                    $percent = - $total_today / $total_yesterday * 100;
+                    $percent = - ($total_yesterday - $total_today) / $total_yesterday * 100;
                 }
             }elseif($total_today >= 0 && $total_yesterday < 0){
-                $percent = abs($total_yesterday) / $total_today * 100;
+
+                $percent = ($total_today - $total_yesterday) / abs($total_yesterday) * 100;
+
             }elseif ($total_today < 0 && $total_yesterday == 0){
-                $percent = $total_today / ($total_yesterday +1) * 100;
+
+                $percent = - $total_today / ($total_yesterday +1) * 100;
+
             }elseif ($total_today < 0 && $total_yesterday < 0){
+
                 if($total_today > $total_yesterday){
-                    $percent = $total_today / $total_yesterday * 100;
+                    $percent = abs($total_today - $total_yesterday) / $total_yesterday * 100;
                 }elseif($total_today == $total_yesterday){
                     $percent = 0;
                 }else{
-                    $percent = - $total_yesterday / $total_today * 100;
+                    $percent = - ($total_today - $total_yesterday) / $total_yesterday * 100;
                 }
             }else{
-                $percent = - $total_yesterday / $total_today * 100;
+                $percent = - ($total_yesterday - $total_today) / $total_yesterday * 100;
             }
 
+
         if($revenues_today >= 0 && $revenues_yesterday == 0){
+
             $percent_revenues = $revenues_today / ($revenues_yesterday+1) * 100;
+
         }elseif($revenues_today >=0 && $revenues_yesterday > 0){
+
             if($revenues_today > $revenues_yesterday){
-                $percent_revenues = $revenues_today /$revenues_yesterday * 100;
+                $percent_revenues = ($revenues_today - $revenues_yesterday) / $revenues_yesterday * 100;
             }elseif($revenues_today == $revenues_yesterday){
                 $percent_revenues = 0;
             }else{
-                $percent_revenues = - $revenues_today / $revenues_yesterday * 100;
+                $percent_revenues = - ($revenues_yesterday - $revenues_today) / $revenues_yesterday * 100;
             }
         }elseif($revenues_today >= 0 && $revenues_yesterday < 0){
-            $percent_revenues = abs($revenues_yesterday) / $revenues_today * 100;
+
+            $percent_revenues = ($revenues_today - $revenues_yesterday) / abs($revenues_yesterday) * 100;
+
         }elseif ($revenues_today < 0 && $revenues_yesterday == 0){
-            $percent_revenues = $revenues_today / ($revenues_yesterday +1) * 100;
+
+            $percent_revenues = - $revenues_today / ($revenues_yesterday +1) * 100;
+
         }elseif ($revenues_today < 0 && $revenues_yesterday < 0){
+
             if($revenues_today > $revenues_yesterday){
-                $percent_revenues = $revenues_today / $revenues_yesterday * 100;
+                $percent_revenues = abs($revenues_today - $revenues_yesterday) / $revenues_yesterday * 100;
             }elseif($revenues_today == $revenues_yesterday){
                 $percent_revenues = 0;
             }else{
-                $percent_revenues = - $revenues_yesterday / $revenues_today * 100;
+                $percent_revenues = - ($revenues_today - $revenues_yesterday) / $revenues_yesterday * 100;
             }
         }else{
-            $percent_revenues = - $revenues_yesterday / $revenues_today * 100;
+            $percent_revenues = - ($revenues_yesterday - $revenues_today) / $revenues_yesterday * 100;
         }
 
             $data['revenues'] = $revenues;
@@ -118,17 +135,17 @@ class DashboardController extends Controller {
 
             if($today > $yesterday){
                 if($yesterday > 0){
-                    $per_order = $today / $yesterday * 100;
+                    $per_order = ($today - $yesterday) / $yesterday * 100;
                 }else{
-                    $per_order = $today / ($yesterday+1) * 100;
+                    $per_order = ($today - $yesterday) / ($yesterday+1) * 100;
                 }
             }elseif($today == $yesterday){
                 $per_order = 0;
             }else{
                 if($today > 0){
-                    $per_order = - $yesterday / $today * 100;
+                    $per_order = - ($yesterday - $today) / $today * 100;
                 }else{
-                    $per_order = - $yesterday / ($today+1) * 100;
+                    $per_order = - ($yesterday - $today) / ($today+1) * 100;
                 }
             }
 

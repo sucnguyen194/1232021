@@ -10,10 +10,10 @@
                         <ol class="breadcrumb m-0">
                             <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Bảng điều khiển</a></li>
                             <li class="breadcrumb-item"><a href="{{route('admin.reports.index')}}">Báo cáo</a></li>
-                            <li class="breadcrumb-item active">#SP {{$product->name}}</li>
+                            <li class="breadcrumb-item active">#SP {{$product->name ?? 'Đã xóa'}}</li>
                         </ol>
                     </div>
-                    <h4 class="page-title">Báo cáo #SP {{$product->name}}</h4>
+                    <h4 class="page-title">Báo cáo <a href="{{route('admin.products.index',['id'=> $product->id ?? 0])}}" target="_blank">#SP {{$product->name ?? 'Đã xóa'}}</a> </h4>
                 </div>
             </div>
         </div>

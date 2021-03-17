@@ -27,7 +27,7 @@
                                 <select class="form-control" data-toggle="select2" name="product">
                                     <option value="">-----</option>
                                     @foreach($products as $product)
-                                        <option value="{{$product->id}}" {{selected(request()->product, $product->id)}}>{{$product->name}}</option>
+                                        <option value="{{$product->id}}" {{selected(request()->product, $product->id)}}>{{$product->name}} ({{$product->amount}})</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -105,19 +105,18 @@
                         </thead>
 
                         <tbody>
-                        @foreach($sessions->whereIn('id',$id) as $item)
+                        @foreach($sessions as $item)
                             <tr class="font-weight-bold">
-                                <td >{{$item->product->id}}</td>
+                                <td>{{$item->product_id ?? 'Đã xóa'}}</td>
                                 <td><a href="{{route('admin.products.index',['id' => $item->product->id ?? 0])}}" target="_blank">{{$item->product->name ?? "Đã xóa"}}</a> </td>
-                                <td>{{$item->product->sessions->where('type','import')->sum('amount')}}</td>
-                                <td>{{$item->product->sessions->where('type','import')->sum('amount_export')}}</td>
-                                <td>{{$item->product->sessions->where('type','import')->sum('amount') - $item->product->sessions->where('type','import')->sum('amount_export')}}</td>
+                                <td>{{$item->amount1}}</td>
+                                <td>{{$item->amount2}}</td>
+                                <td>{{$item->amount1 - $item->amount2}}</td>
                                 <td>
-                                    {{number_format($item->sum_money)}}
+                                    {{number_format($item->balance)}}
                                 </td>
-
                                 <td>
-                                    <a href="{{route('admin.reports.show',$item->product->id)}}" class="btn btn-purple waves-effect waves-light">
+                                    <a href="{{route('admin.reports.show',$item->product_id)}}" class="btn btn-purple waves-effect waves-light">
                                         <span class="icon-button"><i class="pe-7s-magic-wand"></i> </span>Chi tiết</a>
                                 </td>
                             </tr>
