@@ -22,7 +22,7 @@
                 <div class="card-box">
                     <form method="get">
                         <div class="row">
-                            <div class="col-md-2 mb-2 mb-lg-0 mb-md-0">
+                            <div class="col-md-4 mb-2 mb-lg-0 mb-md-0">
                                 <label class="font-weight-bold">Trạng thái</label>
                                 <select class="form-control" data-toggle="select2" name="status">
                                     <option value="">-----</option>
@@ -31,7 +31,7 @@
                                 </select>
                             </div>
 
-                            <div class="col-md-2 mb-2 mb-lg-0 mb-md-0">
+                            <div class="col-md-4 mb-2 mb-lg-0 mb-md-0">
                                 <label class="font-weight-bold">Người duyệt</label>
                                 <select class="form-control" data-toggle="select2" name="user">
                                     <option value="">-----</option>
@@ -41,7 +41,7 @@
                                 </select>
                             </div>
 
-                            <div class="col-md-2">
+                            <div class="col-md-4">
                                 <label class="ql-color-white hidden-xs" style="opacity: 0">-</label>
                                 <div class="mb-2 mb-lg-0 mb-md-0">
                                     <button class="btn btn-primary waves-effect waves-light" type="submit"><span class="icon-button"><i class="fe-search"></i></span> Tìm kiếm</button>
