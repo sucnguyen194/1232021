@@ -1,4 +1,3 @@
-
 @if(session('message'))
     <script type="text/javascript">
         $.toast({

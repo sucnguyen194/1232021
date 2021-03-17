@@ -122,7 +122,7 @@ class CommentController extends Controller
                    'status' => 1
                ]);
            }
-           return back()->with(['message' => 'Thành công!']);
+           return back()->with(['message' => 'Trả lời thành công!']);
     }
 
     /**

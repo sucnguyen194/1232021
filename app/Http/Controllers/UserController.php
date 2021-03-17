@@ -1,10 +1,13 @@
 <?php namespace App\Http\Controllers;
 use App\Enums\LeverUser;
 use App\Models\SiteSetting;
+use App\Models\SocialIdentity;
 use App\Models\User;
 use Auth;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Cookie;
+use Laravel\Socialite\Facades\Socialite;
 use Session,Schema,DB,Artisan,Mail;
 use Illuminate\Http\Request;
 use Illuminate\Database\Schema\Blueprint;
@@ -184,8 +187,65 @@ class UserController extends Controller {
             return redirect()->back()->withErrors(['message' => 'Lỗi! Vui lòng kiểm tra lại thông tin']);
 		}
 	}
+
 	public function logout(){
 		Auth::logout();
 		return redirect()->route('user.login');
 	}
+
+    public function redirect($provider)
+    {
+        return Socialite::driver($provider)->redirect();
+    }
+
+    public function callback($provider)
+    {
+        try {
+            $info = Socialite::driver($provider)->user();
+        } catch (\Exception $e) {
+            return redirect()->route('user.login');
+        }
+        if(!$info->getEmail())
+            return redirect()->route('user.register')->withErrors(['message' => 'Tài khoản chưa có email. Vui lòng đăng ký tại đây!']);
+        $user = $this->createUser($info,$provider);
+        Auth::login($user, true);
+
+        if(Auth::user()->lever <= 1)
+            return  redirect()->route('admin.dashboard')->withInput()->with(['message' => 'Đăng nhập thành công!']);
+
+        return redirect()->route('home')->with(['message' => 'Đăng nhập thành công!']);
+    }
+
+    public function createUser($info,$provider){
+
+        $account = SocialIdentity::whereProviderName($provider)
+            ->whereProviderId($info->getId())
+            ->latest()->first();
+
+        if ($account) {
+            return $account->user;
+        } else {
+            $email = $info->getEmail();
+            $user = User::whereEmail($email)->first();
+            if(!$user){
+                $user = new User();
+                $user = $user->forceFill(
+                    [
+                        'email' => $email,
+                        'name' => $info->getName(),
+                        'email_verified_at' => now(),
+                    ]
+                );
+                $user->save();
+            }
+            $user->identities()->updateOrCreate(
+                [
+                    'provider_id' => $info->getId(),
+                    'provider_name' => $provider,
+                ]
+            );
+
+            return $user;
+        }
+    }
 }

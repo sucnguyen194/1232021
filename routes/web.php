@@ -248,6 +248,9 @@ Route::group(['as'=>'user.'], function () {
     Route::post('forget-user', 'UserController@postForgetUser');
     Route::get('forget-user', 'UserController@getForgetUser')->name('forget');
     Route::get('password/reset', 'UserController@getPasswordReset')->name('reset');
+
+    Route::get('auth/{provider}/login','UserController@redirect')->name('social');
+    Route::get('{provider}/callback','UserController@callback')->name('social.callback');
 });
 Route::group(['as' => 'cart.'], function () {
     Route::get('shopping-cart', 'ShoppingCartController@index');

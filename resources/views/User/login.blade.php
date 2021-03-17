@@ -97,7 +97,7 @@
 
                                 <div class="row mt-4 pt-2">
                                     <div class="col-sm-12 text-center">
-                                        <p class="text-muted mb-0">Bạn chưa tài khoản? <a href="#" class="text-dark ml-1"><b>Đăng ký</b></a></p>
+                                        <p class="text-muted mb-0">Bạn chưa tài khoản? <a href="{{route('user.login')}}" class="text-dark ml-1"><b>Đăng ký</b></a></p>
                                     </div>
                                 </div>
 

@@ -18,7 +18,7 @@ class ReportController extends Controller
     public function index()
     {
         check_admin_systems(SystemsModuleType::REPORT);
-        $id = Product::where('amount','>',0)->get()->pluck('id');
+
         $products = Product::public()->orderByDesc('created_at')->get();
         $sessions = ProductSession::selectRaw('*, SUM(amount) as amount1, SUM(amount_export) as amount2, SUM(amount * price_in - amount_export * price_in) as balance')->with('product')
             ->when(\request()->product,function ($q, $id){
@@ -31,13 +31,9 @@ class ReportController extends Controller
 
         $amount = $sessions->sum('amount1');
         $amount_export = $sessions->sum('amount2');
-        $money = 0;
-        foreach($sessions as $session){
-            $import = $session->amount * $session->price_in;
-            $export = $session->amount_export * $session->price_in;
-            $money += $import - $export;
-        }
-       return view('Admin.Report.index',compact('sessions','id','amount','amount_export','money','products'));
+        $money = $sessions->sum('balance');
+
+       return view('Admin.Report.index',compact('sessions','amount','amount_export','money','products'));
     }
 
     /**
@@ -70,11 +66,11 @@ class ReportController extends Controller
     public function show($id)
     {
         check_admin_systems(SystemsModuleType::REPORT);
-        $sessions = ProductSession::with('product')
-            ->when(date_range(),function($q, $date){
+        $sessions = ProductSession::when(date_range(),function($q, $date){
                 $q->whereBetween('created_at', [$date['from']->startOfDay(), $date['to']->endOfDay()]);
             })
             ->whereProductId($id)->whereType('import')->get();
+
         $product = Product::find($id);
         $amount = $sessions->sum('amount');
         $amount_export = $sessions->sum('amount_export');

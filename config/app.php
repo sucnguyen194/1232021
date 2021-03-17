@@ -194,7 +194,7 @@ return [
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
 //        App\Providers\ViewComposerProvider::class,
 //        App\Providers\GoogleDriveServiceProvider::class
-
+        Laravel\Socialite\SocialiteServiceProvider::class,
     ],
 
     /*
@@ -250,6 +250,7 @@ return [
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
         'Imgur' => Yish\Imgur\Facades\Upload::class,
+        'Socialite' => Laravel\Socialite\Facades\Socialite::class,
     ],
 
 ];

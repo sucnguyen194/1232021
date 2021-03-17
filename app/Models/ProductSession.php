@@ -28,16 +28,6 @@ class ProductSession extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function getSumMoneyAttribute(){
-        $money = 0;
-        foreach($this->product->sessions as $session){
-            $import = $session->amount * $session->price_in;
-            $export = $session->amount_export * $session->price_in;
-            $money += $import - $export;
-        }
-        return $money;
-    }
-
     public function admin(){
         return $this->belongsTo(User::class,'user_create');
     }
