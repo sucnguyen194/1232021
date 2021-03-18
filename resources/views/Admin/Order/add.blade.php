@@ -761,7 +761,7 @@
                 $.each(this.carts,function(key,value){
                     revenue += Number(value.options.revenue);
                 })
-                return revenue;
+                return revenue - this.discount;
             }
         },
     })

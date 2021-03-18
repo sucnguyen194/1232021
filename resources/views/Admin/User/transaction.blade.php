@@ -13,7 +13,7 @@
                             <li class="breadcrumb-item active">Biển động số dư #{{$user->id}}</li>
                         </ol>
                     </div>
-                    <h4 class="page-title">#{{$user->name}}</h4>
+                    <h4 class="page-title">#{{$user->name ?? $user->id}}</h4>
                 </div>
             </div>
         </div>

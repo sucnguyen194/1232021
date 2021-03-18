@@ -264,19 +264,22 @@ class OrderController extends Controller
                     $session->product()->update(['amount' => $amount]);
                     endforeach;
 
+                    $total = $order->total + $total;
+                    $debt = $total + $transport - $checkout - $discount;
                     //update công nọ user (khách hàng)
-                    $debt = $order->customer->debt + ($total + $transport - $checkout - $discount);
-                    $order->customer->increaseBalance($total + $transport - $checkout - $discount,'Cập nhật đơn hàng #'.$order->id, $order);
-                    $order->customer()->update(['debt' => $debt]);
+                    $debt_customer = $order->customer->debt + ($debt - $order->debt);
+                    $order->customer->increaseBalance($debt - $order->debt,'Cập nhật đơn hàng #'.$order->id, $order);
+                    $order->customer()->update(['debt' => $debt_customer]);
 
                     //update doanh thu order
                     $revenue = $order->sessions()->sum('revenue');
+                    //$debt = $order->debt + $order->discount + $order->transport + $order->checkout;
                     $order->update([
-                        'total' => $order->total + $total,
+                        'total' => $total,
                         'checkout' => $checkout,
                         'transport' => $transport,
                         'discount' => $discount,
-                        'debt' => $order->debt + ($total + $transport - $checkout - $discount),
+                        'debt' => $debt,
                         'revenue' => $revenue - $discount
                     ]);
 
