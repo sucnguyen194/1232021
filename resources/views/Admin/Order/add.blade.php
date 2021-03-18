@@ -30,7 +30,7 @@
                             <label class="font-weight-bold">Khách hàng <span class="required">*</span></label>
                             <select class="form-control customer" v-model="customer" name="user" v-on:change="choiseCustomer()" id="customer">
                                 <option value="0">--Chọn khách hàng--</option>
-                                <option v-for="(item,key) in users" v-bind:value="item.id" v-bind:key="key">@{{ item.name ?? item.account }}</option>
+                                <option v-for="(item,key) in users" v-bind:value="item.id" v-bind:key="key">@{{ item.name ?? item.account }} (SĐT: @{{ item.phone }})</option>
                             </select>
                             <p v-if="customer == 0" class="text-danger font-weight-bold mt-2">Vui lòng chọn khách hàng</p>
                         </div>

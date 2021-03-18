@@ -57,8 +57,8 @@ class OrderController extends Controller
         check_admin_systems(SystemsModuleType::EXPORT);
 
         $products = Product::selectRaw('id, name, amount')->public()->orderByDesc('id')->get();
-        $users = User::selectRaw('id,name,account')->whereLever(LeverUser::USER)->orderByDesc('id')->get();
-        $agencys = UserAgency::status()->orderByDesc('id')->get()->pluck('name','id');
+        $users = User::selectRaw('id,name,account,phone')->whereLever(LeverUser::USER)->orderByDesc('id')->get();
+        $agencys = UserAgency::status()->orderByDesc('id')->get()->pluck('name','id,phone');
 
         $selected = Session::has('customer') ? Session::get('customer') : 0;
 
@@ -159,7 +159,7 @@ class OrderController extends Controller
 
         $users = User::whereLever(LeverUser::ADMIN)->get();
         $customers = User::whereLever(LeverUser::USER)->get();
-        $agencys = UserAgency::status()->get()->pluck('name','id');
+        $agencys = UserAgency::status()->get()->pluck('name','id','phone');
         $products = Product::selectRaw('id,name,amount')->whereNotIn('id', $order->sessions()->pluck('product_id')->toArray())->public()->orderByDesc('created_at')->get();
         $array = $products->pluck('id')->toArray();
 

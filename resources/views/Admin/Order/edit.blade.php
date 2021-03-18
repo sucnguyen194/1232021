@@ -37,7 +37,7 @@
                 <div class="form-group">
                     <div class="row">
                         <div class="col-lg-2 font-weight-bold">Khách hàng</div>
-                        <div class="col-lg-10 font-weight-bold"><a href="{{route('admin.user.index',['id' => $order->customer->id ?? 0])}}" target="_blank">{{$order->customer->name ?? 'Tên trống hoặc đã xóa'}}</a> </div>
+                        <div class="col-lg-10 font-weight-bold"><a href="{{route('admin.user.index',['id' => $order->customer->id ?? 0])}}" target="_blank">{{$order->customer->name ?? 'Tên trống hoặc đã xóa'}} (SĐT: {{$order->customer->phone ?? null}})</a> </div>
                     </div>
                 </div>
                 <div class="form-group">
@@ -547,7 +547,7 @@
                                 <select class="form-control" name="customer" id="customers">
                                     <option value="0">--Chọn khách hàng--</option>
                                     @foreach($customers as $customer)
-                                        <option value="{{$customer->id}}" {{$order->user_id == $customer->id ? "selected" : ""}}>{{$customer->name ?? $customer->account}}</option>
+                                        <option value="{{$customer->id}}" {{$order->user_id == $customer->id ? "selected" : ""}}>{{$customer->name ?? $customer->account}} (SĐT: {{$customer->phone ?? null}})</option>
                                     @endforeach
                                 </select>
                             </div>

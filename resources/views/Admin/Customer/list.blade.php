@@ -79,7 +79,7 @@
                         @csrf
                         <div class="action-datatable mb-3">
                             <a href="{{route('admin.customer.create')}}" class="btn btn-primary waves-effect width-md waves-light">
-                                <span class="icon-button"><i class="fa fa-plus-circle"></i></span> Thêm mới</a>
+                                <span class="icon-button"><i class="fe-plus pr-1"></i></span> Thêm mới</a>
 
                             <button class="btn btn-warning waves-effect waves-light" onclick="return confirm('Bạn chắc chắn muốn xóa!')" type="submit" name="delall" value="delete"><span class="icon-button"><i class="fe-x-circle" aria-hidden="true"></i></span> Xóa tất cả</button>
                         </div>

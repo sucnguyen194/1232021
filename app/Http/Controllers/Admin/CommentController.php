@@ -31,7 +31,7 @@ class CommentController extends Controller
        $class = $comment->find_class($type);
         if(!$class)
             return abort(404);
-        
+
        $id = $comment->whereCommentType(get_class($class))->get()->pluck('comment_id');
 
        $comments = $class->with('comments')
