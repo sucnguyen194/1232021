@@ -42,7 +42,7 @@
                         <div class="row">
                             <div class="col-md-1 item-avatar text-center">
                                 @if($comment->admin_id)
-                                    <img src="/admin/assets/images/users/avatar-1.jpg" alt="" class="rounded-circle img-thumbnail">
+                                    <img src="{{$comment->user->gravatar}}" alt="" class="rounded-circle img-thumbnail">
                                 @else
                                     <img src="/admin/assets/images/users/avatar-3.jpg" alt="" class="rounded-circle img-thumbnail">
                                 @endif

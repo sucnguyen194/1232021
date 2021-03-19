@@ -113,7 +113,7 @@ class UserController extends Controller {
                     $user = User::whereEmail($account)->first();
                     Auth::login($user,true);
 
-                    return redirect()->route('home')->withInput()->with(['message' => 'Đăng nhập thành công!']);
+                    return redirect()->back()->withInput()->with(['message' => 'Đăng nhập thành công!']);
                 }
             }else{
 
@@ -123,7 +123,7 @@ class UserController extends Controller {
                 }else{
                     Auth::login($user);
                 }
-                return redirect()->route('home')->with(['message' => 'Đăng nhập thành công!']);
+                return redirect()->back()->with(['message' => 'Đăng nhập thành công!']);
             }
             return redirect()->back()->withInput()->withErrors(['message' => 'Sai tên đăng nhập hoặc mật khẩu!']);
         }
@@ -233,6 +233,7 @@ class UserController extends Controller {
                     [
                         'email' => $email,
                         'name' => $info->getName(),
+                        'lever' => LeverUser::USER,
                         'email_verified_at' => now(),
                     ]
                 );

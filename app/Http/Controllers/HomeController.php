@@ -37,7 +37,6 @@ class HomeController extends Controller
     public function getAlias($alias)
     {
         $object = Alias::whereAlias($alias)->firstOrFail();
-
         switch ($object->type) {
             case (AliasType::PRODUCT);
                 $model = $object->findModel($object->type,$object->type_id);
@@ -50,20 +49,21 @@ class HomeController extends Controller
                 return view('Product.category');
                 break;
             case (AliasType::NEWS);
-                $model = $object->findModel($object->type,$object->type_id);
-                $data['comments'] = $model->comments->load(['user','admin']);
-                $data['model'] = $model;
+//                $model = $object->findModel($object->type,$object->type_id);
+//                $data['comments'] = $model->comments->load(['user','admin']);
+//                $data['model'] = $model;
                 $news = News::whereAlias($alias)->public()->firstOrFail();
                 $data['news'] = $news;
                 $data['cate'] = NewsCategory::find($news->category_id);
                 $data['related'] = $news->categoryid()->newsnotid()->public()->langs()->take(6)->orderByDesc('updated_at')->get();
-                $data['tags'] = Tags::whereType(AliasType::NEWS)->whereTypeId($news->id)->get();
-                $data['prev'] = News::where('id','<',$news->id)->whereCategoryId($news->category_id)->langs()->public()->first();
-                $data['next'] = News::where('id','>',$news->id)->whereCategoryId($news->category_id)->langs()->public()->first();
+//                $data['tags'] = Tags::whereType(AliasType::NEWS)->whereTypeId($news->id)->get();
+//                $data['prev'] = News::where('id','<',$news->id)->whereCategoryId($news->category_id)->langs()->public()->first();
+//                $data['next'] = News::where('id','>',$news->id)->whereCategoryId($news->category_id)->langs()->public()->first();
 
-                if(Session::get(AliasType::NEWS) <> $news->id)
+                if(Session::get(AliasType::NEWS) <> $news->id){
                     $news->update(['view' => $news->view + 1]);
-                Session::put(AliasType::NEWS, $news->id);
+                    Session::put(AliasType::NEWS, $news->id);
+                }
 
                 return view('News.news',$data);
                 break;

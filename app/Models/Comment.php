@@ -18,6 +18,12 @@ class Comment extends Model
         return $this->belongsTo(User::class,'admin_id');
     }
 
+    public function scopeWithnameUser($q){
+        $q->addSelect([
+           'user_name' => User::selectRaw('id')->whereColumn('id','comments.user_id')->take(1)
+        ]);
+    }
+
     function find_class($type){
         switch ($type){
             case 'products':

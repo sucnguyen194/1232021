@@ -40,6 +40,7 @@
                                     <td>{{$item->comments->last()->note}}</td>
                                     <td>{{$item->comments->where('status',0)->count()}}</td>
                                     <td>{{$item->comments->last()->updated_at->diffForHumans()}}</td>
+
                                     <td>
                                         <a href="{{route('admin.comments.detail',[$type,$item->id])}}" class="btn btn-purple waves-effect waves-light">
                                             <span class="icon-button"><i class="fe-edit-2"></i></span></a>

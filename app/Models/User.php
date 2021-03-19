@@ -43,6 +43,10 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public function getGravatarAttribute(){
+        return 'https://www.gravatar.com/avatar/'.md5(strtolower($this->email)).'.jpg?s=200&d=identicon';
+    }
+
     public function systemsModule(){
         return $this->hasMany(UserModuleSystems::class,'user_id');
     }
