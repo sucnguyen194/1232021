@@ -297,6 +297,9 @@ if(!function_exists('scan_full_dir')){
                 'Requests',
                 'Kernel.php',
                 'route.php',
+                'fonts',
+                'font',
+                'font-awesome',
             ];
             if(in_array($value,$arr))  {continue;}
             $explode = explode('.',$value);
