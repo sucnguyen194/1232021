@@ -26,25 +26,25 @@
                         <div class="card-box">
                             <div class="form-group">
                                 <div class="row">
-                                    <div class="col-lg-2 font-weight-bold">Ngày nhập hàng</div>
-                                    <div class="col-lg-10 font-weight-bold">{{$import->created_at->format('d/m/Y H:i')}}</div>
+                                    <div class="col-lg-3">Ngày nhập hàng</div>
+                                    <div class="col-lg-9 font-weight-bold">{{$import->created_at->format('d/m/Y H:i')}}</div>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="row">
-                                    <div class="col-lg-2 font-weight-bold">Người nhập hàng</div>
-                                    <div class="col-lg-10 font-weight-bold"><a href="{{route('admin.user.index',['id' => $import->user->id ?? 0])}}" target="_blank">{{$import->user->name ?? 'Tên trống hoặc đã xóa'}}</a> </div>
+                                    <div class="col-lg-3">Người nhập hàng</div>
+                                    <div class="col-lg-9 font-weight-bold"><a href="{{route('admin.user.index',['id' => $import->user->id ?? 0])}}" target="_blank">{{$import->user->name ?? 'Tên trống hoặc đã xóa'}}</a> </div>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="row">
-                                    <div class="col-lg-2 font-weight-bold">Nhà cung cấp</div>
-                                    <div class="col-lg-10 font-weight-bold"><a href="{{route('admin.user.index',['id' => $import->user->id ?? 0])}}" target="_blank">{{$import->agency->name ?? 'Tên trống hoặc đã xóa'}}</a> </div>
+                                    <div class="col-lg-3">Nhà cung cấp</div>
+                                    <div class="col-lg-9 font-weight-bold"><a href="{{route('admin.user.index',['id' => $import->user->id ?? 0])}}" target="_blank">{{$import->agency->name ?? 'Tên trống hoặc đã xóa'}}</a> </div>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="row">
-                                    <div class="col-lg-12 font-weight-bold">Ghi chú</div>
+                                    <div class="col-lg-12">Ghi chú</div>
                                     @if($import->note)
                                     <div class="col-lg-12 mt-2 font-weight-bold">
                                         <textarea class="form-control" readonly rows="7">{!! $import->note !!}</textarea>
@@ -53,7 +53,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <button type="button" class="btn btn-purple waves-effect waves-light" data-toggle="modal" data-target="#myModal"><span class="icon-button"><i class="fe-edit-2"></i></span> Sửa</button>
+                                <button type="button" class="btn btn-default waves-effect waves-light" data-toggle="modal" data-target="#myModal"><span class="icon-button"><i class="fe-edit-2"></i></span> Sửa</button>
 
                                 <div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
                                     <form method="POST" action="{{route('admin.imports.update',$import)}}">
@@ -63,32 +63,32 @@
                                         <div class="modal-content">
                                             <div class="modal-body">
                                                 <div class="form-group">
-                                                    <label class="font-weight-bold">Người nhập hàng</label>
+                                                    <label>Người nhập hàng</label>
                                                     <select class="form-control" name="user" v-model="update_import.admin" id="admins">
                                                         <option value="0">--Chọn người nhập hàng--</option>
                                                         @foreach($users as $user)
                                                             <option value="{{$user->id}}" {{$import->user->id == $user->id ? "selected" : ""}}>{{$user->name ?? $user->account}}</option>
                                                         @endforeach
                                                     </select>
-                                                    <p class="text-danger font-weight-bold mt-2" v-if="update_import.admin == 0">Vui lòng chọn người nhập hàng</p>
+                                                    <p class="text-danger mt-2" v-if="update_import.admin == 0">Vui lòng chọn người nhập hàng</p>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label class="font-weight-bold">Nhà cung cấp</label>
+                                                    <label>Nhà cung cấp</label>
                                                     <select class="form-control" name="agency" v-model="update_import.agency" id="agencys">
                                                         <option value="0">--Chọn nhà cung cấp--</option>
                                                         @foreach($agencys as $agency)
                                                             <option value="{{$agency->id}}" {{$import->agency->id == $agency->id ? "selected" : ""}}>{{$agency->name}}</option>
                                                         @endforeach
                                                     </select>
-                                                    <p class="text-danger font-weight-bold mt-2" v-if="update_import.agency == 0">Vui lòng chọn nhà cung cấp</p>
+                                                    <p class="text-danger mt-2" v-if="update_import.agency == 0">Vui lòng chọn nhà cung cấp</p>
                                                 </div>
                                                 <div class="note-group">
-                                                    <label class="font-weight-bold">Ghi chú</label>
+                                                    <label>Ghi chú</label>
                                                     <textarea class="form-control" rows="4" name="note"> {!! $import->note !!}</textarea>
                                                 </div>
                                             </div>
                                             <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal"> Đóng</button>
+                                                <button type="button" class="btn btn-default waves-effect" data-dismiss="modal"> Đóng</button>
                                                 <button type="submit" name="send" value="user" :disabled="update_import.admin == 0 || update_import.agency == 0" class="btn btn-primary waves-effect waves-light" onclick="return confirm('Xác nhận thông tin?')"> <span class="icon-button"><i class="fe-plus"></i></span> Xác nhận</button>
                                             </div>
                                         </div><!-- /.modal-content -->
@@ -98,7 +98,7 @@
 
                             </div>
                             <div class="form-group">
-                                <label class="font-weight-bold">Danh sách sản phẩm</label>
+                                <label>Danh sách sản phẩm</label>
                                 <table class="table table-bordered table-striped">
                                     <thead>
                                     <tr>
@@ -144,7 +144,7 @@
                                                     <div class="form-control font-weight-bold">{{number_format($item->price_in*$item->amount)}}</div>
                                                 </div>
                                             </td>
-                                            <td><a href="javascript:void(0)" class="btn btn-purple waves-effect waves-light" v-on:click="getSession({{$item->id}})" data-toggle="modal" data-target="#product-item-{{$item->id}}"><span class="icon-button"><i class="fe-edit-2"></i></span> </a> <a href="{{route('admin.destroy.session',$item->id)}}" class="btn btn-warning waves-effect waves-light" onclick="return confirm('Xóa sản phẩm?')"><span class="icon-button"><i class="fe-x"></i></span> </a></td>
+                                            <td><a href="javascript:void(0)" class="btn btn-default waves-effect waves-light" v-on:click="getSession({{$item->id}})" data-toggle="modal" data-target="#product-item-{{$item->id}}"><span class="icon-button"><i class="fe-edit-2"></i></span> </a> <a href="{{route('admin.destroy.session',$item->id)}}" class="btn btn-default waves-effect waves-light" onclick="return confirm('Xóa sản phẩm?')"><span class="icon-button"><i class="fe-x"></i></span> </a></td>
                                         </tr>
                                     @endforeach
                                     </tbody>
@@ -200,7 +200,7 @@
                                         </div>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal"> Đóng</button>
+                                        <button type="button" class="btn btn-default waves-effect" data-dismiss="modal"> Đóng</button>
                                         <button type="submit" class="btn btn-primary waves-effect waves-light" onclick="return confirm('Xác nhận thông tin?')"> <span class="icon-button"><i class="fe-plus"></i></span> Xác nhận</button>
                                     </div>
                                 </div><!-- /.modal-content -->
@@ -216,7 +216,7 @@
                     <div class="card-box">
                         <div class="row">
                             <div class="col-lg-4">
-                                <label class="font-weight-bold">Tổng tiền</label>
+                                <label>Tổng tiền</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text" id="basic-addon1">VNĐ</span>
@@ -225,7 +225,7 @@
                                 </div>
                             </div>
                             <div class="col-lg-4">
-                                <label class="font-weight-bold">Thanh toán</label>
+                                <label>Thanh toán</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text" id="basic-addon1">VNĐ</span>
@@ -234,7 +234,7 @@
                                 </div>
                             </div>
                             <div class="col-lg-4">
-                                <label class="font-weight-bold">Công nợ</label>
+                                <label>Công nợ</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text" id="basic-addon1">VNĐ</span>
@@ -245,9 +245,9 @@
                         </div>
                     </div>
 
-                    <div class="card-box text-center">
-                        <a class="btn btn-purple waves-effect waves-light" href="{{route('admin.imports.index')}}"><span class="icon-button"><i class="fe-arrow-left"></i></span> Quay lại</a>
-                        <button type="submit" name="send" value="checkout" class="btn btn-primary waves-effect waves-light" onclick="return confirm('Xác nhận thông tin?')"> <span class="icon-button"><i class="fe-plus"></i></span> Xác nhận</button>
+                    <div class="">
+                        <a class="btn btn-default waves-effect waves-light" href="{{route('admin.imports.index')}}"><span class="icon-button"><i class="fe-arrow-left"></i></span> Quay lại</a>
+                        <button type="submit" name="send" value="checkout" class="btn btn-primary waves-effect waves-light float-right" onclick="return confirm('Xác nhận thông tin?')"> <span class="icon-button"><i class="fe-plus"></i></span> Xác nhận</button>
                     </div>
                     </form>
                 </div>

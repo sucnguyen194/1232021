@@ -25,7 +25,7 @@
                             <a href="{{route('admin.action.module.add',$module->table)}}" class="btn btn-primary waves-effect width-md waves-light">
                                 <span class="icon-button"><i class="fe-plus"></i></span> Thêm mới</a>
                         </div>
-                        <table id="datatable-buttons" class="table table-bordered table-striped table-hover bs-table" style="border-collapse: collapse; border-spacing: 0; ;">
+                        <table id="datatable-buttons" class="table table-bordered table-hover bs-table" style="border-collapse: collapse; border-spacing: 0; ;">
                             <thead>
                             <tr>
                                 <th>ID</th>

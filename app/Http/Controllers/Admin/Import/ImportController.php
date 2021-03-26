@@ -266,23 +266,29 @@ class ImportController extends Controller
         check_admin_systems(SystemsModuleType::HISTORY_IMPORT);
 
         $session = ProductSession::find($id);
-
-        $session->product()->update([
-           'amount' => $session->product->amount - $session->amount
-        ]);
+        if($session->product){
+            $session->product()->update([
+                'amount' => $session->product->amount - $session->amount
+            ]);
+        }
 
         $total = $session->import->total - ($session->amount * $session->price_in);
         $debt = $total - $session->import->checkout;
 
         $debt_agency = $session->agency->debt - $session->import->debt + $debt;
-        $session->agency->increaseBalance($debt - $session->import->debt,'Hủy sản phẩm #'.$session->product->id.' - thông tin nhập hàng #'.$session->import->id, $session->import);
-        $session->agency()->update([
-            'debt' => $debt_agency
-        ]);
-        $session->import()->update([
-           'total' => $total,
-           'debt' => $debt,
-        ]);
+        if($session->agency){
+            $session->agency->increaseBalance($debt - $session->import->debt,'Hủy sản phẩm #'.$session->product_id.' - thông tin nhập hàng #'.$session->import->id, $session->import);
+            $session->agency()->update([
+                'debt' => $debt_agency
+            ]);
+        }
+        if($session->import){
+            $session->import()->update([
+                'total' => $total,
+                'debt' => $debt,
+            ]);
+        }
+
         $session->delete();
 
         return back()->withInput()->with(['message' => 'Xóa thành công!']);

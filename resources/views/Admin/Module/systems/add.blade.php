@@ -21,6 +21,8 @@
             </div>
         </div>
         <!-- end page title -->
+    </div>
+    <div class="container">
         <form method="post" action="{{route('admin.systems.store')}}" enctype="multipart/form-data">
             <div class="row">
                 @csrf
@@ -44,7 +46,7 @@
                             <select class="form-control" data-toggle="select2" name="parent_id">
                                 <option value="0">-----</option>
                                 @foreach($systems as $item)
-                                <option value="{{$item->id}}" {{old('parent_id') == $item->id  ? "selected" : ""}}> {{$item->name}}</option>
+                                    <option value="{{$item->id}}" {{old('parent_id') == $item->id  ? "selected" : ""}}> {{$item->name}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -71,18 +73,16 @@
                         </div>
                         <div class="form-group">
                             <label>Icon</label>
-                            <p>* Ghi chú: Chọn 1 trong các icon bên dưới</p>
+                            <p class="font-13">* Chọn 1 trong các icon bên dưới</p>
                             <input type="text" class="form-control" value="{{old('icon')}}" id="icon" name="icon" readonly>
                         </div>
                     </div>
 
                 </div>
 
-                <div class="col-lg-12 text-center">
-                    <div class="card-box">
-                        <a href="{{route('admin.systems.index')}}" class="btn btn-purple waves-effect waves-light"><span class="icon-button"><i class="fe-arrow-left"></i></span> Quay lại</a>
-                        <button type="submit" class="btn btn-primary waves-effect width-md waves-light" name="send" value="save"><span class="icon-button"><i class="fe-plus"></i></span> Lưu lại</button>
-                    </div>
+                <div class="col-lg-12 mb-3">
+                    <a href="{{route('admin.systems.index')}}" class="btn btn-default waves-effect waves-light"><span class="icon-button"><i class="fe-arrow-left"></i></span> Quay lại</a>
+                    <button type="submit" class="btn btn-primary waves-effect width-md waves-light float-right" name="send" value="save"><span class="icon-button"><i class="fe-plus"></i></span> Lưu lại</button>
                 </div>
 
                 <div class="col-lg-12">
@@ -911,7 +911,6 @@
             <!-- end row -->
         </form>
     </div>
-
 @stop
 
 @section('javascript')

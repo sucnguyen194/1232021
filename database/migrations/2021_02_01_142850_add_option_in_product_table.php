@@ -14,7 +14,7 @@ class AddOptionInProductTable extends Migration
     public function up()
     {
         Schema::table('product', function (Blueprint $table) {
-            $table->json('option')->after('content')->nullable();
+            $table->json('options')->after('content')->nullable();
             $table->longText('tags')->after('option')->nullable();
         });
     }
@@ -27,7 +27,7 @@ class AddOptionInProductTable extends Migration
     public function down()
     {
         Schema::table('product', function (Blueprint $table) {
-            $table->dropColumn('option');
+            $table->dropColumn('options');
             $table->dropColumn('tags');
         });
     }

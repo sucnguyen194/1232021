@@ -22,8 +22,8 @@
                 <div class="card-box">
                     <form method="get">
                         <div class="row">
-                            <div class="col-md-2 mb-2 mb-lg-0 mb-md-0">
-                                <label class="font-weight-bold">Hiển thị</label>
+                            <div class="col-lg-2 col-md-4 mb-lg-0 mb-md-2">
+                                <label>Hiển thị</label>
                                 <select class="form-control" data-toggle="select2" name="public">
                                     <option value="">-----</option>
                                     <option value="true" {{request()->public == 'true' ? "selected" : ""}}>Kích hoạt</option>
@@ -31,16 +31,16 @@
                                 </select>
                             </div>
 
-                            <div class="col-md-2 mb-2 mb-lg-0 mb-md-0">
-                                <label class="font-weight-bold">Nổi bật</label>
+                            <div class="col-lg-2 col-md-4 mb-lg-0 mb-md-2">
+                                <label>Nổi bật</label>
                                 <select class="form-control" data-toggle="select2" name="status">
                                     <option value="">-----</option>
                                     <option value="true" {{request()->status == 'true' ? "selected" : ""}}>Kích hoạt</option>
                                     <option value="false" {{request()->status == 'false' && isset(request()->status) ? "selected" : ""}}> Không kích hoạt</option>
                                 </select>
                             </div>
-                            <div class="col-md-2 mb-2 mb-lg-0 mb-md-0">
-                                <label class="font-weight-bold">Ngôn ngữ</label>
+                            <div class="col-lg-2 col-md-4 mb-lg-0 mb-md-2">
+                                <label>Ngôn ngữ</label>
                                 <select class="form-control" data-toggle="select2" name="lang">
                                     <option value="">-----</option>
                                     @foreach($lang as $item)
@@ -48,8 +48,8 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="col-md-2 mb-2 mb-lg-0 mb-md-0">
-                                <label class="font-weight-bold">Thành viên</label>
+                            <div class="col-lg-2 col-md-4 mb-lg-0 mb-md-0">
+                                <label>Thành viên</label>
                                 <select class="form-control" data-toggle="select2" name="user">
                                     <option value="">-----</option>
                                     @foreach($user as $item)
@@ -58,11 +58,11 @@
                                 </select>
                             </div>
 
-                            <div class="col-md-2">
+                            <div class="col-lg-2 col-md-4 mb-lg-0 mb-md-0">
                                 <label class="ql-color-white hidden-xs" style="opacity: 0">-</label>
                                 <div class="mb-2 mb-lg-0 mb-md-0">
                                     <button class="btn btn-primary waves-effect waves-light" type="submit"><span class="icon-button"><i class="fe-search"></i></span> Tìm kiếm</button>
-                                    <a class="btn btn-purple waves-effect waves-light" href="{{route('admin.videos.index')}}"><span class="icon-button"><i class="fe-arrow-left"></i></span> Quay lại</a>
+                                    <a class="btn btn-default waves-effect waves-light" href="{{route('admin.videos.index')}}"><span class="icon-button"><i class="fe-arrow-left"></i></span> Quay lại</a>
                                 </div>
                             </div>
                         </div>
@@ -78,25 +78,22 @@
                     <form method="post" action="{{route('admin.videos.delMulti')}}" enctype="multipart/form-data">
                         @csrf
                         <div class="action-datatable mb-3">
-                            <a href="{{route('admin.videos.create')}}" class="btn btn-primary waves-effect width-md waves-light">
-                                <span class="icon-button"><i class="fa fa-plus-circle"></i></span> Thêm mới</a>
-
-                            <button class="btn btn-warning waves-effect waves-light" onclick="return confirm('Bạn chắc chắn muốn xóa!')" type="submit" name="delall" value="delete"><span class="icon-button"><i class="fe-x-circle" aria-hidden="true"></i></span> Xóa tất cả</button>
+                            <button class="btn btn-default text-primary border-primary waves-effect waves-light" onclick="return confirm('Bạn chắc chắn muốn xóa!')" type="submit" name="delall" value="delete"> Xóa tất cả</button>
+                            <a href="{{route('admin.videos.create')}}" class="btn btn-primary waves-effect float-right width-md waves-light">
+                                <span class="icon-button"><i class="fe-plus"></i></span> Thêm mới</a>
                         </div>
-                        <table id="datatable-buttons" class="table table-bordered table-striped table-hover bs-table" style="border-collapse: collapse; border-spacing: 0; ;">
+                        <table id="datatable-buttons" class="table table-bordered table-hover bs-table" style="border-collapse: collapse; border-spacing: 0; ;">
                             <thead>
                             <tr>
                                 <th>
-                                    <div class="checkbox checkbox-primary checkbox-circle">
+                                    <div class="checkbox">
                                         <input id="check-all" class="check_del" {{$videos->count() == 0 ? "disabled" : "" }} type="checkbox" name="checkAll">
                                         <label for="check-all"></label>
                                     </div>
                                 </th>
-                                <th>ID</th>
                                 <th>STT</th>
-                                <th style="width: 20%">Tiêu đề</th>
-                                <th style="width: 10%">Đường dẫn Video</th>
-                                <th>Ngôn ngữ</th>
+                                <th>Tiêu đề</th>
+                                <th>Video</th>
                                 <th>Ngày tạo</th>
                                 <th>Trạng thái</th>
                                 <th>Hành động</th>
@@ -105,39 +102,37 @@
 
                             <tbody>
                             @foreach($videos as $item)
-
                                 <tr>
                                     <td>
-                                        <div class="checkbox checkbox-primary checkbox-circle">
+                                        <div class="checkbox">
                                             <input id="checkbox_del_{{$item->id}}" class="check_del" type="checkbox" value="{{$item->id}}" name="check_del[]">
                                             <label for="checkbox_del_{{$item->id}}"></label>
                                         </div>
                                     </td>
-                                    <td >{{$item->id}}</td>
+
                                     <td class="position-relative"><input style="width: 120px" type="number" class="form-control" name="sort" data-id="{{$item->id}}" value="{{$item->sort}}"> <span id="change-sort-success_{{$item->id}}" class="change-sort"></span></td>
-                                    <td style="width: 30%"><a href="{{route('alias',$item->alias)}}" title="{{$item->title}}" class="text-secondary" target="_blank">{{ $item->title}}</a> </td>
+                                    <td style="width: 30%"><a href="{{route('alias',$item->alias)}}" title="{{$item->title}}" target="_blank">{{ $item->title}}</a> </td>
                                     <td>https://www.youtube.com/watch?v={{$item->video}} </td>
-                                    <td>{{$item->language->name}} </td>
                                     <td>
                                         {{$item->updated_at->diffForHumans()}}
                                     </td>
                                     <td>
-                                        <div class="checkbox checkbox-primary checkbox-circle" >
+                                        <div class="checkbox" >
                                             <input id="checkbox_public_{{$item->id}}"  {{$item->public == 1 ? "checked" : ''}} type="checkbox" name="public">
                                             <label for="checkbox_public_{{$item->id}}" class="video_public"  data-id="{{$item->id}}">Hiển thị</label>
                                         </div>
 
-                                        <div class="checkbox checkbox-primary checkbox-circle">
+                                        <div class="checkbox">
                                             <input id="checkbox_status_{{$item->id}}" {{$item->status == 1 ? "checked" : ''}} type="checkbox" name="status">
                                             <label for="checkbox_status_{{$item->id}}" class="mb-0 video_status" data-id="{{$item->id}}">Nổi bật</label>
                                         </div>
                                     </td>
 
                                     <td>
-                                        <a href="{{route('admin.videos.edit',$item)}}" class="btn btn-purple waves-effect waves-light">
+                                        <a href="{{route('admin.videos.edit',$item)}}" class="btn btn-default waves-effect waves-light">
                                             <span class="icon-button"><i class="fe-edit-2"></i></span></a>
 
-                                        <a href="{{route('admin.videos.del',$item->id)}}" onclick="return confirm('Bạn có chắc muốn xóa?');" class="btn btn-warning waves-effect waves-light">
+                                        <a href="{{route('admin.videos.del',$item->id)}}" onclick="return confirm('Bạn có chắc muốn xóa?');" class="btn btn-default waves-effect waves-light">
                                             <span class="icon-button"><i class="fe-x"></i></span></a>
                                     </td>
                                 </tr>

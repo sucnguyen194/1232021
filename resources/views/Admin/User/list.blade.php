@@ -22,12 +22,12 @@
         <div class="row">
             <div class="col-12">
                 <div class="card-box table-responsive">
-                    <div class="action-datatable mb-3">
+                    <div class="action-datatable text-right mb-3">
                         <a href="{{route('admin.user.create')}}" class="btn btn-primary waves-effect width-md waves-light">
                             <span class="icon-button"><i class="fe-plus"></i></span> Thêm mới</a>
                     </div>
 
-                    <table id="datatable-buttons" class="table table-bordered table-striped table-hover bs-table" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                    <table id="datatable-buttons" class="table table-bordered table-hover bs-table" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                         <thead>
                         <tr>
                             <th colspan="1">ID</th>
@@ -43,23 +43,23 @@
                         <tbody>
 
                         @foreach($user as $item)
-                        <tr class="font-weight-bold">
+                        <tr>
                             <td >{{$item->id}}</td>
-                            <td class="font-weight-bold">{{$item->name ?? $item->account}}</td>
-                            <td class="font-weight-bold">{{number_format($item->debt)}}</td>
+                            <td>{{$item->name ?? $item->account}}</td>
+                            <td>{{number_format($item->debt)}}</td>
                             <td>{{$item->email}}</td>
-                            <td class="font-weight-bold">{{$item->phone}}</td>
+                            <td>{{$item->phone}}</td>
                             <td>{{$item->address}}</td>
                             <td>
-                                <a href="{{route('admin.user.edit',$item)}}" class="btn btn-purple waves-effect waves-light">
+                                <a href="{{route('admin.user.edit',$item)}}" class="btn btn-default waves-effect waves-light">
                                     <span class="icon-button"><i class="fe-edit-2"></i></a>
                                 <form method="post" action="{{route('admin.user.destroy',$item)}}" class="d-inline-block">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" name="delete" onclick="return confirm('Bạn có chắc muốn xóa?');" value="delete" class="btn btn-warning waves-effect waves-light">
+                                    <button type="submit" name="delete" onclick="return confirm('Bạn có chắc muốn xóa?');" value="delete" class="btn btn-default waves-effect waves-light">
                                         <span class="icon-button"><i class="fe-x"></i></button>
                                 </form>
-                                <a href="{{route('admin.user.show',$item)}}" class="btn btn-primary waves-effect waves-light"><span class="icon-button"><i class="pe-7s-cash"></i> </span> Biến động số dư</a>
+                                <a href="{{route('admin.user.show',$item)}}" class="btn btn-default waves-effect waves-light"> Transaction</a>
                             </td>
                         </tr>
                         @endforeach

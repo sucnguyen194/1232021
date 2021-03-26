@@ -20,7 +20,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="card-box table-responsive">
-                        <table id="datatable-buttons" class="table table-bordered table-striped table-hover bs-table" style="border-collapse: collapse; border-spacing: 0; ;">
+                        <table id="datatable-buttons" class="table table-bordered table-hover bs-table" style="border-collapse: collapse; border-spacing: 0; ;">
                             <thead>
                             <tr>
                                 <th>ID</th>
@@ -42,9 +42,9 @@
                                     <td>{{$item->comments->last()->updated_at->diffForHumans()}}</td>
 
                                     <td>
-                                        <a href="{{route('admin.comments.detail',[$type,$item->id])}}" class="btn btn-purple waves-effect waves-light">
+                                        <a href="{{route('admin.comments.detail',[$type,$item->id])}}" class="btn btn-default waves-effect waves-light">
                                             <span class="icon-button"><i class="fe-edit-2"></i></span></a>
-                                        <a href="{{route('admin.comments.destroys',[$type,$item->id])}}" onclick="return confirm('Xóa toàn bộ bình luận?')" class="btn btn-warning waves-effect waves-light"><span class="icon-button"><i class="fe-x"></i></span></a>
+                                        <a href="{{route('admin.comments.destroys',[$type,$item->id])}}" onclick="return confirm('Xóa toàn bộ bình luận?')" class="btn btn-default waves-effect waves-light"><span class="icon-button"><i class="fe-x"></i></span></a>
 
                                     </td>
                                 </tr>

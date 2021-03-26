@@ -38,7 +38,7 @@
                     <div class="card-box">
                         <div class="form-group">
                             <label>Tên bảng <span class="required">*</span></label>
-                            <p>* Ghi chú: Không trùng với các bảng trước</p>
+                            <p class="font-13">* Không trùng với các bảng trước</p>
                             <input type="text" class="form-control" value="{{old('table')}}" id="table" name="table" required>
                         </div>
                     </div>
@@ -48,7 +48,7 @@
                     <div class="card-box">
                         <div class="form-group">
                             <label>Số cột <span class="required">*</span></label>
-                            <p>* Ghi chú: Dạng số và lớn hơn 0</p>
+                            <p class="font-13">* Dạng số và lớn hơn 0</p>
                             <input type="number" class="form-control" value="{{old('column')}}" min="1" id="column" name="column" required>
                         </div>
                     </div>
@@ -57,11 +57,9 @@
                     <div class="row" id="column_list">
                     </div>
                 </div>
-                <div class="col-lg-12 text-center">
-                    <div class="card-box">
-                        <a href="{{route('admin.systems.index')}}" class="btn btn-purple waves-effect waves-light"><span class="icon-button"><i class="fe-arrow-left"></i></span> Quay lại</a>
-                        <button type="submit" class="btn btn-primary waves-effect width-md waves-light" name="send" value="save"><span class="icon-button"><i class="fe-plus"></i></span> Lưu lại</button>
-                    </div>
+                <div class="col-lg-12">
+                    <a href="{{route('admin.systems.index')}}" class="btn btn-default waves-effect waves-light"><span class="icon-button"><i class="fe-arrow-left"></i></span> Quay lại</a>
+                    <button type="submit" class="btn btn-primary waves-effect width-md waves-light float-right" name="send" value="save"><span class="icon-button"><i class="fe-plus"></i></span> Lưu lại</button>
                 </div>
 
             </div>

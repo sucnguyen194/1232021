@@ -22,6 +22,8 @@
             </div>
         </div>
         <!-- end page title -->
+    </div>
+    <div class="container">
         <div class="form-comment" id="comments">
             <form method="post" action="{{route('admin.comments.store')}}" enctype="multipart/form-data">
                 @csrf
@@ -72,7 +74,7 @@
                                         @method('PUT')
                                         <button type="submit" class="border-0 p-0 bg-transparent text-primary font-weight-bold">{{$comment->hidden == 0 ? "Ẩn bình luận" : "Bỏ ẩn"}}</button>
                                     </form>
-                                        - {{$comment->created_at->diffForHumans()}}
+                                    - {{$comment->created_at->diffForHumans()}}
                                 </div>
                             </div>
                         </div>
@@ -98,9 +100,9 @@
                                 <div class="row">
                                     <div class="col-md-1 item-avatar">
                                         @if($sub->admin_id)
-                                        <img src="/admin/assets/images/users/avatar-1.jpg" alt="" class="rounded-circle img-thumbnail">
+                                            <img src="/admin/assets/images/users/avatar-1.jpg" alt="" class="rounded-circle img-thumbnail">
                                         @else
-                                        <img src="/admin/assets/images/users/avatar-3.jpg" alt="" class="rounded-circle img-thumbnail">
+                                            <img src="/admin/assets/images/users/avatar-3.jpg" alt="" class="rounded-circle img-thumbnail">
                                         @endif
                                     </div>
                                     <div class="col-md-11">

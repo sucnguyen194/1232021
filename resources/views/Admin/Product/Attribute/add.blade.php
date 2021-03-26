@@ -21,6 +21,8 @@
             </div>
         </div>
         <!-- end page title -->
+    </div>
+    <div class="container">
         <form method="post" action="{{route('admin.attributes.store')}}" enctype="multipart/form-data">
             <div class="row">
                 @csrf
@@ -42,45 +44,17 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-12 text-center">
-                    <div class="card-box">
-                        <a href="{{route('admin.attributes.index')}}" class="btn btn-purple waves-effect waves-light"><span class="icon-button"><i class="fe-arrow-left"></i></span> Quay lại</a>
-                        <button type="submit" class="btn btn-primary waves-effect width-md waves-light" name="send" value="save"><span class="icon-button"><i class="fe-plus"></i></span> Lưu lại</button>
-                    </div>
+                <div class="col-lg-12">
+                    <a href="{{route('admin.attributes.index')}}" class="btn btn-default waves-effect waves-light"><span class="icon-button"><i class="fe-arrow-left"></i></span> Quay lại</a>
+                    <button type="submit" class="btn btn-primary waves-effect width-md waves-light float-right" name="send" value="save"><span class="icon-button"><i class="fe-plus"></i></span> Lưu lại</button>
                 </div>
             </div>
             <!-- end row -->
         </form>
     </div>
-
 @stop
 
 @section('javascript')
-    <script type="text/javascript">
-        jQuery(document).ready(function($) {
-
-            var alias = $('.alias');
-            var title_seo = $('input[name="title_seo"]');
-            var description_seo = $('input[name="description_seo"]');
-
-            title_seo.keyup(function() {
-                /* Act on the event */
-                $('.title-seo').html($(this).val());
-                return false;
-            });
-
-            description_seo.keyup(function() {
-                /* Act on the event */
-                $('.description-seo').html($(this).val());
-                return false;
-            });
-            alias.on('keyup change',function(){
-                var url = "{{route('home')}}/";
-                $('.alias-seo').text(url + $(this).val() + '.html');
-            })
-
-        });
-    </script>
     <script src="{{asset('admin/assets/libs/switchery/switchery.min.js')}}"></script>
     <script src="{{asset('admin/assets/libs/bootstrap-tagsinput/bootstrap-tagsinput.min.js')}}"></script>
     <script src="https://coderthemes.com/adminox/layouts/vertical/assets/libs/select2/select2.min.js"></script>

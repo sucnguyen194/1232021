@@ -118,8 +118,8 @@ class GalleryController extends Controller
             'thumb' => $thumb,
             'category_id' => $request->category,
             'user_id' => \Auth::id(),
-            'status' => 0,
-            'public' => 1,
+            'status' => $request->has('status') ? 1 : 0,
+            'public' => $request->has('public') ? 1 : 0,
             'lang' => Session::get('lang')
         ]);
 
@@ -202,7 +202,6 @@ class GalleryController extends Controller
     public function update(Request $request, Gallerys $gallery)
     {
         if(check_admin_systems(SystemsModuleType::GALLERY))
-
             $request->validate([
                 'title' => 'required',
                 'alias' => 'required',
@@ -251,9 +250,8 @@ class GalleryController extends Controller
             'type_id' => $gallery->id,
             'type' => MediaType::GALLERY,
             'user_edit' => \Auth::id(),
-            'title_seo' => $request->title_seo ? $request->title_seo : $request->title,
-            'description_seo' => $request->description_seo ? $request->description_seo : $request->title,
-            'keyword_seo' => $request->keyword_seo ? $request->keyword_seo : $request->title,
+            'status' => $request->has('status') ? 1 : 0,
+            'public' => $request->has('public') ? 1 : 0,
             'lang' => \Session::get('lang')
         ]);
 

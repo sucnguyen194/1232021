@@ -15,7 +15,7 @@
     <link href="{{asset('admin/assets/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css" id="bootstrap-stylesheet" />
     <link href="{{asset('admin/assets/css/icons.min.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{asset('admin/assets/css/app.min.css')}}" rel="stylesheet" type="text/css"  id="app-stylesheet" />
-
+    <link href="/admin/css/cpanel.css" rel="stylesheet" type="text/css">
 </head>
 
 <body class="authentication-bg bg-primary authentication-bg-pattern d-flex align-items-center pb-0 vh-100">
@@ -42,7 +42,7 @@
                             </div>
 
                             <div class="account-content mt-4">
-                                <form class="form-horizontal" action="" method="post">
+                                <form class="form-horizontal" action="{{route('admin.login')}}" method="post">
                                     @csrf
                                     <div class="form-group row">
                                         <div class="col-12">
@@ -61,10 +61,10 @@
 
                                     <div class="form-group row">
                                         <div class="col-12">
-                                            <div class="checkbox checkbox-success">
+                                            <div class="checkbox">
                                                 <input id="remember" type="checkbox" name="remember" checked="">
                                                 <label for="remember">
-                                                    Ghi nhớ
+                                                    Remember me
                                                 </label>
                                             </div>
 

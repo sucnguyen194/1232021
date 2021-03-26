@@ -23,7 +23,7 @@
                     <form method="get">
                         <div class="row">
                             <div class="col-md-4 mb-2 mb-lg-0 mb-md-0">
-                                <label class="font-weight-bold">Trạng thái</label>
+                                <label>Trạng thái</label>
                                 <select class="form-control" data-toggle="select2" name="status">
                                     <option value="">-----</option>
                                     <option value="true" {{request()->status == 'true' ? "selected" : ""}}>Đã xem</option>
@@ -32,7 +32,7 @@
                             </div>
 
                             <div class="col-md-4 mb-2 mb-lg-0 mb-md-0">
-                                <label class="font-weight-bold">Người duyệt</label>
+                                <label>Người duyệt</label>
                                 <select class="form-control" data-toggle="select2" name="user">
                                     <option value="">-----</option>
                                     @foreach($user as $item)
@@ -45,7 +45,7 @@
                                 <label class="ql-color-white hidden-xs" style="opacity: 0">-</label>
                                 <div class="mb-2 mb-lg-0 mb-md-0">
                                     <button class="btn btn-primary waves-effect waves-light" type="submit"><span class="icon-button"><i class="fe-search"></i></span> Tìm kiếm</button>
-                                    <a class="btn btn-purple waves-effect waves-light" href="{{route('admin.contact.index')}}"><span class="icon-button"><i class="fe-arrow-left"></i></span> Quay lại</a>
+                                    <a class="btn btn-default waves-effect waves-light" href="{{route('admin.contact.index')}}"><span class="icon-button"><i class="fe-arrow-left"></i></span> Quay lại</a>
                                 </div>
                             </div>
                         </div>
@@ -61,19 +61,19 @@
                     <form method="post" action="{{route('admin.contact.delMulti')}}" enctype="multipart/form-data">
                         @csrf
                         <div class="action-datatable mb-3">
-                            <button class="btn btn-warning waves-effect waves-light" onclick="return confirm('Bạn chắc chắn muốn xóa!')" type="submit" name="delall" value="delete"><span class="icon-button"><i class="fe-x-circle" aria-hidden="true"></i></span> Xóa tất cả</button>
+                            <button class="btn btn-default text-primary border-primary waves-effect waves-light" onclick="return confirm('Bạn chắc chắn muốn xóa!')" type="submit" name="delall" value="delete"><span class="icon-button"><i class="fe-x-circle" aria-hidden="true"></i></span> Xóa tất cả</button>
                         </div>
-                        <table id="datatable-buttons" class="table table-bordered table-striped table-hover bs-table" style="border-collapse: collapse; border-spacing: 0; ;">
+                        <table id="datatable-buttons" class="table table-bordered table-hover bs-table" style="border-collapse: collapse; border-spacing: 0; ;">
                             <thead>
                             <tr>
                                 <th>
-                                    <div class="checkbox checkbox-primary checkbox-circle">
+                                    <div class="checkbox">
                                         <input id="check-all" class="check_del" {{$contact->count() == 0 ? "disabled" : "" }} type="checkbox" name="checkAll">
                                         <label for="check-all"></label>
                                     </div>
                                 </th>
-                                <th>ID</th>
-                                <th style="width: 20%">Tin nhắn</th>
+
+                                <th>Tin nhắn</th>
                                 <th>Thời gian tạo</th>
                                 <th>Thời gian duyệt</th>
                                 <th>Trạng thái</th>
@@ -86,13 +86,12 @@
 
                                 <tr>
                                     <td>
-                                        <div class="checkbox checkbox-primary checkbox-circle">
+                                        <div class="checkbox">
                                             <input id="checkbox_del_{{$item->id}}" class="check_del" type="checkbox" value="{{$item->id}}" name="check_del[]">
                                             <label for="checkbox_del_{{$item->id}}"></label>
                                         </div>
                                     </td>
-                                    <td >{{$item->id}}</td>
-                                    <td style="width: 30%">{!! str_limit($item->note,100) !!} </td>
+                                    <td>{!! str_limit($item->note,100) !!} </td>
 
                                     <td>
                                         {{$item->created_at->diffForHumans()}}
@@ -101,14 +100,14 @@
                                         {{$item->updated_at->diffForHumans()}}
                                     </td>
                                     <td>
-                                        @if($item->status == 1) <strong class="text-success">Đã xem</strong> @else <strong class="text-danger">Chưa xem</strong>@endif
+                                        @if($item->status == 1) <strong>Đã xem</strong> @else <strong class="text-primary">Chưa xem</strong>@endif
                                     </td>
 
                                     <td>
-                                        <a href="{{route('admin.contact.show',$item)}}" class="btn btn-purple waves-effect waves-light">
+                                        <a href="{{route('admin.contact.show',$item)}}" class="btn btn-default waves-effect waves-light">
                                             <span class="icon-button"><i class="pe-7s-look"></i></span></a>
 
-                                        <a href="{{route('admin.contact.del',$item->id)}}" onclick="return confirm('Bạn có chắc muốn xóa?');" class="btn btn-warning waves-effect waves-light">
+                                        <a href="{{route('admin.contact.del',$item->id)}}" onclick="return confirm('Bạn có chắc muốn xóa?');" class="btn btn-default waves-effect waves-light">
                                             <span class="icon-button"><i class="fe-x"></i></span></a>
                                     </td>
                                 </tr>

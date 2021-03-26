@@ -33,12 +33,12 @@
                             {{--                            </div>--}}
 
                             <div class="col-md-3 mb-2 mb-lg-0 mb-md-0">
-                                <label class="font-weight-bold">Ngày tạo đơn</label>
+                                <label>Ngày tạo đơn</label>
                                 <input type="text" id="reportrange" name="date" value="{{request()->date}}" placeholder="Từ ngày - đến ngày" class="form-control"/>
                             </div>
 
                             <div class="col-md-3 mb-2 mb-lg-0 mb-md-0">
-                                <label class="font-weight-bold">Người tạo</label>
+                                <label>Người tạo</label>
                                 <select class="form-control" data-toggle="select2" name="user_create">
                                     <option value="">-----</option>
                                     @foreach($users->where('lever',\App\Enums\LeverUser::ADMIN) as $item)
@@ -48,7 +48,7 @@
                             </div>
 
                             <div class="col-md-3 mb-2 mb-lg-0 mb-md-0">
-                                <label class="font-weight-bold">Khách hàng</label>
+                                <label>Khách hàng</label>
                                 <select class="form-control" data-toggle="select2" name="customer">
                                     <option value="">-----</option>
                                     @foreach($users->where('lever',\App\Enums\LeverUser::USER) as $item)
@@ -61,7 +61,7 @@
                                 <label class="ql-color-white hidden-xs" style="opacity: 0">-</label>
                                 <div class="mb-2 mb-lg-0 mb-md-0">
                                     <button class="btn btn-primary waves-effect waves-light" type="submit"><span class="icon-button"><i class="fe-search"></i></span> Tìm kiếm</button>
-                                    <a class="btn btn-purple waves-effect waves-light" href="{{route('admin.orders.index')}}"><span class="icon-button"><i class="fe-arrow-left"></i></span> Quay lại</a>
+                                    <a class="btn btn-default waves-effect waves-light" href="{{route('admin.orders.index')}}"><span class="icon-button"><i class="fe-arrow-left"></i></span> Quay lại</a>
                                 </div>
                             </div>
                         </div>
@@ -72,7 +72,7 @@
                 <div class="card-box">
                     <div class="row">
                         <div class="col-md-3">
-                            <label class="font-weight-bold">Doanh thu</label>
+                            <label>Doanh thu</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <span id="basic-addon1" class="input-group-text">VNĐ</span>
@@ -81,7 +81,7 @@
                             </div>
                         </div>
                         <div class="col-md-3">
-                            <label class="font-weight-bold">Vốn</label>
+                            <label>Vốn</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <span id="basic-addon1" class="input-group-text">VNĐ</span>
@@ -90,7 +90,7 @@
                             </div>
                         </div>
                         <div class="col-md-3">
-                            <label class="font-weight-bold">Lợi nhuận</label>
+                            <label>Lợi nhuận</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <span id="basic-addon1" class="input-group-text">VNĐ</span>
@@ -99,7 +99,7 @@
                             </div>
                         </div>
                         <div class="col-md-3">
-                            <label class="font-weight-bold">Công nợ</label>
+                            <label>Công nợ</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <span id="basic-addon1" class="input-group-text">VNĐ</span>
@@ -115,7 +115,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="card-box table-responsive">
-                    <div class="action-datatable mb-3">
+                    <div class="action-datatable text-right mb-3">
                             <a href="{{route('admin.orders.create')}}" class="btn btn-primary waves-effect width-md waves-light">
                                 <span class="icon-button"><i class="fe-plus"></i></span> Thêm mới</a>
 {{--                            <button class="btn btn-warning waves-effect waves-light" onclick="return confirm('Bạn chắc chắn muốn xóa!')" type="submit" name="delall" value="delete"><span class="icon-button"><i class="fe-x-circle" aria-hidden="true"></i></span> Xóa tất cả</button>--}}
@@ -144,18 +144,18 @@
                                     <td>
                                         {{$item->created_at->format('d/m/Y H:i')}}
                                     </td>
-                                    <td  style="width: 10%"><a href="{{route('admin.user.index',['id'=> $item->user->id ?? 0])}}" class="text-primary font-weight-bold" target="_blank">{{ $item->user->name ?? 'Tên trống hoặc đã xóa'}}</a></td>
-                                    <td style="width: 10%"><a href="{{route('admin.user.index',['id'=> $item->customer->id ?? 0])}}" class="text-primary font-weight-bold" target="_blank">{{ $item->customer->name ?? 'Tên trống hoặc đã xóa'}}</a></td>
-                                    <td class="font-weight-bold">
+                                    <td  style="width: 10%"><a href="{{route('admin.user.index',['id'=> $item->user->id ?? 0])}}" target="_blank">{{ $item->user->name ?? 'Tên trống hoặc đã xóa'}}</a></td>
+                                    <td style="width: 10%"><a href="{{route('admin.user.index',['id'=> $item->customer->id ?? 0])}}" target="_blank">{{ $item->customer->name ?? 'Tên trống hoặc đã xóa'}}</a></td>
+                                    <td>
                                         {{number_format($item->total)}} @if($item->transport > 0) <br> <small>Phí vận chuyển: {{number_format($item->transport)}}</small>@endif
                                     </td>
-                                    <td class="font-weight-bold">
+                                    <td>
                                         {{number_format($item->checkout)}}
                                     </td>
-                                    <td class="font-weight-bold">
+                                    <td>
                                         {{number_format($item->debt)}}
                                     </td>
-                                    <td class="font-weight-bold">
+                                    <td>
                                         {{number_format($item->revenue)}}
                                     </td>
 {{--                                    <td>--}}
@@ -163,14 +163,14 @@
 {{--                                    </td>--}}
 
                                     <td>
-                                        <a href="{{route('admin.orders.edit',$item)}}" class="btn btn-purple waves-effect waves-light">
+                                        <a href="{{route('admin.orders.edit',$item)}}" class="btn btn-default waves-effect waves-light">
                                             <span class="icon-button"><i class="pe-7s-magic-wand"></i> </span>Chi tiết</a>
 
                                         @if(!$item->sessions->count())
                                         <form method="post" action="{{route('admin.orders.destroy',$item)}}" class="d-inline-block">
                                             @method('DELETE')
                                             @csrf
-                                            <button type="submit" onclick="return confirm('Bạn có chắc muốn xóa?');" class="btn btn-warning waves-effect waves-light"><span class="icon-button"><i class="fe-x"></i></span></button>
+                                            <button type="submit" onclick="return confirm('Bạn có chắc muốn xóa?');" class="btn btn-default waves-effect waves-light"><span class="icon-button"><i class="fe-x"></i></span></button>
                                         </form>
                                         @endif
                                     </td>

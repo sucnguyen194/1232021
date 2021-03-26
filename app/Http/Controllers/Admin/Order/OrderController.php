@@ -58,7 +58,7 @@ class OrderController extends Controller
 
         $products = Product::selectRaw('id, name, amount')->public()->orderByDesc('id')->get();
         $users = User::selectRaw('id,name,account,phone')->whereLever(LeverUser::USER)->orderByDesc('id')->get();
-        $agencys = UserAgency::status()->orderByDesc('id')->get()->pluck('name','id,phone');
+        $agencys = UserAgency::selectRaw('id, name, phone')->status()->orderByDesc('id')->get();
 
         $selected = Session::has('customer') ? Session::get('customer') : 0;
 
@@ -157,8 +157,8 @@ class OrderController extends Controller
     {
         check_admin_systems(SystemsModuleType::EXPORT);
 
-        $users = User::whereLever(LeverUser::ADMIN)->get();
-        $customers = User::whereLever(LeverUser::USER)->get();
+        $users = User::selectRaw('id,name,account')->whereLever(LeverUser::ADMIN)->get();
+        $customers = User::selectRaw('id,name,account,phone')->whereLever(LeverUser::USER)->get();
         $agencys = UserAgency::status()->get()->pluck('name','id','phone');
         $products = Product::selectRaw('id,name,amount')->whereNotIn('id', $order->sessions()->pluck('product_id')->toArray())->public()->orderByDesc('created_at')->get();
         $array = $products->pluck('id')->toArray();
@@ -368,20 +368,25 @@ class OrderController extends Controller
         $session = ProductSession::find($id);
         if(!$session) return 'error';
         //update số lượng sản phẩm
-        $session->product()->update([
-           'amount' => $session->amount + $session->product->amount
-        ]);
+        if($session->product){
+            $session->product()->update([
+                'amount' => $session->amount + $session->product->amount
+            ]);
+        }
 
         $total = $session->export->total - ($session->amount * $session->price);
         $debt = $total - $session->export->checkout;
         $revenue = $session->export->revenue - $session->revenue;
         $debt_user = $session->user->debt - $session->export->debt + $debt;
         //update công nợ của khách hàng
-        $session->user->increaseBalance($debt - $session->export->debt,'Hủy sản phẩm #'.$session->product->id.' - đơn hàng #'.$session->export->id, $session->export);
-        $session->user()->update([
-            'debt' =>  $debt_user ,
-        ]);
+        if($session->user){
+            $session->user->increaseBalance($debt - $session->export->debt,'Hủy sản phẩm #'.$session->product_id.' - đơn hàng #'.$session->order_id, $session->export);
+            $session->user()->update([
+                'debt' =>  $debt_user ,
+            ]);
+        }
         //update orders
+
         $session->export()->update([
             'total' => $total,
             'debt' => $debt,

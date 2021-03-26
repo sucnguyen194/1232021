@@ -25,7 +25,7 @@ Danh sách menu
         <div class="row">
             <div class="col-lg-12">
                 <div class="text-left" id="nestable_list_menu">
-                    <div class="action-datatable mb-2">
+                    <div class="action-datatable text-right mb-2">
                         <a href="{{route('admin.menus.create')}}" class="btn btn-primary waves-effect width-md waves-light">
                             <span class="icon-button"><i class="fe-plus pr-1"></i></span> Thêm mới</a>
                         <textarea id="nestable-output" name="menuval" style="display: none;"></textarea>
@@ -39,7 +39,7 @@ Danh sách menu
                 <div class="row">
                     <div class="col-md-6">
                         <div class="card-box">
-                            <h4 class="header-title"><b>Thêm nhanh</b></h4>
+                            <h4 class="header-title">Thêm nhanh</h4>
                             <p class="sub-header mb-0">
                                 * Phía dưới gồm các danh mục sản phẩm, bài viết, page... Click vào tên danh mục, bài viết... sẽ được thêm trực tiếp vào menu.
                             </p>
@@ -100,11 +100,11 @@ Danh sách menu
                                         </div>
 
                                            <div class="menu_action">
-                                               <a href="{{route('admin.menus.edit',$items)}}" title="Sửa" class="btn btn-purple waves-effect waves-light"><i class="fe-edit-2"></i></a>
+                                               <a href="{{route('admin.menus.edit',$items)}}" title="Sửa" class="btn btn-primary waves-effect waves-light"><i class="fe-edit-2"></i></a>
                                                <form method="post" action="{{route('admin.menus.destroy',$items)}}" class="d-inline-block">
                                                    @method('DELETE')
                                                    @csrf
-                                                   <button type="submit" onclick="return confirm('Bạn chắc chắn muốn xóa?')" class="btn btn-warning waves-effect waves-light"><i class="fe-x"></i></button>
+                                                   <button type="submit" onclick="return confirm('Bạn chắc chắn muốn xóa?')" class="btn btn-primary waves-effect waves-light"><i class="fe-x"></i></button>
                                                </form>
                                            </div>
 

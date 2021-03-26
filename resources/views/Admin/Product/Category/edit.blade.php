@@ -22,6 +22,8 @@
             </div>
         </div>
         <!-- end page title -->
+    </div>
+    <div class="container">
         <form method="post" action="{{route('admin.product_categorys.update',$product_category)}}" enctype="multipart/form-data">
             <div class="row">
                 @method('PUT')
@@ -29,97 +31,142 @@
                 <div class="col-lg-8">
                     <div class="card-box">
                         <div class="form-group">
-                            <label class="font-weight-bold">Tiêu đề <span class="required">*</span></label>
-                            <input type="text" class="form-control" value="{{$product_category->name ?? old('name')}}" id="title" onkeyup="ChangeToSlug();" name="data[name]" required>
+                            <label>Tiêu đề <span class="required">*</span></label>
+                            <input type="text" class="form-control" value="{{$product_category->name ?? old('data.name')}}" id="title" onkeyup="ChangeToSlug();" name="data[name]" required>
                         </div>
 
                         <div class="form-group">
-                            <label class="font-weight-bold">Danh mục cha</label>
+                            <label>Danh mục cha</label>
                             <select class="form-control" data-toggle="select2" name="data[parent_id]">
                                 <option value="0">Chọn danh mục</option>
                                 @foreach($categorys as $item )
-                                    <option value="{{$item->id}}" {{$product_category->parent_id == $item->id || old('category') == $item->id ? "selected" : ""}} class="font-weight-bold">{{$item->name}}</option>
+                                    <option value="{{$item->id}}" {{$product_category->parent_id == $item->id || old('data.parent_id') == $item->id ? "selected" : ""}} class="font-weight-bold">{{$item->name}}</option>
                                     {{sub_option_category($categorysub,$item->id,$product_category->parent_id)}}
                                 @endforeach
                             </select>
                         </div>
 
                         <div class="form-group">
-                            <label class="font-weight-bold">Vị trí</label>
-                            <select class="form-control" data-toggle="select2" name="position">
+                            <label>Vị trí</label>
+                            <select class="form-control" data-toggle="select2" name="data[position]">
                                 <option value="0">Chọn ví trí</option>
-                                <option value="1" {{$product_category->position == 1 || old('position') == 1 ? "selected" : ""}}>Vị trí số 1</option>
-                                <option value="2" {{$product_category->position == 2 || old('position') == 2 ? "selected" : ""}}>Vị trí số 2</option>
-                                <option value="3" {{$product_category->position == 3 || old('position') == 3 ? "selected" : ""}}>Vị trí số 3</option>
-                                <option value="4" {{$product_category->position == 4 || old('position') == 4 ? "selected" : ""}}>Vị trí số 4</option>
-                                <option value="5" {{$product_category->position == 5 || old('position') == 5 ? "selected" : ""}}>Vị trí số 5</option>
-                                <option value="6" {{$product_category->position == 6 || old('position') == 6 ? "selected" : ""}}>Vị trí số 6</option>
-                                <option value="7" {{$product_category->position == 7 || old('position') == 7 ? "selected" : ""}}>Vị trí số 7</option>
-                                <option value="8" {{$product_category->position == 8 || old('position') == 8 ? "selected" : ""}}>Vị trí số 8</option>
-                                <option value="9" {{$product_category->position == 9 || old('position') == 9 ? "selected" : ""}}>Vị trí số 9</option>
+                                <option value="1" {{$product_category->position == 1 || old('data.position') == 1 ? "selected" : ""}}>Vị trí số 1</option>
+                                <option value="2" {{$product_category->position == 2 || old('data.position') == 2 ? "selected" : ""}}>Vị trí số 2</option>
+                                <option value="3" {{$product_category->position == 3 || old('data.position') == 3 ? "selected" : ""}}>Vị trí số 3</option>
+                                <option value="4" {{$product_category->position == 4 || old('data.position') == 4 ? "selected" : ""}}>Vị trí số 4</option>
+                                <option value="5" {{$product_category->position == 5 || old('data.position') == 5 ? "selected" : ""}}>Vị trí số 5</option>
+                                <option value="6" {{$product_category->position == 6 || old('data.position') == 6 ? "selected" : ""}}>Vị trí số 6</option>
+                                <option value="7" {{$product_category->position == 7 || old('data.position') == 7 ? "selected" : ""}}>Vị trí số 7</option>
+                                <option value="8" {{$product_category->position == 8 || old('data.position') == 8 ? "selected" : ""}}>Vị trí số 8</option>
+                                <option value="9" {{$product_category->position == 9 || old('data.position') == 9 ? "selected" : ""}}>Vị trí số 9</option>
 
                             </select>
                         </div>
-
                         <div class="form-group">
-                            <label class="font-weight-bold">Đường dẫn <span class="required">*</span></label>
-                            <input type="text" class="form-control alias" id="alias" value="{{$product_category->alias ?? old('alias')}}" name="data[alias]" required>
+                            <label>Mô tả</label>
+                            <textarea class="form-control summernote" id="summernote" name="data[description]">{!! $product_category->description ?? old('data.description') !!}</textarea>
                         </div>
-
-                        <div class="form-group">
-                            <label class="font-weight-bold">Mô tả</label>
-                            <textarea class="form-control summernote" id="summernote" name="data[description]">{!! $product_category->description ?? old('description') !!}</textarea>
-                        </div>
-
                     </div>
                     <div class="card-box">
+                        <div class="d-flex mb-2">
+                            <label class="font-weight-bold">Tối ưu SEO</label>
+                            <a href="javascript:void(0)" onclick="changeSeo()" class="edit-seo">Chỉnh sửa SEO</a>
+                        </div>
+
+                        <p class="font-13">Thiết lập các thẻ mô tả giúp khách hàng dễ dàng tìm thấy trang trên công cụ tìm kiếm như Google.</p>
+
                         <div class="test-seo">
+                            <div class="">
+                                <a href="javascript:void(0)" class="title-seo">{{$product_category->title_seo}}</a>
+                            </div>
                             <div class="url-seo font-weight-bold mb-1">
-                                <span class="alias-seo" id="alias_seo">{{route('alias',$product_category->alias)}}</span>
+                                <span class="alias-seo" id="alias_seo">{{route('alias', $product_category->alias)}}</span>
                             </div>
-                            <div class="mb-1">
-                                <a href="{{route('alias',$product_category->alias)}}" target="_blank" class="title-seo font-weight-bold font-15">{{$product_category->title_seo}}</a>
-                            </div>
-                            <div class="description-seo">
-                                {{$product_category->description_seo}}
-                            </div>
+                            <div class="description-seo">{!! $product_category->description_seo !!}</div>
                         </div>
-                    </div>
-                    <div class="card-box">
-                        <div class="form-group">
-                            <label class="font-weight-bold">Title seo</label>
-                            <p>* Ghi chú: Giới hạn tối đa 65 ký tự</p>
 
-                            <input type="text" maxlength="70" value="{{$product_category->title_seo ?? old('title_seo')}}" name="data[title_seo]" class="form-control" id="alloptions" />
-                        </div>
-                        <div class="form-group">
-                            <label class="font-weight-bold">Description seo</label>
-                            <p>* Ghi chú: Giới hạn tối đa 158 ký tự</p>
-                            <input class="form-control" maxlength="158" value="{{$product_category->description_seo ?? old('description_seo')}}" name="data[description_seo]" id="alloptions">
-                        </div>
-                        <div class="form-group">
-                            <label class="font-weight-bold">Keyword seo</label>
-                            <p>* Ghi chú: Từ khóa được phân chia sau dấu phẩy <strong>","</strong></p>
+                        <div class="change-seo" id="change-seo">
+                            <hr>
+                            <div class="form-group">
+                                <label>Tiêu đề trang</label>
+                                <p class="font-13">* Ghi chú: Giới hạn tối đa 70 ký tự</p>
+                                <input type="text" maxlength="70" value="{{$product_category->title_seo ?? old('data.title_seo')}}" name="data[title_seo]" class="form-control" id="alloptions" />
+                            </div>
+                            <div class="form-group">
+                                <label>Mô tả trang</label>
+                                <p class="font-13">* Ghi chú: Giới hạn tối đa 320 ký tự</p>
+                                <textarea  class="form-control" rows="3" name="data[description_seo]" maxlength="320" id="alloptions">{{$product_category->description_seo ?? old('data.description_seo')}}</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Từ khóa</label>
+                                <p class="font-13">* Ghi chú: Từ khóa được phân chia sau dấu phẩy <strong>","</strong></p>
 
-                            <input type="text" name="data[keyword_seo]" value="{{$product_category->keyword_seo ??  old('keyword_seo')}}" class="form-control"  data-role="tagsinput"/>
+                                <input type="text" name="data[keyword_seo]" value="{{$product_category->keyword_seo ?? old('data.keyword_seo')}}" class="form-control"  data-role="tagsinput"/>
+                            </div>
+                            <div class="form-group">
+                                <label>Đường dẫn <span class="required">*</span></label>
+                                <div class="d-flex form-control">
+                                    <span>{{route('home')}}/</span><input type="text" class="border-0 alias" id="alias" value="{{$product_category->alias ?? old('data.alias')}}" name="data[alias]" required>
+                                </div>
+
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-4">
                     <div class="card-box">
-                        <label class="font-weight-bold mb-2">Trạng thái</label>
-                        <div class="checkbox checkbox-primary checkbox-circle">
+                        <label class="mb-0">Trạng thái</label>
+                        <hr>
+                        <div class="checkbox">
                             <input id="checkbox_public" id="public" {{$product_category->public == 1 ? "checked" : ""}} type="checkbox" name="public">
                             <label for="checkbox_public">Hiển thị</label>
                         </div>
 
-                        <div class="checkbox checkbox-primary checkbox-circle">
+                        <div class="checkbox">
                             <input id="checkbox_status" id="status" {{$product_category->status == 1 ? "checked" : ""}} type="checkbox" name="status">
                             <label for="checkbox_status">Nổi bật</label>
                         </div>
                     </div>
+
+                    <div class="card-box position-relative box-action-image">
+                        <label class="font-weight-bold">Ảnh đại diện</label>
+                        <p>* Ghi chú: Định dạng ảnh jpg, jpeg, png, gif</p>
+
+                        <input type="file" name="image" class="filestyle" id="fileUpload" data-btnClass="btn-primary">
+                        <div class="text-center mt-2 image-holder" id="image-holder">
+                            @if(file_exists($product_category->image)) <img src="{{asset($product_category->image)}}" class="img-responsive img-thumbnail" alt="{{$product_category->title}}">@endif
+                        </div>
+                        <div class="box-position btn btn-default waves-effect waves-light text-left {{!file_exists($product_category->image) ? "show-box" : ""}}">
+{{--                            <div class="checkbox checkbox-warning checkbox-circle checkbox-unlink-watermark">--}}
+{{--                                <input id="checkbox_watermark" class="watermark" type="checkbox" name="watermark">--}}
+{{--                                <label for="checkbox_watermark">Gắn watermark</label>--}}
+{{--                            </div>--}}
+
+                            <div class="checkbox checkbox-unlink-image">
+                                <input id="checkbox_unlink" class="unlink-image" type="checkbox" name="unlink">
+                                <label for="checkbox_unlink" class="mb-0">Xóa ảnh</label>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="card-box position-relative box-action-image">
+                        <label class="font-weight-bold">Ảnh nền</label>
+                        <p class="font-13">* Định dạng ảnh jpg, jpeg, png, gif</p>
+                        <input type="file" name="background" class="filestyle" id="backgroundUpload" data-btnClass="btn-primary">
+                        <div class="text-center mt-2 image-holder" id="image-holder">
+                            @if(file_exists($product_category->background)) <img src="{{asset($product_category->background)}}" class="img-responsive img-thumbnail" alt="{{$product_category->title}}">@endif
+                        </div>
+                        <div class="box-position btn btn-default waves-effect waves-light text-left {{!file_exists($product_category->background) ? "show-box" :"" }}">
+                            <div class="checkbox checkbox-unlink-background">
+                                <input id="checkbox_unlink_background" class="unlink-image" type="checkbox" name="unlink_bg">
+                                <label for="checkbox_unlink_background" class="mb-0">Xóa ảnh</label>
+                            </div>
+                        </div>
+                    </div>
                     <div class="card-box">
-                        <label class="font-weight-bold w-100">Ngôn ngữ</label>
+                        <label class="w-100">Ngôn ngữ</label>
                         @php
                             if($product_category->post_langs){
                                 $id = array_unique($product_category->post_langs->pluck('post_id')->toArray());
@@ -142,86 +189,18 @@
                         @endif
 
                     </div>
-                    <div class="card-box position-relative">
-                        <label class="font-weight-bold">Ảnh đại diện</label>
-                        <p>* Ghi chú: Định dạng ảnh jpg, jpeg, png, gif</p>
-
-                        <input type="file" name="image" class="filestyle" id="fileUpload" data-btnClass="btn-primary">
-                        <div class="text-center mt-2 image-holder" id="image-holder">
-                            @if(file_exists($product_category->image)) <img src="{{asset($product_category->image)}}" class="img-responsive img-thumbnail" alt="{{$product_category->title}}">@endif
-                        </div>
-                        <div class="box-position btn btn-purple waves-effect waves-light text-left {{!file_exists($product_category->image) ? "show-box" : ""}}">
-                            <div class="checkbox checkbox-warning checkbox-circle checkbox-unlink-watermark">
-                                <input id="checkbox_watermark" class="watermark" type="checkbox" name="watermark">
-                                <label for="checkbox_watermark">Gắn watermark</label>
-                            </div>
-
-                            <div class="checkbox checkbox-warning checkbox-circle checkbox-unlink-image">
-                                <input id="checkbox_unlink" class="unlink-image" type="checkbox" name="unlink">
-                                <label for="checkbox_unlink" class="mb-0">Xóa ảnh</label>
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                    <div class="card-box position-relative">
-                        <label class="font-weight-bold">Ảnh nền</label>
-                        <p>* Ghi chú: Định dạng ảnh jpg, jpeg, png, gif</p>
-
-                        <input type="file" name="background" class="filestyle" id="backgroundUpload" data-btnClass="btn-primary">
-                        <div class="text-center mt-2 image-holder" id="image-holder">
-                            @if(file_exists($product_category->background)) <img src="{{asset($product_category->background)}}" class="img-responsive img-thumbnail" alt="{{$product_category->title}}">@endif
-                        </div>
-                        <div class="box-position btn btn-purple waves-effect waves-light text-left {{!file_exists($product_category->background) ? "show-box-bg" :"" }}">
-                            <div class="checkbox checkbox-warning checkbox-circle checkbox-unlink-background">
-                                <input id="checkbox_unlink_background" class="unlink-image" type="checkbox" name="unlink_bg">
-                                <label for="checkbox_unlink_background" class="mb-0">Xóa ảnh</label>
-                            </div>
-                        </div>
-                    </div>
                 </div>
-                <div class="col-lg-12 text-center">
-                    <div class="card-box">
-                        <a href="{{route('admin.product_categorys.index')}}" class="btn btn-purple waves-effect waves-light"><span class="icon-button"><i class="fe-arrow-left"></i></span> Quay lại</a>
-                        <button type="submit" class="btn btn-primary waves-effect width-md waves-light" name="send" value="update"><span class="icon-button"><i class="fe-plus"></i></span> Lưu lại</button>
-                    </div>
+                <div class="col-lg-12">
+                    <a href="{{route('admin.product_categorys.index')}}" class="btn btn-default waves-effect waves-light"><span class="icon-button"><i class="fe-arrow-left"></i></span> Quay lại</a>
+                    <button type="submit" class="btn btn-primary waves-effect width-md waves-light float-right" name="send" value="update"><span class="icon-button"><i class="fe-plus"></i></span> Lưu lại</button>
                 </div>
             </div>
             <!-- end row -->
         </form>
     </div>
-
 @stop
 
 @section('javascript')
-
-    <script type="text/javascript">
-        jQuery(document).ready(function($) {
-
-            var alias = $('.alias');
-            var title_seo = $('input[name="title_seo"]');
-            var description_seo = $('input[name="description_seo"]');
-
-            title_seo.keyup(function() {
-                /* Act on the event */
-                $('.title-seo').html($(this).val());
-                return false;
-            });
-
-            description_seo.keyup(function() {
-                /* Act on the event */
-                $('.description-seo').html($(this).val());
-                return false;
-            });
-            alias.on('keyup change',function(){
-                var url = "{{route('home')}}/";
-                $('.alias-seo').text(url + $(this).val() + '.html');
-            })
-
-        });
-    </script>
-
     <script src="{{asset('admin/assets/libs/switchery/switchery.min.js')}}"></script>
     <script src="{{asset('admin/assets/libs/bootstrap-tagsinput/bootstrap-tagsinput.min.js')}}"></script>
     <script src="https://coderthemes.com/adminox/layouts/vertical/assets/libs/select2/select2.min.js"></script>

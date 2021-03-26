@@ -8,6 +8,7 @@ use App\Models\News;
 use App\Models\NewsCategory;
 use App\Models\Pages;
 use App\Models\Product;
+use App\Models\SiteSetting;
 use App\Models\Tags;
 use Illuminate\Http\Request;
 use Session;
@@ -100,8 +101,6 @@ class HomeController extends Controller
             case (AliasType::GALLERY);
                 return view('Gallery.gallery');
                 break;
-            default;
-                return abort(404);
         }
 
     }

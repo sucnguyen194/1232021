@@ -22,8 +22,8 @@
                 <div class="card-box">
                     <form method="get">
                         <div class="row">
-                            <div class="col-md-2 mb-2 mb-lg-0 mb-md-0">
-                                <label class="font-weight-bold">Hiển thị</label>
+                            <div class="col-lg-2 col-md-4 mb-lg-0 mb-md-2">
+                                <label>Hiển thị</label>
                                 <select class="form-control" data-toggle="select2" name="public">
                                     <option value="">-----</option>
                                     <option value="true" {{request()->public == "true" ? "selected" : ""}}>Kích hoạt</option>
@@ -31,16 +31,16 @@
                                 </select>
                             </div>
 
-                            <div class="col-md-2 mb-2 mb-lg-0 mb-md-0">
-                                <label class="font-weight-bold">Nổi bật</label>
+                            <div class="col-lg-2 col-md-4 mb-lg-0 mb-md-2">
+                                <label>Nổi bật</label>
                                 <select class="form-control" data-toggle="select2" name="status">
                                     <option value="">-----</option>
                                     <option value="true" {{request()->status == "true" ? "selected" : ""}}>Kích hoạt</option>
                                     <option value="false" {{request()->status == "false" && isset(request()->status) ? "selected" : ""}}> Không kích hoạt</option>
                                 </select>
                             </div>
-                            <div class="col-md-2 mb-2 mb-lg-0 mb-md-0">
-                                <label class="font-weight-bold">Ngôn ngữ</label>
+                            <div class="col-lg-2 col-md-4 mb-lg-0 mb-md-2">
+                                <label>Ngôn ngữ</label>
                                 <select class="form-control" data-toggle="select2" name="lang">
                                     <option value="">-----</option>
                                     @foreach($lang as $item)
@@ -48,7 +48,7 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="col-md-2 mb-2 mb-lg-0 mb-md-0">
+                            <div class="col-lg-2 col-md-4 mb-lg-0 mb-md-0">
                                 <label class="font-weight-bold">Thành viên</label>
                                 <select class="form-control" data-toggle="select2" name="user">
                                     <option value="">-----</option>
@@ -57,11 +57,11 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-lg-2 col-md-4 mb-lg-0 mb-md-0">
                                 <label class="ql-color-white hidden-xs" style="opacity: 0">-</label>
                                 <div class="mb-2 mb-lg-0 mb-md-0">
                                     <button class="btn btn-primary waves-effect waves-light" type="submit"><span class="icon-button"><i class="fe-search"></i></span> Tìm kiếm</button>
-                                    <a class="btn btn-purple waves-effect waves-light" href="{{route('admin.product_categorys.index')}}"><span class="icon-button"><i class="fe-arrow-left"></i></span> Quay lại</a>
+                                    <a class="btn btn-default waves-effect waves-light" href="{{route('admin.product_categorys.index')}}"><span class="icon-button"><i class="fe-arrow-left"></i></span> Quay lại</a>
                                 </div>
                             </div>
                         </div>
@@ -77,16 +77,15 @@
                     <form method="post" action="{{route('admin.product.category.delMulti')}}" enctype="multipart/form-data">
                         @csrf
                         <div class="action-datatable mb-3">
-                            <a href="{{route('admin.product_categorys.create')}}" class="btn btn-primary waves-effect width-md waves-light">
+                            <button class="btn btn-default text-primary border-primary waves-effect waves-light" onclick="return confirm('Bạn chắc chắn muốn xóa!')" type="submit" name="delall" value="delete"> Xóa tất cả</button>
+                            <a href="{{route('admin.product_categorys.create')}}" class="btn btn-primary waves-effect width-md waves-light float-right">
                                 <span class="icon-button"><i class="fe-plus"></i></span> Thêm mới</a>
-
-                            <button class="btn btn-warning waves-effect waves-light" onclick="return confirm('Bạn chắc chắn muốn xóa!')" type="submit" name="delall" value="delete"><span class="icon-button"><i class="fe-x-circle" aria-hidden="true"></i></span> Xóa tất cả</button>
                         </div>
-                        <table id="datatable-buttons" class="table table-bordered table-striped table-hover bs-table" style="border-collapse: collapse; border-spacing: 0; ;">
+                        <table id="datatable-buttons" class="table table-bordered table-hover bs-table">
                             <thead>
                             <tr>
                                 <th>
-                                    <div class="checkbox checkbox-primary checkbox-circle">
+                                    <div class="checkbox">
                                         <input id="check-all" class="check_del" {{$category->count() == 0 ? "disabled" : "" }} type="checkbox" name="checkAll">
                                         <label for="check-all"></label>
                                     </div>

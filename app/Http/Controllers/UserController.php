@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Cookie;
 use Laravel\Socialite\Facades\Socialite;
+use Psy\Util\Str;
 use Session,Schema,DB,Artisan,Mail;
 use Illuminate\Http\Request;
 use Illuminate\Database\Schema\Blueprint;
@@ -140,7 +141,7 @@ class UserController extends Controller {
 		if($email){
             $user = User::whereEmail($email)->first();
 			if($user){
-				$code = "WA".rand(11111,99999);
+				$code = Str::upper(Str::random(10));
 				$time = time();
 				$password = sha1(md5($code));
                 $user->update([
@@ -171,7 +172,7 @@ class UserController extends Controller {
 		$password = $request->_token;
 		if($email && $password){
 		    $user = User::whereEmail($email)->where('_token', $password)->first();
-            $code = sha1(md5("SA".rand(11111,99999)));
+            $code = sha1(md5(Str::upper(Str::random(10))));
 			if($user){
 			    $user->update([
                     'email' => $email,

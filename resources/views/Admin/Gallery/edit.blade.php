@@ -22,9 +22,8 @@
             </div>
         </div>
         <!-- end page title -->
-
-
-
+    </div>
+    <div class="container">
         <form method="post" action="{{route('admin.gallerys.update',$gallery)}}" enctype="multipart/form-data">
             <div class="row">
                 @csrf
@@ -32,74 +31,168 @@
                 <div class="col-lg-8">
                     <div class="card-box option-height-left">
                         <div class="form-group">
-                            <label class="font-weight-bold">Tiêu đề <span class="required">*</span></label>
+                            <label>Tiêu đề <span class="required">*</span></label>
                             <input type="text" class="form-control" value="{{$gallery->title ?? old('title')}}" id="title" onkeyup="ChangeToSlug();" name="title" required>
                         </div>
 
-
                         <div class="form-group">
-                            <label class="font-weight-bold">Đường dẫn <span class="required">*</span></label>
-                            <input type="text" class="form-control alias" id="alias" value="{{$gallery->alias ??  old('alias')}}" name="alias" required>
-                        </div>
-                        <div class="form-group">
-                            <label class="font-weight-bold">Tab hình ảnh</label>
-                            <select class="form-control" data-toggle="select2" name="category">
-                                <option value="0">-----</option>
-                                @foreach($category as $item)
-                                    <option value="{{$item->id}}" {{$gallery->category_id == $item->id || old('category') == $item->id ? "selected" : ""}}> {{$item->name}}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label class="font-weight-bold">Mô tả</label>
+                            <label>Mô tả</label>
                             <textarea class="form-control summernote" id="summernote" name="description">{!! $gallery->description ?? old('description') !!}</textarea>
                         </div>
                     </div>
+                    @if($photo->count())
+                        <div class="card-box">
+                            <label>Danh sách ảnh liên quan</label>
+                            <div class="row autohide-scroll" style="max-height: 280px;">
+                                @foreach($photo as $item)
+                                    <div class="col-xl-6 col-lg-4 col-sm-6">
+                                        <div class="file-man-box rounded mb-3 mt-1">
+
+                                            <a class="file-close" href="{{route('admin.media.del',$item->id)}}" onclick="return confirm('Bạn có chắc muốn xóa?');" ><i class="mdi mdi-close-circle"></i></a>
+
+                                            <div class="file-img-box">
+                                                <img src="{{asset($item->image)}}" class="img-thumbnail img-responsive" alt="{{$item->title}}">
+                                            </div>
+                                            <a href="{{route('admin.media.edit',$item)}}" class="file-download btn text-purple"><i class="fe-edit-2"></i> </a>
+                                            <div class="file-man-title">
+                                                <h5 class="mb-0 text-overflow">{{$item->updated_at->diffForHumans()}}</h5>
+                                                <p class="mb-0"><small>{{$item->name ?? "Nomal"}}</small></p>
+                                            </div>
+                                            <div class="file-sort">
+                                                <input type="number" name="sort" class="form-control font-weight-bold input-sort" data-id="{{$item->id}}" value="{{$item->sort}}">
+                                            </div>
+                                            <div class="file-public">
+                                                <div class="checkbox checkbox-primary checkbox-circle" >
+                                                    <input id="checkbox_public_{{$item->id}}"  {{$item->public == 1 ? "checked" : ''}} type="checkbox">
+                                                    <label for="checkbox_public_{{$item->id}}" class="media_public"  data-id="{{$item->id}}"></label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+
+                            </div>
+                        </div>
+                    @endif
                     <div class="card-box">
                         <div class="form-group">
-                            <label class="font-weight-bold">Tags</label>
-                            <p>* Ghi chú: Từ khóa được phân chia sau dấu phẩy <strong>","</strong></p>
+                            <label>Tags</label>
+                            <p class="font-13">* Từ khóa được phân chia sau dấu phẩy <strong>","</strong></p>
 
                             <input type="text" name="tags" value="{{$gallery->tags ?? old('tags')}}" class="form-control"  data-role="tagsinput"/>
                         </div>
                     </div>
                     <div class="card-box">
+                        <div class="d-flex mb-2">
+                            <label class="font-weight-bold">Tối ưu SEO</label>
+                            <a href="javascript:void(0)" onclick="changeSeo()" class="edit-seo">Chỉnh sửa SEO</a>
+                        </div>
+
+                        <p class="font-13">Thiết lập các thẻ mô tả giúp khách hàng dễ dàng tìm thấy trang trên công cụ tìm kiếm như Google.</p>
                         <div class="test-seo">
-                            <div class="url-seo font-weight-bold mb-1">
-                                <span class="alias-seos">{{url($gallery->alias)}}</span>
-                            </div>
                             <div class="mb-1">
-                                <a href="javascript:void(0)" class="title-seo font-weight-bold font-15">{{$gallery->title_seo ?? $gallery->title}}</a>
+                                <a href="javascript:void(0)" class="title-seo">{{$gallery->title_seo}}</a>
+                            </div>
+                            <div class="url-seo">
+                                <span class="alias-seo" id="alias_seo">{{route('alias',$gallery->alias)}}</span>
                             </div>
                             <div class="description-seo">
-                                {{$gallery->description_seo ?? $gallery->title}}
+                                {{$gallery->description_seo}}
+                            </div>
+                        </div>
+
+                        <div class="change-seo" id="change-seo">
+                            <hr>
+                            <div class="form-group">
+                                <label>Tiêu đề trang</label>
+                                <p class="font-13">* Giới hạn tối đa 70 ký tự</p>
+                                <input type="text" maxlength="70" value="{{$gallery->title_seo ??  old('title_seo')}}" name="title_seo" class="form-control" id="alloptions" />
+                            </div>
+                            <div class="form-group">
+                                <label>Mô tả trang</label>
+                                <p class="font-13">* Giới hạn tối đa 320 ký tự</p>
+                                <textarea  class="form-control" rows="3" name="description_seo" maxlength="320" id="alloptions">{{$gallery->description_seo ?? old('description_seo')}}</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Từ khóa</label>
+                                <p class="font-13">* Từ khóa được phân chia sau dấu phẩy <strong>","</strong></p>
+
+                                <input type="text" name="keyword_seo" value="{{$gallery->keyword_seo ?? old('keyword_seo')}}" class="form-control"  data-role="tagsinput"/>
+                            </div>
+                            <div class="form-group">
+                                <label>Đường dẫn <span class="required">*</span></label>
+                                <div class="d-flex form-control">
+                                    <span>{{route('home')}}/</span><input type="text" class="border-0 alias" id="alias" value="{{$gallery->alias ?? old('alias')}}" name="alias" required>
+                                </div>
+
                             </div>
                         </div>
                     </div>
 
-                    <div class="card-box">
-                        <div class="form-group">
-                            <label class="font-weight-bold">Title seo</label>
-                            <p>* Ghi chú: Giới hạn tối đa 65 ký tự</p>
-
-                            <input type="text" maxlength="70" value="{{$gallery->title_seo ?? old('title_seo')}}" name="title_seo" class="form-control" id="alloptions" />
-                        </div>
-                        <div class="form-group">
-                            <label class="font-weight-bold">Description seo</label>
-                            <p>* Ghi chú: Giới hạn tối đa 158 ký tự</p>
-                            <input class="form-control" maxlength="158" value="{{$gallery->description_seo ?? old('description_seo')}}" name="description_seo" id="alloptions">
-                        </div>
-                        <div class="form-group">
-                            <label class="font-weight-bold">Keyword seo</label>
-                            <p>* Ghi chú: Từ khóa được phân chia sau dấu phẩy <strong>","</strong></p>
-
-                            <input type="text" name="keyword_seo" value="{{$gallery->keyword_seo ?? old('keyword_seo')}}" class="form-control"  data-role="tagsinput"/>
-                        </div>
-                    </div>
                 </div>
                 <div class="col-lg-4">
                     <div class="card-box">
-                        <label class="font-weight-bold w-100">Ngôn ngữ</label>
+                        <label class="font-15 mb-0">Trạng thái</label>
+                        <hr>
+                        <div class="checkbox">
+                            <input id="checkbox_public" {{$gallery->public == 1 ? "checked" : ""}} type="checkbox" name="public">
+                            <label for="checkbox_public">Hiển thị</label>
+                        </div>
+
+                        <div class="checkbox">
+                            <input id="checkbox_status" {{$gallery->status == 1 ? "checked" : ""}} type="checkbox" name="status">
+                            <label for="checkbox_status">Nổi bật</label>
+                        </div>
+                    </div>
+                    <div class="card-box">
+                        <label>Tab hình ảnh</label>
+                        <select class="form-control" data-toggle="select2" name="category">
+                            <option value="0">-----</option>
+                            @foreach($category as $item)
+                                <option value="{{$item->id}}" {{$gallery->category_id == $item->id || old('category') == $item->id ? "selected" : ""}}> {{$item->name}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="card-box position-relative box-action-image">
+                        <label class="font-15">Ảnh đại diện</label>
+                        <p class="font-13">* Định dạng ảnh jpg, jpeg, png, gif</p>
+                        <input type="file" name="image" class="filestyle" id="fileUpload" data-btnClass="btn-primary">
+                        <div class="text-center image-holder" id="image-holder">
+                            @if(file_exists($gallery->image)) <img src="{{asset($gallery->image)}}" class="img-responsive mt-2 img-thumbnail" alt="{{$gallery->title}}">@endif
+                        </div>
+                        <div class="box-position btn btn-default waves-effect waves-light text-left @if(!file_exists($gallery->image)) show-box @endif">
+
+                            {{--                            <div class="checkbox checkbox-primary checkbox-circle checkbox-unlink-watermark">--}}
+                            {{--                                <input id="checkbox_watermark" class="watermark" type="checkbox" name="watermark">--}}
+                            {{--                                <label for="checkbox_watermark">Gắn watermark</label>--}}
+                            {{--                            </div>--}}
+
+                            <div class="checkbox checkbox-unlink-image">
+                                <input id="checkbox_unlink" class="unlink-image" type="checkbox" name="unlink">
+                                <label for="checkbox_unlink" class="mb-0">Xóa ảnh</label>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="card-box box-action-image">
+                        <div class="form-group mb-0">
+                            <label>Hình ảnh</label>
+                            <p class="font-13">* Ghi chú: Định dạng ảnh jpg, jpeg, png, gif</p>
+                            <input type="file" name="image[]" multiple class="filestyle" id="fileUploadMultiple" data-btnClass="btn-primary">
+                        </div>
+                        <div id="grid-gallery" class="grid-gallery">
+                            <section class="grid-wrap">
+                                <ul class="grid w-" id="list-item">
+                                    <span class="image-holder" id="image-holder">
+
+                                    </span>
+                                </ul>
+                            </section><!-- // grid-wrap -->
+                        </div><!-- // grid-gallery -->
+                    </div>
+                    <div class="card-box">
+                        <label class="w-100">Ngôn ngữ</label>
                         @php
                             if($gallery->post_langs){
                                 $id = array_unique($gallery->post_langs->pluck('post_id')->toArray());
@@ -122,99 +215,15 @@
                         @endif
 
                     </div>
-                    <div class="card-box box-action-image">
-                        <label class="font-weight-bold">Ảnh đại diện</label>
-                        <p>* Ghi chú: Định dạng ảnh jpg, jpeg, png, gif</p>
-                        <input type="file" name="image" class="filestyle" id="fileUpload" data-btnClass="btn-primary">
-                    </div>
-                    <div class="card-box autohide-scroll @if(!file_exists($gallery->image)) show-one-box @endif position-relative"  style="max-height: 300px;">
-                        <div class="grid-gallery">
-                            <section class="grid-wrap">
-                                <ul class="grid" id="list-item">
-                                    <span class="image-holder" id="image-holder">
-                                        @if(file_exists($gallery->image)) <img src="{{asset($gallery->image)}}"> @endif
-                                    </span>
-                                </ul>
-                            </section><!-- // grid-wrap -->
-                        </div><!-- // grid-gallery -->
-                        <div class="box-position btn btn-purple waves-effect waves-light text-left @if(!file_exists($gallery->image)) show-box @endif">
-
-                            <div class="checkbox checkbox-warning checkbox-circle checkbox-unlink-watermark">
-                                <input id="checkbox_watermark" class="watermark" type="checkbox" name="watermark">
-                                <label for="checkbox_watermark">Gắn watermark</label>
-                            </div>
-
-                            <div class="checkbox checkbox-warning checkbox-circle checkbox-unlink-image">
-                                <input id="checkbox_unlink" class="unlink-image" type="checkbox" name="unlink">
-                                <label for="checkbox_unlink" class="mb-0">Xóa ảnh</label>
-                            </div>
-
-                        </div>
-                    </div>
-                    <div class="card-box position-relative box-action-background">
-                        <label class="font-weight-bold">Ảnh liên quan</label>
-                        <p>* Ghi chú: Định dạng ảnh jpg, jpeg, png, gif</p>
-                        <input type="file" name="photo[]" multiple class="filestyle" id="fileUploadMultiple" data-btnClass="btn-primary">
-
-                    </div>
-                    <div class="card-box @if(!file_exists($gallery->image)) show-multiple-box @endif autohide-scroll"  style="max-height: 250px;">
-                        <div id="grid-gallery" class="grid-gallery">
-                            <section class="grid-wrap">
-                                <ul class="grid" id="list-item">
-                                    <span class="image-holder-multiple" id="image-holder-multiple">
-
-                                    </span>
-                                </ul>
-                            </section><!-- // grid-wrap -->
-                        </div><!-- // grid-gallery -->
-                    </div>
-                    @if($photo->count())
-                    <div class="card-box">
-                        <label class="font-weight-bold">Danh sách ảnh liên quan</label>
-                        <div class="row autohide-scroll" style="max-height: 280px;">
-                            @foreach($photo as $item)
-                                <div class="col-xl-6 col-lg-4 col-sm-6">
-                                    <div class="file-man-box rounded mb-3 mt-1">
-
-                                        <a class="file-close" href="{{route('admin.media.del',$item->id)}}" onclick="return confirm('Bạn có chắc muốn xóa?');" ><i class="mdi mdi-close-circle"></i></a>
-
-                                        <div class="file-img-box">
-                                            <img src="{{asset($item->image)}}" class="img-thumbnail img-responsive" alt="{{$item->title}}">
-                                        </div>
-                                        <a href="{{route('admin.media.edit',$item)}}" class="file-download btn text-purple"><i class="fe-edit-2"></i> </a>
-                                        <div class="file-man-title">
-                                            <h5 class="mb-0 text-overflow">{{$item->updated_at->diffForHumans()}}</h5>
-                                            <p class="mb-0"><small>{{$item->name ?? "Nomal"}}</small></p>
-                                        </div>
-                                        <div class="file-sort">
-                                            <input type="number" name="sort" class="form-control font-weight-bold input-sort" data-id="{{$item->id}}" value="{{$item->sort}}">
-                                            <span id="change-sort-success_{{$item->id}}" class="change-sort"></span>
-                                        </div>
-                                        <div class="file-public">
-                                            <div class="checkbox checkbox-primary checkbox-circle" >
-                                                <input id="checkbox_public_{{$item->id}}"  {{$item->public == 1 ? "checked" : ''}} type="checkbox" name="public">
-                                                <label for="checkbox_public_{{$item->id}}" class="media_public"  data-id="{{$item->id}}"></label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endforeach
-
-                        </div>
-                    </div>
-                    @endif
                 </div>
 
-                <div class="col-lg-12 text-center">
-                    <div class="card-box">
-                        <a href="{{route('admin.gallerys.index')}}" class="btn btn-purple waves-effect waves-light"><span class="icon-button"><i class="fe-arrow-left"></i></span> Quay lại</a>
-                        <button type="submit" class="btn btn-primary waves-effect width-md waves-light" name="send" value="update"><span class="icon-button"><i class="fe-plus"></i></span> Lưu lại</button>
-                    </div>
+                <div class="col-lg-12">
+                    <a href="{{route('admin.gallerys.index')}}" class="btn btn-default waves-effect waves-light"><span class="icon-button"><i class="fe-arrow-left"></i></span> Quay lại</a>
+                    <button type="submit" class="btn btn-primary waves-effect width-md waves-light float-right" name="send" value="update"><span class="icon-button"><i class="fe-plus"></i></span> Lưu lại</button>
                 </div>
             </div>
             <!-- end row -->
         </form>
-
     </div>
     <style>
         input[type=number]::-webkit-inner-spin-button {
@@ -267,62 +276,35 @@
 
 @section('javascript')
     <script type="text/javascript">
-        jQuery(document).ready(function($) {
-
-            var alias = $('.alias');
-            var title_seo = $('input[name="title_seo"]');
-            var description_seo = $('input[name="description_seo"]');
-
-            title_seo.keyup(function() {
-                /* Act on the event */
-                $('.title-seo').html($(this).val());
-                return false;
-            });
-
-            description_seo.keyup(function() {
-                /* Act on the event */
-                $('.description-seo').html($(this).val());
-                return false;
-            });
-            alias.on('keyup change',function(){
-                var url = "{{route('home')}}/";
-
-                $('.alias-seos').text(url + $(this).val() + '.html');
-            })
-
-        });
-    </script>
-    <script type="text/javascript">
         $(document).ready(function(){
             $('input[name=sort]').keyup(function(){
-                url = "{{route('admin.ajax.media.sort')}}";
+                url = "{{route('admin.ajax.data.sort')}}";
                 id = $(this).attr('data-id');
                 num = $(this).val();
+                type = '{{\App\Enums\SystemsModuleType::MEDIA}}';
                 _token = $('input[name=_token]').val();
                 $.ajax({
                     url:url,
                     type:'GET',
                     cache:false,
-                    data:{'_token':_token,'id':id,'num':num},
+                    data:{'_token':_token,'id':id,'num':num,'type':type},
                     success:function(data){
-                        $('#change-sort-success_'+id+'').html('<i class="fa fa-check text-success" aria-hidden="true"></i>');
-                        $('#change-sort-success_'+id+'').fadeIn(1000);
-                        $('#change-sort-success_'+id+'').fadeOut(5000);
+                        flash('success','Cập nhật thành công');
                     }
                 });
             });
-
             $('.media_public').click(function(){
-                url = "{{route('admin.ajax.media.public')}}";
+                url = "{{route('admin.ajax.data.public')}}";
                 id = $(this).attr('data-id');
                 _token = $('input[name=_token]').val();
+                type = '{{\App\Enums\SystemsModuleType::MEDIA}}';
                 $.ajax({
                     url:url,
                     type:'GET',
                     cache:false,
-                    data:{'_token':_token,'id':id},
+                    data:{'_token':_token,'id':id,'type':type},
                     success:function(data){
-                        console.log(data);
+                        flash('success','Cập nhật thành công');
                     }
                 });
             });

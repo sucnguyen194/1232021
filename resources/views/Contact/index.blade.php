@@ -7,6 +7,7 @@
 @section('image') {{$setting->og_image ?? $setting->logo}} @stop
 @section('content')
 {{redirect_lang(\App\Enums\AliasType::CONTACT)}}
+<script src='https://www.google.com/recaptcha/api.js'></script>
 <!-------------------------->
 <!-----------SOURCSE----------->
 <!-------------------------->
@@ -63,23 +64,29 @@
                 <div class="w3-panel w3-green" style="margin-top:0px;margin-bottom: 2px;">
                     <p id="messages"></p>
                 </div>
-                <form class="w3-container" action="" method="POST">
+                <form class="w3-container" action="{{route('send.contact')}}" method="POST">
                     @csrf
                     <div class="w3-section">
                         <label> <b>Tên: </b> </label>
-                        <input class="w3-input w3-border w3-round" autofocus type="text" placeholder="Nhập tên" name="data[name]" id="name" required />
+                        <input class="w3-input w3-border w3-round" autocomplete="true" autofocus value="{{old('data.name')}}" type="text" placeholder="Nhập tên" name="data[name]" id="name" required />
                         <label> <b>Phone: </b> </label>
-                        <input class="w3-input w3-border w3-round" type="text" placeholder="Nhập phone" name="data[phone]" required />
+                        <input class="w3-input w3-border w3-round" autocomplete="true" type="text" value="{{old('data.phone')}}" placeholder="Nhập phone" name="data[phone]" required />
                         <label> <b>Email: </b> </label>
-                        <input class="w3-input w3-border w3-round" type="text" placeholder="Nhập email" name="data[email]"/>
+                        <input class="w3-input w3-border w3-round" autocomplete="true" type="text" value="{{old('data.email')}}" placeholder="Nhập email" name="data[email]"/>
                         <label> <b>Nội dung: </b> </label>
-                        <textarea name="data[note]" class="w3-input w3-border w3-round" rows="5"></textarea>
+                        <textarea name="data[note]" class="w3-input w3-border w3-round" rows="5">{{old('data.note')}}</textarea>
+
+                        <div class="form-group">
+                            <label for="captcha">Captcha</label>
+                            <div class="g-recaptcha" id="feedback-recaptcha" data-sitekey="{{$setting->re_captcha_key}}"></div>
+                        </div>
                     </div>
                     <button class="w3-button w3-block w3-green w3-section w3-padding w3-round" type="submit">Gửi Cho
                         Chúng Tôi </button>
                 </form>
             </div>
         </div>
+
         <div class="w3-col l6 m6 s12">
             {!! $setting->map !!}
         </div>

@@ -24,9 +24,9 @@
                 <div class="card-box">
                     <a href="{{route('admin.media.create')}}" class="btn btn-primary waves-effect width-md waves-light float-right"><span class="icon-button"><i class="fe-plus"></i></span> Thêm mới</a>
                     <div class="position-image">
-                        <a href="{{route('admin.media.index')}}" class="{{request()->position ? "btn btn-primary" : "btn btn-purple"}} waves-effect waves-light">Tất cả</a>
+                        <a href="{{route('admin.media.index')}}" class="{{request()->position ? "btn btn-default" : "btn btn-primary"}} waves-effect waves-light">Tất cả</a>
                         @foreach($position as $item)
-                        <a href="?position={{$item->value}}" class="{{request()->position == $item->value ? "btn btn-purple" : "btn btn-primary"}} waves-effect waves-light">{{$item->name}}</a>
+                        <a href="?position={{$item->value}}" class="{{request()->position == $item->value ? "btn btn-primary" : "btn btn-default"}} waves-effect waves-light">{{$item->name}}</a>
                         @endforeach
                     </div>
 
@@ -43,17 +43,16 @@
                                 <div class="file-img-box">
                                     <img src="{{asset($item->image)}}" class="img-thumbnail img-responsive" alt="{{$item->title}}">
                                 </div>
-                                <a href="{{route('admin.media.edit',$item)}}" class="file-download btn text-purple"><i class="fe-edit-2"></i> </a>
+                                <a href="{{route('admin.media.edit',$item)}}" class="file-download btn text-primary"><i class="fe-edit-2"></i> </a>
                                 <div class="file-man-title">
                                     <h5 class="mb-0 text-overflow">{{$item->updated_at->diffForHumans()}}</h5>
                                     <p class="mb-0"><small>{{$item->position ?? "Nomal"}}</small></p>
                                 </div>
                                 <div class="file-sort">
                                     <input type="number" name="sort" class="form-control font-weight-bold input-sort" data-id="{{$item->id}}" value="{{$item->sort}}">
-                                    <span id="change-sort-success_{{$item->id}}" class="change-sort"></span>
                                 </div>
                                 <div class="file-public">
-                                    <div class="checkbox checkbox-primary checkbox-circle" >
+                                    <div class="checkbox" >
                                         <input id="checkbox_public_{{$item->id}}"  {{$item->public == 1 ? "checked" : ''}} type="checkbox" name="public">
                                         <label for="checkbox_public_{{$item->id}}" class="media_public"  data-id="{{$item->id}}"></label>
                                     </div>

@@ -21,11 +21,11 @@
         <div class="row">
             <div class="col-12">
                 <div class="card-box table-responsive">
-                        <div class="action-datatable mb-3">
+                        <div class="action-datatable text-right mb-3">
                             <a href="{{route('admin.systems.create')}}" class="btn btn-primary waves-effect width-md waves-light">
                                 <span class="icon-button"><i class="fe-plus"></i></span> Thêm mới</a>
                         </div>
-                        <table id="datatable-buttons" class="table table-bordered table-striped table-hover bs-table" style="border-collapse: collapse; border-spacing: 0; ;">
+                        <table id="datatable-buttons" class="table table-bordered table-hover bs-table" style="border-collapse: collapse; border-spacing: 0; ;">
                             <thead>
                             <tr>
                                 <th>ID</th>
@@ -47,13 +47,13 @@
                                     </td>
 
                                     <td>
-                                        <a href="{{route('admin.systems.edit',$item)}}" class="btn btn-purple waves-effect waves-light">
+                                        <a href="{{route('admin.systems.edit',$item)}}" class="btn btn-default waves-effect waves-light">
                                             <span class="icon-button"><i class="fe-edit-2"></i></span></a>
 
                                         <form method="post" action="{{route('admin.systems.destroy',$item)}}" class="d-inline-block">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" onclick="return confirm('Bạn có chắc muốn xóa?');" class="btn btn-warning waves-effect waves-light">
+                                            <button type="submit" onclick="return confirm('Bạn có chắc muốn xóa?');" class="btn btn-default waves-effect waves-light">
                                                 <span class="icon-button"><i class="fe-x"></i></span></button>
                                         </form>
                                     </td>
@@ -68,12 +68,12 @@
                                         </td>
 
                                         <td>
-                                            <a href="{{route('admin.systems.edit',$sub)}}" class="btn btn-purple waves-effect waves-light">
+                                            <a href="{{route('admin.systems.edit',$sub)}}" class="btn btn-default waves-effect waves-light">
                                                 <span class="icon-button"><i class="fe-edit-2"></i></span></a>
                                         <form method="post" action="{{route('admin.systems.destroy',$sub)}}" class="d-inline-block">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" onclick="return confirm('Bạn có chắc muốn xóa?');" class="btn btn-warning waves-effect waves-light">
+                                            <button type="submit" onclick="return confirm('Bạn có chắc muốn xóa?');" class="btn btn-default waves-effect waves-light">
                                                 <span class="icon-button"><i class="fe-x"></i></span></button>
                                         </form>
                                         </td>

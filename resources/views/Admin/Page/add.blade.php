@@ -21,94 +21,106 @@
             </div>
         </div>
         <!-- end page title -->
+    </div>
+    <div class="container">
         <form method="post" action="{{route('admin.pages.store')}}" enctype="multipart/form-data">
             <div class="row">
                 @csrf
                 <div class="col-lg-8">
                     <div class="card-box">
                         <div class="form-group">
-                            <label class="font-weight-bold">Tiêu đề <span class="required">*</span></label>
+                            <label>Tiêu đề <span class="required">*</span></label>
                             <input type="text" class="form-control" value="{{old('title')}}" id="title" onkeyup="ChangeToSlug();" name="title" required>
                         </div>
                         <div class="form-group">
-                            <label class="font-weight-bold">Đường dẫn <span class="required">*</span></label>
-                            <input type="text" class="form-control alias" id="alias" value="{{old('alias')}}" name="alias" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="font-weight-bold">Mô tả</label>
+                            <label>Mô tả</label>
                             <textarea class="form-control summernote" id="summernote" name="description">{!! old('description') !!}</textarea>
                         </div>
 
                         <div class="form-group">
-                            <label class="font-weight-bold">Chi tiết</label>
-                            <textarea class="form-control summerbody" id="summerbody" name="content">{!! old('content') !!}</textarea>
+                            <label>Nội dung</label>
+                            <textarea class="form-control summerbody" id="summerbody" name="body">{!! old('body') !!}</textarea>
                         </div>
 
                     </div>
                     <div class="card-box">
+                        <div class="d-flex mb-2">
+                            <label class="font-weight-bold">Tối ưu SEO</label>
+                            <a href="javascript:void(0)" onclick="changeSeo()" class="edit-seo">Chỉnh sửa SEO</a>
+                        </div>
+
+                        <p class="font-13">Thiết lập các thẻ mô tả giúp khách hàng dễ dàng tìm thấy trang trên công cụ tìm kiếm như Google.</p>
+
                         <div class="test-seo">
+                            <div class="">
+                                <a href="javascript:void(0)" class="title-seo"></a>
+                            </div>
                             <div class="url-seo font-weight-bold mb-1">
-                                <span class="alias-seo" id="alias_seo">{{url('url-seo.html')}}</span>
+                                <span class="alias-seo" id="alias_seo">{{route('home')}}</span>
                             </div>
-                            <div class="mb-1">
-                                <a href="javascript:void(0)" class="title-seo font-weight-bold font-15">Tiêu đề bài viết</a>
-                            </div>
-                            <div class="description-seo">
-                                <strong>Lorem Ipsum</strong> is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
-                            </div>
+                            <div class="description-seo"></div>
                         </div>
-                    </div>
-                    <div class="card-box">
-                        <div class="form-group">
-                            <label class="font-weight-bold">Title seo</label>
-                            <p>* Ghi chú: Giới hạn tối đa 65 ký tự</p>
 
-                            <input type="text" maxlength="70" value="{{old('title_seo')}}" name="title_seo" class="form-control" id="alloptions" />
-                        </div>
-                        <div class="form-group">
-                            <label class="font-weight-bold">Description seo</label>
-                            <p>* Ghi chú: Giới hạn tối đa 158 ký tự</p>
-                            <input class="form-control" maxlength="158" value="{{old('description_seo')}}" name="description_seo" id="alloptions">
-                        </div>
-                        <div class="form-group">
-                            <label class="font-weight-bold">Keyword seo</label>
-                            <p>* Ghi chú: Từ khóa được phân chia sau dấu phẩy <strong>","</strong></p>
+                        <div class="change-seo" id="change-seo">
+                            <hr>
+                            <div class="form-group">
+                                <label>Tiêu đề trang</label>
+                                <p class="font-13">* Ghi chú: Giới hạn tối đa 70 ký tự</p>
+                                <input type="text" maxlength="70" value="{{old('title_seo')}}" name="title_seo" class="form-control" id="alloptions" />
+                            </div>
+                            <div class="form-group">
+                                <label>Mô tả trang</label>
+                                <p class="font-13">* Ghi chú: Giới hạn tối đa 320 ký tự</p>
+                                <textarea  class="form-control" rows="3" name="description_seo" maxlength="320" id="alloptions">{{old('description_seo')}}</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Từ khóa</label>
+                                <p class="font-13">* Ghi chú: Từ khóa được phân chia sau dấu phẩy <strong>","</strong></p>
 
-                            <input type="text" name="keyword_seo" value="{{old('keyword_seo')}}" class="form-control"  data-role="tagsinput"/>
+                                <input type="text" name="keyword_seo" value="{{old('keyword_seo')}}" class="form-control"  data-role="tagsinput"/>
+                            </div>
+                            <div class="form-group">
+                                <label>Đường dẫn <span class="required">*</span></label>
+                                <div class="d-flex form-control">
+                                    <span>{{route('home')}}/</span><input type="text" class="border-0 alias" id="alias" value="{{$news->alias ?? old('alias')}}" name="alias" required>
+                                </div>
+
+                            </div>
                         </div>
+
                     </div>
+
                 </div>
                 <div class="col-lg-4">
                     <div class="card-box">
-                        <label class="font-weight-bold mb-2">Trạng thái</label>
-                        <div class="checkbox checkbox-primary checkbox-circle">
+                        <label class="font-15 mb-0">Trạng thái</label>
+                        <hr>
+                        <div class="checkbox">
                             <input id="checkbox_public" checked type="checkbox" name="public">
                             <label for="checkbox_public">Hiển thị</label>
                         </div>
 
-                        <div class="checkbox checkbox-primary checkbox-circle">
+                        <div class="checkbox">
                             <input id="checkbox_status" type="checkbox" name="status">
                             <label for="checkbox_status">Nổi bật</label>
                         </div>
                     </div>
-
                     <div class="card-box position-relative box-action-image">
-                        <label class="font-weight-bold mb-2">Ảnh đại diện</label>
+                        <label>Ảnh đại diện</label>
                         <p>* Ghi chú: Định dạng ảnh jpg, jpeg, png, gif</p>
 
                         <input type="file" name="image" class="filestyle" id="fileUpload" data-btnClass="btn-primary">
                         <div class="text-center mt-2 image-holder" id="image-holder">
 
                         </div>
-                        <div class="box-position btn btn-purple waves-effect waves-light text-left show-box">
+                        <div class="box-position btn btn-default waves-effect waves-light text-left show-box">
 
-                            <div class="checkbox checkbox-warning checkbox-circle checkbox-unlink-watermark">
-                                <input id="checkbox_watermark" class="watermark" type="checkbox" name="watermark">
-                                <label for="checkbox_watermark">Gắn watermark</label>
-                            </div>
+                            {{--                            <div class="checkbox checkbox-warning checkbox-circle checkbox-unlink-watermark">--}}
+                            {{--                                <input id="checkbox_watermark" class="watermark" type="checkbox" name="watermark">--}}
+                            {{--                                <label for="checkbox_watermark">Gắn watermark</label>--}}
+                            {{--                            </div>--}}
 
-                            <div class="checkbox checkbox-warning checkbox-circle checkbox-unlink-image">
+                            <div class="checkbox checkbox-unlink-image">
                                 <input id="checkbox_unlink" class="unlink-image" type="checkbox" name="unlink">
                                 <label for="checkbox_unlink" class="mb-0">Xóa ảnh</label>
                             </div>
@@ -116,23 +128,20 @@
                         </div>
                     </div>
                     <div class="card-box tags">
-                        <label class="font-weight-bold mb-2">Tags</label>
+                        <label>Tags</label>
                         <p>* Ghi chú: Từ khóa được phân chia sau dấu phẩy <strong>","</strong></p>
                         <input class="form-control" name="tags" data-role="tagsinput" placeholder="add tags">
                     </div>
                 </div>
 
-                <div class="col-lg-12 text-center">
-                    <div class="card-box">
-                        <a href="{{route('admin.pages.index')}}" class="btn btn-purple waves-effect waves-light"><span class="icon-button"><i class="fe-arrow-left"></i></span> Quay lại</a>
-                        <button type="submit" class="btn btn-primary waves-effect width-md waves-light" name="send" value="save"><span class="icon-button"><i class="fe-plus"></i></span> Lưu lại</button>
-                    </div>
+                <div class="col-lg-12">
+                    <a href="{{route('admin.pages.index')}}" class="btn btn-default waves-effect waves-light"><span class="icon-button"><i class="fe-arrow-left"></i></span> Quay lại</a>
+                    <button type="submit" class="btn btn-primary float-right waves-effect width-md waves-light" name="send" value="save"><span class="icon-button"><i class="fe-plus"></i></span> Lưu lại</button>
                 </div>
             </div>
             <!-- end row -->
         </form>
     </div>
-
 @stop
 
 @section('javascript')

@@ -21,6 +21,8 @@
             </div>
         </div>
         <!-- end page title -->
+    </div>
+    <div class="container">
         <form method="post" action="{{route('admin.attributes.update',$attribute)}}" enctype="multipart/form-data">
             <div class="row">
                 @csrf
@@ -43,17 +45,14 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-12 text-center">
-                    <div class="card-box">
-                        <a href="{{route('admin.attributes.index')}}" class="btn btn-purple waves-effect waves-light"><span class="icon-button"><i class="fe-arrow-left"></i></span> Quay lại</a>
-                        <button type="submit" class="btn btn-primary waves-effect width-md waves-light" name="send" value="update"><span class="icon-button"><i class="fe-plus"></i></span> Lưu lại</button>
-                    </div>
+                <div class="col-lg-12">
+                    <a href="{{route('admin.attributes.index')}}" class="btn btn-default waves-effect waves-light"><span class="icon-button"><i class="fe-arrow-left"></i></span> Quay lại</a>
+                    <button type="submit" class="btn btn-primary waves-effect width-md waves-light float-right" name="send" value="update"><span class="icon-button"><i class="fe-plus"></i></span> Lưu lại</button>
                 </div>
             </div>
             <!-- end row -->
         </form>
     </div>
-
 @stop
 
 @section('javascript')

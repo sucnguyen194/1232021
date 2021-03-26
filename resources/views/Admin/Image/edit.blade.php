@@ -30,6 +30,8 @@
             </div>
         </div>
         <!-- end page title -->
+    </div>
+    <div class="container">
         <form method="post" action="{{route('admin.media.update',$media)}}" enctype="multipart/form-data">
             @csrf
             @method('PATCH')
@@ -37,7 +39,7 @@
                 <div class="col-lg-7">
                     <div class="card-box">
                         <div class="form-group">
-                            <label class="font-weight-bold">Vị trí hiển thị</label>
+                            <label>Vị trí hiển thị</label>
 
                             <select data-toggle="select2" name="position" class="form-control">
                                 <option value="Nomal">----</option>
@@ -47,51 +49,46 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label class="font-weight-bold">Tiêu đề </label>
+                            <label>Tiêu đề </label>
                             <input type="text" class="form-control" value="{{$media->name ?? old('name')}}" id="name" name="name">
                         </div>
 
 
                         <div class="form-group">
-                            <label class="font-weight-bold">Đường dẫn</label>
+                            <label>Đường dẫn</label>
                             <input type="text" class="form-control alias" id="path" value="{{$media->path ??  old('path')}}" name="path">
                         </div>
 
                         <div class="form-group">
-                            <label class="font-weight-bold">Mô tả</label>
+                            <label>Mô tả</label>
                             <textarea class="form-control summernote" id="summernote" name="description">{!!$media->description ?? old('description') !!}</textarea>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-5  box-action-image">
                     <div class="card-box">
-                        <div class="form-group mb-0">
-                            <label class="font-weight-bold">Hình ảnh</label>
-                            <p>* Ghi chú: Định dạng ảnh jpg, jpeg, png, gif</p>
+                        <div class="form-group">
+                            <label>Hình ảnh</label>
+                            <p class="font-13">* Ghi chú: Định dạng ảnh jpg, jpeg, png, gif</p>
                             <input type="file" name="image" class="filestyle" id="fileUpload" data-btnClass="btn-primary">
                         </div>
-
-                    </div>
-                    <div class="card-box autohide-scroll" style="height:275px">
-                            <span class="image-holder" id="image-holder">
+                        <div class="image-holder text-center" id="image-holder">
                                 @if(file_exists($media->image))<img src="{{asset($media->image)}}" class="rounded">@endif
-                            </span>
                         </div>
-                </div>
-                <div class="col-lg-12 text-center">
-                    <div class="card-box">
-                        @switch ($media->type)
-                            @case(\App\Enums\MediaType::GALLERY)
-                            <a href="{{route('admin.gallerys.edit',$media->type_id)}}" class="btn btn-purple waves-effect waves-light"><span class="icon-button"><i class="fe-arrow-left"></i></span> Quay lại</a>
-
-                            @break
-
-                            @default
-                            <a href="{{route('admin.media.index')}}" class="btn btn-purple waves-effect waves-light"><span class="icon-button"><i class="fe-arrow-left"></i></span> Quay lại</a>
-                        @endswitch
-
-                        <button type="submit" class="btn btn-primary waves-effect width-md waves-light" name="send" value="save"><span class="icon-button"><i class="fe-plus"></i></span> Lưu lại</button>
                     </div>
+                </div>
+                <div class="col-lg-12">
+                    @switch ($media->type)
+                        @case(\App\Enums\MediaType::GALLERY)
+                        <a href="{{route('admin.gallerys.edit',$media->type_id)}}" class="btn btn-default waves-effect waves-light"><span class="icon-button"><i class="fe-arrow-left"></i></span> Quay lại</a>
+
+                        @break
+
+                        @default
+                        <a href="{{route('admin.media.index')}}" class="btn btn-default waves-effect waves-light"><span class="icon-button"><i class="fe-arrow-left"></i></span> Quay lại</a>
+                    @endswitch
+
+                    <button type="submit" class="btn btn-primary waves-effect width-md waves-light float-right" name="send" value="save"><span class="icon-button"><i class="fe-plus"></i></span> Lưu lại</button>
                 </div>
             </div>
             <!-- end row -->

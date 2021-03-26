@@ -21,6 +21,8 @@
             </div>
         </div>
         <!-- end page title -->
+    </div>
+    <div class="container">
         <form method="post" action="{{route('admin.products.update',$product)}}" enctype="multipart/form-data">
             <div class="row">
                 @csrf
@@ -28,11 +30,11 @@
                 <div class="col-lg-8">
                     <div class="card-box">
                         <div class="form-group">
-                            <label class="font-weight-bold">Tên sản phẩm <span class="required">*</span></label>
-                            <input type="text" class="form-control" value="{{$product->name}}" id="title" onkeyup="ChangeToSlug();" name="data[name]" required>
+                            <label>Tên sản phẩm <span class="required">*</span></label>
+                            <input type="text" class="form-control" value="{{$product->name ?? old('data.name')}}" id="title" onkeyup="ChangeToSlug();" name="data[name]" required>
                         </div>
                         <div class="form-group">
-                            <label class="font-weight-bold">Danh mục chính</label>
+                            <label>Danh mục chính</label>
                             <select class="form-control" data-toggle="select2" name="data[category_id]">
                                 <option value="0">Chọn danh mục</option>
                                 @foreach($category->where('parent_id', 0) as $item )
@@ -43,8 +45,8 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="font-weight-bold">Danh mục phụ</label>
-                            <p>* Ghi chú: Chọn được nhiều danh mục</p>
+                            <label>Danh mục phụ</label>
+                            <p class="font-13">* Chọn được nhiều danh mục</p>
                             <select class="form-control select2-multiple" data-toggle="select2" multiple="multiple" name="category_id[]" data-placeholder="Chọn danh mục">
                                 @foreach($category->where('parent_id', 0) as $item )
                                     <option value="{{$item->id}}" {{selected($item->id,$product->categorys->pluck('category_id')->toArray())}} class="font-weight-bold">{{$item->name}}</option>
@@ -55,26 +57,34 @@
                         <div class="row">
                             <div class="col-lg-4 col-12">
                                 <div class="form-group">
-                                    <label class="font-weight-bold">Mã sản phẩm</label>
-                                    <input type="text" class="form-control" value="{{$product->code}}" id="code" name="data[code]">
+                                    <label>Mã sản phẩm</label>
+                                    <input type="text" class="form-control" value="{{$product->code ?? old('data.code')}}" id="code" name="data[code]">
                                 </div>
                             </div>
                             <div class="col-lg-4 col-12">
                                 <div class="form-group">
-                                    <label class="font-weight-bold">Giá bán</label>
-                                    <input type="text" class="form-control" value="{{$product->price ?? 0}}" id="price" name="data[price]">
+                                    <label>Giá bán</label>
+                                    <input type="text" class="form-control" value="{{$product->price ?? old('data.price')}}" id="price" name="data[price]">
                                 </div>
                             </div>
                             <div class="col-lg-4 col-12">
                                 <div class="form-group">
-                                    <label class="font-weight-bold">Giá khuyến mại</label>
-                                    <input type="text" class="form-control" value="{{$product->price_sale ?? 0}}" id="price_sale" name="data[price_sale]">
+                                    <label>Giá khuyến mại</label>
+                                    <input type="text" class="form-control" value="{{$product->price_sale ?? old('data.price_sale')}}" id="price_sale" name="data[price_sale]">
                                 </div>
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label>Mô tả</label>
+                            <textarea class="form-control summernote" id="summernote" name="data[description]">{!! $product->description ?? old('data.description') !!}</textarea>
+                        </div>
 
                         <div class="form-group">
-                            <label class="font-weight-bold">Thuộc tính sản phẩm</label>
+                            <label>Chi tiết</label>
+                            <textarea class="form-control summerbody" id="summerbody" name="data[content]">{!! $product->content ?? old('data.content') !!}</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Thuộc tính sản phẩm</label>
                             <table data-dynamicrows class="table table-bordered table-striped">
                                 <thead>
                                 <tr>
@@ -87,17 +97,17 @@
 
                                 @if($product->option)
 
-                                @foreach($product->option as $key => $item)
-                                <tr>
-                                    <td><input type="text" name="fields[{{$key}}][name]" value="{{$item['name']}}" class="form-control"></td>
-                                    <td><input type="text" name="fields[{{$key}}][value]" value="{{$item['value']}}" class="form-control"></td>
-                                    <td>
-                                        <i class="fas fa-minus" data-remove></i>
-                                        <i class="fas fa-arrows-alt" data-move></i>
-                                        <i class="fas fa-plus" data-add></i>
-                                    </td>
-                                </tr>
-                                @endforeach
+                                    @foreach($product->option as $key => $item)
+                                        <tr>
+                                            <td><input type="text" name="fields[{{$key}}][name]" value="{{$item['name']}}" class="form-control"></td>
+                                            <td><input type="text" name="fields[{{$key}}][value]" value="{{$item['value']}}" class="form-control"></td>
+                                            <td>
+                                                <i class="fas fa-minus" data-remove></i>
+                                                <i class="fas fa-arrows-alt" data-move></i>
+                                                <i class="fas fa-plus" data-add></i>
+                                            </td>
+                                        </tr>
+                                    @endforeach
                                 @else
                                     <tr>
                                         <td><input type="text" name="fields[0][name]"  class="form-control"></td>
@@ -112,136 +122,111 @@
                                 </tbody>
                             </table>
                         </div>
-
-                        <div class="form-group">
-                            <label class="font-weight-bold">Đường dẫn <span class="required">*</span></label>
-                            <input type="text" class="form-control alias" id="alias" value="{{$product->alias}}" name="data[alias]" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="font-weight-bold">Mô tả</label>
-                            <textarea class="form-control summernote" id="summernote" name="data[description]">{!! $product->description !!}</textarea>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="font-weight-bold">Chi tiết</label>
-                            <textarea class="form-control summerbody" id="summerbody" name="data[content]">{!! $product->content !!}</textarea>
-                        </div>
-
                     </div>
+
+
                     <div class="card-box">
+                        <div class="d-flex mb-2">
+                            <label class="font-weight-bold">Tối ưu SEO</label>
+                            <a href="javascript:void(0)" onclick="changeSeo()" class="edit-seo">Chỉnh sửa SEO</a>
+                        </div>
+
+                        <p class="font-13">Thiết lập các thẻ mô tả giúp khách hàng dễ dàng tìm thấy trang trên công cụ tìm kiếm như Google.</p>
+
                         <div class="test-seo">
+                            <div class="">
+                                <a href="javascript:void(0)" class="title-seo">{{$product->title_seo}}</a>
+                            </div>
                             <div class="url-seo font-weight-bold mb-1">
-                                <span class="alias-seo" id="alias_seo">{{route('alias',$product->alias)}}</span>
+                                <span class="alias-seo" id="alias_seo">{{route('alias', $product->alias)}}</span>
                             </div>
-                            <div class="mb-1">
-                                <a href="javascript:void(0)" class="title-seo font-weight-bold font-15">{{$product->title_seo}}</a>
-                            </div>
-                            <div class="description-seo">
-                                {{$product->description_seo}}
-                            </div>
+                            <div class="description-seo">{!! $product->description_seo !!}</div>
                         </div>
-                    </div>
-                    <div class="card-box">
-                        <div class="form-group">
-                            <label class="font-weight-bold">Title seo</label>
-                            <p>* Ghi chú: Giới hạn tối đa 65 ký tự</p>
 
-                            <input type="text" maxlength="70" value="{{$product->title_seo}}" name="data[title_seo]" class="form-control" id="alloptions" />
-                        </div>
-                        <div class="form-group">
-                            <label class="font-weight-bold">Description seo</label>
-                            <p>* Ghi chú: Giới hạn tối đa 158 ký tự</p>
-                            <input class="form-control" maxlength="158" value="{{$product->description_seo}}" name="data[description_seo]" id="alloptions">
-                        </div>
-                        <div class="form-group">
-                            <label class="font-weight-bold">Keyword seo</label>
-                            <p>* Ghi chú: Từ khóa được phân chia sau dấu phẩy <strong>","</strong></p>
+                        <div class="change-seo" id="change-seo">
+                            <hr>
+                            <div class="form-group">
+                                <label>Tiêu đề trang</label>
+                                <p class="font-13">* Ghi chú: Giới hạn tối đa 70 ký tự</p>
+                                <input type="text" maxlength="70" value="{{$product->title_seo ?? old('data.title_seo')}}" name="data[title_seo]" class="form-control" id="alloptions" />
+                            </div>
+                            <div class="form-group">
+                                <label>Mô tả trang</label>
+                                <p class="font-13">* Ghi chú: Giới hạn tối đa 320 ký tự</p>
+                                <textarea  class="form-control" rows="3" name="data[description_seo]" maxlength="320" id="alloptions">{{$product->description_seo ?? old('data.description_seo')}}</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Từ khóa</label>
+                                <p class="font-13">* Ghi chú: Từ khóa được phân chia sau dấu phẩy <strong>","</strong></p>
 
-                            <input type="text" name="data[keyword_seo]" value="{{$product->keyword_seo}}" class="form-control"  data-role="tagsinput"/>
+                                <input type="text" name="data[keyword_seo]" value="{{$product->keyword_seo ?? old('data.keyword_seo')}}" class="form-control"  data-role="tagsinput"/>
+                            </div>
+                            <div class="form-group">
+                                <label>Đường dẫn <span class="required">*</span></label>
+                                <div class="d-flex form-control">
+                                    <span>{{route('home')}}/</span><input type="text" class="border-0 alias" id="alias" value="{{$product->alias ?? old('data.alias')}}" name="data[alias]" required>
+                                </div>
+
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-4">
                     <div class="card-box">
-                        <label class="font-weight-bold mb-2">Trạng thái</label>
-
-                        <div class="checkbox checkbox-primary checkbox-circle">
+                        <label class="mb-0">Trạng thái</label>
+                        <hr>
+                        <div class="checkbox">
                             <input id="checkbox_public" {{$product->public == 1 ? "checked" : ""}} type="checkbox" name="data[public]" value="1">
                             <label for="checkbox_public">Hiển thị</label>
                         </div>
 
-                        <div class="checkbox checkbox-primary checkbox-circle">
+                        <div class="checkbox">
                             <input id="checkbox_status" type="checkbox" {{$product->public == 1 ? "checked" : ""}} name="data[status]" value="1">
                             <label for="checkbox_status">Nổi bật</label>
                         </div>
                     </div>
-                    <div class="card-box">
-                        <label class="font-weight-bold w-100">Ngôn ngữ</label>
-                        @php
-                            if($product->post_langs){
-                                $id = array_unique($product->post_langs->pluck('post_id')->toArray());
-                                $posts = \App\Models\Product::whereIn('id',$id)->get()->load('language');
-                                $langs = \App\Models\Lang::whereNotIn('value',$posts->pluck('lang'))->where('value','<>',$product->lang)->get();
-                            }else{
-                                $langs = \App\Models\Lang::where('value','<>',$product->lang)->get();
-                            }
 
-                        @endphp
-                        <div class="clearfix">
-                            @foreach($langs as $lang)
-                                <a href="{{route('admin.products.add.lang',[$lang->value,$product->id])}}" class="btn btn-primary waves-effect width-md waves-light mb-1"><span class="icon-button"><i class="fe-plus"></i> {{$lang->name}}</a>
-                            @endforeach
-
-                            @if($product->post_langs)
-                                @foreach($posts as $item)
-                                    <a href="{{route('admin.products.edit',$item->id)}}" class="btn btn-purple waves-effect waves-light mb-1"><span class="icon-button"><i class="fe-edit-2" aria-hidden="true"></i></span> {{$item->language->name}} #{{$item->id}}</a>
-                                @endforeach
-                            @endif
-                        </div>
-                    </div>
                     <div class="card-box position-relative box-action-image">
                         <label class="font-weight-bold">Ảnh đại diện</label>
-                        <p>* Ghi chú: Định dạng ảnh jpg, jpeg, png, gif</p>
+                        <p class="font-13">* Định dạng ảnh jpg, jpeg, png, gif</p>
 
                         <input type="file" name="image" class="filestyle" id="fileUpload" data-btnClass="btn-primary">
-                        <div class="text-center mt-2 image-holder" id="image-holder">
-                            @if(file_exists($product->image)) <img src="{{asset($product->image)}}" class="img-fluid img-responsive" height="120"> @endif
+                        <div class="text-center image-holder" id="image-holder">
+                            @if(file_exists($product->image)) <img src="{{asset($product->image)}}" class="img-fluid mt-2 img-responsive" height="120"> @endif
                         </div>
-                        <div class="box-position btn btn-purple waves-effect waves-light text-left @if(!file_exists($product->image)) show-box @endif">
-
-                            <div class="checkbox checkbox-warning checkbox-circle checkbox-unlink-watermark">
-                                <input id="checkbox_watermark" class="watermark" type="checkbox" name="watermark">
-                                <label for="checkbox_watermark">Gắn watermark</label>
-                            </div>
-
-                            <div class="checkbox checkbox-warning checkbox-circle checkbox-unlink-image">
+                        <div class="box-position btn btn-default waves-effect waves-light text-left @if(!file_exists($product->image)) show-box @endif">
+{{--                            <div class="checkbox checkbox-warning checkbox-circle checkbox-unlink-watermark">--}}
+{{--                                <input id="checkbox_watermark" class="watermark" type="checkbox" name="watermark">--}}
+{{--                                <label for="checkbox_watermark">Gắn watermark</label>--}}
+{{--                            </div>--}}
+                            <div class="checkbox checkbox-unlink-image">
                                 <input id="checkbox_unlink" class="unlink-image" type="checkbox" name="unlink">
                                 <label for="checkbox_unlink" class="mb-0">Xóa ảnh</label>
                             </div>
 
                         </div>
                     </div>
-                    <div class="card-box position-relative box-action-background">
-                        <label class="font-weight-bold">Ảnh liên quan</label>
-                        <p>* Ghi chú: Định dạng ảnh jpg, jpeg, png, gif</p>
-                        <input type="file" name="photo[]" multiple class="filestyle" id="fileUploadMultiple" data-btnClass="btn-primary">
+                    <div class="card-box position-relative box-action-image">
 
-                    </div>
-                    <div class="card-box show-multiple-box autohide-scroll"  style="max-height: 250px;">
-                        <div id="grid-gallery" class="grid-gallery">
-                            <section class="grid-wrap">
-                                <ul class="grid" id="list-item">
-                                    <span class="image-holder-multiple" id="image-holder-multiple">
+                        <label>Ảnh liên quan</label>
+                        <p class="font-13">* Định dạng ảnh jpg, jpeg, png, gif</p>
+                        <input type="file" name="photo[]" multiple class="filestyle" id="fileUploadMultiple" data-btnClass="btn-primary">
+                        <div class="show-box autohide-scroll"  style="min-height: 250px;">
+                            <div id="grid-gallery" class="grid-gallery">
+                                <section class="grid-wrap">
+                                    <ul class="grid" id="list-item">
+                                    <span class="image-holder" id="image-holder">
 
                                     </span>
-                                </ul>
-                            </section><!-- // grid-wrap -->
-                        </div><!-- // grid-gallery -->
+                                    </ul>
+                                </section><!-- // grid-wrap -->
+                            </div><!-- // grid-gallery -->
+                        </div>
                     </div>
+
                     @if($photo->count())
                         <div class="card-box">
-                            <label class="font-weight-bold">Danh sách ảnh liên quan</label>
+                            <label>Danh sách ảnh liên quan</label>
                             <div class="row autohide-scroll" style="max-height: 280px;">
                                 @foreach($photo as $item)
                                     <div class="col-xl-6 col-lg-4 col-sm-6">
@@ -262,7 +247,7 @@
                                                 <span id="change-sort-success_{{$item->id}}" class="change-sort"></span>
                                             </div>
                                             <div class="file-public">
-                                                <div class="checkbox checkbox-primary checkbox-circle" >
+                                                <div class="checkbox">
                                                     <input id="checkbox_public_{{$item->id}}"  {{$item->public == 1 ? "checked" : ''}} type="checkbox" name="public">
                                                     <label for="checkbox_public_{{$item->id}}" class="media_public"  data-id="{{$item->id}}"></label>
                                                 </div>
@@ -274,9 +259,34 @@
                             </div>
                         </div>
                     @endif
+
+                    <div class="card-box">
+                        <label class="w-100">Ngôn ngữ</label>
+                        @php
+                            if($product->post_langs){
+                                $id = array_unique($product->post_langs->pluck('post_id')->toArray());
+                                $posts = \App\Models\Product::whereIn('id',$id)->get()->load('language');
+                                $langs = \App\Models\Lang::whereNotIn('value',$posts->pluck('lang'))->where('value','<>',$product->lang)->get();
+                            }else{
+                                $langs = \App\Models\Lang::where('value','<>',$product->lang)->get();
+                            }
+
+                        @endphp
+                        <div class="clearfix">
+                            @foreach($langs as $lang)
+                                <a href="{{route('admin.products.add.lang',[$lang->value,$product->id])}}" class="btn btn-primary waves-effect width-md waves-light mb-1"><span class="icon-button"><i class="fe-plus"></i> {{$lang->name}}</a>
+                            @endforeach
+
+                            @if($product->post_langs)
+                                @foreach($posts as $item)
+                                    <a href="{{route('admin.products.edit',$item->id)}}" class="btn btn-default waves-effect waves-light mb-1"><span class="icon-button"><i class="fe-edit-2" aria-hidden="true"></i></span> {{$item->language->name}} #{{$item->id}}</a>
+                                @endforeach
+                            @endif
+                        </div>
+                    </div>
                     <div class="card-box tags">
-                        <label class="font-weight-bold">Tags</label>
-                        <p>* Ghi chú: Từ khóa được phân chia sau dấu phẩy <strong>","</strong></p>
+                        <label>Tags</label>
+                        <p class="font-13">* Từ khóa được phân chia sau dấu phẩy <strong>","</strong></p>
                         <input class="form-control" name="data[tags]" data-role="tagsinput" value="{!! $product->tags !!}" placeholder="add tags">
                     </div>
                 </div>

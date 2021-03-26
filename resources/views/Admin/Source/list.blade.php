@@ -55,7 +55,7 @@ Trình biên tập mã nguồn
                         </div>
                     </div>
                     <div class="card-box text-center">
-                        <a href="{{route('admin.source.index')}}" class="btn btn-purple waves-effect waves-light"><span class="icon-button"><i class="fe-arrow-left"></i></span> Quay lại</a>
+                        <a href="{{route('admin.source.index')}}" class="btn btn-default waves-effect waves-light"><span class="icon-button"><i class="fe-arrow-left"></i></span> Quay lại</a>
                         <button type="submit" class="btn btn-primary waves-effect width-md waves-light" id="submit" name="send" value="save"><span class="icon-button"><i class="fe-plus"></i></span> Lưu lại</button>
                     </div>
             </form>

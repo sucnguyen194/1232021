@@ -27,26 +27,26 @@
                 <div class="col-lg-12">
                     <div class="card-box">
                         <div class="form-group">
-                            <label class="font-weight-bold">Khách hàng <span class="required">*</span></label>
+                            <label>Khách hàng <span class="required">*</span></label>
                             <select class="form-control customer" v-model="customer" name="user" v-on:change="choiseCustomer()" id="customer">
                                 <option value="0">--Chọn khách hàng--</option>
                                 <option v-for="(item,key) in users" v-bind:value="item.id" v-bind:key="key">@{{ item.name ?? item.account }} (SĐT: @{{ item.phone }})</option>
                             </select>
-                            <p v-if="customer == 0" class="text-danger font-weight-bold mt-2">Vui lòng chọn khách hàng</p>
+                            <p v-if="customer == 0" class="text-danger mt-2">Vui lòng chọn khách hàng</p>
                         </div>
                         <div class="form-group">
-                            <label class="font-weight-bold">Tên sản phẩm <span class="required">*</span></label>
+                            <label>Tên sản phẩm <span class="required">*</span></label>
                             <select class="form-control choise-product" id="products"  :disabled="customer == 0" v-model="product_id">
                                 <option value="0">--Chọn sản phẩm--</option>
                                 <option v-for="item in products" v-bind:value="item.id">
                                     @{{ item.name }} (@{{  item.amount }})
                                 </option>
                             </select>
-                            <p v-if="product_id == 0" class="text-danger font-weight-bold mt-1">Vui lòng chọn sản phẩm</p>
+                            <p v-if="product_id == 0" class="text-danger mt-1">Vui lòng chọn sản phẩm</p>
                         </div>
 
                         <div class="form-group" v-if="product != 0">
-                            <label class="font-weight-bold">Thông tin sản phẩm</label>
+                            <label>Thông tin sản phẩm</label>
                             <div class="alert alert-icon alert-danger text-danger alert-dismissible fade show" role="alert" v-if="amount > product.max && product_id > 0 && customer > 0">
                                 <button type="button" class="close" data-dismiss="alert"
                                         aria-label="Close">
@@ -56,7 +56,7 @@
                                 <strong>Thông báo!</strong> Số lượng tối đa có thể thêm là: <span class="text-primary"> (@{{ product.max }})</span> Vui lòng <span class="text-purple">[ Cập nhật ]</span> thêm số lượng sản phẩm!
                             </div>
                             <div class="product-info" id="product_info">
-                                <table class="table table-bordered table-striped" id="table-append">
+                                <table class="table table-bordered table-hover" id="table-append">
                                     <thead>
                                     <tr>
                                         <th>Tên sản phẩm</th>
@@ -70,8 +70,8 @@
                                     <tbody>
                                     <tr v-if="product_id > 0 && customer > 0">
                                          <td><div class="font-weight-bold mb-1"> @{{ product.name }} <a href="javascript:void(0)" data-toggle="modal" data-target="#update-product" v-if="amount > product.max" v-on:click="getProduct(product.id)" class="font-weight-bold text-purple"> [ Cập nhật ]</a></div>
-                                         <div class="text-primary font-weight-bold">[Giá nhập: <strong class="text-danger">@{{number_format(product.price_in)}}</strong>]</div>
-                                         <div class="text-primary font-weight-bold">[Giá bán gần nhất: <strong class="text-danger">@{{number_format(product.price_buy)}}</strong>]</div>
+                                         <div class="text-primary">[Giá nhập: <span class="text-danger">@{{number_format(product.price_in)}}</span>]</div>
+                                         <div class="text-primary">[Giá bán gần nhất: <span class="text-danger">@{{number_format(product.price_buy)}}</span>]</div>
                                          </td>
                                          <td>
                                              <div class="input-group">
@@ -115,8 +115,8 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="font-weight-bold">Danh sách sản phẩm</label>
-                            <table class="table table-bordered table-striped">
+                            <label>Danh sách sản phẩm</label>
+                            <table class="table table-bordered table-hover">
                                 <thead>
                                 <tr>
                                     <th>Tên sản phẩm</th>
@@ -168,8 +168,8 @@
                                                 <div class="form-control font-weight-bold">@{{ (item.qty*item.price).toLocaleString() }}</div>
                                             </div>
                                         </td>
-                                        <td><a href="javascript:void(0)" class="btn btn-purple waves-effect waves-light" v-on:click="getItem(item.rowId)" data-toggle="modal" data-target="#item-cart"><span class="icon-button"><i class="fe-edit-2"></i></span> </a>
-                                            <button type="button" class="btn btn-warning waves-effect waves-light" v-on:click="destroyItem(item.rowId)"><span class="icon-button"><i class="fe-x"></i></span> </button>
+                                        <td><a href="javascript:void(0)" class="btn btn-default waves-effect waves-light" v-on:click="getItem(item.rowId)" data-toggle="modal" data-target="#item-cart"><span class="icon-button"><i class="fe-edit-2"></i></span> </a>
+                                            <button type="button" class="btn btn-default waves-effect waves-light" v-on:click="destroyItem(item.rowId)"><span class="icon-button"><i class="fe-x"></i></span> </button>
                                         </td>
                                     </tr>
 
@@ -180,7 +180,7 @@
                         <div class="form-group" v-if="total > 0">
                             <div class="row">
                                 <div class="col-lg-6 form-group">
-                                    <label class="font-weight-bold">Tổng tiền</label>
+                                    <label>Tổng tiền</label>
                                     <div class="input-group">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text" id="basic-addon1">VNĐ</span>
@@ -189,7 +189,7 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-6 form-group">
-                                    <label class="font-weight-bold">Tổng lãi</label>
+                                    <label>Tổng lãi</label>
                                     <div class="input-group">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text" id="basic-addon1">VNĐ</span>
@@ -198,7 +198,7 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-6 form-group">
-                                    <label class="font-weight-bold">Công nợ</label>
+                                    <label>Công nợ</label>
                                     <div class="input-group">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text" id="basic-addon1">VNĐ</span>
@@ -207,7 +207,7 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-6 form-group">
-                                    <label class="font-weight-bold">Phải trả</label>
+                                    <label>Phải trả</label>
                                     <div class="input-group">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text" id="basic-addon1">VNĐ</span>
@@ -216,7 +216,7 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-4 form-group">
-                                    <label class="font-weight-bold">Phí vận chuyển</label>
+                                    <label>Phí vận chuyển</label>
                                     <div class="input-group">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text" id="basic-addon1">VNĐ</span>
@@ -225,7 +225,7 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-4 form-group">
-                                    <label class="font-weight-bold">Giảm giá</label>
+                                    <label>Giảm giá</label>
                                     <div class="input-group">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text" id="basic-addon1">VNĐ</span>
@@ -235,7 +235,7 @@
                                 </div>
 
                                 <div class="col-lg-4 form-group">
-                                    <label class="font-weight-bold">Thanh toán</label>
+                                    <label>Thanh toán</label>
                                     <div class="input-group">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text" id="basic-addon1">VNĐ</span>
@@ -247,19 +247,17 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="font-weight-bold">Ghi chú</label>
+                            <label>Ghi chú</label>
                             <textarea class="form-control" onkeyup="textareaBr('#note')" id="note" v-model="note" rows="4" name="note" v-html="note"> {!! old('note') !!}</textarea>
                         </div>
                         <div class="justify-content-end" v-if="total > 0 && customer > 0"  style="display: -webkit-box">
-                            <a href="#print-cart" v-on:click="printCart(customer)" class="btn btn-purple waves-effect cancel waves-light align-right" data-toggle="modal" data-target="#print-cart"><span class="icon-button"><i class="pe-7s-print"></i></span> In đơn hàng</a>
+                            <a href="#print-cart" v-on:click="printCart(customer)" class="btn btn-primary waves-effect cancel waves-light align-right" data-toggle="modal" data-target="#print-cart"><span class="icon-button"><i class="pe-7s-print"></i></span> In đơn hàng</a>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-12 text-center">
-                    <div class="card-box">
-                        <button type="submit" class="btn btn-purple waves-effect cancel waves-light" onclick="return confirm('Hủy toàn bộ đơn hàng?')" :disabled="total == 0" name="send" value="cancel"><span class="icon-button"><i class="pe-7s-close-circle"></i></span> Hủy đơn hàng</button>
-                        <button type="submit" class="btn btn-primary waves-effect save width-md waves-light" onclick="return confirm('Xác nhận đơn hàng?')" :disabled="customer == 0 || total == 0" name="send" value="save"><span class="icon-button"><i class="fe-plus"></i></span> Xác nhận</button>
-                    </div>
+                <div class="col-lg-12">
+                    <button type="submit" class="btn btn-default waves-effect cancel waves-light" onclick="return confirm('Hủy toàn bộ đơn hàng?')" :disabled="total == 0" name="send" value="cancel"><span class="icon-button"><i class="pe-7s-close-circle"></i></span> Hủy đơn hàng</button>
+                    <button type="submit" class="btn btn-primary waves-effect save width-md waves-light float-right" onclick="return confirm('Xác nhận đơn hàng?')" :disabled="customer == 0 || total == 0" name="send" value="save"><span class="icon-button"><i class="fe-plus"></i></span> Xác nhận</button>
                 </div>
             </div>
             <!-- end row -->
@@ -269,7 +267,7 @@
                 <div class="modal-content">
                     <div class="modal-body">
                         <div class="form-group">
-                            <label class="font-weight-bold">Tên sản phẩm</label>
+                            <label>Tên sản phẩm</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="basic-addon1">SP</span>
@@ -278,14 +276,15 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="font-weight-bold">Nhà cung cấp</label>
+                            <label>Nhà cung cấp</label>
                             <select class="form-control agency-update" id="customer_update" v-model="agency_update">
                                 <option value="0">--Chọn nhà cung cấp--</option>
-                                <option v-for="(agency,key) in agencys" v-bind:value="key" :selected="key == agency_update">@{{ agency }}</option>
+                                <option v-for="(agency,key) in agencys" v-bind:value="agency.id" :selected="key == agency_update">@{{ agency.name }}</option>
                             </select>
+                            <p class="text-danger mt-2" v-if="agency_update == 0">Vui lòng chọn nhà cung cấp</p>
                         </div>
                         <div class="form-group">
-                            <label class="font-weight-bold">Số lượng</label>
+                            <label>Số lượng</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="basic-addon1">SL</span>
@@ -295,7 +294,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="font-weight-bold">Giá nhập</label>
+                            <label>Giá nhập</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="basic-addon1">VNĐ</span>
@@ -304,7 +303,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="font-weight-bold">Thành tiền</label>
+                            <label>Thành tiền</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="basic-addon1">VNĐ</span>
@@ -313,7 +312,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="font-weight-bold">Công nợ</label>
+                            <label>Công nợ</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="basic-addon1">VNĐ</span>
@@ -322,7 +321,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="font-weight-bold">Thanh toán</label>
+                            <label>Thanh toán</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="basic-addon1">VNĐ</span>
@@ -332,7 +331,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal"> Đóng</button>
+                        <button type="button" class="btn btn-default waves-effect" data-dismiss="modal"> Đóng</button>
                         <button type="button" class="btn btn-primary waves-effect waves-light" :disabled="agency_update == 0 || price_update == 0 || amount_update == 0 " v-on:click="updateProduct()"> <span class="icon-button"><i class="fe-plus"></i></span> Xác nhận</button>
                     </div>
                 </div><!-- /.modal-content -->
@@ -352,7 +351,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="font-weight-bold">Tên sản phẩm</label>
+                            <label>Tên sản phẩm</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="basic-addon1">SP</span>
@@ -361,7 +360,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="font-weight-bold">Số lượng</label>
+                            <label>Số lượng</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="basic-addon1">SL</span>
@@ -370,7 +369,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="font-weight-bold">Giá bán</label>
+                            <label>Giá bán</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="basic-addon1">VNĐ</span>
@@ -379,7 +378,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="font-weight-bold">Thành tiền</label>
+                            <label>Thành tiền</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="basic-addon1">VNĐ</span>
@@ -388,7 +387,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="font-weight-bold">Tiền lãi</label>
+                            <label>Tiền lãi</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="basic-addon1">VNĐ</span>
@@ -398,7 +397,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal"> Đóng</button>
+                        <button type="button" class="btn btn-default waves-effect" data-dismiss="modal"> Đóng</button>
                         <button type="button" :disabled="cart.amount > 0 && cart.price > 0 && cart.amount > cart.max" class="btn btn-primary waves-effect waves-light" v-on:click="updateItemCart(cart.rowId,cart.amount,cart.price,cart.revenue_update)"> <span class="icon-button"><i class="fe-plus"></i></span> Xác nhận</button>
                     </div>
                 </div><!-- /.modal-content -->
@@ -428,7 +427,7 @@
                                 {{--                                <div class="CssPrintRow">Số phiếu: #XBA.2021.1084</div>--}}
                                 <div class="CssPrintRow" style="padding: 2px 0 4px 0;font-size: 13px;">Khách hàng: @{{ print.customer }}</div>
                                 <div class="CssBillDetail">
-                                    <table class="table table-bordered table-striped" style="width: 100%;font-size:12px;line-height: 18px;">
+                                    <table class="table table-bordered" style="width: 460px;font-size:12px;line-height: 18px;">
                                         <tbody>
                                         <tr>
                                             <th nowrap="" style="padding-right:4px;border-bottom:dotted 1px black">Tên</th>
@@ -437,7 +436,7 @@
                                             <th nowrap="" style="padding-right:4px;border-bottom:dotted 1px black">T.tiền</th>
                                         </tr>
                                         <tr v-for="item in carts">
-                                            <th nowrap="" style="padding-right:4px;border-bottom:dotted 1px black; width:250px">@{{ item.name }}</th>
+                                            <th nowrap="" style="padding-right:4px;border-bottom:dotted 1px black; white-space: normal;word-break: break-all; width: 250px">@{{ item.name }}</th>
                                             <th nowrap="" style="padding-right:4px;border-bottom:dotted 1px black">@{{ item.qty }}</th>
                                             <th nowrap="" style="padding-right:4px;border-bottom:dotted 1px black">@{{ number_format(item.price) }}</th>
                                             <th nowrap="" style="padding-right:4px;border-bottom:dotted 1px black">@{{ (item.price*item.qty).toLocaleString() }}</th>
@@ -473,8 +472,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal"> Đóng</button>
-                        <button type="button" class="btn btn-purple waves-effect waves-light" onclick="PrintElem('#detailPrint')"><span class="icon-button"><i class="pe-7s-print"></i></span> In đơn hàng</button>
+                        <button type="button" class="btn btn-default waves-effect" data-dismiss="modal"> Đóng</button>
+                        <button type="button" class="btn btn-primary waves-effect waves-light" onclick="PrintElem('#detailPrint')"><span class="icon-button"><i class="pe-7s-print"></i></span> In đơn hàng</button>
                     </div>
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->

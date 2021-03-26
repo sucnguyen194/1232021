@@ -124,6 +124,7 @@ class ProductController extends Controller
             return redirect()->back()->withInput()->withErrors(['message' => 'Đường dẫn đã tồn tại']);
 
         $product = new Product;
+
         $product->fill($request->data);
 
         if($request->unlink){

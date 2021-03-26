@@ -22,8 +22,8 @@
                 <div class="card-box">
                     <form method="get">
                         <div class="row">
-                            <div class="col-md-2 mb-2 mb-lg-0 mb-md-0">
-                                <label class="font-weight-bold">Người tạo đơn</label>
+                            <div class="col-lg-3 col-md-3 mb-2 mb-lg-0 mb-md-0">
+                                <label>Người tạo đơn</label>
                                 <select class="form-control" data-toggle="select2" name="user">
                                     <option value="">-----</option>
                                     @foreach($users->where('lever',\App\Enums\LeverUser::ADMIN) as $item)
@@ -32,8 +32,8 @@
                                 </select>
                             </div>
 
-                            <div class="col-md-2 mb-2 mb-lg-0 mb-md-0">
-                                <label class="font-weight-bold">Nhà cung cấp</label>
+                            <div class="col-lg-3 col-md-3 mb-2 mb-lg-0 mb-md-0">
+                                <label>Nhà cung cấp</label>
                                 <select class="form-control" data-toggle="select2" name="agency">
                                     <option value="">-----</option>
                                     @foreach($agencys as $item)
@@ -41,16 +41,16 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="col-md-2 mb-2 mb-lg-0 mb-md-0">
-                                <label class="font-weight-bold">Ngày tạo đơn</label>
+                            <div class="col-lg-3 col-md-3 mb-2 mb-lg-0 mb-md-0">
+                                <label>Ngày tạo đơn</label>
                                 <input type="text" id="reportrange" name="date" value="{{request()->date}}" placeholder="Từ ngày - đến ngày" class="form-control"/>
                             </div>
 
-                            <div class="col-md-2">
+                            <div class="col-lg-3 col-md-4 mb-2 mb-lg-0 mb-md-0">
                                 <label class="ql-color-white hidden-xs" style="opacity: 0">-</label>
                                 <div class="mb-2 mb-lg-0 mb-md-0">
                                     <button class="btn btn-primary waves-effect waves-light" type="submit"><span class="icon-button"><i class="fe-search"></i></span> Tìm kiếm</button>
-                                    <a class="btn btn-purple waves-effect waves-light" href="{{route('admin.imports.index')}}"><span class="icon-button"><i class="fe-arrow-left"></i></span> Quay lại</a>
+                                    <a class="btn btn-default waves-effect waves-light" href="{{route('admin.imports.index')}}"><span class="icon-button"><i class="fe-arrow-left"></i></span> Quay lại</a>
                                 </div>
                             </div>
                         </div>
@@ -63,11 +63,11 @@
         <div class="row">
             <div class="col-12">
                 <div class="card-box table-responsive">
-                    <div class="action-datatable mb-3">
+                    <div class="action-datatable text-right mb-3">
                             <a href="{{route('admin.imports.create')}}" class="btn btn-primary waves-effect width-md waves-light">
                                 <span class="icon-button"><i class="fe-plus"></i></span> Thêm mới</a>
                         </div>
-                    <table id="datatable-buttons" class="table table-bordered table-striped table-hover bs-table" style="border-collapse: collapse; border-spacing: 0; ;">
+                    <table id="datatable-buttons" class="table table-bordered table-hover bs-table" style="border-collapse: collapse; border-spacing: 0; ;">
                             <thead>
                             <tr>
                                 <th>ID</th>
@@ -83,23 +83,22 @@
 
                             <tbody>
                             @foreach($imports as $item)
-                                <tr class="font-weight-bold">
+                                <tr>
                                     <td >{{$item->id}}</td>
                                     <td>{{$item->created_at->format('d/m/Y H:i')}}</td>
                                     <td><a href="{{route('admin.user.index',['id' => @$item->user->id ?? 0])}}" target="_blank">{{@$item->user->name ?? @$item->user->account}}</a> </td>
                                     <td><a href="{{route('admin.agencys.index',['id' => @$item->agency->id ?? 0])}}" target="_blank">{{@$item->agency->name ?? 'Tên trống hoặc đã xóa'}}</a>  @if(@$item->agency->phone)[{{@$item->agency->phone}}] @endif</td>
                                     <td>{{number_format($item->total)}}</td>
                                     <td>{{number_format($item->checkout)}}</td>
-                                    <td class="text-danger">{{number_format($item->debt)}}</td>
-
+                                    <td>{{number_format($item->debt)}}</td>
                                     <td>
-                                        <a href="{{route('admin.imports.show',$item)}}" class="btn btn-purple waves-effect waves-light">
+                                        <a href="{{route('admin.imports.show',$item)}}" class="btn btn-default waves-effect waves-light">
                                             <span class="icon-button"><i class="pe-7s-magic-wand"></i> </span>Chi tiết</a>
                                         @if(!$item->sessions->count())
                                         <form method="post" action="{{route('admin.imports.destroy',$item)}}" class="d-inline-block">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-warning waves-effect waves-light" onclick="return confirm('Bạn có chắc muốn xóa?');"><span class="icon-button"><i class="fe-x"></i></span></button>
+                                            <button type="submit" class="btn btn-default waves-effect waves-light" onclick="return confirm('Bạn có chắc muốn xóa?');"><span class="icon-button"><i class="fe-x"></i></span></button>
                                         </form>
                                         @endif
                                     </td>

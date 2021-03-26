@@ -24,7 +24,7 @@ Thêm thành viên
 
         <!-- Clickable Wizard -->
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-lg-10 offset-1">
                 <form action="{{route('admin.user.store')}}" method="post" enctype="multipart/form-data">
                     <div class="card-box" id="wizard-clickable" >
                         @csrf
@@ -42,8 +42,6 @@ Thêm thành viên
                                         <label for="email">Tài khoản email <span class="required">*</span></label>
                                         <input type="text" class="form-control" id="email" name="email"  value="{{old('email')}}" placeholder="nguyenvan@gmail.com">
                                     </div>
-
-
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -106,19 +104,19 @@ Thêm thành viên
                                 @endif
                                 @if(Auth::user()->lever <= \App\Enums\LeverUser::ADMIN)
                                     <div class="col-md-12">
-                                        <div class="form-group"><label class="font-weight-bold text-uppercase">Phân quyền module</label></div>
+                                        <div class="form-group"><label class="text-uppercase">Phân quyền module</label></div>
                                         <div class="row">
                                             <div class="col-md-3">
-                                                <label class="font-weight-bold text-uppercase">Điều hướng</label>
+                                                <label class="text-uppercase">Điều hướng</label>
                                                 @foreach($systems->where('parent_id',0)->where('position',0) as $key => $item)
                                                     <div class="item-systems">
-                                                        <div class="mb-1 checkbox checkbox-primary">
+                                                        <div class="mb-1 checkbox">
                                                             <input id="checkbox{{$item->id}}" type="checkbox" name="type[]" value="{{$item->type}}">
-                                                            <label for="checkbox{{$item->id}}"><strong>{{$item->name}}</strong> </label>@if($systems->where('parent_id', $item->id)->count())<span class="sub-header" target="#{{$item->id}}"><i class="fe-chevron-down"></i></span> @endif
+                                                            <label for="checkbox{{$item->id}}">{{$item->name}} </label>@if($systems->where('parent_id', $item->id)->count())<span class="sub-header" target="#{{$item->id}}"><i class="fe-chevron-down"></i></span> @endif
                                                         </div>
                                                         <div class="sub-systems" id="{{$item->id}}">
                                                             @foreach($systems->where('parent_id', $item->id) as $sub)
-                                                                <div class="mb-1 checkbox checkbox-primary">
+                                                                <div class="mb-1 checkbox">
                                                                     <input id="checkbox{{$sub->id}}" class="prop-checked" type="checkbox" name="type[]" value="{{$sub->type}}">
                                                                     <label for="checkbox{{$sub->id}}">
                                                                         <span class="tree-sub"></span>
@@ -132,16 +130,16 @@ Thêm thành viên
                                                 @endforeach
                                             </div>
                                             <div class="col-md-3">
-                                                <label class="font-weight-bold text-uppercase">Bán hàng</label>
+                                                <label class="text-uppercase">Bán hàng</label>
                                                 @foreach($systems->where('parent_id',0)->where('position',2) as $key => $item)
                                                     <div class="item-systems">
-                                                        <div class="mb-1 checkbox checkbox-primary">
+                                                        <div class="mb-1 checkbox">
                                                             <input id="checkbox{{$item->id}}" type="checkbox" name="type[]" value="{{$item->type}}">
-                                                            <label for="checkbox{{$item->id}}"><strong>{{$item->name}}</strong> </label>@if($systems->where('parent_id', $item->id)->count())<span class="sub-header" target="#{{$item->id}}"><i class="fe-chevron-down"></i></span> @endif
+                                                            <label for="checkbox{{$item->id}}">{{$item->name}} </label>@if($systems->where('parent_id', $item->id)->count())<span class="sub-header" target="#{{$item->id}}"><i class="fe-chevron-down"></i></span> @endif
                                                         </div>
                                                         <div class="sub-systems" id="{{$item->id}}">
                                                             @foreach($systems->where('parent_id', $item->id) as $sub)
-                                                                <div class="mb-1 checkbox checkbox-primary">
+                                                                <div class="mb-1 checkbox">
                                                                     <input id="checkbox{{$sub->id}}" class="prop-checked" {{checked($sub->type, $user->systemsModule->pluck('type')->toArray())}} type="checkbox" name="type[]" value="{{$sub->type}}">
                                                                     <label for="checkbox{{$sub->id}}">
                                                                         <span class="tree-sub"></span>
@@ -155,16 +153,16 @@ Thêm thành viên
                                                 @endforeach
                                             </div>
                                             <div class="col-md-3">
-                                                <label class="font-weight-bold text-uppercase">Nội dung</label>
+                                                <label class="text-uppercase">Nội dung</label>
                                                 @foreach($systems->where('parent_id',0)->where('position',1) as $key => $item)
                                                     <div class="item-systems">
-                                                        <div class="mb-1 checkbox checkbox-primary">
+                                                        <div class="mb-1 checkbox">
                                                             <input id="checkbox{{$item->id}}" type="checkbox" name="type[]" value="{{$item->type}}">
-                                                            <label for="checkbox{{$item->id}}"><strong>{{$item->name}}</strong> </label>@if($systems->where('parent_id', $item->id)->count())<span class="sub-header" target="#{{$item->id}}"><i class="fe-chevron-down"></i></span> @endif
+                                                            <label for="checkbox{{$item->id}}">{{$item->name}} </label>@if($systems->where('parent_id', $item->id)->count())<span class="sub-header" target="#{{$item->id}}"><i class="fe-chevron-down"></i></span> @endif
                                                         </div>
                                                         <div class="sub-systems" id="{{$item->id}}">
                                                             @foreach($systems->where('parent_id', $item->id) as $sub)
-                                                                <div class="mb-1 checkbox checkbox-primary">
+                                                                <div class="mb-1 checkbox">
                                                                     <input id="checkbox{{$sub->id}}" class="prop-checked" type="checkbox" name="type[]" value="{{$sub->type}}">
                                                                     <label for="checkbox{{$sub->id}}">
                                                                         <span class="tree-sub"></span>
@@ -179,17 +177,17 @@ Thêm thành viên
                                             </div>
 
                                             <div class="col-md-3">
-                                                <label class="font-weight-bold text-uppercase">Cấu hình</label>
+                                                <label class="text-uppercase">Cấu hình</label>
                                                 @foreach($systems->where('parent_id',0)->where('position',3) as $key => $item)
                                                     <div class="item-systems">
-                                                        <div class="mb-1 checkbox checkbox-primary">
+                                                        <div class="mb-1 checkbox">
                                                             <input id="checkbox{{$item->id}}" type="checkbox" name="type[]" value="{{$item->type}}">
-                                                            <label for="checkbox{{$item->id}}"><strong>{{$item->name}}</strong></label>
+                                                            <label for="checkbox{{$item->id}}">{{$item->name}}</label>
                                                             @if($systems->where('parent_id', $item->id)->count())<span class="sub-header" target="#{{$item->id}}"><i class="fe-chevron-down"></i></span> @endif
                                                         </div>
                                                         <div class="sub-systems" id="{{$item->id}}">
                                                             @foreach($systems->where('parent_id', $item->id) as $sub)
-                                                                <div class="mb-1 checkbox checkbox-primary">
+                                                                <div class="mb-1 checkbox">
                                                                     <input id="checkbox{{$sub->id}}" class="prop-checked" type="checkbox" name="type[]" value="{{$sub->type}}">
                                                                     <label for="checkbox{{$sub->id}}">
                                                                         <span class="tree-sub"></span>
@@ -210,11 +208,9 @@ Thêm thành viên
                         </fieldset>
                         <button type="submit" class="btn btn-primary stepy-finish"><span class="icon-button"><i class="fe-plus"></i></span> Lưu lại</button>
                     </div>
-                    <div class="text-center">
-                        <div class="card-box">
-                            <a href="{{route('admin.user.index')}}" class="btn btn-purple waves-effect waves-light"><span class="icon-button"><i class="fe-arrow-left"></i></span> Quay lại</a>
-                            <button type="submit" class="btn btn-primary waves-effect width-md waves-light" name="send" value="save"><span class="icon-button"><i class="fe-plus"></i></span> Lưu lại</button>
-                        </div>
+                    <div class="">
+                        <a href="{{route('admin.user.index')}}" class="btn btn-default waves-effect waves-light"><span class="icon-button"><i class="fe-arrow-left"></i></span> Quay lại</a>
+                        <button type="submit" class="btn btn-primary waves-effect width-md waves-light float-right" name="send" value="save"><span class="icon-button"><i class="fe-plus"></i></span> Lưu lại</button>
                     </div>
                 </form>
             </div>

@@ -22,6 +22,8 @@
             </div>
         </div>
         <!-- end page title -->
+    </div>
+    <div class="container">
         <form method="post" action="{{route('admin.action.module.edit',[$module->table, $old->id])}}" enctype="multipart/form-data">
             <div class="row">
                 @csrf
@@ -32,21 +34,21 @@
                         @switch($items->display_type)
                             @case(0)
                             <div class="card-box">
-                                <label class="font-weight-bold">{{$items->display_name}} <span class="required">*</span></label>
+                                <label>{{$items->display_name}} <span class="required">*</span></label>
                                 <input type="text" class="form-control" value="{{$old->$name ?? old($items->name)}}" id="{{$items->name}}" name="{{$items->name}}" required>
                             </div>
                             @break
 
                             @case(2)
                             <div class="card-box">
-                                <label class="font-weight-bold">{{$items->display_name}} </label>
+                                <label>{{$items->display_name}} </label>
                                 <input type="number" class="form-control" value="{{$old->$name ?? old($items->name)}}" min="0" id="{{$items->name}}" name="{{$items->name}}">
                             </div>
                             @break
 
                             @case(6)
                             <div class="card-box">
-                                <label class="font-weight-bold">{{$items->display_name}} </label>
+                                <label>{{$items->display_name}} </label>
                                 <textarea class="form-control summernote" name="{{$items->name}}">{!! $old->$name ?? old($items->name) !!}</textarea>
                             </div>
                             @break
@@ -57,71 +59,71 @@
                 </div>
                 <div class="{{$module->type ? "col-lg-4" : "col-lg-12"}}">
                     <div class="row">
-                    @foreach(json_decode($module->fields) as $items)
-                        @php $name = $items->name @endphp
+                        @foreach(json_decode($module->fields) as $items)
+                            @php $name = $items->name @endphp
                             <div class="{{$module->type ? "col-lg-12" : "col-lg-4"}}">
-                        @switch($items->display_type)
-                            @case(1)
-                            <div class="card-box">
-                                <label class="font-weight-bold">Checkbox</label>
-                                <div class="checkbox checkbox-primary checkbox-circle">
-                                    <input id="checkbox_{{$items->name}}" type="checkbox" name="{{$items->name}}" checked>
-                                    <label for="checkbox_{{$items->name}}" class="mb-0">{{$items->name}}</label>
-                                </div>
-                            </div>
-                            @break
-
-                            @case(3)
-                            <div class="card-box">
-                                <label class="font-weight-bold">Radio </label>
-                                <div class="checkbox checkbox-primary checkbox-circle">
-                                    <input id="checkbox_{{$items->name}}" {{$old->$name == $items->name ? "checked" : ""}} type="checkbox" name="{{$items->name}}" checked>
-                                    <label for="checkbox_{{$items->name}}" class="mb-0">{{$items->name}}</label>
-                                </div>
-                            </div>
-                            @break
-
-                            @case(4)
-                            <div class="card-box">
-                                <label class="font-weight-bold">{{$items->display_name}} </label>
-                                <select class="form-control" data-toggle="select2" name="{{$items->name}}">
-                                    @foreach($items->option as $key => $val)
-                                        <option value="{{$val}}" {{$old->$name == $val ? "selected" : ""}}> {{$val}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            @break
-
-                            @case(5)
-                            <div class="card-box box-action-image position-relative">
-                                <label class="font-weight-bold">{{$items->display_name}} </label>
-                                <p>* Ghi chú: Định dạng ảnh jpg, jpeg, png, gif</p>
-
-                                <input type="file" name="{{$items->name}}" class="filestyle" id="fileUpload-{{$items->name}}" data-btnClass="btn-primary">
-                                <div class="text-center mt-2 image-holder" id="image-holder-{{$items->name}}">
-                                    @if(file_exists($old->$name)) <img src="{{asset($old->$name)}}" class="img-responsive img-thumbnail"> @endif
-                                </div>
-                                <div class="box-position btn btn-purple waves-effect waves-light text-left @if(!file_exists($old->$name)) hidden-box @endif show-box-{{$items->name}}">
-                                    <div class="checkbox checkbox-warning checkbox-circle checkbox-unlink-{{$items->name}}">
-                                        <input id="checkbox_{{$items->name}}" class="unlink-image" type="checkbox" name="unlink_{{$items->name}}">
-                                        <label for="checkbox_{{$items->name}}" data-name="{{$items->name}}" class="mb-0">Xóa ảnh</label>
+                                @switch($items->display_type)
+                                    @case(1)
+                                    <div class="card-box">
+                                        <label class="mb-0">Trạng thái</label>
+                                        <hr>
+                                        <div class="checkbox">
+                                            <input id="checkbox_{{$items->name}}" type="checkbox" name="{{$items->name}}" checked>
+                                            <label for="checkbox_{{$items->name}}" class="mb-0">{{$items->name}}</label>
+                                        </div>
                                     </div>
+                                    @break
 
-                                </div>
+                                    @case(3)
+                                    <div class="card-box">
+                                        <label class="mb-0">Trạng thái</label>
+                                        <hr>
+                                        <div class="checkbox">
+                                            <input id="checkbox_{{$items->name}}" {{$old->$name == $items->name ? "checked" : ""}} type="checkbox" name="{{$items->name}}" checked>
+                                            <label for="checkbox_{{$items->name}}" class="mb-0">{{$items->name}}</label>
+                                        </div>
+                                    </div>
+                                    @break
+
+                                    @case(4)
+                                    <div class="card-box">
+                                        <label>{{$items->display_name}} </label>
+                                        <select class="form-control" data-toggle="select2" name="{{$items->name}}">
+                                            @foreach($items->option as $key => $val)
+                                                <option value="{{$val}}" {{$old->$name == $val ? "selected" : ""}}> {{$val}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    @break
+
+                                    @case(5)
+                                    <div class="card-box box-action-image position-relative">
+                                        <label class="font-weight-bold">{{$items->display_name}} </label>
+                                        <p class="font-13">* Định dạng ảnh jpg, jpeg, png, gif</p>
+
+                                        <input type="file" name="{{$items->name}}" class="filestyle" id="fileUpload-{{$items->name}}" data-btnClass="btn-primary">
+                                        <div class="text-center mt-2 image-holder" id="image-holder-{{$items->name}}">
+                                            @if(file_exists($old->$name)) <img src="{{asset($old->$name)}}" class="img-responsive img-thumbnail"> @endif
+                                        </div>
+                                        <div class="box-position btn btn-default waves-effect waves-light text-left @if(!file_exists($old->$name)) hidden-box @endif show-box-{{$items->name}}">
+                                            <div class="checkbox checkbox-unlink-{{$items->name}}">
+                                                <input id="checkbox_{{$items->name}}" class="unlink-image" type="checkbox" name="unlink_{{$items->name}}">
+                                                <label for="checkbox_{{$items->name}}" data-name="{{$items->name}}" class="mb-0">Xóa ảnh</label>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    @break
+                                    @default
+                                @endswitch
                             </div>
-                            @break
-                            @default
-                        @endswitch
-                            </div>
-                    @endforeach
+                        @endforeach
                     </div>
                 </div>
 
-                <div class="col-lg-12 text-center">
-                    <div class="card-box">
-                        <a href="{{route('admin.action.module.index',$module->table)}}" class="btn btn-purple waves-effect waves-light"><span class="icon-button"><i class="fe-arrow-left"></i></span> Quay lại</a>
-                        <button type="submit" class="btn btn-primary waves-effect width-md waves-light" name="send" value="save"><span class="icon-button"><i class="fe-plus"></i></span> Lưu lại</button>
-                    </div>
+                <div class="col-lg-12">
+                    <a href="{{route('admin.action.module.index',$module->table)}}" class="btn btn-default waves-effect waves-light"><span class="icon-button"><i class="fe-arrow-left"></i></span> Quay lại</a>
+                    <button type="submit" class="btn btn-primary waves-effect width-md waves-light float-right" name="send" value="save"><span class="icon-button"><i class="fe-plus"></i></span> Lưu lại</button>
                 </div>
             </div>
             <!-- end row -->

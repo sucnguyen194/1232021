@@ -20,18 +20,16 @@
         <div class="row">
             <div class="col-12">
                 <div class="card-box table-responsive">
-                    <div class="action-datatable mb-3">
+                    <div class="action-datatable text-right mb-3">
                         <a href="{{route('admin.attribute_categorys.create')}}" class="btn btn-primary waves-effect width-md waves-light">
                             <span class="icon-button"><i class="fe-plus"></i></span> Thêm mới</a>
-
-                        <button class="btn btn-warning waves-effect waves-light" onclick="return confirm('Bạn chắc chắn muốn xóa!')" type="submit" name="delall" value="delete"><span class="icon-button"><i class="fe-x-circle" aria-hidden="true"></i></span> Xóa tất cả</button>
                     </div>
-                    <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive" style="border-collapse: collapse; border-spacing: 0; ;">
+                    <table id="datatable-buttons" class="table table-bordered dt-responsive" style="border-collapse: collapse; border-spacing: 0; ;">
                         <thead>
                         <tr>
                             <th>ID</th>
                             <th>STT</th>
-                            <th style="width: 30%">Danh mục</th>
+                            <th>Danh mục</th>
                             <th>Ngày tạo</th>
                             <th>Trạng thái</th>
                             <th>Hành động</th>
@@ -49,17 +47,19 @@
                                     {{$item->updated_at->diffForHumans()}}
                                 </td>
                                 <td>
-                                    <div class="checkbox checkbox-primary checkbox-circle" >
+                                    <div class="checkbox">
                                         <input id="checkbox_public_{{$item->id}}"  {{$item->public == 1 ? "checked" : ''}} type="checkbox" name="public">
                                         <label for="checkbox_public_{{$item->id}}" class="data_public"  data-id="{{$item->id}}">Hiển thị</label>
                                     </div>
                                 </td>
 
                                 <td>
-                                    <a href="{{route('admin.attribute_categorys.edit',$item)}}" class="btn btn-purple waves-effect waves-light">
+                                    <a href="{{route('admin.attribute_categorys.edit',$item)}}" class="btn btn-default waves-effect waves-light">
                                         <span class="icon-button"><i class="fe-edit-2"></i></span></a>
                                     <form method="post" action="{{route('admin.attribute_categorys.destroy',$item)}}" class="d-inline-block">
-                                        <button type="submit" onclick="return confirm('Bạn có chắc muốn xóa?');" class="btn btn-warning waves-effect waves-light"><span class="icon-button"><i class="fe-x"></i></span></button>
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" onclick="return confirm('Bạn có chắc muốn xóa?');" class="btn btn-default waves-effect waves-light"><span class="icon-button"><i class="fe-x"></i></span></button>
                                     </form>
                                 </td>
                             </tr>

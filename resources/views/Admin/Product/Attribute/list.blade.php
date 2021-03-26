@@ -22,8 +22,8 @@
                 <div class="card-box">
                     <form method="get">
                         <div class="row">
-                            <div class="col-md-2 mb-2 mb-lg-0 mb-md-0">
-                                <label class="font-weight-bold">Danh mục</label>
+                            <div class="col-md-4 mb-2 mb-lg-0 mb-md-0">
+                                <label>Danh mục</label>
                                 <select class="form-control" data-toggle="select2" name="category">
                                     <option value="">-----</option>
                                     <option value="-1" {{request()->category == -1 ? "selected" : ""}} class="font-weight-bold">Chưa có danh mục</option>
@@ -32,11 +32,11 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-4">
                                 <label class="ql-color-white hidden-xs" style="opacity: 0">-</label>
                                 <div class="mb-2 mb-lg-0 mb-md-0">
                                     <button class="btn btn-primary waves-effect waves-light" type="submit"><span class="icon-button"><i class="fe-search"></i></span> Tìm kiếm</button>
-                                    <a class="btn btn-purple waves-effect waves-light" href="{{route('admin.attributes.index')}}"><span class="icon-button"><i class="fe-arrow-left"></i></span> Quay lại</a>
+                                    <a class="btn btn-default waves-effect waves-light" href="{{route('admin.attributes.index')}}"><span class="icon-button"><i class="fe-arrow-left"></i></span> Quay lại</a>
                                 </div>
                             </div>
                         </div>
@@ -47,18 +47,18 @@
         <div class="row">
             <div class="col-12">
                 <div class="card-box table-responsive">
-                    <div class="action-datatable mb-3">
+                    <div class="action-datatable text-right mb-3">
                             <a href="{{route('admin.attributes.create')}}" class="btn btn-primary waves-effect width-md waves-light">
                                 <span class="icon-button"><i class="fe-plus"></i></span> Thêm mới</a>
                         </div>
-                    <table id="datatable-buttons" class="table table-bordered table-striped table-hover bs-table" style="border-collapse: collapse; border-spacing: 0; ;">
+                    <table id="datatable-buttons" class="table table-bordered table-hover bs-table" style="border-collapse: collapse; border-spacing: 0; ;">
                             <thead>
                             <tr>
 
                                 <th class="sorting_desc">ID</th>
                                 <th>STT</th>
-                                <th style="width: 30%">Tiêu đề</th>
-                                <th style="width: 30%">Danh mục</th>
+                                <th>Tiêu đề</th>
+                                <th>Danh mục</th>
                                 <th>Ngày tạo</th>
                                 <th>Hành động</th>
                             </tr>
@@ -77,12 +77,12 @@
                                     </td>
 
                                     <td>
-                                        <a href="{{route('admin.attributes.edit',$item)}}" class="btn btn-purple waves-effect waves-light">
+                                        <a href="{{route('admin.attributes.edit',$item)}}" class="btn btn-default waves-effect waves-light">
                                             <span class="icon-button"><i class="fe-edit-2"></i></span></a>
                                         <form method="post" action="{{route('admin.attributes.destroy',$item)}}" class="d-inline-block">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" onclick="return confirm('Bạn có chắc muốn xóa?');" class="btn btn-warning waves-effect waves-light"><span class="icon-button"><i class="fe-x"></i></span></button>
+                                            <button type="submit" onclick="return confirm('Bạn có chắc muốn xóa?');" class="btn btn-default waves-effect waves-light"><span class="icon-button"><i class="fe-x"></i></span></button>
                                         </form>
                                     </td>
                                 </tr>

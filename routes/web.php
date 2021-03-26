@@ -267,13 +267,9 @@ Route::group(['prefix' => 'ajax','as' => 'ajax.'], function () {
     Route::get('lang/{alias}/{lang}', 'AjaxController@change_lang')->name('change.lang');
 });
 
-Route::group(['prefix' => 'contact'],function(){
-    Route::get('contact.html', 'ContactController@index')->name('contact.index');
-    Route::post('contact.html', 'ContactController@post');
-
-    Route::get('lien-he.html', 'ContactController@index');
-    Route::post('lien-he.html', 'ContactController@post');
-});
+Route::get('lien-he.html', 'ContactController@index');
+Route::get('contact.html', 'ContactController@index')->name('contact.index');
+Route::post('contact', 'ContactController@store')->name('send.contact');
 
 Route::get('/', 'HomeController@index')->name('home');
 Route::get('{alias}.html', 'HomeController@getAlias')->name('alias');

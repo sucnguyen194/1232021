@@ -42,7 +42,7 @@
     <div class="navbar-custom">
         <ul class="list-unstyled topnav-menu float-right mb-0">
             @php
-                $contact = \App\Models\Contact::where('status', \App\Enums\ActiveDisable::DISABLE)->orderByDesc('created_at')->take(10)->get();
+                $contact = \App\Models\Contact::latest()->orderByDesc('status')->take(10)->get();
                 $langs = \App\Models\Lang::all();
             @endphp
             <li class="redirect-website"><a href="{{route('home')}}" class="nav-link dropdown-toggle mr-0 waves-effect waves-light" target="_blank"><i class="fas fa-home h3 text-white"></i></a> </li>
@@ -100,7 +100,6 @@
             </li>
 
         </ul>
-
         <!-- LOGO -->
         <div class="logo-box"> <a href="" class="logo text-center"> <span class="logo-lg"> <img src="{{asset('admin/assets/images/logo-light.png')}}" alt="" height="25">
                     <!-- <span class="logo-lg-text-light">UBold</span> -->
@@ -155,7 +154,7 @@
                         <li>
                             <a href="{{!$nav->where('parent_id', $item->id)->count() ? route($item->route) : "javascript:void(0)"}}">
                                 <i class="{{$item->icon}}"></i>
-                                <span>  {{$item->name}} </span>
+                                <span>{{$item->name}}</span>
                                 @if($item->route == 'admin.comments.index')
                                     <span class="badge badge-danger badge-pill">{{$comments->count()}}</span>
                                 @endif
@@ -194,7 +193,7 @@
                                 @if($nav->where('parent_id', $item->id)->count())
                                 <ul class="nav-second-level" aria-expanded="false">
                                    @foreach($nav->where('parent_id', $item->id) as $sub)
-                                    <li><a href="{{$sub->route ? route($sub->route) : "javascript:void(0)"}}">{{$sub->name}}</a></li>
+                                    <li><a href="{{$sub->route ? route($sub->route) : "javascript:void(0)"}}" >{{$sub->name}}</a></li>
                                     @endforeach
                                 </ul>
                                 @endif
@@ -355,7 +354,89 @@
         $('.loading').fadeOut();
     });
 </script>
+<script type="text/javascript">
+    var url = "{{route('home')}}/";
 
+    function ChangeToSlug()
+    {
+        var title, slug;
+        //Lấy text từ thẻ input title
+        title = document.getElementById("title").value;
+        //Đổi chữ hoa thành chữ thường
+        slug = title.toLowerCase();
+        //Đổi ký tự có dấu thành không dấu
+        slug = slug.replace(/á|à|ả|ạ|ã|ă|ắ|ằ|ẳ|ẵ|ặ|â|ấ|ầ|ẩ|ẫ|ậ/gi, 'a');
+        slug = slug.replace(/é|è|ẻ|ẽ|ẹ|ê|ế|ề|ể|ễ|ệ/gi, 'e');
+        slug = slug.replace(/i|í|ì|ỉ|ĩ|ị/gi, 'i');
+        slug = slug.replace(/ó|ò|ỏ|õ|ọ|ô|ố|ồ|ổ|ỗ|ộ|ơ|ớ|ờ|ở|ỡ|ợ/gi, 'o');
+        slug = slug.replace(/ú|ù|ủ|ũ|ụ|ư|ứ|ừ|ử|ữ|ự/gi, 'u');
+        slug = slug.replace(/ý|ỳ|ỷ|ỹ|ỵ/gi, 'y');
+        slug = slug.replace(/đ/gi, 'd');
+        //Xóa các ký tự đặt biệt
+        slug = slug.replace(/\`|\~|\!|\@|\#|\||\$|\%|\^|\&|\*|\(|\)|\+|\=|\,|\.|\/|\?|\>|\<|\'|\"|\:|\;|_/gi, '');
+        //Đổi khoảng trắng thành ký tự gạch ngang
+        slug = slug.replace(/ /gi, "-");
+        //Đổi nhiều ký tự gạch ngang liên tiếp thành 1 ký tự gạch ngang
+        //Phòng trường hợp người nhập vào quá nhiều ký tự trắng
+        slug = slug.replace(/\-\-\-\-\-/gi, '-');
+        slug = slug.replace(/\-\-\-\-/gi, '-');
+        slug = slug.replace(/\-\-\-/gi, '-');
+        slug = slug.replace(/\-\-/gi, '-');
+        //Xóa các ký tự gạch ngang ở đầu và cuối
+        slug = '@' + slug + '@';
+        slug = slug.replace(/\@\-|\-\@|\@/gi, '');
+        //In slug ra textbox có id “slug”
+        document.getElementById('alias').value = slug;
+        document.getElementById('alias_seo').innerText = url + $(this).val() + '.html';
+    }
+    jQuery(document).ready(function($) {
+
+        var alias = $('.alias');
+        var title = $('input[name="title"]');
+        var name = $('input[name="name"]');
+        var title_seo = $('input[name="title_seo"]');
+        var description_seo = $('textarea[name="description_seo"]');
+        var data_title_seo = $('input[name="data[title_seo]"]');
+        var data_description_seo = $('textarea[name="data[description_seo]"]');
+
+        data_title_seo.keyup(function() {
+            /* Act on the event */
+            $('.title-seo').html($(this).val());
+            return false;
+        });
+
+        data_description_seo.keyup(function() {
+            /* Act on the event */
+            $('.description-seo').html($(this).val());
+            return false;
+        });
+        title_seo.keyup(function() {
+            /* Act on the event */
+            $('.title-seo').html($(this).val());
+            return false;
+        });
+
+        description_seo.keyup(function() {
+            /* Act on the event */
+            $('.description-seo').html($(this).val());
+            return false;
+        });
+        title.on('keyup change',function(){
+            var url = "{{route('home')}}/";
+
+            $('.alias-seo').text(url + $(this).val() + '.html');
+        });
+        name.on('keyup change',function(){
+            var url = "{{route('home')}}/";
+            $('.alias-seo').text(url + $(this).val() + '.html');
+        });
+        alias.on('keyup change',function(){
+            var url = "{{route('home')}}/";
+            $('.alias-seo').text(url + $(this).val() + '.html');
+        })
+
+    });
+</script>
 </body>
 
 </html>

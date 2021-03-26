@@ -3,6 +3,17 @@
 use Illuminate\Support\Facades\Auth;
 use App\Models\PostLang;
 
+
+if (! function_exists('nav_active')) {
+
+    function nav_active($segment, $class='active')
+    {
+        $segment = str_replace(['index','create'],['*'],$segment);
+
+        return request()->routeIs($segment) ? $class : '';
+    }
+}
+
 if (! function_exists('date_range')) {
 
     function date_range($format_in = 'd/m/Y')
@@ -24,34 +35,33 @@ if (! function_exists('date_range')) {
 if(!function_exists('list_product_category')){
     function list_product_category($data){
 
-        foreach($data as $items){
-            if($items->parent_id == 0){
+        foreach($data->where('parent_id', 0) as $items){
                 $status = $items->status == 1 ? "checked" : "";
                 $public = $items->public == 1 ? "checked" : "";
 
                 $sort= '<input style="width:120px;" class="form-control" type="text" name="sort" data-id="'.$items->id.'" value="'.$items->sort.'"><span id="change-sort-success_'.$items->id.'" class="change-sort"></span>';
 
-                $display = '<div class="checkbox checkbox-primary checkbox-circle">';
+                $display = '<div class="checkbox">';
                 $display .= '<input id="checkbox_public_'.$items->id.'" id="public"  '.$public.' type="checkbox" name="public">';
                 $display .= '<label for="checkbox_public_'.$items->id.'" class="data_public" data-id="'.$items->id.'">Hiển thị</label>';
                 $display .= '</div>';
-                $display .= '<div class="checkbox checkbox-primary checkbox-circle">';
+                $display .= '<div class="checkbox">';
                 $display .= '<input id="checkbox_status_'.$items->id.'" id="status" '.$status.' type="checkbox" name="status">';
                 $display .= '<label for="checkbox_status_'.$items->id.'" class="mb-0 data_status" data-id="'.$items->id.'">Nổi bật</label>';
                 $display .=  '</div>';
 
-                $action = '<a href="'.route('admin.product_categorys.edit',$items).'" title="Sửa" class="btn btn-purple waves-effect waves-light mr-1">
+                $action = '<a href="'.route('admin.product_categorys.edit',$items).'" title="Sửa" class="btn btn-default waves-effect waves-light mr-1">
                                         <span class="icon-button"><i class="fe-edit-2"></i></span></a>';
-                $action .= '<a href="'.route('admin.product.category.del',$items->id).' " title="Xóa" onclick="return confirm(\'Bạn chắc chắn muốn xóa!\')" class="btn btn-warning waves-effect waves-light"><span class="icon-button"><i class="fe-x"></i></span> </a>
+                $action .= '<a href="'.route('admin.product.category.del',$items->id).' " title="Xóa" onclick="return confirm(\'Bạn chắc chắn muốn xóa!\')" class="btn btn-default waves-effect waves-light"><span class="icon-button"><i class="fe-x"></i></span> </a>
 				';
 
                 echo '<tr><td>';
-                echo  '<div class="checkbox checkbox-primary checkbox-circle">';
+                echo  '<div class="checkbox">';
                 echo   '<input id="checkbox_del_'.$items->id.'" class="check_del"  value="'.$items->id.'"  type="checkbox" name="check_del[]">';
                 echo   '<label for="checkbox_del_'.$items->id.'"></label></div></td>';
 				echo '<td>'. $items->id.'</td>';
 				echo '<td class="position-relative">'.$sort.'</td>';
-				echo '<td><a href="'.route('alias',$items->alias).'" class="text-secondary" target="_blank">'.$items->name.'</a></td>';
+				echo '<td><a href="'.route('alias',$items->alias).'" target="_blank">'.$items->name.'</a></td>';
 				echo '<td></td>';
 				echo '<td>'.$items->updated_at->diffForHumans().'</td>';
 				echo '<td>'.$display.'</td>';
@@ -59,7 +69,7 @@ if(!function_exists('list_product_category')){
 				echo '</tr>';
 
                 sub_list_product_category($data, $items->id);
-            }
+
         }
 
     }
@@ -75,27 +85,26 @@ if(!function_exists('sub_list_product_category')){
                 $public = $items->public == 1 ? "checked" : "";
 
                 $sort= '<input style="width:120px;" class="form-control" type="text" name="sort" data-id="'.$items->id.'" value="'.$items->sort.'"><span id="change-sort-success_'.$items->id.'" class="change-sort"></span>';
-                $display = '<div class="checkbox checkbox-primary checkbox-circle">';
+                $display = '<div class="checkbox">';
                 $display .= '<input id="checkbox_public_'.$items->id.'" id="public"  '.$public.' type="checkbox" name="public">';
                 $display .= '<label for="checkbox_public_'.$items->id.'" class="data_public" data-id="'.$items->id.'">Hiển thị</label>';
                 $display .= '</div>';
-                $display .= '<div class="checkbox checkbox-primary checkbox-circle">';
+                $display .= '<div class="checkbox">';
                 $display .= '<input id="checkbox_status_'.$items->id.'" id="status" '.$status.' type="checkbox" name="status">';
                 $display .= '<label for="checkbox_status_'.$items->id.'" class="mb-0 data_status" data-id="'.$items->id.'">Nổi bật</label>';
                 $display .= '</div>';
 
-                $action = '<a href="'.route('admin.product_categorys.edit',$items).'" title="Sửa" class="btn btn-purple waves-effect waves-light mr-1">';
+                $action = '<a href="'.route('admin.product_categorys.edit',$items).'" title="Sửa" class="btn btn-default waves-effect waves-light mr-1">';
                 $action .= '<span class="icon-button"><i class="fe-edit-2"></i></span></a>';
-                $action .= '<a href="'.route('admin.product.category.del',$items->id).' " title="Xóa" onclick="return confirm(\'Bạn chắc chắn muốn xóa!\')" class="btn btn-warning waves-effect waves-light"><span class="icon-button"><i class="fe-x"></i></span> </a>';
+                $action .= '<a href="'.route('admin.product.category.del',$items->id).' " title="Xóa" onclick="return confirm(\'Bạn chắc chắn muốn xóa!\')" class="btn btn-default waves-effect waves-light"><span class="icon-button"><i class="fe-x"></i></span> </a>';
 
                 echo '<tr><td>';
-                echo '<div class="checkbox checkbox-primary checkbox-circle">';
-                echo '<span style="display: none">.</span>';
+                echo '<div class="checkbox">';
                 echo '<input id="checkbox_del_'.$items->id.'" class="check_del"  value="'.$items->id.'"  type="checkbox" name="check_del[]">';
                 echo '<label for="checkbox_del_'.$items->id.'"></label></div></td>';
 				echo '<td>'. $items->id.'</td>';
 				echo '<td class="position-relative">'.$sort.'</td>';
-				echo '<td><a href="'.route('alias',$items->alias).'" class="text-secondary" target="_blank">'.$tab.'<span class="tree-sub"></span>'.$items->name.'</a></td>';
+				echo '<td><a href="'.route('alias',$items->alias).'" target="_blank">'.$tab.'<span class="tree-sub"></span>'.$items->name.'</a></td>';
 				echo '<td>'.$items->parents->name.'</td>';
 				echo '<td>'.$items->updated_at->diffForHumans().'</td>';
 				echo '<td>'.$display.'</td>';
@@ -148,25 +157,24 @@ if(!function_exists('list_news_category')){
                 $public = $items->public == 1 ? "checked" : "";
 
                 $sort= '<input style="width:120px;" class="form-control" type="text" name="sort" data-id="'.$items->id.'" value="'.$items->sort.'"><span id="change-sort-success_'.$items->id.'" class="change-sort"></span>';
-                $display = '<div class="checkbox checkbox-primary checkbox-circle">';
+                $display = '<div class="checkbox">';
                 $display .= '<input id="checkbox_public_'.$items->id.'" id="public"  '.$public.' type="checkbox" name="public">';
                 $display .= '<label for="checkbox_public_'.$items->id.'" class="data_public" data-id="'.$items->id.'">Hiển thị</label>';
                 $display .= '</div>';
-                $display .= '<div class="checkbox checkbox-primary checkbox-circle">';
+                $display .= '<div class="checkbox">';
                 $display .= '<input id="checkbox_status_'.$items->id.'" id="status" '.$status.' type="checkbox" name="status">';
                 $display .= '<label for="checkbox_status_'.$items->id.'" class="mb-0 data_status" data-id="'.$items->id.'">Nổi bật</label>';
                 $display .= '</div>';
 
-                $action = '<a href="'.route('admin.news_category.edit',$items).'" title="Sửa" class="btn btn-purple waves-effect waves-light">
+                $action = '<a href="'.route('admin.news_category.edit',$items).'" title="Sửa" class="btn btn-default waves-effect waves-light">
                                         <span class="icon-button"><i class="fe-edit-2"></i></span></a> ';
-                $action .= '<a href="'.route('admin.news.category.del',$items->id).' " title="Xóa" onclick="return confirm(\'Bạn chắc chắn muốn xóa!\')" class="btn btn-warning waves-effect waves-light"><span class="icon-button"><i class="fe-x"></i></span> </a>';
+                $action .= '<a href="'.route('admin.news.category.del',$items->id).' " title="Xóa" onclick="return confirm(\'Bạn chắc chắn muốn xóa!\')" class="btn btn-default waves-effect waves-light"><span class="icon-button"><i class="fe-x"></i></span> </a>';
                 echo '<tr><td>';
-                echo '<div class="checkbox checkbox-primary checkbox-circle">';
+                echo '<div class="checkbox">';
                 echo '<input id="checkbox_del_'.$items->id.'" class="check_del"  value="'.$items->id.'"  type="checkbox" name="check_del[]">';
                 echo '<label for="checkbox_del_'.$items->id.'"></label></div></td>';
-				echo '<td>'. $items->id.'</td>';
 				echo '<td class="position-relative">'.$sort.'</td>';
-				echo '<td><a href="'.route('alias',$items->alias).'" class="text-secondary" target="_blank">'.$items->title.'</a></td>';
+				echo '<td><a href="'.route('alias',$items->alias).'" target="_blank">'.$items->title.'</a></td>';
 				echo '<td></td>';
 				echo '<td>'.$items->updated_at->diffForHumans().'</td>';
 				echo '<td>'.$display.'</td>';
@@ -191,27 +199,26 @@ if(!function_exists('sub_list_news_category')){
 
                 $sort= '<input style="width:120px;" class="form-control" type="text" name="sort" data-id="'.$items->id.'" value="'.$items->sort.'"><span id="change-sort-success_'.$items->id.'" class="change-sort"></span>';
 
-                $display = '<div class="checkbox checkbox-primary checkbox-circle">';
+                $display = '<div class="checkbox">';
                 $display .= '<input id="checkbox_public_'.$items->id.'" id="public"  '.$public.' type="checkbox" name="public">';
                 $display .= '<label for="checkbox_public_'.$items->id.'" class="data_public" data-id="'.$items->id.'">Hiển thị</label>';
                 $display .= '</div>';
-                $display .= '<div class="checkbox checkbox-primary checkbox-circle">';
+                $display .= '<div class="checkbox">';
                 $display .= '<input id="checkbox_status_'.$items->id.'" id="status" '.$status.' type="checkbox" name="status">';
                 $display .= '<label for="checkbox_status_'.$items->id.'" class="mb-0 data_status" data-id="'.$items->id.'">Nổi bật</label>';
                 $display .= '</div>';
 
-                $action = '<a href="'.route('admin.news_category.edit',$items).'" title="Sửa" class="btn btn-purple waves-effect waves-light">
+                $action = '<a href="'.route('admin.news_category.edit',$items).'" title="Sửa" class="btn btn-default waves-effect waves-light">
                                        <span class="icon-button"><i class="fe-edit-2"></i></span></a> ';
-                $action .= '<a href="'.route('admin.news.category.del',$items->id).' " title="Xóa" onclick="return confirm(\'Bạn chắc chắn muốn xóa!\')" class="btn btn-warning waves-effect waves-light"><span class="icon-button"><i class="fe-x"></i></span> </a>';
+                $action .= '<a href="'.route('admin.news.category.del',$items->id).' " title="Xóa" onclick="return confirm(\'Bạn chắc chắn muốn xóa!\')" class="btn btn-default waves-effect waves-light"><span class="icon-button"><i class="fe-x"></i></span> </a>';
 
                 echo '<tr><td>';
-                echo '<div class="checkbox checkbox-primary checkbox-circle">';
+                echo '<div class="checkbox">';
                 echo '<input id="checkbox_del_'.$items->id.'" class="check_del"  value="'.$items->id.'"  type="checkbox" name="check_del[]">';
                 echo '<label for="checkbox_del_'.$items->id.'"></label></div></td>';
-				echo '<td>'. $items->id.'</td>';
 				echo '<td class="position-relative">'.$sort.'</td>';
-				echo '<td><a href="'.route('alias',$items->alias).'" class="text-secondary" target="_blank">'.$tab.'<span class="tree-sub"></span>'.$items->title.'</a></td>';
-				echo '<td>'.$items->parents->title.'</td>';
+				echo '<td><a href="'.route('alias',$items->alias).'" target="_blank">'.$tab.'<span class="tree-sub"></span>'.$items->title.'</a></td>';
+                echo '<td><a href="'.route('alias',$items->parents->alias).'" target="_blank">'.$items->parents->title.'</a></td>';
 				echo '<td>'.$items->updated_at->diffForHumans().'</td>';
 				echo '<td>'.$display.'</td>';
 				echo '<td>'.$action.'</td>';
@@ -438,11 +445,11 @@ if(!function_exists('admin_menu_sub')){
             echo '<div class="dd-handle"><span class="pr-1">'.$icon.'</span> '.$items->name.'</div>';
 
             echo '<div class="menu_action">';
-            echo '<a href="'.route('admin.menus.edit',$items).'" title="Sửa" class="btn btn-purple waves-effect waves-light"><i class="fe-edit-2"></i></a> ';
+            echo '<a href="'.route('admin.menus.edit',$items).'" title="Sửa" class="btn btn-primary waves-effect waves-light"><i class="fe-edit-2"></i></a> ';
             echo '<form method="post" action="'.route('admin.menus.destroy',$items).'" class="d-inline-block">';
             echo '<input type="hidden" name="_method" value="DELETE">';
             echo '<input type="hidden" name="_token" value="'.csrf_token().'">';
-            echo '<button type="submit" onclick="return confirm(\'Bạn chắc chắn muốn xóa?\')" class="btn btn-warning waves-effect waves-light"><i class="fe-x"></i></button>';
+            echo '<button type="submit" onclick="return confirm(\'Bạn chắc chắn muốn xóa?\')" class="btn btn-primary waves-effect waves-light"><i class="fe-x"></i></button>';
             echo '</form>';
             echo '</div>';
 

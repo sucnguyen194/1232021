@@ -21,16 +21,16 @@
         <div class="row">
             <div class="col-12">
                 <div class="card-box table-responsive">
-                        <div class="action-datatable mb-3">
+                        <div class="action-datatable text-right mb-3">
                             <a href="{{route('admin.alias.create')}}" class="btn btn-primary waves-effect width-md waves-light">
-                                <span class="icon-button"><i class="fa fa-plus-circle"></i></span> Thêm mới</a>
+                                <span class="icon-button"><i class="fe-plus"></i></span> Thêm mới</a>
                         </div>
-                        <table id="datatable-buttons" class="table table-bordered table-striped table-hover bs-table" style="border-collapse: collapse; border-spacing: 0; ;">
+                        <table id="datatable-buttons" class="table table-bordered table-hover bs-table" style="border-collapse: collapse; border-spacing: 0; ;">
                             <thead>
                             <tr>
                                 <th>ID</th>
-                                <th style="width: 30%">Đường dẫn</th>
-{{--                                <th>Phân loại</th>--}}
+                                <th>Đường dẫn</th>
+
                                 <th>Ngày tạo</th>
                                 <th>Hành động</th>
                             </tr>
@@ -38,21 +38,20 @@
 
                             <tbody>
                             @foreach($alias as $item)
-                                <tr class="font-weight-bold">
+                                <tr>
                                     <td >{{$item->id}}</td>
                                     <td style="width: 30%">{{ $item->alias}} </td>
-{{--                                    <td>{{\App\Enums\AliasType::getDescription($item->type)}} </td>--}}
                                     <td>
                                         {{$item->updated_at->diffForHumans()}}
                                     </td>
                                     <td>
-                                        <a href="{{route('admin.alias.edit',$item)}}" class="btn btn-purple waves-effect waves-light">
+                                        <a href="{{route('admin.alias.edit',$item)}}" class="btn btn-default waves-effect waves-light">
                                             <span class="icon-button"><i class="fe-edit-2"></i></span></a>
 
                                        <form method="post" action="{{route('admin.alias.destroy',$item)}}" class="d-inline-block">
                                            @method('DELETE')
                                            @csrf
-                                           <button type="submit" class="btn btn-warning waves-effect waves-light" onclick="return confirm('Bạn có chắc muốn xóa?');"><span class="icon-button"><i class="fe-x"></i></span></button>
+                                           <button type="submit" class="btn btn-default waves-effect waves-light" onclick="return confirm('Bạn có chắc muốn xóa?');"><span class="icon-button"><i class="fe-x"></i></span></button>
                                        </form>
 
                                     </td>

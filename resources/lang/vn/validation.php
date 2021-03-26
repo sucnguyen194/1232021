@@ -147,6 +147,7 @@ return [
     */
 
     'attributes' => [
+        'g-recaptcha-response'  => 'captcha',
         'data.email'            => 'email',
         'data.name'             => 'tên',
         'data.phone'            => 'số điện thoại',

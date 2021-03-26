@@ -25,6 +25,10 @@ Thêm mới
 
         <div class="row">
             <div class="col-sm-12">
+                <div class="form-group">
+                    <a href="{{route('admin.menus.index')}}" class="btn btn-default waves-effect waves-light"><span class="icon-button"><i class="fe-arrow-left"></i></span> Quay lại</a>
+                    <button type="submit" class="btn btn-primary waves-effect width-md waves-light float-right" onclick="document.querySelector('#form-store').submit()" name="send" value="save"><span class="icon-button"><i class="fe-plus"></i></span> Lưu lại</button>
+                </div>
                 <div class="row">
                     <div class="col-md-4">
                         <div class="card-box">
@@ -82,11 +86,11 @@ Thêm mới
                                                 </div>
 
                                                 <div class="menu_action">
-                                                    <a href="{{route('admin.menus.edit',$items)}}" title="Sửa" class="btn btn-purple waves-effect waves-light"><i class="fe-edit-2"></i></a>
+                                                    <a href="{{route('admin.menus.edit',$items)}}" title="Sửa" class="btn btn-primary waves-effect waves-light"><i class="fe-edit-2"></i></a>
                                                     <form method="post" action="{{route('admin.menus.destroy',$items)}}" class="d-inline-block">
                                                         @method('DELETE')
                                                         @csrf
-                                                        <button type="submit" onclick="return confirm('Bạn chắc chắn muốn xóa?')" class="btn btn-warning waves-effect waves-light"><i class="fe-x"></i></button>
+                                                        <button type="submit" onclick="return confirm('Bạn chắc chắn muốn xóa?')" class="btn btn-primary waves-effect waves-light"><i class="fe-x"></i></button>
                                                     </form>
                                                 </div>
 
@@ -105,11 +109,11 @@ Thêm mới
 
                     <div class="col-md-4">
 
-                        <form method="post" action="{{route('admin.menus.store')}}" enctype="multipart/form-data">
+                        <form method="post" action="{{route('admin.menus.store')}}" id="form-store" enctype="multipart/form-data">
                             @csrf
                         <div class="card-box">
                                 <div class="form-group">
-                                    <label><strong>Vị trí</strong></label>
+                                    <label>Vị trí</label>
                                     <select id="position" class="form-control" data-toggle="select2">
                                         <option value="top" @if(Session::get('menu_position') == 'top') selected @endif class="form-control">MENU TOP</option>
                                         <option value="home" @if(Session::get('menu_position') == 'home') selected @endif class="form-control">MENU HOME</option>
@@ -120,16 +124,16 @@ Thêm mới
                                     <textarea id="nestable-output" name="menuval" style="display: none;"></textarea>
                                 </div>
                                 <div class="form-group">
-                                    <label><strong>Tiêu đề</strong></label>
+                                    <label>Tiêu đề</label>
                                     <input id="title" class="form-control" onkeyup="ChangeToSlug()" name="data[name]" type="text">
                                 </div>
                                 <div class="form-group">
-                                    <label><strong>Đường dẫn</strong></label>
+                                    <label>Đường dẫn</label>
                                     <input id="alias" class="form-control" name="data[url]" type="text">
                                 </div>
 
                                 <div class="form-group">
-                                    <label><strong>Danh mục cha</strong></label>
+                                    <label>Danh mục cha</label>
                                     <select id="parent_id" name="data[parent_id]" class="form-control" data-toggle="select2">
                                         <option value="0">-----</option>
                                         @foreach($menus->where('parent_id', 0) as $items)
@@ -139,11 +143,11 @@ Thêm mới
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label><strong>Mô tả</strong></label>
+                                    <label>Mô tả</label>
                                     <textarea name="description" id="summernote" rows="6" class="form-control summernote"></textarea>
                                 </div>
                                 <div class="form-group">
-                                    <label><strong>Target</strong></label>
+                                    <label>Target</label>
 
                                     <select id="target" name="data[target]" class="form-control" data-toggle="select2">
                                         <option value="_self">-----</option>
@@ -156,28 +160,28 @@ Thêm mới
                                 </div>
 
                                 <div class="form-group">
-                                    <label><strong>Kiểu menu</strong></label>
+                                    <label>Kiểu menu</label>
                                     <select id="type" name="data[type]" class="form-control" data-toggle="select2">
                                         <option value="default">Default</option>
                                         <option value="mega">Mega Menu</option>
                                     </select>
                                 </div>
                                 <div class="form-group position-relative box-action-image">
-                                    <label><strong>Icon</strong></label>
-                                    <p>* Ghi chú: Định dạng ảnh jpg, jpeg, png, gif</p>
+                                    <label>Icon</label>
+                                    <p class="font-13">* Định dạng ảnh jpg, jpeg, png, gif</p>
 
                                     <input type="file" name="image" class="filestyle" id="fileUpload" data-btnClass="btn-primary">
                                     <div class="text-center mt-2 image-holder" id="image-holder">
 
                                     </div>
-                                    <div class="box-position btn btn-purple waves-effect waves-light text-left show-box">
+                                    <div class="box-position btn btn-default waves-effect waves-light text-left show-box">
 
-                                        <div class="checkbox checkbox-warning checkbox-circle checkbox-unlink-watermark">
-                                            <input id="checkbox_watermark" class="watermark" type="checkbox" name="watermark">
-                                            <label for="checkbox_watermark">Gắn watermark</label>
-                                        </div>
+{{--                                        <div class="checkbox checkbox-unlink-watermark">--}}
+{{--                                            <input id="checkbox_watermark" class="watermark" type="checkbox" name="watermark">--}}
+{{--                                            <label for="checkbox_watermark">Gắn watermark</label>--}}
+{{--                                        </div>--}}
 
-                                        <div class="checkbox checkbox-warning checkbox-circle checkbox-unlink-image">
+                                        <div class="checkbox checkbox-unlink-image">
                                             <input id="checkbox_unlink" class="unlink-image" type="checkbox" name="unlink">
                                             <label for="checkbox_unlink" class="mb-0">Xóa ảnh</label>
                                         </div>
@@ -186,13 +190,11 @@ Thêm mới
                                 </div>
 
                         </div>
-                        <div class="card-box">
-                            <div class="text-center">
-                                <a href="{{route('admin.menus.index')}}" class="btn btn-purple waves-effect waves-light"><span class="icon-button"><i class="fe-arrow-left"></i></span> Quay lại</a>
-                                <button type="submit" class="btn btn-primary waves-effect width-md waves-light" name="send" value="save"><span class="icon-button"><i class="fe-plus"></i></span> Lưu lại</button>
+                            <div class="">
+                                <a href="{{route('admin.menus.index')}}" class="btn btn-default waves-effect waves-light"><span class="icon-button"><i class="fe-arrow-left"></i></span> Quay lại</a>
+                                <button type="submit" class="btn btn-primary waves-effect width-md waves-light float-right" name="send" value="save"><span class="icon-button"><i class="fe-plus"></i></span> Lưu lại</button>
                             </div>
                         </form>
-                        </div>
                     </div>
                 </div> <!-- end row -->
             </div> <!-- end col -->

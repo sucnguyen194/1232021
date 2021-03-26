@@ -22,7 +22,8 @@
             </div>
         </div>
         <!-- end page title -->
-
+    </div>
+    <div class="container">
         <div class="row">
             <form method="post" class="w-100" action="{{route('admin.lang.update',$lang)}}" enctype="multipart/form-data">
                 @csrf
@@ -51,11 +52,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-12 text-center">
-                    <div class="card-box">
-                        <a href="{{route('admin.lang.index')}}" class="btn btn-purple waves-effect waves-light"><span class="icon-button"><i class="fe-arrow-left"></i></span> Quay lại</a>
-                        <button type="submit" class="btn btn-primary waves-effect width-md waves-light" name="send" value="update"><span class="icon-button"><i class="fe-plus"></i></span> Lưu lại</button>
-                    </div>
+                <div class="col-lg-12">
+                    <a href="{{route('admin.lang.index')}}" class="btn btn-default waves-effect waves-light"><span class="icon-button"><i class="fe-arrow-left"></i></span> Quay lại</a>
+                    <button type="submit" class="btn btn-primary waves-effect width-md waves-light float-right" name="send" value="update"><span class="icon-button"><i class="fe-plus"></i></span> Lưu lại</button>
                 </div>
             </form>
         </div>

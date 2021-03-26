@@ -22,12 +22,12 @@
         <div class="row">
             <div class="col-12">
                 <div class="card-box table-responsive">
-                    <div class="action-datatable mb-3">
+                    <div class="action-datatable text-right mb-3">
                         <a href="{{route('admin.agencys.create')}}" class="btn btn-primary waves-effect width-md waves-light">
                             <span class="icon-button"><i class="fe-plus"></i></span> Thêm mới</a>
                     </div>
 
-                    <table id="datatable-buttons" class="table table-bordered table-striped table-hover bs-table" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                    <table id="datatable-buttons" class="table  table-bordered table-hover bs-table" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                         <thead>
                         <tr>
                             <th colspan="1">ID</th>
@@ -42,7 +42,7 @@
 
                         <tbody>
                         @foreach($agencys as $item)
-                            <tr class="font-weight-bold">
+                            <tr>
                                 <td >{{$item->id}}</td>
                                 <td>{{$item->name}}</td>
                                 <td>{{number_format($item->debt)}}</td>
@@ -52,16 +52,15 @@
                                    @if($item->status == 1) <span class="text-primary font-weight-bold">Hoạt động</span> @else <span class="text-secondary font-weight-bold">Tạm dừng</span> @endif
                                 </td>
                                 <td>
-                                    <a href="{{route('admin.agencys.edit',$item)}}" class="btn btn-purple waves-effect waves-light">
-                                        <span class="icon-button"><i class="fe-edit-2"></i></a>
+                                    <a href="{{route('admin.agencys.edit',$item)}}" class="btn btn-default waves-effect waves-light">
+                                        <span class="icon-button"><i class="fe-edit-2"></i></span></a>
                                     <form method="post" action="{{route('admin.agencys.destroy',$item)}}" class="d-inline-block">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" name="delete" onclick="return confirm('Bạn có chắc muốn xóa?');" value="delete" class="btn btn-warning waves-effect waves-light">
-                                            <span class="icon-button"><i class="fe-x"></i></button>
+                                        <button type="submit" name="delete" onclick="return confirm('Bạn có chắc muốn xóa?');" value="delete" class="btn btn-default waves-effect waves-light">
+                                            <span class="icon-button"><i class="fe-x"></i></span></button>
                                     </form>
-                                    <a href="{{route('admin.agencys.show',$item)}}" class="btn btn-primary waves-effect waves-light">
-                                        <span class="icon-button"><i class="pe-7s-cash"></i> Biến động số dư</a>
+                                    <a href="{{route('admin.agencys.show',$item)}}" class="btn btn-default waves-effect waves-light">Transaction</a>
                                 </td>
                             </tr>
                         @endforeach

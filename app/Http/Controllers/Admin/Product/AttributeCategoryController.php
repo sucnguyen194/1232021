@@ -112,5 +112,7 @@ class AttributeCategoryController extends Controller
         check_admin_systems(SystemsModuleType::ATTRIBUTE_CATEGORY);
 
         $attribute_category->delete();
+
+        return redirect()->back()->with(['message' => 'Xóa thành công!']);
     }
 }

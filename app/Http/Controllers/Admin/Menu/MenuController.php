@@ -220,11 +220,11 @@ class MenuController extends Controller
 
         $append .= '<div class="dd-handle"><span class="pr-1">'.$icon.'</span> '.$menu->name.'</div>';
         $append .= '<div class="menu_action">';
-        $append .= '<a href="'.route('admin.menus.edit',$menu).'" title="Sửa" class="btn btn-purple waves-effect waves-light"><i class="fe-edit-2"></i></a> ';
+        $append .= '<a href="'.route('admin.menus.edit',$menu).'" title="Sửa" class="btn btn-primary waves-effect waves-light"><i class="fe-edit-2"></i></a> ';
         $append .= '<form method="post" action="'.route('admin.menus.destroy',$menu).'" class="d-inline-block">';
         $append .= '<input type="hidden" name="_method" value="DELETE">';
         $append .= '<input type="hidden" name="_token" value="'.csrf_token().'">';
-        $append .= '<button type="submit" onclick="return confirm(\'Bạn chắc chắn muốn xóa?\')" class="btn btn-warning waves-effect waves-light"><i class="fe-x"></i></button>';
+        $append .= '<button type="submit" onclick="return confirm(\'Bạn chắc chắn muốn xóa?\')" class="btn btn-primary waves-effect waves-light"><i class="fe-x"></i></button>';
         $append .= '</form>';
         $append .= '</div>';
 

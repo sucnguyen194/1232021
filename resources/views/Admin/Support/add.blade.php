@@ -24,53 +24,51 @@
 
         <!-- Clickable Wizard -->
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-lg-10 offset-lg-1">
                 <form action="{{route('admin.support.store')}}" method="post" enctype="multipart/form-data">
-                    <div class="card-box"  id="wizard-clickable">
+                    <div class="card-box" id="wizard-clickable">
                         @csrf
                         <fieldset title="1">
-                            <legend>Lời nhắn</legend>
-                            <div class="row mt-3">
-                                <div class="col-md-8">
-                                    <div class="card-box">
-                                        <div class="form-group">
-                                            <label for="name" class="font-weight-bold">Tên nhân viên <span class="required">*</span></label>
-                                            <input type="text" class="form-control" name="name" id="name" value="{{old('name')}}" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="description" class="font-weight-bold">Lời nhắn <span class="required">*</span></label>
-                                            <textarea class="form-control summernote" id="summernote" name="description" required>{!! old('description') !!}</textarea>
-                                        </div>
+                            <legend>Đánh giá</legend>
+                            <div class="row mt-1">
+                                <div class="col-md-7 mr-2">
+                                    <div class="form-group">
+                                        <label for="name">Tên khách hàng <span class="required">*</span></label>
+                                        <input type="text" class="form-control" name="name" id="name" value="{{old('name')}}" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="description">Đánh giá <span class="required">*</span></label>
+                                        <textarea class="form-control summernote" id="summernote" name="description" required>{!! old('description') !!}</textarea>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
-                                    <div class="card-box">
-                                        <label class="font-weight-bold mb-2">Trạng thái</label>
-                                        <div class="checkbox checkbox-primary checkbox-circle">
-                                            <input id="checkbox_public" checked="checked" type="checkbox" name="public">
-                                            <label for="checkbox_public">Hiển thị</label>
-                                        </div>
-
-                                        <div class="checkbox checkbox-primary checkbox-circle">
-                                            <input id="checkbox_status"  type="checkbox" name="status">
-                                            <label for="checkbox_status" class="">Nổi bật</label>
-                                        </div>
+                                    <label class="mb-0">Trạng thái</label>
+                                    <hr>
+                                    <div class="checkbox">
+                                        <input id="checkbox_public" checked type="checkbox" name="public">
+                                        <label for="checkbox_public">Hiển thị</label>
                                     </div>
-                                    <div class="card-box position-relative box-action-image">
-                                        <label for="image" class="font-weight-bold">Ảnh đại diện</label>
-                                        <p>* Ghi chú: Định dạng ảnh jpg, jpeg, png, gif</p>
+
+                                    <div class="checkbox">
+                                        <input id="checkbox_status" type="checkbox" name="status">
+                                        <label for="checkbox_status" class="">Nổi bật</label>
+                                    </div>
+                                    <hr>
+                                    <div class="position-relative box-action-image">
+                                        <label for="image">Ảnh đại diện</label>
+                                        <p class="font-13">* Định dạng ảnh jpg, jpeg, png, gif</p>
 
                                         <input type="file" name="image" class="filestyle" id="fileUpload" data-btnClass="btn-primary">
                                         <div class="text-center mt-2 image-holder" id="image-holder">
 
                                         </div>
-                                        <div class="box-position btn btn-purple waves-effect waves-light text-left show-box">
+                                        <div class="box-position btn btn-default waves-effect waves-light text-left show-box">
                                             {{--                                            <div class="checkbox checkbox-warning checkbox-circle checkbox-unlink-watermark">--}}
                                             {{--                                                <input id="checkbox_watermark" class="watermark" type="checkbox" name="watermark">--}}
                                             {{--                                                <label for="checkbox_watermark">Gắn watermark</label>--}}
                                             {{--                                            </div>--}}
 
-                                            <div class="checkbox checkbox-warning checkbox-circle checkbox-unlink-image">
+                                            <div class="checkbox checkbox-unlink-image">
                                                 <input id="checkbox_unlink" class="unlink-image" type="checkbox" name="unlink">
                                                 <label for="checkbox_unlink" class="mb-0">Xóa ảnh</label>
                                             </div>
@@ -82,62 +80,56 @@
                         </fieldset>
                         <fieldset title="2">
                             <legend>Thông tin cá nhân</legend>
-                            <div class="row mt-3">
-                                <div class="col-md-4 offset-md-4">
-                                    <div class="card-box">
-                                        <div class="form-group">
-                                            <label for="phone" class="font-weight-bold">Số điện thoại</label>
-                                            <input type="text" class="form-control" id="phone" value="{{old('phone')}}" name="phone">
-                                        </div>
 
-                                        <div class="form-group">
-                                            <label for="email" class="font-weight-bold">Email</label>
-                                            <input type="text" class="form-control" id="email" value="{{old('email')}}" name="email">
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="job" class="font-weight-bold">Chức vụ</label>
-                                            <input type="text" class="form-control" value="{{old('job')}}" id="job" name="job">
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="address" class="font-weight-bold">Địa chỉ</label>
-                                            <textarea name="address" id="address" cols="30" rows="5" class="form-control">{{old('address')}}</textarea>
-                                        </div>
-                                    </div>
+                            <div class="mt-1">
+                                <div class="form-group">
+                                    <label for="phone">Số điện thoại</label>
+                                    <input type="text" class="form-control" id="phone" value="{{old('phone')}}" name="phone">
                                 </div>
 
+                                <div class="form-group">
+                                    <label for="email">Email</label>
+                                    <input type="text" class="form-control" id="email" value="{{old('email')}}" name="email">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="job">Công việc</label>
+                                    <input type="text" class="form-control" value="{{old('job')}}" id="job" name="job">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="address">Địa chỉ</label>
+                                    <textarea name="address" id="address" cols="30" rows="5" class="form-control">{{ old('address')}}</textarea>
+                                </div>
                             </div>
                         </fieldset>
                         <fieldset title="3">
                             <legend>Liên kết</legend>
-                            <div class="row mt-3">
-                                <div class="col-md-6">
-                                    <div class="card-box">
+                            <div class="mt-1">
+                                <div class="row">
+                                    <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="facebook" class="font-weight-bold">Facebook</label>
+                                            <label for="facebook">Facebook</label>
                                             <input type="text" class="form-control" value="{{old('facebook')}}" id="facebook" name="facebook">
                                         </div>
                                         <div class="form-group">
-                                            <label for="skype" class="font-weight-bold">Skype</label>
+                                            <label for="skype">Skype</label>
                                             <input type="text" class="form-control" value="{{old('skype')}}" id="skype" name="skype">
                                         </div><div class="form-group">
-                                            <label for="zalo" class="font-weight-bold">Zalo</label>
+                                            <label for="zalo">Zalo</label>
                                             <input type="text" class="form-control" value="{{old('zalo')}}" id="zalo" name="zalo">
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="card-box">
+                                    <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="twitter" class="font-weight-bold">Twitter</label>
+                                            <label for="twitter">Twitter</label>
                                             <input type="text" class="form-control" value="{{old('twitter')}}" id="twitter" name="twitter">
                                         </div>
-                                        <div class="form-group" class="font-weight-bold">
+                                        <div class="form-group">
                                             <label for="instagram">Instagram</label>
                                             <input type="text" class="form-control" value="{{old('instagram')}}"  id="instagram" name="instagram">
                                         </div>
-                                        <div class="form-group" class="font-weight-bold">
+                                        <div class="form-group">
                                             <label for="youtube">Youtube</label>
                                             <input type="text" class="form-control" value="{{old('youtube')}}" id="youtube" name="youtube">
                                         </div>
@@ -145,11 +137,11 @@
                                 </div>
                             </div>
                         </fieldset>
-                        <button type="submit" class="btn btn-primary stepy-finish"><span class="icon-button"><i class="fe-plus"></i></span> Lưu lại</button>
+                        <button type="submit" class="btn btn-primary stepy-finish"><span class="icon-button"><i class="fe-send"></i></span> Lưu lại</button>
                     </div>
-                    <div class="card-box text-center">
-                        <a href="{{route('admin.support.index')}}" class="btn btn-purple waves-effect waves-light"><span class="icon-button"><i class="fe-arrow-left"></i></span> Quay lại</a>
-                        <button type="submit" class="btn btn-primary"><span class="icon-button"><i class="fe-plus"></i></span> Lưu lại</button>
+                    <div class="mt-3">
+                        <a href="{{route('admin.support.index')}}" class="btn btn-default waves-effect waves-light"><span class="icon-button"><i class="fe-arrow-left"></i></span> Quay lại</a>
+                        <button type="submit" class="btn btn-primary waves-effect waves-light float-right" name="send" value="save"><span class="icon-button"><i class="fe-plus"></i></span> Lưu lại</button>
                     </div>
                 </form>
             </div>

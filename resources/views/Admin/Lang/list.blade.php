@@ -20,11 +20,11 @@
         <div class="row">
             <div class="col-12">
                 <div class="card-box table-responsive">
-                        <div class="action-datatable mb-3">
+                        <div class="action-datatable text-right mb-3">
                             <a href="{{route('admin.lang.create')}}" class="btn btn-primary waves-effect width-md waves-light">
-                                <span class="icon-button"><i class="fa fa-plus-circle"></i></span> Thêm mới</a>
+                                <span class="icon-button"><i class="fe-plus"></i></span> Thêm mới</a>
                         </div>
-                        <table id="datatable-buttons" class="table table-bordered table-striped table-hover bs-table" style="border-collapse: collapse; border-spacing: 0; ;">
+                        <table id="datatable-buttons" class="table table-bordered table-hover bs-table" style="border-collapse: collapse; border-spacing: 0; ;">
                             <thead>
                             <tr>
                                 <th>ID</th>
@@ -46,15 +46,15 @@
                                         {{$item->created_at->diffForHumans()}}
                                     </td>
                                     <td>
-                                        @if($item->status == 1) <strong class="text-success"><span class="icon-button"><i class="pe-7s-star"></i></span> Mặc định</strong> @endif
+                                        @if($item->status == 1) <strong class="text-info"><span class="icon-button"><i class="pe-7s-star"></i></span> Mặc định</strong> @endif
                                     </td>
                                     <td>
-                                        <a href="{{route('admin.lang.edit',$item)}}" class="btn btn-purple waves-effect waves-light">
+                                        <a href="{{route('admin.lang.edit',$item)}}" class="btn btn-default waves-effect waves-light">
                                             <span class="icon-button"><i class="pe-7s-look"></i></span></a>
                                     <form method="post" action="{{route('admin.lang.destroy',$item)}}" class="d-inline-block">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-warning waves-effect waves-light" {{$lang->count() == 1 ? "disabled" : ""}} onclick="return confirm('Bạn có chắc muốn xóa?');" ><span class="icon-button"><i class="fe-x"></i></span></button>
+                                        <button type="submit" class="btn btn-default waves-effect waves-light" {{$lang->count() == 1 ? "disabled" : ""}} onclick="return confirm('Bạn có chắc muốn xóa?');" ><span class="icon-button"><i class="fe-x"></i></span></button>
                                     </form>
                                         <a href="{{route('admin.active.lang',$item->id)}}" title="Đặt {{$item->name}} làm ngôn ngữ mặc định" onclick="return confirm('Bạn chắc chắn đặt {{$item->name}} làm ngôn ngữ mặc định?');" class="btn btn-info waves-effect waves-light">
                                             <span class="icon-button"><i class="fe-star-on"></i></span></a>

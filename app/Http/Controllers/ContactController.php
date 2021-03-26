@@ -4,8 +4,10 @@ use App\Http\Controllers\Controller;
 use App\Models\Contact;
 use App\Models\FContactModel;
 use App\Models\SiteSetting;
+use App\Rules\ValidRecapcha;
 use Session,DB,Mail;
 use Illuminate\Http\Request;
+
 class ContactController extends Controller {
 
     public function setting(){
@@ -20,7 +22,8 @@ class ContactController extends Controller {
 	    $request->validate([
 	        'data.name' => 'required',
 	        'data.phone' => 'numeric',
-            'data.email' => 'email'
+            'data.email' => 'email',
+            'g-recaptcha-response' => ['required', new  ValidRecapcha()]
         ]);
 
         $contact = new Contact();

@@ -23,7 +23,7 @@
                     <form method="get">
                         <div class="row">
                             <div class="col-md-8 mb-2 mb-lg-0 mb-md-0">
-                                <label class="font-weight-bold">Sản phẩm</label>
+                                <label>Sản phẩm</label>
                                 <select class="form-control" data-toggle="select2" name="product">
                                     <option value="">-----</option>
                                     @foreach($products as $product)
@@ -36,7 +36,7 @@
                                 <label class="ql-color-white hidden-xs" style="opacity: 0">-</label>
                                 <div class="mb-2 mb-lg-0 mb-md-0">
                                     <button class="btn btn-primary waves-effect waves-light" type="submit"><span class="icon-button"><i class="fe-search"></i></span> Tìm kiếm</button>
-                                    <a class="btn btn-purple waves-effect waves-light" href="{{route('admin.reports.index')}}"><span class="icon-button"><i class="fe-arrow-left"></i></span> Quay lại</a>
+                                    <a class="btn btn-default waves-effect waves-light" href="{{route('admin.reports.index')}}"><span class="icon-button"><i class="fe-arrow-left"></i></span> Quay lại</a>
                                 </div>
                             </div>
                         </div>
@@ -47,39 +47,39 @@
                 <div class="card-box">
                     <div class="row">
                         <div class="col-md-3">
-                            <label class="font-weight-bold">Tổng nhập</label>
+                            <label>Tổng nhập</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <span id="basic-addon1" class="input-group-text">SL</span>
                                 </div>
-                                <div class="font-weight-bold form-control">{{$amount}}</div>
+                                <div class="form-control">{{$amount}}</div>
                             </div>
                         </div>
                         <div class="col-md-3">
-                            <label class="font-weight-bold">Tổng xuất</label>
+                            <label>Tổng xuất</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <span id="basic-addon1" class="input-group-text">SL</span>
                                 </div>
-                                <div class="font-weight-bold form-control">{{$amount_export}}</div>
+                                <div class="form-control">{{$amount_export}}</div>
                             </div>
                         </div>
                         <div class="col-md-3">
-                            <label class="font-weight-bold">Tồn kho</label>
+                            <label>Tồn kho</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <span id="basic-addon1" class="input-group-text">SL</span>
                                 </div>
-                                <div class="font-weight-bold form-control">{{$amount - $amount_export}}</div>
+                                <div class="form-control">{{$amount - $amount_export}}</div>
                             </div>
                         </div>
                         <div class="col-md-3">
-                            <label class="font-weight-bold">Vồn tồn kho</label>
+                            <label>Vồn tồn kho</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <span id="basic-addon1" class="input-group-text">VNĐ</span>
                                 </div>
-                                <div class="font-weight-bold form-control">{{number_format($money)}}</div>
+                                <div class="form-control">{{number_format($money)}}</div>
                             </div>
                         </div>
                     </div>
@@ -90,7 +90,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="card-box table-responsive">
-                    <table id="datatable-buttons" class="table table-bordered table-striped table-hover bs-table" style="border-collapse: collapse; border-spacing: 0; ;">
+                    <table id="datatable-buttons" class="table table-bordered table-hover bs-table" style="border-collapse: collapse; border-spacing: 0; ;">
                         <thead>
                         <tr>
 
@@ -106,7 +106,7 @@
 
                         <tbody>
                         @foreach($sessions as $item)
-                            <tr class="font-weight-bold">
+                            <tr>
                                 <td>{{$item->product_id ?? 'Đã xóa'}}</td>
                                 <td><a href="{{route('admin.products.index',['id' => $item->product->id ?? 0])}}" target="_blank">{{$item->product->name ?? "Đã xóa"}}</a> </td>
                                 <td>{{$item->amount1}}</td>
@@ -116,7 +116,7 @@
                                     {{number_format($item->balance)}}
                                 </td>
                                 <td>
-                                    <a href="{{route('admin.reports.show',$item->product_id)}}" class="btn btn-purple waves-effect waves-light">
+                                    <a href="{{route('admin.reports.show',$item->product_id)}}" class="btn btn-default waves-effect waves-light">
                                         <span class="icon-button"><i class="pe-7s-magic-wand"></i> </span>Chi tiết</a>
                                 </td>
                             </tr>

@@ -17,11 +17,12 @@
             </div>
         </div>
         <!-- end page title -->
+    </div>
+    <div class="container">
         <div class="row">
             <div class="col-12">
                 <div class="card-box table-responsive">
-
-                    <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive" style="border-collapse: collapse; border-spacing: 0; ;">
+                    <table id="datatable-buttons" class="table table-hover bs-table" style="border-collapse: collapse; border-spacing: 0; ;">
                         <thead>
                         <tr>
                             <th>Tên cột</th>
@@ -40,22 +41,22 @@
                                 <td>
                                     @switch($field->display_type)
                                         @case(0)
-                                            Text
+                                        Text
                                         @break
                                         @case(1)
-                                            Checkbox
+                                        Checkbox
                                         @break
                                         @case(2)
-                                            Number
+                                        Number
                                         @break
                                         @case(3)
-                                            Radio
+                                        Radio
                                         @break
                                         @case(4)
-                                            Select
+                                        Select
                                         @break
                                         @case(5)
-                                            File
+                                        File
                                         @break
 
                                         @default
@@ -86,16 +87,14 @@
                         @endforeach
                         </tbody>
                     </table>
-                    <div class="text-center">
-                        <a href="{{route('admin.modules.index')}}" class="btn btn-purple waves-effect waves-light"><span class="icon-button"><i class="fe-arrow-left"></i></span> Quay lại</a>
+                    <div class="text-right">
+                        <a href="{{route('admin.modules.index')}}" class="btn btn-default waves-effect waves-light"><span class="icon-button"><i class="fe-arrow-left"></i></span> Quay lại</a>
                     </div>
                 </div>
             </div>
         </div>
         <!-- end row -->
-
     </div>
-
 @stop
 
 @section('css')
