@@ -18,6 +18,7 @@ use App\Models\ProductSession;
 use App\Models\Tags;
 use App\Models\User;
 use App\Models\UserAgency;
+use Barryvdh\Reflection\DocBlock\Type\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -117,38 +118,11 @@ class ProductController extends Controller
             'data.price_sale' => 'integer|min:0',
             'data.amount' => 'integer|min:0',
         ]);
-
-        $check_alias = \App\Models\Alias::whereAlias($request->input('data.alias'))->count();
-
-        if($check_alias > 0)
+        if(Alias::whereAlias($request->input('data.alias'))->count())
             return redirect()->back()->withInput()->withErrors(['message' => 'Đường dẫn đã tồn tại']);
 
         $product = new Product;
-
         $product->fill($request->data);
-
-        if($request->unlink){
-            $image = null;
-            $thumb = null;
-        }elseif($request->hasFile('image')){
-            $request->validate([
-                'image' => 'image|mimes:jpeg,png,jpg,gif,svg',
-            ]);
-            $file = $request->file('image');
-            $file->store('product');
-            $path = $file->hashName('product/thumb');
-            $resizeThumb = Image::make($file);
-            $resizeThumb->fit(375, 375, function ($constraint) {
-                $constraint->aspectRatio();
-            });
-            Storage::put($path, (string) $resizeThumb->encode());
-
-            $thumb = "storage/".$path;
-            $image = "storage/".$file->hashName('product');
-        }else{
-            $image = null;
-            $thumb = null;
-        }
 
         if ($request->input('fields.0.name')){
             $fields = [];
@@ -160,43 +134,46 @@ class ProductController extends Controller
             $product->option = $fields;
         }
 
-        $product->lang = Session::get('lang');
-        $product->image = $image;
-        $product->thumb = $thumb;
-        $product->user_id = Auth::id();
-
         $product->save();
 
-        if($request->hasFile('photo')){
-
-            $count = count($request->file('photo'));
-
+        $checkFile = $request->checkFile ?? null;
+        $count = count($request->file('photo'));
+        if($request->file('photo') && $checkFile){
             for ($i = 0; $i < $count; $i++) {
                 $file = $request->file('photo')[$i];
-                $file->store('product/photo');
-                $path = $file->hashName('product/photo/thumb');
-                $resizeThumb = Image::make($file);
-                $resizeThumb->fit(375, 375, function ($constraint) {
-                    $constraint->aspectRatio();
-                });
-                Storage::put($path, (string) $resizeThumb->encode());
+                $name = $file->getClientOriginalName();
+                if(in_array($name, $checkFile)){
+                    $file->store('product');
+                    $path = $file->hashName('product/thumb');
+                    $resizeThumb = Image::make($file);
+                    $resizeThumb->fit(375, 375, function ($constraint) {
+                        $constraint->aspectRatio();
+                    });
+                    Storage::put($path, (string) $resizeThumb->encode());
 
-                $thumb = "storage/".$path;
-                $image = "storage/".$file->hashName('product/photo');
-
-                Media::create([
-                    'name' => $product->name,
-                    'image' => $image,
-                    'thumb' => $thumb,
-                    'type_id' => $product->id,
-                    'type' => MediaType::PRODUCT,
-                    'user_id' => \Auth::id(),
-                    'public' => 1,
-                    'lang' => $product->lang
-                ]);
-
+                    if($checkFile[0] == $name){
+                        $product->update([
+                            'image' => "storage/".$file->hashName('product'),
+                            'thumb' => "storage/".$path
+                        ]);
+                    }
+                    $thumb = "storage/".$path;
+                    $image = "storage/".$file->hashName('product');
+                    Media::create([
+                        'name' => $product->name,
+                        'image' => $image,
+                        'thumb' => $thumb,
+                        'type_id' => $product->id,
+                        'type' => MediaType::PRODUCT,
+                        'user_id' => \Auth::id(),
+                        'public' => 1,
+                        'sort' => $i,
+                        'lang' => $product->lang
+                    ]);
+                }
             }
         }
+        $product->photos()->whereImage($product->image)->update(['pic' => 1]);
 
         if($request->input('data.tags')){
             foreach(explode(',',$request->input('data.tags')) as $items){
@@ -273,7 +250,7 @@ class ProductController extends Controller
         check_admin_systems(SystemsModuleType::ADD_PRODUCT);
 
         $category = CategoryProduct::public()->langs()->orderByDesc('id')->get();
-        $photo = $product->photos()->get();
+        $photo = $product->photos()->orderByDesc('pic')->orderby('sort','asc')->get();
 
         return view('Admin.Product.edit',compact('product','category','photo'));
     }

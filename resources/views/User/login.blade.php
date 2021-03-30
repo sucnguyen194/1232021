@@ -65,7 +65,7 @@
                                             <div class="checkbox">
                                                 <input id="remember" type="checkbox" name="remember" checked="">
                                                 <label for="remember">
-                                                    Remember me
+                                                    Duy trì đăng nhập
                                                 </label>
                                             </div>
 

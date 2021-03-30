@@ -301,7 +301,6 @@ Thêm mới
             $('#nestable').change(function(){
                 val = $('#nestable-output').val();
                 _token = $('input[name="_token"]').val();
-                console.log(val);
                 url = "{{route('admin.ajax.menu.sort')}}";
                 $.ajax({
                     url:url,
@@ -309,7 +308,7 @@ Thêm mới
                     data:{"val":val,'_token':_token},
                     cache:false,
                     success:function(result){
-                        flash('success','Cập nhật thành công');
+                        // flash('success','Cập nhật thành công');
                     }
                 });
             });

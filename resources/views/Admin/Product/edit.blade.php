@@ -22,7 +22,7 @@
         </div>
         <!-- end page title -->
     </div>
-    <div class="container">
+    <div class="container" id="update-product">
         <form method="post" action="{{route('admin.products.update',$product)}}" enctype="multipart/form-data">
             <div class="row">
                 @csrf
@@ -33,27 +33,7 @@
                             <label>Tên sản phẩm <span class="required">*</span></label>
                             <input type="text" class="form-control" value="{{$product->name ?? old('data.name')}}" id="title" onkeyup="ChangeToSlug();" name="data[name]" required>
                         </div>
-                        <div class="form-group">
-                            <label>Danh mục chính</label>
-                            <select class="form-control" data-toggle="select2" name="data[category_id]">
-                                <option value="0">Chọn danh mục</option>
-                                @foreach($category->where('parent_id', 0) as $item )
-                                    <option value="{{$item->id}}" {{$product->category_id == $item->id ? "selected" : ""}} class="font-weight-bold">{{$item->name}}</option>
-                                    {{sub_option_category($category ,$item->id,$product->id)}}
-                                @endforeach
-                            </select>
-                        </div>
 
-                        <div class="form-group">
-                            <label>Danh mục phụ</label>
-                            <p class="font-13">* Chọn được nhiều danh mục</p>
-                            <select class="form-control select2-multiple" data-toggle="select2" multiple="multiple" name="category_id[]" data-placeholder="Chọn danh mục">
-                                @foreach($category->where('parent_id', 0) as $item )
-                                    <option value="{{$item->id}}" {{selected($item->id,$product->categorys->pluck('category_id')->toArray())}} class="font-weight-bold">{{$item->name}}</option>
-                                    {{sub_menu_checkbox($category ,$item->id,$product)}}
-                                @endforeach
-                            </select>
-                        </div>
                         <div class="row">
                             <div class="col-lg-4 col-12">
                                 <div class="form-group">
@@ -79,52 +59,95 @@
                             <textarea class="form-control summernote" id="summernote" name="data[description]">{!! $product->description ?? old('data.description') !!}</textarea>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group mb-0">
                             <label>Chi tiết</label>
                             <textarea class="form-control summerbody" id="summerbody" name="data[content]">{!! $product->content ?? old('data.content') !!}</textarea>
                         </div>
-                        <div class="form-group">
-                            <label>Thuộc tính sản phẩm</label>
-                            <table data-dynamicrows class="table table-bordered table-striped">
-                                <thead>
-                                <tr>
-                                    <th>Tên thuộc tính</th>
-                                    <th>Giá trị</th>
-                                    <th>Hành động</th>
-                                </tr>
-                                </thead>
-                                <tbody>
+                    </div>
+                    <div class="card-box position-relative box-action-image">
+                        <label>Hình ảnh</label>
+                        <div class="position-absolute font-weight-normal text-primary" id="box-input" style="right:2.2rem;top:1.3rem">
+                            <label class="item-input">
+                                <input type="file" name="photo[]" class="d-none" v-on:change="uploadPhoto(event.target.files)" id="fileUploadMultiple" multiple> Chọn ảnh
+                            </label>
+                        </div>
+                        <p class="font-13">* Định dạng ảnh jpg, jpeg, png, gif</p>
+                        <div class="dropzone pl-2 pr-2 pb-1">
+                            @if(!$photo->count())
+                                <div class="dz-message text-center needsclick mb-2" id="remove-label">
+                                    <label for="fileUploadMultiple" class="w-100 mb-0">
+                                        <div class="icon-dropzone pt-2">
+                                            <i class="h1 text-muted dripicons-cloud-upload"></i>
+                                        </div>
+                                        <span class="text-muted font-13">Sử dụng nút <strong>Chọn ảnh</strong> để thêm ảnh</span>
+                                    </label>
+                                </div>
+                            @endif
 
-                                @if($product->option)
+                            <ul class="{{!$photo->count() ? "show-box" : "d-inline-block"}} image-holder pl-0 mb-0 w-100" id="sortable">
+                                @foreach($photo as $item)
+                                    <li class="box-product-images" data-toggle="{{$item->id}}" id="{{$item->id}}">
+                                        <div class="item-image rounded position-relative">
+                                            <div class="img-rounded"><img src="{{asset($item->image)}}" class="position-image-product"/></div>
+                                            <div class="photo-hover-overlay rounded">
+                                                <div class="box-hover-overlay">
+                                                    <a title="Xem hình ảnh" data-image="{{asset($item->image)}}" data-toggle="modal" data-target="#viewImage" class="tooltip-hover view-image text-white">
+                                                        <i class="far fa-eye"></i>
+                                                    </a>
+                                                    <a class="tooltip-hover pl-2 text-white" v-on:click="getAlt({{$item->id}})" data-target="#updateALT" data-toggle="modal" title="Sửa ALT">
+                                                        ALT
+                                                    </a>
+                                                    <a class="tooltip-hover pl-2 text-white" v-on:click="removePhoto({{$item->id}})" title="Xóa hình ảnh">
+                                                        <i class="far fa-trash-alt"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                @endforeach
+                            </ul>
 
-                                    @foreach($product->option as $key => $item)
-                                        <tr>
-                                            <td><input type="text" name="fields[{{$key}}][name]" value="{{$item['name']}}" class="form-control"></td>
-                                            <td><input type="text" name="fields[{{$key}}][value]" value="{{$item['value']}}" class="form-control"></td>
-                                            <td>
-                                                <i class="fas fa-minus" data-remove></i>
-                                                <i class="fas fa-arrows-alt" data-move></i>
-                                                <i class="fas fa-plus" data-add></i>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                @else
+                        </div>
+                    </div>
+                    <div class="card-box">
+                        <label>Thuộc tính sản phẩm</label>
+                        <table data-dynamicrows class="table table-bordered table-striped mb-0">
+                            <thead>
+                            <tr>
+                                <th>Tên thuộc tính</th>
+                                <th>Giá trị</th>
+                                <th>Hành động</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+
+                            @if($product->option)
+
+                                @foreach($product->option as $key => $item)
                                     <tr>
-                                        <td><input type="text" name="fields[0][name]"  class="form-control"></td>
-                                        <td><input type="text" name="fields[0][value]" class="form-control"></td>
+                                        <td><input type="text" name="fields[{{$key}}][name]" value="{{$item['name']}}" class="form-control"></td>
+                                        <td><input type="text" name="fields[{{$key}}][value]" value="{{$item['value']}}" class="form-control"></td>
                                         <td>
                                             <i class="fas fa-minus" data-remove></i>
                                             <i class="fas fa-arrows-alt" data-move></i>
                                             <i class="fas fa-plus" data-add></i>
                                         </td>
                                     </tr>
-                                @endif
-                                </tbody>
-                            </table>
-                        </div>
+                                @endforeach
+                            @else
+                                <tr>
+                                    <td><input type="text" name="fields[0][name]"  class="form-control"></td>
+                                    <td><input type="text" name="fields[0][value]" class="form-control"></td>
+                                    <td>
+                                        <i class="fas fa-minus" data-remove></i>
+                                        <i class="fas fa-arrows-alt" data-move></i>
+                                        <i class="fas fa-plus" data-add></i>
+                                    </td>
+                                </tr>
+                            @endif
+                            </tbody>
+                        </table>
                     </div>
-
-
                     <div class="card-box">
                         <div class="d-flex mb-2">
                             <label class="font-weight-bold">Tối ưu SEO</label>
@@ -182,16 +205,39 @@
 
                         <div class="checkbox">
                             <input id="checkbox_status" type="checkbox" {{$product->public == 1 ? "checked" : ""}} name="data[status]" value="1">
-                            <label for="checkbox_status">Nổi bật</label>
+                            <label for="checkbox_status mb-0">Nổi bật</label>
                         </div>
                     </div>
-
-                    <div class="card-box position-relative box-action-image">
-                        <label class="font-weight-bold">Ảnh đại diện</label>
+                    <div class="card-box">
+                        <div class="form-group mb-0">
+                            <label>Danh mục chính</label>
+                            <select class="form-control" data-toggle="select2" name="data[category_id]">
+                                <option value="0">Chọn danh mục</option>
+                                @foreach($category->where('parent_id', 0) as $item )
+                                    <option value="{{$item->id}}" {{$product->category_id == $item->id ? "selected" : ""}} class="font-weight-bold">{{$item->name}}</option>
+                                    {{sub_option_category($category ,$item->id,$product->id)}}
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="card-box">
+                        <div class="form-group mb-0">
+                            <label>Danh mục phụ</label>
+                            <p class="font-13">* Chọn được nhiều danh mục</p>
+                            <select class="form-control select2-multiple" data-toggle="select2" multiple="multiple" name="category_id[]" data-placeholder="Chọn danh mục">
+                                @foreach($category->where('parent_id', 0) as $item )
+                                    <option value="{{$item->id}}" {{selected($item->id,$product->categorys->pluck('category_id')->toArray())}} class="font-weight-bold">{{$item->name}}</option>
+                                    {{sub_menu_checkbox($category ,$item->id,$product)}}
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="card-box position-relative box-action-image d-none">
+                        <label>Ảnh đại diện</label>
                         <p class="font-13">* Định dạng ảnh jpg, jpeg, png, gif</p>
 
                         <input type="file" name="image" class="filestyle" id="fileUpload" data-btnClass="btn-primary">
-                        <div class="text-center image-holder" id="image-holder">
+                        <div class="text-center @if(!file_exists($product->image)) image-holder @endif" id="image-holder">
                             @if(file_exists($product->image)) <img src="{{asset($product->image)}}" class="img-fluid mt-2 img-responsive" height="120"> @endif
                         </div>
                         <div class="box-position btn btn-default waves-effect waves-light text-left @if(!file_exists($product->image)) show-box @endif">
@@ -206,59 +252,6 @@
 
                         </div>
                     </div>
-                    <div class="card-box position-relative box-action-image">
-
-                        <label>Ảnh liên quan</label>
-                        <p class="font-13">* Định dạng ảnh jpg, jpeg, png, gif</p>
-                        <input type="file" name="photo[]" multiple class="filestyle" id="fileUploadMultiple" data-btnClass="btn-primary">
-                        <div class="show-box autohide-scroll"  style="min-height: 250px;">
-                            <div id="grid-gallery" class="grid-gallery">
-                                <section class="grid-wrap">
-                                    <ul class="grid" id="list-item">
-                                    <span class="image-holder" id="image-holder">
-
-                                    </span>
-                                    </ul>
-                                </section><!-- // grid-wrap -->
-                            </div><!-- // grid-gallery -->
-                        </div>
-                    </div>
-
-                    @if($photo->count())
-                        <div class="card-box">
-                            <label>Danh sách ảnh liên quan</label>
-                            <div class="row autohide-scroll" style="max-height: 280px;">
-                                @foreach($photo as $item)
-                                    <div class="col-xl-6 col-lg-4 col-sm-6">
-                                        <div class="file-man-box rounded mb-3 mt-1">
-
-                                            <a class="file-close" href="{{route('admin.media.del',$item->id)}}" onclick="return confirm('Bạn có chắc muốn xóa?');" ><i class="mdi mdi-close-circle"></i></a>
-
-                                            <div class="file-img-box">
-                                                <img src="{{asset($item->image)}}" class="img-thumbnail img-responsive" alt="{{$item->title}}">
-                                            </div>
-                                            <a href="{{route('admin.media.edit',$item)}}" class="file-download btn text-purple"><i class="fe-edit-2"></i> </a>
-                                            <div class="file-man-title">
-                                                <h5 class="mb-0 text-overflow">{{$item->updated_at->diffForHumans()}}</h5>
-                                                <p class="mb-0"><small>{{$item->name ?? "Nomal"}}</small></p>
-                                            </div>
-                                            <div class="file-sort">
-                                                <input type="number" name="sort" class="form-control font-weight-bold input-sort" data-id="{{$item->id}}" value="{{$item->sort}}">
-                                                <span id="change-sort-success_{{$item->id}}" class="change-sort"></span>
-                                            </div>
-                                            <div class="file-public">
-                                                <div class="checkbox">
-                                                    <input id="checkbox_public_{{$item->id}}"  {{$item->public == 1 ? "checked" : ''}} type="checkbox" name="public">
-                                                    <label for="checkbox_public_{{$item->id}}" class="media_public"  data-id="{{$item->id}}"></label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endforeach
-
-                            </div>
-                        </div>
-                    @endif
 
                     <div class="card-box">
                         <label class="w-100">Ngôn ngữ</label>
@@ -274,12 +267,12 @@
                         @endphp
                         <div class="clearfix">
                             @foreach($langs as $lang)
-                                <a href="{{route('admin.products.add.lang',[$lang->value,$product->id])}}" class="btn btn-primary waves-effect width-md waves-light mb-1"><span class="icon-button"><i class="fe-plus"></i> {{$lang->name}}</a>
+                                <a href="{{route('admin.products.add.lang',[$lang->value,$product->id])}}" class="btn btn-primary waves-effect width-md waves-light"><span class="icon-button"><i class="fe-plus"></i> {{$lang->name}}</a>
                             @endforeach
 
                             @if($product->post_langs)
                                 @foreach($posts as $item)
-                                    <a href="{{route('admin.products.edit',$item->id)}}" class="btn btn-default waves-effect waves-light mb-1"><span class="icon-button"><i class="fe-edit-2" aria-hidden="true"></i></span> {{$item->language->name}} #{{$item->id}}</a>
+                                    <a href="{{route('admin.products.edit',$item->id)}}" class="btn btn-default waves-effect waves-light"><span class="icon-button"><i class="fe-edit-2" aria-hidden="true"></i></span> {{$item->language->name}} #{{$item->id}}</a>
                                 @endforeach
                             @endif
                         </div>
@@ -291,108 +284,163 @@
                     </div>
                 </div>
 
-                <div class="col-lg-12 text-center">
-                    <div class="card-box">
-                        <a href="{{route('admin.products.index')}}" class="btn btn-purple waves-effect waves-light"><span class="icon-button"><i class="fe-arrow-left"></i></span> Quay lại</a>
-                        <button type="submit" class="btn btn-primary waves-effect width-md waves-light" name="send" value="save"><span class="icon-button"><i class="fe-plus"></i></span> Lưu lại</button>
-                    </div>
+                <div class="col-lg-12">
+                    <a href="{{route('admin.products.index')}}" class="btn btn-default waves-effect waves-light"><span class="icon-button"><i class="fe-arrow-left"></i></span> Quay lại</a>
+                    <button type="submit" class="btn btn-primary waves-effect width-md waves-light float-right" name="send" value="save"><span class="icon-button"><i class="fe-plus"></i></span> Lưu lại</button>
                 </div>
             </div>
             <!-- end row -->
         </form>
+        <div id="updateALT" class="updateALT modal fade" tabindex="-1" aria-labelledby="myLargeModalLabel" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" style="max-width: 600px" >
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title font-weight-normal">Chỉnh sửa mô tả (ALT) của hình ảnh</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <img v-bind:src="photo.image" class="rounded img-fluid">
+                            </div>
+                            <div class="col-md-9">
+                                <div class="form-group">
+                                    <label>Mô tả hình ảnh (ALT)</label>
+                                    <input type="text" v-model="photo.name" placeholder="Hãy nhập alt text của hình ảnh" required class="form-control">
+                                </div>
+                                <p class="font-13">Nếu hình ảnh không thể hiển thị vì bất kỳ lý do gì,ALT sẽ được hiển thị.ALT nên ngắn gọn nhưng súc tích.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default waves-effect" data-dismiss="modal"> Đóng</button>
+                        <button type="submit" class="btn btn-primary waves-effect" v-on:click="updateAlt(photo.id, photo.name)"> Cập nhật</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
     </div>
-    <style>
-        input[type=number]::-webkit-inner-spin-button {
-            -webkit-appearance: none;
-        }
 
-        .file-man-box .file-img-box {
-            height: 120px;
-            line-height: 120px;
-        }
-        .file-man-box .file-img-box img{
-            max-height: 120px;
-            height: auto;
-        }
-        .file-man-box .file-close button {
-            background: none;
-            border:none;
-            color: #f96a74;
-        }
-        .file-man-box .file-sort {
-            position: absolute;
-            line-height: 24px;
-            font-size: 24px;
-            right: 60px;
-            bottom: 25px;
-            visibility: hidden;
-            width: 70px;
-        }
-        .file-man-box .file-public {
-            position: absolute;
-            left: 15px;
-            top: 5px;
-            visibility: hidden;
-
-        }
-        .file-man-box:hover .file-sort, .file-man-box:hover .file-public {
-            visibility: visible;
-        }
-        .change-sort {
-            position: absolute;
-            top: 17%;
-            right: 7%;
-            font-size: 13px;
-        }
-        .file-man-box .file-download {
-            font-size: 25px;
-        }
-    </style>
-@stop
-
-@section('javascript')
-    <script type="text/javascript">
-        jQuery(document).ready(function($) {
-
-            var alias = $('.alias');
-            var title_seo = $('input[name="title_seo"]');
-            var description_seo = $('input[name="description_seo"]');
-
-            title_seo.keyup(function() {
-                /* Act on the event */
-                $('.title-seo').html($(this).val());
-                return false;
-            });
-
-            description_seo.keyup(function() {
-                /* Act on the event */
-                $('.description-seo').html($(this).val());
-                return false;
-            });
-            alias.on('keyup change',function(){
-                var url = "{{route('home')}}/";
-                $('.alias-seo').text(url + $(this).val() + '.html');
-            })
-
-        });
-    </script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-    <script src="{{asset('admin/js/dynamicrows/dynamicrows.js')}}"></script>
-
-    <script src="{{asset('admin/js/grid/modernizr.custom.js')}}"></script>
-    <script src="{{asset('admin/js/grid/imagesloaded.pkgd.min.js')}}"></script>
-    <script src="{{asset('admin/js/grid/masonry.pkgd.min.js')}}"></script>
-    <script src="{{asset('admin/js/grid/classie.js')}}"></script>
-    <script src="{{asset('admin/js/grid/cbpGridGallery.js')}}"></script>
+    <div id="viewImage" class="modal fade" tabindex="-1" aria-labelledby="myLargeModalLabel" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content text-center">
+                <div class="modal-body">
+                    <img src="" class="img-fluid showImage">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default waves-effect" data-dismiss="modal"> Đóng</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 
     <script>
-        new CBPGridGallery( document.getElementById( 'grid-gallery' ) );
+        $(document).on('click','.view-image',function(){
+            let image = $(this).attr('data-image');
+            $('.showImage').attr('src', image);
+        })
+        function removePhoto(id){
+          return  $('[data-toggle='+id+']').remove();
+        }
     </script>
+
+    <script>
+        var app = new Vue({
+            el:'#update-product',
+            mounted:function(){
+                var vm = this;
+                var temp = [];
+                $('#sortable').sortable({
+                    update: function(event, ui)
+                    {
+                        $('.box-product-images').each(function(i) {
+                            var id = $(this).attr('id');
+                            temp.push(id);
+                        });
+                        vm.updatePosition(JSON.stringify(temp));
+                        return temp = [];
+                    },
+                });
+            },
+            data: {
+                id: {{$product->id}},
+                photo: {
+                    id: null,
+                    image: null,
+                    name: null,
+                },
+            },
+            methods:{
+                removePhoto:function(id){
+                  if(confirm('Xóa hình ảnh?')){
+                      fetch('{{route('admin.ajax.remove.photo',':id')}}'.replace(':id',id)).then(function(res){
+                          return res.json().then(function(data){
+                              removePhoto(id);
+                              flash('success','Xóa hình ảnh thành công!');
+                          })
+                      })
+                  }
+                },
+                uploadPhoto:function(files){
+                    let formData = new FormData();
+                    for( var i = 0; i < files.length; i++ ){
+                        let file = this.files[i];
+
+                        formData.append('files[' + i + ']', file);
+                    }
+                    axios.post( '{{route('admin.ajax.upload.photo',':id')}}'.replace(':id',this.id),formData,
+                        {
+                            headers: {
+                                'Content-Type': 'multipart/form-data'
+                            }
+                        }
+                    ).then(function(){
+                        flash('success','Upload hình ảnh thành công!');
+                        //console.log('SUCCESS!!');
+                    })
+                        .catch(function(){
+                            console.log('FAILURE!!');
+                        });
+
+                },
+                updatePosition:function(json){
+                    fetch('{{route('admin.ajax.set.position.photo',[':json'])}}'.replace(':json', json)).then(function(response){
+                        return response.json().then(function(data){
+
+                        })
+                    })
+                },
+                updateAlt:function(id, alt){
+                    fetch('{{route('admin.ajax.set.alt',[':id',':alt'])}}'.replace(':id', id).replace(':alt',alt)).then(function(response){
+                        return response.json().then(function(data){
+                            $('.updateALT').modal('hide');
+                            flash('success','Cập nhật ALT thành công!');
+                        })
+                    })
+                },
+                getAlt:function(id){
+                    fetch('{{route('admin.ajax.get.alt',':id')}}'.replace(':id',id)).then(function(response){
+                        return response.json().then(function(data){
+                            app.photo.image = data.image;
+                            app.photo.name = data.name;
+                            app.photo.id = data.id;
+                        })
+                    })
+                },
+            }
+        })
+    </script>
+  @stop
+
+
+@section('javascript')
+
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script src="{{asset('admin/js/dynamicrows/dynamicrows.js')}}"></script>
 
     <script src="{{asset('admin/assets/libs/switchery/switchery.min.js')}}"></script>
     <script src="{{asset('admin/assets/libs/bootstrap-tagsinput/bootstrap-tagsinput.min.js')}}"></script>
     <script src="https://coderthemes.com/adminox/layouts/vertical/assets/libs/select2/select2.min.js"></script>
-    <script src="{{asset('admin/assets/libs/jquery-mockjax/jquery.mockjax.min.js')}}"></script>
+{{--    <script src="{{asset('admin/assets/libs/jquery-mockjax/jquery.mockjax.min.js')}}"></script>--}}
     <script src="{{asset('admin/assets/libs/autocomplete/jquery.autocomplete.min.js')}}"></script>
     <script src="{{asset('admin/assets/libs/bootstrap-select/bootstrap-select.min.js')}}"></script>
     <script src="{{asset('admin/assets/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.js')}}"></script>
@@ -401,13 +449,8 @@
 
     <!-- Init js-->
     <script src="{{asset('admin/assets/js/pages/form-advanced.init.js')}}"></script>
-
-    <!-- Summernote js -->
-{{--    <script src="{{asset('admin/assets/libs/summernote/summernote-bs4.min.js')}}"></script>--}}
-
-{{--    <!-- Init js -->--}}
-{{--    <script src="{{asset('admin/assets/js/pages/form-summernote.init.js')}}"></script>--}}
-    <script>$(function() {
+    <script>
+        $(function() {
             $('[data-dynamicrows]').dynamicrows({
                 animation: 'fade',
                 copyValues: true,
@@ -415,9 +458,17 @@
             });
         });
     </script>
+    <!-- Summernote js -->
+{{--    <script src="{{asset('admin/assets/libs/summernote/summernote-bs4.min.js')}}"></script>--}}
+
+{{--    <!-- Init js -->--}}
+{{--    <script src="{{asset('admin/assets/js/pages/form-summernote.init.js')}}"></script>--}}
 
     <!-- scrollbar init-->
     <script src="{{asset('admin/assets/js/pages/scrollbar.init.js')}}"></script>
+
+    <script src="{{asset('admin/assets/libs/tooltipster/tooltipster.bundle.min.js')}}"></script>
+{{--    <script src="{{asset('admin/assets/js/pages/tooltipster.init.js')}}"></script>--}}
 @stop
 
 @section('css')
@@ -428,6 +479,7 @@
     <link href="{{asset('admin/assets/libs/bootstrap-select/bootstrap-select.min.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{asset('admin/assets/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.css')}}" rel="stylesheet" type="text/css" />
 
+    <link href="/admin/assets/libs/tooltipster/tooltipster.bundle.min.css" rel="stylesheet" type="text/css" >
     <!-- Summernote css -->
 {{--    <link href="https://coderthemes.com/adminox/layouts/vertical/assets/libs/summernote/summernote-bs4.css" rel="stylesheet" type="text/css" />--}}
 

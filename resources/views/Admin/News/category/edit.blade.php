@@ -132,44 +132,68 @@
                         </div>
                     </div>
 
-                    <div class="card-box position-relative">
-                        <label>Ảnh đại diện</label>
-                        <p class="font-13">* Ghi chú: Định dạng ảnh jpg, jpeg, png, gif</p>
-
-                        <input type="file" name="image" class="filestyle" id="fileUpload" data-btnClass="btn-primary">
-                        <div class="text-center mt-2 image-holder" id="image-holder">
-                            @if(file_exists($news_category->image)) <img src="{{asset($news_category->image)}}" class="img-responsive img-thumbnail" alt="{{$news_category->title}}">@endif
+                    <div class="card-box position-relative box-action-image">
+                        <label>Hình ảnh</label>
+                        <div class="position-absolute font-weight-normal text-primary" id="box-input" style="right:2.2rem;top:1.3rem">
+                            <label class="item-input">
+                                <input type="file" name="image" class="d-none" id="fileUpload"> Chọn ảnh
+                            </label>
                         </div>
-                        <div class="box-position btn btn-purple waves-effect waves-light text-left {{!file_exists($news_category->image) ? "show-box" : ""}}">
-                            <div class="checkbox checkbox-warning checkbox-circle checkbox-unlink-watermark">
-                                <input id="checkbox_watermark" class="watermark" type="checkbox" name="watermark">
-                                <label for="checkbox_watermark">Gắn watermark</label>
+                        <p class="font-13">* Định dạng ảnh jpg, jpeg, png, gif</p>
+                        <div class="dropzone p-2 text-center">
+                            @if(!file_exists($news_category->image))
+                                <div class="dz-message text-center needsclick mb-2" id="remove-label">
+                                    <label for="fileUpload" class="w-100 mb-0">
+                                        <div class="icon-dropzone pt-2">
+                                            <i class="h1 text-muted dripicons-cloud-upload"></i>
+                                        </div>
+                                        <span class="text-muted font-13">Sử dụng nút <strong>Chọn ảnh</strong> để thêm ảnh</span>
+                                    </label>
+                                </div>
+                            @endif
+                            <div class="{{!file_exists($news_category->image) ? "show-box" : ""}} image-holder pl-0 mb-0 w-100">
+                                @if(file_exists($news_category->image)) <img src="{{asset($news_category->image)}}" alt="{{$news_category->name}}"> @endif
                             </div>
-
-                            <div class="checkbox checkbox-warning checkbox-circle checkbox-unlink-image">
-                                <input id="checkbox_unlink" class="unlink-image" type="checkbox" name="unlink">
-                                <label for="checkbox_unlink" class="mb-0">Xóa ảnh</label>
+                            <div class="box-position btn btn-default waves-effect waves-light text-left @if(!file_exists($news_category->image)) show-box @endif">
+                                <div class="checkbox checkbox-unlink-image">
+                                    <input id="checkbox_unlink" class="unlink-image" type="checkbox" name="unlink">
+                                    <label for="checkbox_unlink" class="mb-0">Xóa ảnh</label>
+                                </div>
                             </div>
-
                         </div>
-
                     </div>
 
-                    <div class="card-box position-relative">
+                    <div class="card-box position-relative box-action-image">
                         <label>Ảnh nền</label>
-                        <p class="font-13">* Ghi chú: Định dạng ảnh jpg, jpeg, png, gif</p>
-
-                        <input type="file" name="background" class="filestyle" id="backgroundUpload" data-btnClass="btn-primary">
-                        <div class="text-center mt-2 background-holder" id="background-holder">
-                            @if(file_exists($news_category->background)) <img src="{{asset($news_category->background)}}" class="img-responsive img-thumbnail" alt="{{$news_category->title}}">@endif
+                        <div class="position-absolute font-weight-normal text-primary" id="box-input" style="right:2.2rem;top:1.3rem">
+                            <label class="item-input">
+                                <input type="file" name="background" class="d-none" id="backgroundUpload"> Chọn ảnh
+                            </label>
                         </div>
-                        <div class="box-position btn btn-purple waves-effect waves-light text-left {{!file_exists($news_category->background) ? "show-box-bg" :"" }}">
-                            <div class="checkbox checkbox-warning checkbox-circle checkbox-unlink-background">
-                                <input id="checkbox_unlink_background" class="unlink-background" type="checkbox" name="unlink_bg">
-                                <label for="checkbox_unlink_background" class="mb-0">Xóa ảnh</label>
+                        <p class="font-13">* Định dạng ảnh jpg, jpeg, png, gif</p>
+                        <div class="dropzone p-2 text-center">
+                            @if(!file_exists($news_category->background))
+                                <div class="dz-message text-center needsclick mb-2" id="remove-label">
+                                    <label for="backgroundUpload" class="w-100 mb-0">
+                                        <div class="icon-dropzone pt-2">
+                                            <i class="h1 text-muted dripicons-cloud-upload"></i>
+                                        </div>
+                                        <span class="text-muted font-13">Sử dụng nút <strong>Chọn ảnh</strong> để thêm ảnh</span>
+                                    </label>
+                                </div>
+                            @endif
+                            <div class="{{!file_exists($news_category->background) ? "show-box" : ""}} image-holder pl-0 mb-0 w-100">
+                                @if(file_exists($news_category->background)) <img src="{{asset($news_category->background)}}" alt="{{$news_category->name}}"> @endif
                             </div>
+                                <div class="box-position btn btn-default waves-effect waves-light text-left {{!file_exists($news_category->background) ? "show-box" :"" }}">
+                                    <div class="checkbox checkbox-unlink-background">
+                                        <input id="checkbox_unlink_background" class="unlink-background" type="checkbox" name="unlink_bg">
+                                        <label for="checkbox_unlink_background" class="mb-0">Xóa ảnh</label>
+                                    </div>
+                                </div>
                         </div>
                     </div>
+
                     <div class="card-box">
                         <label class="w-100">Ngôn ngữ</label>
                         @php

@@ -312,7 +312,7 @@
                     data:{"val":val,'_token':_token},
                     cache:false,
                     success:function(result){
-                        flash('success','Cập nhật thành công');
+                        // flash('success','Cập nhật thành công');
                     }
                 });
             });

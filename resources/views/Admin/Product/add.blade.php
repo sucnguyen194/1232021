@@ -22,7 +22,7 @@
         </div>
         <!-- end page title -->
     </div>
-    <div class="container">
+    <div class="container" id="vue-app">
         <form method="post" action="{{route('admin.products.store')}}" enctype="multipart/form-data">
             <div class="row">
                 @csrf
@@ -58,35 +58,57 @@
                             <textarea class="form-control summernote" id="summernote" name="data[description]">{!! old('data.description') !!}</textarea>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group mb-0">
                             <label>Chi tiết</label>
                             <textarea class="form-control summerbody" id="summerbody" name="data[content]">{!! old('data.body') !!}</textarea>
                         </div>
-                        <div class="form-group">
-                            <label>Thuộc tính sản phẩm</label>
-                            <table data-dynamicrows class="table table-bordered table-striped">
-                                <thead>
-                                <tr>
-                                    <th>Tên thuộc tính</th>
-                                    <th>Giá trị</th>
-                                    <th>Hành động</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <td><input type="text" name="fields[0][name]" class="form-control"></td>
-                                    <td><input type="text" name="fields[0][value]" class="form-control"></td>
-                                    <td>
-                                        <i class="fas fa-minus" data-remove></i>
-                                        <i class="fas fa-arrows-alt" data-move></i>
-                                        <i class="fas fa-plus" data-add></i>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
+                    </div>
+                    <div class="card-box position-relative box-action-image">
+                        <label>Hình ảnh</label>
+                        <div class="position-absolute font-weight-normal text-primary" id="box-input" style="right:2.2rem;top:1.3rem">
+                            <label class="item-input">
+                                <input type="file" name="photo[]" class="d-none" id="fileUploadMultiple" multiple> Chọn ảnh
+                            </label>
+                        </div>
+                        <p class="font-13">* Định dạng ảnh jpg, jpeg, png, gif</p>
+                        <div class="dropzone pl-2 pr-2 pb-1">
+                            <div class="dz-message text-center needsclick mb-2" id="remove-label">
+                                <label for="fileUploadMultiple" class="w-100 mb-0">
+                                    <div class="icon-dropzone pt-2">
+                                        <i class="h1 text-muted dripicons-cloud-upload"></i>
+                                    </div>
+                                    <span class="text-muted font-13">Sử dụng nút <strong>Chọn ảnh</strong> để thêm ảnh</span>
+                                </label>
+                            </div>
+                            <ul class="show-box image-holder pl-0 mb-0 w-100" id="sortable">
+
+                            </ul>
+
                         </div>
                     </div>
-
+                    <div class="card-box">
+                        <label>Thuộc tính sản phẩm</label>
+                        <table data-dynamicrows class="table table-bordered table-striped mb-0">
+                            <thead>
+                            <tr>
+                                <th>Tên thuộc tính</th>
+                                <th>Giá trị</th>
+                                <th>Hành động</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td><input type="text" name="fields[0][name]" class="form-control"></td>
+                                <td><input type="text" name="fields[0][value]" class="form-control"></td>
+                                <td>
+                                    <i class="fas fa-minus" data-remove></i>
+                                    <i class="fas fa-arrows-alt" data-move></i>
+                                    <i class="fas fa-plus" data-add></i>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
                     <div class="card-box">
                         <div class="d-flex mb-2">
                             <label class="font-weight-bold">Tối ưu SEO</label>
@@ -144,11 +166,11 @@
 
                         <div class="checkbox">
                             <input id="checkbox_status" type="checkbox" name="data[status]" value="1">
-                            <label for="checkbox_status">Nổi bật</label>
+                            <label for="checkbox_status" class="mb-0">Nổi bật</label>
                         </div>
                     </div>
                     <div class="card-box">
-                        <div class="form-group">
+                        <div class="form-group mb-0">
                             <label>Danh mục chính</label>
                             <select class="form-control" data-toggle="select2" name="data[category_id]">
                                 <option value="0">Chọn danh mục</option>
@@ -160,7 +182,7 @@
                         </div>
                     </div>
                     <div class="card-box">
-                        <div class="form-group">
+                        <div class="form-group mb-0">
                             <label>Danh mục phụ</label>
                             <p class="font-13">* Chọn được nhiều danh mục</p>
                             <select class="form-control select2-multiple" data-toggle="select2" multiple="multiple" name="category_id[]" data-placeholder="Chọn danh mục">
@@ -169,45 +191,6 @@
                                     {{sub_option_category($category ,$item->id)}}
                                 @endforeach
                             </select>
-                        </div>
-                    </div>
-
-                    <div class="card-box position-relative box-action-image">
-                        <label>Ảnh đại diện</label>
-                        <p class="font-13">* Định dạng ảnh jpg, jpeg, png, gif</p>
-
-                        <input type="file" name="image" class="filestyle" id="fileUpload" data-btnClass="btn-primary">
-                        <div class="text-center mt-2 image-holder" id="image-holder">
-
-                        </div>
-                        <div class="box-position btn btn-default waves-effect waves-light text-left show-box">
-
-{{--                            <div class="checkbox checkbox-warning checkbox-circle checkbox-unlink-watermark">--}}
-{{--                                <input id="checkbox_watermark" class="watermark" type="checkbox" name="watermark">--}}
-{{--                                <label for="checkbox_watermark">Gắn watermark</label>--}}
-{{--                            </div>--}}
-
-                            <div class="checkbox checkbox-unlink-image">
-                                <input id="checkbox_unlink" class="unlink-image" type="checkbox" name="unlink">
-                                <label for="checkbox_unlink" class="mb-0">Xóa ảnh</label>
-                            </div>
-
-                        </div>
-                    </div>
-                    <div class="card-box position-relative box-action-image">
-                        <label>Ảnh liên quan</label>
-                        <p class="font-13">* Định dạng ảnh jpg, jpeg, png, gif</p>
-                        <input type="file" name="photo[]" multiple class="filestyle" id="fileUploadMultiple" data-btnClass="btn-primary">
-                        <div class="show-box autohide-scroll"  style="min-height: 250px;">
-                            <div id="grid-gallery" class="grid-gallery">
-                                <section class="grid-wrap">
-                                    <ul class="grid" id="list-item">
-                                    <span class="image-holder" id="image-holder">
-
-                                    </span>
-                                    </ul>
-                                </section><!-- // grid-wrap -->
-                            </div><!-- // grid-gallery -->
                         </div>
                     </div>
 
@@ -226,22 +209,30 @@
             <!-- end row -->
         </form>
     </div>
+    <div id="viewImage" class="modal fade" tabindex="-1" aria-labelledby="myLargeModalLabel" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content text-center">
+                <div class="modal-body">
+                    <img src="" class="img-fluid showImage">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default waves-effect" data-dismiss="modal"> Đóng</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+    <script>
+        $(document).on('click','.view-image',function(){
+            let image = $(this).attr('data-image');
+            $('.showImage').attr('src', image);
+        })
+    </script>
 @stop
 
 @section('javascript')
 
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js">
     <script src="{{asset('admin/js/dynamicrows/dynamicrows.js')}}"></script>
-
-    <script src="{{asset('admin/js/grid/modernizr.custom.js')}}"></script>
-    <script src="{{asset('admin/js/grid/imagesloaded.pkgd.min.js')}}"></script>
-    <script src="{{asset('admin/js/grid/masonry.pkgd.min.js')}}"></script>
-    <script src="{{asset('admin/js/grid/classie.js')}}"></script>
-    <script src="{{asset('admin/js/grid/cbpGridGallery.js')}}"></script>
-
-    <script>
-        new CBPGridGallery( document.getElementById( 'grid-gallery' ) );
-    </script>
 
     <script src="{{asset('admin/assets/libs/switchery/switchery.min.js')}}"></script>
     <script src="{{asset('admin/assets/libs/bootstrap-tagsinput/bootstrap-tagsinput.min.js')}}"></script>
@@ -261,7 +252,10 @@
 {{--    <!-- Init js -->--}}
 {{--    <script src="{{asset('admin/assets/js/pages/form-summernote.init.js')}}"></script>--}}
 
-    <script>$(function() {
+    <script>
+        $(function() {
+            $( "#sortable" ).sortable();
+
             $('[data-dynamicrows]').dynamicrows({
                 animation: 'fade',
                 copyValues: true,
@@ -270,8 +264,7 @@
         });
     </script>
 
-    <!-- scrollbar init-->
-    <script src="{{asset('admin/assets/js/pages/scrollbar.init.js')}}"></script>
+    <script src="{{asset('admin/assets/libs/tooltipster/tooltipster.bundle.min.js')}}"></script>
 @stop
 
 @section('css')
@@ -282,6 +275,7 @@
     <link href="{{asset('admin/assets/libs/bootstrap-select/bootstrap-select.min.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{asset('admin/assets/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.css')}}" rel="stylesheet" type="text/css" />
 
+    <link href="/admin/assets/libs/tooltipster/tooltipster.bundle.min.css" rel="stylesheet" type="text/css" >
     <!-- Summernote css -->
 {{--    <link href="/admin/assets/libs/summernote/summernote-bs4.css" rel="stylesheet" type="text/css" />--}}
 

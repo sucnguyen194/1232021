@@ -27,54 +27,61 @@
         <div class="row">
         <div class="col-lg-10 offset-lg-1">
             <form action="{{route('admin.support.update',$support)}}" method="post" enctype="multipart/form-data">
-                <div class="card-box" id="wizard-clickable">
+                <div id="wizard-clickable">
                     @csrf
                     @method('PATCH')
                     <fieldset title="1">
                         <legend>Đánh giá</legend>
                         <div class="row mt-1">
-                            <div class="col-md-7 mr-2">
-                                <div class="form-group">
-                                    <label for="name">Tên khách hàng <span class="required">*</span></label>
-                                    <input type="text" class="form-control" name="name" id="name" value="{{$support->name ?? old('name')}}" required>
+                            <div class="col-md-8">
+                                <div class="card-box">
+                                    <div class="form-group">
+                                        <label for="name">Tên khách hàng <span class="required">*</span></label>
+                                        <input type="text" class="form-control" name="name" id="name" value="{{$customer->name ?? old('name')}}" required>
+                                    </div>
+                                    <div class="form-group mb-0">
+                                        <label for="description">Đánh giá <span class="required">*</span></label>
+                                        <textarea class="form-control summernote" id="summernote" name="description" required>{!! $customer->description ?? old('description') !!}</textarea>
+                                    </div>
                                 </div>
-                                <div class="form-group">
-                                    <label for="description">Đánh giá <span class="required">*</span></label>
-                                    <textarea class="form-control summernote" id="summernote" name="description" required>{!! $support->description ?? old('description') !!}</textarea>
-                                </div>
+
                             </div>
                             <div class="col-md-4">
-                                <label class="mb-0">Trạng thái</label>
-                                <hr>
-                                <div class="checkbox">
-                                    <input id="checkbox_public" {{$support->public == 1 ? "checked" : ""}} type="checkbox" name="public">
-                                    <label for="checkbox_public">Hiển thị</label>
-                                </div>
-
-                                <div class="checkbox">
-                                    <input id="checkbox_status" {{$support->status == 1 ? "checked" : ""}} type="checkbox" name="status">
-                                    <label for="checkbox_status" class="">Nổi bật</label>
-                                </div>
-                                <hr>
-                                <div class="position-relative box-action-image">
-                                    <label for="image">Ảnh đại diện</label>
-                                    <p class="font-13">* Định dạng ảnh jpg, jpeg, png, gif</p>
-
-                                    <input type="file" name="image" class="filestyle" id="fileUpload" data-btnClass="btn-primary">
-                                    <div class="text-center mt-2 image-holder" id="image-holder">
-                                        @if(file_exists($support->image)) <img src="{{asset($support->image)}}" alt="{{$support->name}}"> @endif
+                                <div class="card-box">
+                                    <label class="mb-0">Trạng thái</label>
+                                    <hr>
+                                    <div class="checkbox">
+                                        <input id="checkbox_public" {{$customer->public == 1 ? "checked" : ""}} type="checkbox" name="public">
+                                        <label for="checkbox_public">Hiển thị</label>
                                     </div>
-                                    <div class="box-position btn btn-default waves-effect waves-light text-left  @if(!file_exists($support->image)) show-box @endif">
-                                        {{--                                            <div class="checkbox checkbox-warning checkbox-circle checkbox-unlink-watermark">--}}
-                                        {{--                                                <input id="checkbox_watermark" class="watermark" type="checkbox" name="watermark">--}}
-                                        {{--                                                <label for="checkbox_watermark">Gắn watermark</label>--}}
-                                        {{--                                            </div>--}}
+                                    <div class="checkbox">
+                                        <input id="checkbox_status" {{$customer->status == 1 ? "checked" : ""}} type="checkbox" name="status">
+                                        <label for="checkbox_status" class="mb-0">Nổi bật</label>
+                                    </div>
+                                </div>
 
-                                        <div class="checkbox checkbox-unlink-image">
-                                            <input id="checkbox_unlink" class="unlink-image" type="checkbox" name="unlink">
-                                            <label for="checkbox_unlink" class="mb-0">Xóa ảnh</label>
-                                        </div>
-
+                                <div class="card-box position-relative box-action-image">
+                                    <label>Hình ảnh</label>
+                                    <div class="position-absolute font-weight-normal text-primary" id="box-input" style="right:2.2rem;top:1.3rem">
+                                        <label class="item-input">
+                                            <input type="file" name="image" class="d-none" id="fileUpload"> Chọn ảnh
+                                        </label>
+                                    </div>
+                                    <p class="font-13">* Định dạng ảnh jpg, jpeg, png, gif</p>
+                                    <div class="dropzone p-2 text-center">
+                                        @if(!file_exists($customer->image))
+                                            <div class="dz-message text-center needsclick mb-2" id="remove-label">
+                                                <label for="fileUpload" class="w-100 mb-0">
+                                                    <div class="icon-dropzone pt-2">
+                                                        <i class="h1 text-muted dripicons-cloud-upload"></i>
+                                                    </div>
+                                                    <span class="text-muted font-13">Sử dụng nút <strong>Chọn ảnh</strong> để thêm ảnh</span>
+                                                </label>
+                                            </div>
+                                        @endif
+                                        <ul class="show-box image-holder pl-0 mb-0 w-100" id="sortable">
+                                            @if(file_exists($customer->image)) <img src="{{asset($customer->image)}}" alt="{{$customer->name}}"> @endif
+                                        </ul>
                                     </div>
                                 </div>
                             </div>
@@ -83,57 +90,64 @@
                     <fieldset title="2">
                         <legend>Thông tin cá nhân</legend>
 
-                        <div class="mt-1">
-                            <div class="form-group">
-                                <label for="phone">Số điện thoại</label>
-                                <input type="text" class="form-control" id="phone" value="{{$support->hotline ?? old('phone')}}" name="phone">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="email">Email</label>
-                                <input type="text" class="form-control" id="email" value="{{$support->email ?? old('email')}}" name="email">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="job">Công việc</label>
-                                <input type="text" class="form-control" value="{{$support->job ?? old('job')}}" id="job" name="job">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="address">Địa chỉ</label>
-                                <textarea name="address" id="address" cols="30" rows="5" class="form-control">{{$support->address ?? old('address')}}</textarea>
+                        <div class="card-box mt-1">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="phone">Số điện thoại</label>
+                                        <input type="text" class="form-control" id="phone" value="{{$customer->hotline ?? old('phone')}}" name="phone">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="email">Email</label>
+                                        <input type="text" class="form-control" id="email" value="{{$customer->email ?? old('email')}}" name="email">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="job">Công việc</label>
+                                        <input type="text" class="form-control" value="{{$customer->job ?? old('job')}}" id="job" name="job">
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group mb-0">
+                                        <label for="address">Địa chỉ</label>
+                                        <textarea name="address" id="address" cols="30" rows="5" class="form-control">{{$customer->address ?? old('address')}}</textarea>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </fieldset>
                     <fieldset title="3">
                         <legend>Liên kết</legend>
-                        <div class="mt-1">
+                        <div class="card-box mt-1">
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="facebook">Facebook</label>
-                                        <input type="text" class="form-control" value="{{$support->facebook ?? old('facebook')}}" id="facebook" name="facebook">
+                                        <input type="text" class="form-control" value="{{$customer->facebook ?? old('facebook')}}" id="facebook" name="facebook">
                                     </div>
                                     <div class="form-group">
                                         <label for="skype">Skype</label>
-                                        <input type="text" class="form-control" value="{{$support->skype ?? old('skype')}}" id="skype" name="skype">
+                                        <input type="text" class="form-control" value="{{$customer->skype ?? old('skype')}}" id="skype" name="skype">
                                     </div><div class="form-group">
                                         <label for="zalo">Zalo</label>
-                                        <input type="text" class="form-control" value="{{$support->zalo ?? old('zalo')}}" id="zalo" name="zalo">
+                                        <input type="text" class="form-control" value="{{$customer->zalo ?? old('zalo')}}" id="zalo" name="zalo">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="twitter">Twitter</label>
-                                        <input type="text" class="form-control" value="{{$support->twitter ?? old('twitter')}}" id="twitter" name="twitter">
+                                        <input type="text" class="form-control" value="{{$customer->twitter ?? old('twitter')}}" id="twitter" name="twitter">
                                     </div>
                                     <div class="form-group">
                                         <label for="instagram">Instagram</label>
-                                        <input type="text" class="form-control" value="{{$support->instagram ?? old('instagram')}}"  id="instagram" name="instagram">
+                                        <input type="text" class="form-control" value="{{$customer->instagram ?? old('instagram')}}"  id="instagram" name="instagram">
                                     </div>
                                     <div class="form-group">
                                         <label for="youtube">Youtube</label>
-                                        <input type="text" class="form-control" value="{{$support->youtube ?? old('youtube')}}" id="youtube" name="youtube">
+                                        <input type="text" class="form-control" value="{{$customer->youtube ?? old('youtube')}}" id="youtube" name="youtube">
                                     </div>
                                 </div>
                             </div>
@@ -149,8 +163,12 @@
         </div>
     </div>
         <!-- End row -->
-    </div
-
+    </div>
+    <script>
+        CKEDITOR.replace( 'summernote' ,{
+            height:300
+        });
+    </script>
         @stop
 
         @section('javascript')

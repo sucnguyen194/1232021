@@ -29,6 +29,7 @@
     <!-- Vendor js -->
     <script src="{{asset('admin/assets/js/vendor.min.js')}}"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <!-- Cpanel -->
     <script src="{{asset('admin/js/cpanel.js')}}"></script>
 </head>
@@ -329,6 +330,7 @@
         <div class="sk-cube sk-cube9"></div>
     </div>
 </div>
+
 <!-- javascript -->
 @yield('javascript')
 
@@ -337,15 +339,23 @@
 <script src="/admin/assets/libs/jquery-toast/jquery.toast.min.js"></script>
 <!-- toastr init js-->
 {{--<script src="/admin/assets/js/pages/toastr.init.js"></script>--}}
+
 <!-- App js -->
 <script src="{{asset('admin/assets/js/app.min.js')}}"></script>
 @include('Errors.note')
+
 <script type="text/javascript">
+    function initEvents(){
+        $('.tooltip-hover').each(function(){
+           $(this).tooltipster();
+        })
+    }
+    initEvents();
     CKEDITOR.replace( 'summernote' ,{
-        height:250
+        height:150
     });
     CKEDITOR.replace( 'summerbody' ,{
-        height:500
+        height:300
     });
 </script>
 
@@ -353,7 +363,9 @@
     $(window).on('load',function() {
         $('.loading').fadeOut();
     });
+
 </script>
+
 <script type="text/javascript">
     var url = "{{route('home')}}/";
 

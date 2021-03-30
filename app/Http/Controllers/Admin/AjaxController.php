@@ -1,6 +1,7 @@
 <?php namespace App\Http\Controllers\Admin;
 
 use App\Enums\AliasType;
+use App\Enums\MediaType;
 use App\Enums\ProductSessionType;
 use App\Enums\SystemsModuleType;
 use App\Http\Requests;
@@ -21,12 +22,92 @@ use App\Models\Support;
 use App\Models\SystemsModule;
 use App\Models\User;
 use App\Models\UserAgency;
-use App\Models\Video;
 use App\Models\Videos;
 use Illuminate\Support\Facades\Auth;
-use Request,Session,Cart,Mail;
+use Illuminate\Support\Facades\Storage;
+use Request,Session,Cart,Mail, Image;
 
 class AjaxController extends Controller {
+
+    public function removePhoto($id){
+        $photo = Media::find($id);
+
+        if($photo->pic == 1){
+            $update = Media::whereSort(1)->first();
+            $update->update(['pic' => 1]);
+            $update->product()->update([
+               'image' => $update->image,
+               'thumb' => $update->thumb
+            ]);
+        }
+        if(file_exists($photo->image)){
+            unlink($photo->image);
+        }
+        if(file_exists($photo->thumb)){
+            unlink($photo->thumb);
+        }
+        $photo->delete();
+        return response()->json('success');
+    }
+
+    public function uploadPhoto($id){
+        $files = request()->file('files');
+        $count = count($files);
+        $product = Product::find($id);
+
+        for($i=0 ; $i < $count ; $i++){
+            $file = request()->file('files')[$i];
+            $file->store('product');
+            $path = $file->hashName('product/thumb');
+            $resizeThumb = Image::make($file);
+            $resizeThumb->fit(375, 375, function ($constraint) {
+                $constraint->aspectRatio();
+            });
+            Storage::put($path, (string) $resizeThumb->encode());
+            $thumb = "storage/".$path;
+            $image = "storage/".$file->hashName('product');
+            Media::create([
+                'name' => $product->name,
+                'image' => $image,
+                'thumb' => $thumb,
+                'type_id' => $product->id,
+                'type' => MediaType::PRODUCT,
+                'user_id' => \Auth::id(),
+                'public' => 1,
+                'lang' => $product->lang
+            ]);
+        }
+        return response()->json('success');
+    }
+    public function setAltPhoto($id, $alt){
+        $photo = Media::find($id);
+        $photo->update(['name' => $alt]);
+        return response()->json('ok');
+    }
+
+    public function getAltPhoto($id){
+        $photo = Media::find($id);
+        $data['image'] = asset($photo->image);
+        $data['name'] = $photo->name;
+        $data['id'] = $photo->id;
+        return response()->json($data);
+    }
+
+    public function setPositionPhoto($json){
+        $photo = json_decode($json);
+        foreach ($photo as $key => $id){
+            $photo = Media::find($id);
+            $photo->update(['sort' => $key,'pic' => 0]);
+            if($photo->sort == 0){
+                $photo->update(['pic' => 1]);
+                $photo->products()->update([
+                    'image' => $photo->image,
+                    'thumb' => $photo->thumb,
+                ]);
+            }
+        }
+        return response()->json('ok');
+    }
 
     public function getSystemsModule($type){
         switch ($type){

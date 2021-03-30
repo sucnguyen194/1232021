@@ -221,6 +221,13 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
 
         //End Export
 
+        Route::get('ajax/position-photo/{json}','AjaxController@setPositionPhoto')->name('ajax.set.position.photo');
+
+        Route::get('ajax/edit-alt/{id}/{alt}','AjaxController@setAltPhoto')->name('ajax.set.alt');
+        Route::get('ajax/get-alt/{id}','AjaxController@getAltPhoto')->name('ajax.get.alt');
+
+        Route::post('ajax/upload-photo/{id}','AjaxController@uploadPhoto')->name('ajax.upload.photo');
+        Route::get('ajax/remove-photo/{id}','AjaxController@removePhoto')->name('ajax.remove.photo');
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

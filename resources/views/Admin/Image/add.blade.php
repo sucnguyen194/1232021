@@ -3,7 +3,6 @@
     Thêm mới
 @stop
 @section('content')
-
     <div class="container-fluid">
         <!-- start page title -->
         <div class="row">
@@ -26,52 +25,71 @@
         <form method="post" action="{{route('admin.media.store')}}" enctype="multipart/form-data">
             @csrf
             <div class="row">
-                <div class="col-lg-7">
-                    <div class="card-box">
-                        <div class="form-group">
-                            <label>Vị trí hiển thị</label>
-
-                            <select data-toggle="select2" name="position" class="form-control">
-                                <option value="Nomal">----</option>
-                                @foreach($position as $item)
-                                    <option value="{{$item->value}}">{{$item->name}}</option>
-                                @endforeach
-                            </select>
+                <div class="col-lg-12">
+                    <div class="card-box position-relative box-action-image">
+                        <label>Hình ảnh</label>
+                        <div class="position-absolute font-weight-normal text-primary" id="box-input" style="right:2.2rem;top:1.3rem">
+                            <label class="item-input">
+                                <input type="file" name="image[]" class="d-none" id="fileUploadMultiple" multiple> Chọn ảnh
+                            </label>
                         </div>
-                        <div class="form-group">
-                            <label>Tiêu đề </label>
-                            <input type="text" class="form-control" value="{{old('name')}}" id="name" name="name">
+                        <p class="font-13">* Định dạng ảnh jpg, jpeg, png, gif</p>
+                        <div class="dropzone pl-2 pr-2 pb-1">
+                            <div class="dz-message text-center needsclick mb-2" id="remove-label">
+                                <label for="fileUploadMultiple" class="w-100 mb-0">
+                                    <div class="icon-dropzone pt-2">
+                                        <i class="h1 text-muted dripicons-cloud-upload"></i>
+                                    </div>
+                                    <span class="text-muted font-13">Sử dụng nút <strong>Chọn ảnh</strong> để thêm ảnh</span>
+                                </label>
+                            </div>
+                            <ul class="show-box image-holder pl-0 mb-0 w-100" id="sortable">
+
+                            </ul>
+
                         </div>
-
-
-                        <div class="form-group">
-                            <label>Đường dẫn</label>
-                            <input type="text" class="form-control alias" id="path" value="{{old('path')}}" name="path">
-                        </div>
-
-                        <div class="form-group">
-                            <label>Mô tả</label>
-                            <textarea class="form-control summernote" id="summernote" name="description">{!! old('description') !!}</textarea>
-                        </div>
-
                     </div>
                 </div>
-                <div class="col-lg-5">
-                    <div class="card-box box-action-image">
-                        <div class="form-group mb-0">
-                            <label>Hình ảnh</label>
-                            <p class="font-13">* Ghi chú: Định dạng ảnh jpg, jpeg, png, gif</p>
-                            <input type="file" name="image[]" multiple class="filestyle" id="fileUploadMultiple" data-btnClass="btn-primary">
-                        </div>
-                        <div id="grid-gallery" class="grid-gallery">
-                            <section class="grid-wrap">
-                                <ul class="grid w-" id="list-item">
-                                    <span class="image-holder" id="image-holder">
+                <div class="col-lg-12">
+                    <div class="card-box">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Vị trí hiển thị</label>
 
-                                    </span>
-                                </ul>
-                            </section><!-- // grid-wrap -->
-                        </div><!-- // grid-gallery -->
+                                    <select data-toggle="select2" name="position" class="form-control">
+                                        <option value="Nomal">----</option>
+                                        @foreach($position as $item)
+                                            <option value="{{$item->value}}">{{$item->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Tiêu đề </label>
+                                    <input type="text" class="form-control" value="{{old('name')}}" id="name" name="name">
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label>Đường dẫn</label>
+                                    <input type="text" class="form-control alias" id="path" value="{{old('path')}}" name="path">
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <label class="w-100">Link ảnh</label>
+                                        <div class="form-control"></div>
+                                        <div class="input-group-prepend" style="cursor: pointer" title="Coppy link ảnh"><span id="basic-addon1" class="bg-primary text-white input-group-text">COPPY</span></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Mô tả</label>
+                                    <textarea class="form-control summernote" id="summernote" name="description">{!! old('description') !!}</textarea>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="col-lg-12">
@@ -82,10 +100,28 @@
             <!-- end row -->
         </form>
     </div>
+    <div id="viewImage" class="modal fade" tabindex="-1" aria-labelledby="myLargeModalLabel" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content text-center">
+                <div class="modal-body">
+                    <img src="" class="img-fluid showImage">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default waves-effect" data-dismiss="modal"> Đóng</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+    <script>
+        $(document).on('click','.view-image',function(){
+            let image = $(this).attr('data-image');
+            $('.showImage').attr('src', image);
+        })
+    </script>
 @stop
 
 @section('javascript')
-
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js">
     <script src="{{asset('admin/js/grid/modernizr.custom.js')}}"></script>
     <script src="{{asset('admin/js/grid/imagesloaded.pkgd.min.js')}}"></script>
     <script src="{{asset('admin/js/grid/masonry.pkgd.min.js')}}"></script>
@@ -107,6 +143,9 @@
     <!-- Init js-->
     <script src="{{asset('admin/assets/js/pages/form-advanced.init.js')}}"></script>
 
+    <script>
+        $( "#sortable" ).sortable();
+    </script>
 {{--    <!-- Summernote js -->--}}
 {{--    <script src="{{asset('admin/assets/libs/summernote/summernote-bs4.min.js')}}"></script>--}}
 

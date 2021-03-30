@@ -26,53 +26,63 @@
         <div class="row">
             <div class="col-lg-10 offset-lg-1">
                 <form action="{{route('admin.support.store')}}" method="post" enctype="multipart/form-data">
-                    <div class="card-box" id="wizard-clickable">
+                    <div id="wizard-clickable">
                         @csrf
                         <fieldset title="1">
                             <legend>Đánh giá</legend>
                             <div class="row mt-1">
-                                <div class="col-md-7 mr-2">
-                                    <div class="form-group">
-                                        <label for="name">Tên khách hàng <span class="required">*</span></label>
-                                        <input type="text" class="form-control" name="name" id="name" value="{{old('name')}}" required>
+                                <div class="col-md-8">
+                                    <div class="card-box">
+                                        <div class="form-group">
+                                            <label for="name">Tên khách hàng <span class="required">*</span></label>
+                                            <input type="text" class="form-control" name="name" id="name" value="{{old('name')}}" required>
+                                        </div>
+                                        <div class="form-group mb-0">
+                                            <label for="description">Đánh giá <span class="required">*</span></label>
+                                            <textarea class="form-control summernote" id="summernote" name="description" required>{!! old('description') !!}</textarea>
+                                        </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label for="description">Đánh giá <span class="required">*</span></label>
-                                        <textarea class="form-control summernote" id="summernote" name="description" required>{!! old('description') !!}</textarea>
-                                    </div>
+
                                 </div>
                                 <div class="col-md-4">
-                                    <label class="mb-0">Trạng thái</label>
-                                    <hr>
-                                    <div class="checkbox">
-                                        <input id="checkbox_public" checked type="checkbox" name="public">
-                                        <label for="checkbox_public">Hiển thị</label>
-                                    </div>
-
-                                    <div class="checkbox">
-                                        <input id="checkbox_status" type="checkbox" name="status">
-                                        <label for="checkbox_status" class="">Nổi bật</label>
-                                    </div>
-                                    <hr>
-                                    <div class="position-relative box-action-image">
-                                        <label for="image">Ảnh đại diện</label>
-                                        <p class="font-13">* Định dạng ảnh jpg, jpeg, png, gif</p>
-
-                                        <input type="file" name="image" class="filestyle" id="fileUpload" data-btnClass="btn-primary">
-                                        <div class="text-center mt-2 image-holder" id="image-holder">
-
+                                    <div class="card-box">
+                                        <label class="mb-0">Trạng thái</label>
+                                        <hr>
+                                        <div class="checkbox">
+                                            <input id="checkbox_public" checked type="checkbox" name="public">
+                                            <label for="checkbox_public">Hiển thị</label>
                                         </div>
-                                        <div class="box-position btn btn-default waves-effect waves-light text-left show-box">
-                                            {{--                                            <div class="checkbox checkbox-warning checkbox-circle checkbox-unlink-watermark">--}}
-                                            {{--                                                <input id="checkbox_watermark" class="watermark" type="checkbox" name="watermark">--}}
-                                            {{--                                                <label for="checkbox_watermark">Gắn watermark</label>--}}
-                                            {{--                                            </div>--}}
 
-                                            <div class="checkbox checkbox-unlink-image">
-                                                <input id="checkbox_unlink" class="unlink-image" type="checkbox" name="unlink">
-                                                <label for="checkbox_unlink" class="mb-0">Xóa ảnh</label>
+                                        <div class="checkbox">
+                                            <input id="checkbox_status" type="checkbox" name="status">
+                                            <label for="checkbox_status" class="mb-0">Nổi bật</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="card-box">
+                                        <div class="position-relative box-action-image">
+                                            <label>Hình ảnh</label>
+                                            <div class="position-absolute font-weight-normal text-primary" id="box-input" style="right:0;top:0">
+                                                <label class="item-input">
+                                                    <input type="file" name="image" class="d-none" id="fileUpload"> Chọn ảnh
+                                                </label>
                                             </div>
+                                            <p class="font-13">* Ghi chú: Định dạng ảnh jpg, jpeg, png, gif</p>
+                                            <div class="dropzone p-2 text-center image-holder" id="image-holder">
+                                                <label for="fileUpload" class="w-100 mb-0">
+                                                    <div class="icon-dropzone pt-2">
+                                                        <i class="h1 text-muted dripicons-cloud-upload"></i>
+                                                    </div>
+                                                    <span class="text-muted font-13">Sử dụng nút <strong>Chọn ảnh</strong> để thêm ảnh</span>
+                                                </label>
+                                            </div>
+                                            <div class="box-position btn btn-default waves-effect waves-light text-left show-box">
+                                                <div class="checkbox checkbox-unlink-image">
+                                                    <input id="checkbox_unlink" class="unlink-image" type="checkbox" name="unlink">
+                                                    <label for="checkbox_unlink" class="mb-0">Xóa ảnh</label>
+                                                </div>
 
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -81,31 +91,40 @@
                         <fieldset title="2">
                             <legend>Thông tin cá nhân</legend>
 
-                            <div class="mt-1">
-                                <div class="form-group">
-                                    <label for="phone">Số điện thoại</label>
-                                    <input type="text" class="form-control" id="phone" value="{{old('phone')}}" name="phone">
+                            <div class="card-box mt-1">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="phone">Số điện thoại</label>
+                                            <input type="text" class="form-control" id="phone" value="{{old('phone')}}" name="phone">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="email">Email</label>
+                                            <input type="text" class="form-control" id="email" value="{{old('email')}}" name="email">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="job">Công việc</label>
+                                            <input type="text" class="form-control" value="{{old('job')}}" id="job" name="job">
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group mb-0">
+                                            <label for="address">Địa chỉ</label>
+                                            <textarea name="address" id="address" rows="10" class="form-control">{{ old('address')}}</textarea>
+                                        </div>
+                                    </div>
                                 </div>
 
-                                <div class="form-group">
-                                    <label for="email">Email</label>
-                                    <input type="text" class="form-control" id="email" value="{{old('email')}}" name="email">
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="job">Công việc</label>
-                                    <input type="text" class="form-control" value="{{old('job')}}" id="job" name="job">
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="address">Địa chỉ</label>
-                                    <textarea name="address" id="address" cols="30" rows="5" class="form-control">{{ old('address')}}</textarea>
-                                </div>
                             </div>
                         </fieldset>
                         <fieldset title="3">
                             <legend>Liên kết</legend>
-                            <div class="mt-1">
+                            <div class="card-box mt-1">
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
@@ -147,7 +166,12 @@
             </div>
         </div>
         <!-- End row -->
-    </div
+    </div>
+    <script>
+        CKEDITOR.replace( 'summernote' ,{
+            height:300
+        });
+    </script>
 
         @stop
 

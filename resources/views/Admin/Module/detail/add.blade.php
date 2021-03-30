@@ -26,8 +26,7 @@
         <form method="post" action="{{route('admin.action.module.add',$module->table)}}" enctype="multipart/form-data">
             <div class="row">
                 @csrf
-
-                <div class="{{$module->type ? "col-lg-8" : "col-lg-12"}}">
+                <div class="col-lg-8 offset-lg-2">
                     @foreach(json_decode($module->fields) as $items)
                         @switch($items->display_type)
                             @case(0)
@@ -50,75 +49,70 @@
                                 <textarea class="form-control summernote" id="summernote" name="{{$items->name}}">{!! old($items->name) !!}</textarea>
                             </div>
                             @break
+                            @case(1)
+                            <div class="card-box">
+                                <label class="mb-0">Trạng thái</label>
+                                <hr>
+                                <div class="checkbox">
+                                    <input id="checkbox_{{$items->name}}" type="checkbox" name="{{$items->name}}" checked>
+                                    <label for="checkbox_{{$items->name}}" class="mb-0">{{$items->name}}</label>
+                                </div>
+                            </div>
+                            @break
+
+                            @case(3)
+                            <div class="card-box">
+                                <label class="mb-0">Trạng thái</label>
+                                <hr>
+                                <div class="checkbox">
+                                    <input id="checkbox_{{$items->name}}" type="checkbox" name="{{$items->name}}" checked>
+                                    <label for="checkbox_{{$items->name}}" class="mb-0">{{$items->name}}</label>
+                                </div>
+                            </div>
+                            @break
+
+                            @case(4)
+                            <div class="card-box">
+                                <label>{{$items->display_name}} </label>
+                                <select class="form-control" data-toggle="select2" name="{{$items->name}}">
+                                    @foreach($items->option as $key => $val)
+                                        <option value="{{$val}}"> {{$val}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            @break
+
+                            @case(5)
+                            <div class="card-box">
+                                <div class="position-relative box-action-image">
+                                    <label>{{$items->display_name}}</label>
+                                    <div class="position-absolute font-weight-normal text-primary" id="box-input" style="right:0;top:0">
+                                        <label class="item-input">
+                                            <input type="file" name="{{$items->name}}" class="d-none" id="fileUpload-{{$items->name}}"> Chọn ảnh
+                                        </label>
+                                    </div>
+                                    <p class="font-13">* Ghi chú: Định dạng ảnh jpg, jpeg, png, gif</p>
+                                    <div class="dropzone p-2 text-center image-holder" id="image-holder-{{$items->name}}">
+                                        <label for="fileUpload-{{$items->name}}" class="w-100 mb-0">
+                                            <div class="icon-dropzone pt-2">
+                                                <i class="h1 text-muted dripicons-cloud-upload"></i>
+                                            </div>
+                                            <span class="text-muted font-13">Sử dụng nút <strong>Chọn ảnh</strong> để thêm ảnh</span>
+                                        </label>
+                                    </div>
+                                    <div class="box-position btn btn-default waves-effect waves-light text-left hidden-box show-box-{{$items->name}}">
+                                        <div class="checkbox checkbox-unlink-{{$items->name}}">
+                                            <input id="checkbox_{{$items->name}}" class="unlink-{{$items->name}}" type="checkbox" name="unlink_{{$items->name}}">
+                                            <label for="checkbox_{{$items->name}}" data-name="{{$items->name}}" class="mb-0">Xóa ảnh</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @break
                             @default
                         @endswitch
 
                     @endforeach
-                </div>
-                <div class="{{$module->type ? "col-lg-4" : "col-lg-12"}}">
-                    <div class="row">
-                        @foreach(json_decode($module->fields) as $items)
-
-                            <div class="{{$module->type ? "col-lg-12" : "col-lg-4"}}">
-                                @switch($items->display_type)
-                                    @case(1)
-                                    <div class="card-box">
-                                        <label class="mb-0">Trạng thái</label>
-                                        <hr>
-                                        <div class="checkbox">
-                                            <input id="checkbox_{{$items->name}}" type="checkbox" name="{{$items->name}}" checked>
-                                            <label for="checkbox_{{$items->name}}" class="mb-0">{{$items->name}}</label>
-                                        </div>
-                                    </div>
-                                    @break
-
-                                    @case(3)
-                                    <div class="card-box">
-                                        <label class="mb-0">Trạng thái</label>
-                                        <hr>
-                                        <div class="checkbox">
-                                            <input id="checkbox_{{$items->name}}" type="checkbox" name="{{$items->name}}" checked>
-                                            <label for="checkbox_{{$items->name}}" class="mb-0">{{$items->name}}</label>
-                                        </div>
-                                    </div>
-                                    @break
-
-                                    @case(4)
-                                    <div class="card-box">
-                                        <label>{{$items->display_name}} </label>
-                                        <select class="form-control" data-toggle="select2" name="{{$items->name}}">
-                                            @foreach($items->option as $key => $val)
-                                                <option value="{{$val}}"> {{$val}}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    @break
-
-                                    @case(5)
-                                    <div class="card-box box-action-image position-relative">
-                                        <label>{{$items->display_name}} </label>
-                                        <p class="font-13">* Định dạng ảnh jpg, jpeg, png, gif</p>
-
-                                        <input type="file" name="{{$items->name}}" class="filestyle" id="fileUpload-{{$items->name}}" data-btnClass="btn-primary">
-                                        <div class="text-center mt-2 image-holder" id="image-holder-{{$items->name}}">
-
-                                        </div>
-                                        <div class="box-position btn btn-default waves-effect waves-light text-left hidden-box show-box-{{$items->name}}">
-
-                                            <div class="checkbox checkbox-unlink-{{$items->name}}">
-                                                <input id="checkbox_{{$items->name}}" class="unlink-{{$items->name}}" type="checkbox" name="unlink_{{$items->name}}">
-                                                <label for="checkbox_{{$items->name}}" data-name="{{$items->name}}" class="mb-0">Xóa ảnh</label>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                    @break
-                                    @default
-                                @endswitch
-                            </div>
-
-                        @endforeach
-                    </div>
                 </div>
 
                 <div class="col-lg-12">

@@ -1,6 +1,6 @@
 @extends('Admin.Layout.layout')
 @section('title')
-    Sửa #ID {{$media->id}}
+    Cập nhật thông tin #ID {{$media->id}}
 @stop
 @section('content')
 
@@ -21,11 +21,11 @@
                                 <li class="breadcrumb-item"><a href="{{route('admin.media.index')}}">Thư viện ảnh</a></li>
                             @endswitch
 
-                            <li class="breadcrumb-item active">Sửa</li>
+                            <li class="breadcrumb-item active">Cập nhật thông tin</li>
                             <li class="breadcrumb-item active">#ID{{$media->id}}</li>
                         </ol>
                     </div>
-                    <h4 class="page-title">Sửa #ID {{$media->id}}</h4>
+                    <h4 class="page-title">Cập nhật thông tin #ID{{$media->id}}</h4>
                 </div>
             </div>
         </div>
@@ -36,47 +36,61 @@
             @csrf
             @method('PATCH')
             <div class="row">
-                <div class="col-lg-7">
-                    <div class="card-box">
-                        <div class="form-group">
-                            <label>Vị trí hiển thị</label>
-
-                            <select data-toggle="select2" name="position" class="form-control">
-                                <option value="Nomal">----</option>
-                                @foreach($position as $item)
-                                    <option value="{{$item->value}}" {{$media->position == $item->value ? "selected" : ""}}>{{$item->name}}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Tiêu đề </label>
-                            <input type="text" class="form-control" value="{{$media->name ?? old('name')}}" id="name" name="name">
-                        </div>
-
-
-                        <div class="form-group">
-                            <label>Đường dẫn</label>
-                            <input type="text" class="form-control alias" id="path" value="{{$media->path ??  old('path')}}" name="path">
-                        </div>
-
-                        <div class="form-group">
-                            <label>Mô tả</label>
-                            <textarea class="form-control summernote" id="summernote" name="description">{!!$media->description ?? old('description') !!}</textarea>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-5  box-action-image">
+                <div class="col-lg-12  box-action-image">
                     <div class="card-box">
                         <div class="form-group">
                             <label>Hình ảnh</label>
+                            <div class="position-absolute font-weight-normal text-primary" id="box-input" style="right:2.2rem;top:1.3rem">
+                                <label class="item-input">
+                                    <input type="file" name="image" class="d-none" id="fileUpload"> Chọn ảnh
+                                </label>
+                            </div>
                             <p class="font-13">* Ghi chú: Định dạng ảnh jpg, jpeg, png, gif</p>
-                            <input type="file" name="image" class="filestyle" id="fileUpload" data-btnClass="btn-primary">
                         </div>
-                        <div class="image-holder text-center" id="image-holder">
-                                @if(file_exists($media->image))<img src="{{asset($media->image)}}" class="rounded">@endif
+                        <div class="dropzone image-holder text-center p-2" id="image-holder">
+                            @if(file_exists($media->image))<img src="{{asset($media->image)}}" class="rounded">@endif
                         </div>
                     </div>
                 </div>
+                <div class="col-lg-12">
+                    <div class="card-box">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Vị trí hiển thị</label>
+                                    <select data-toggle="select2" name="position" class="form-control">
+                                        <option value="Nomal">----</option>
+                                        @foreach($position as $item)
+                                            <option value="{{$item->value}}" {{$media->position == $item->value ? "selected" : ""}}>{{$item->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Tiêu đề </label>
+                                    <input type="text" class="form-control" value="{{$media->name ?? old('name')}}" id="name" name="name">
+                                </div>
+                                <div class="form-group">
+                                    <label>Đường dẫn</label>
+                                    <input type="text" class="form-control alias" id="path" value="{{$media->path ??  old('path')}}" name="path">
+                                </div>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <label class="w-100">Link ảnh</label>
+                                        <div class="form-control" id="urlImage">{{asset($media->image)}}</div>
+                                        <div class="input-group-prepend" style="cursor: pointer" title="Coppy link ảnh" onclick="copyToClipboard('#urlImage')"><span id="basic-addon1" class="bg-primary text-white input-group-text">COPPY</span></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Mô tả</label>
+                                    <textarea class="form-control summernote" id="summernote" name="description">{!!$media->description ?? old('description') !!}</textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="col-lg-12">
                     @switch ($media->type)
                         @case(\App\Enums\MediaType::GALLERY)
@@ -97,25 +111,20 @@
 <style>
     .box-action-image img {
         max-height: unset;
+        max-height: 400px;
     }
     </style>
+    <script>
+        CKEDITOR.replace( 'summerbody' ,{
+            height:300
+        });
+    </script>
 @stop
 
 @section('javascript')
-{{--    <script src="{{asset('admin/js/grid/modernizr.custom.js')}}"></script>--}}
-{{--    <script src="{{asset('admin/js/grid/imagesloaded.pkgd.min.js')}}"></script>--}}
-{{--    <script src="{{asset('admin/js/grid/masonry.pkgd.min.js')}}"></script>--}}
-{{--    <script src="{{asset('admin/js/grid/classie.js')}}"></script>--}}
-{{--    <script src="{{asset('admin/js/grid/cbpGridGallery.js')}}"></script>--}}
-
-{{--    <script>--}}
-{{--        new CBPGridGallery( document.getElementById( 'grid-gallery' ) );--}}
-{{--    </script>--}}
-
     <script src="{{asset('admin/assets/libs/switchery/switchery.min.js')}}"></script>
     <script src="{{asset('admin/assets/libs/bootstrap-tagsinput/bootstrap-tagsinput.min.js')}}"></script>
     <script src="https://coderthemes.com/adminox/layouts/vertical/assets/libs/select2/select2.min.js"></script>
-    <script src="{{asset('admin/assets/libs/jquery-mockjax/jquery.mockjax.min.js')}}"></script>
     <script src="{{asset('admin/assets/libs/autocomplete/jquery.autocomplete.min.js')}}"></script>
     <script src="{{asset('admin/assets/libs/bootstrap-select/bootstrap-select.min.js')}}"></script>
     <script src="{{asset('admin/assets/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.js')}}"></script>
@@ -125,24 +134,14 @@
     <!-- Init js-->
     <script src="{{asset('admin/assets/js/pages/form-advanced.init.js')}}"></script>
 
-    <!-- scrollbar init-->
-    <script src="{{asset('admin/assets/js/pages/scrollbar.init.js')}}"></script>
 @stop
 
 @section('css')
-    <style>
-        .grid-gallery li {
-            list-style: none;
 
-        }
-    </style>
     <link href="{{asset('admin/assets/libs/bootstrap-tagsinput/bootstrap-tagsinput.css')}}" rel="stylesheet" />
     <link href="{{asset('admin/assets/libs/switchery/switchery.min.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{asset('admin/assets/libs/select2/select2.min.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{asset('admin/assets/libs/bootstrap-select/bootstrap-select.min.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{asset('admin/assets/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.css')}}" rel="stylesheet" type="text/css" />
-    <!-- Plugins css -->
-    <link href="{{asset('admin/assets/libs/quill/quill.core.css')}}" rel="stylesheet" type="text/css" />
-    <link href="{{asset('admin/assets/libs/quill/quill.bubble.css')}}" rel="stylesheet" type="text/css" />
-    <link href="{{asset('admin/assets/libs/quill/quill.snow.css')}}" rel="stylesheet" type="text/css" />
+
 @stop

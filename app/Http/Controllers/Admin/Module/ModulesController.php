@@ -187,26 +187,28 @@ class ModulesController extends Controller
     }
 
     public function storeAction(Request $request, $table) {
+
         if(check_admin_systems(SystemsModuleType::ADD_MODULE));
 
         $module = Modules::whereTable($table)->firstOrFail();
 
         foreach(json_decode($module->fields) as $key => $items){
-            if(isset($_POST[$items->name])){
-                $arr[$items->name] = $_POST[$items->name];
-                if($arr[$items->name] == 'on'){
-                    $arr[$items->name] = 1;
-                }
-            }elseif(isset($_FILES[$items->name])){
+            if($request->hasFile($items->name)){
                 if(isset($_POST['unlink_'.$items->name])){
-                    $arr[$items->name] = "";
+                    $arr[$items->name] = null;
                 }else{
                     $file = $request->file($items->name);
                     $file->store($table);
                     $arr[$items->name] = 'storage/'.$file->hashName($table);
+
+                }
+            }elseif(isset($_POST[$items->name])){
+                $arr[$items->name] = $_POST[$items->name];
+                if($arr[$items->name] == 'on'){
+                    $arr[$items->name] = 1;
                 }
             }else{
-                $arr[$items->name] = "";
+                $arr[$items->name] = null;
             }
         }
         \DB::table($table)->insert($arr);

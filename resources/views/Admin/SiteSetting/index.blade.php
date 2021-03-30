@@ -19,8 +19,6 @@
             </div>
         </div>
         <!-- end page title -->
-
-
     </div>
 <div class="container">
     <a href="{{route('admin.site.setting')}}" class="btn btn-default waves-effect waves-light"><span class="icon-button"><i class="fe-arrow-left"></i></span> Quay lại</a>
@@ -99,52 +97,98 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="card-box position-relative box-action-image">
-                                    <label for="logo-holder">Logo</label>
-                                    <p class="font-13">* Định dạng ảnh jpg, jpeg, png, gif</p>
-                                    <input type="file" name="logo" class="filestyle" id="fileUpload" data-btnClass="btn-primary">
-                                    <div class="text-center mt-2 image-holder" id="image-holder">
-                                        @if(file_exists($setting->logo)) <img src="{{asset($setting->logo)}}" class="img-responsive img-thumbnail" alt="logo"> @endif
+                                    <label>Logo</label>
+                                    <div class="position-absolute font-weight-normal text-primary" id="box-input" style="right:2.2rem;top:1.3rem">
+                                        <label class="item-input">
+                                            <input type="file" name="logo" class="d-none" id="fileUpload"> Chọn ảnh
+                                        </label>
                                     </div>
-                                    <div class="box-position btn btn-default waves-effect waves-light text-left {{!file_exists($setting->logo) ? "show-box" : ""  }}">
-                                        <div class="checkbox checkbox-unlink-logo">
-                                            <input id="checkbox_logo" class="unlink-image" type="checkbox" name="unlink_logo">
-                                            <label for="checkbox_logo" class="mb-0">Xóa ảnh</label>
+                                    <p class="font-13">* Định dạng ảnh jpg, jpeg, png, gif</p>
+                                    <div class="dropzone p-2 text-center">
+                                        @if(!file_exists($setting->logo))
+                                            <div class="dz-message text-center needsclick mb-2" id="remove-label">
+                                                <label for="fileUpload" class="w-100 mb-0">
+                                                    <div class="icon-dropzone pt-2">
+                                                        <i class="h1 text-muted dripicons-cloud-upload"></i>
+                                                    </div>
+                                                    <span class="text-muted font-13">Sử dụng nút <strong>Chọn ảnh</strong> để thêm ảnh</span>
+                                                </label>
+                                            </div>
+                                        @endif
+                                        <div class="{{!file_exists($setting->logo) ? "show-box" : ""}} image-holder pl-0 mb-0 w-100">
+                                            @if(file_exists($setting->logo)) <img src="{{asset($setting->logo)}}" alt="{{$setting->name}}"> @endif
                                         </div>
+                                            <div class="box-position btn btn-default waves-effect waves-light text-left {{!file_exists($setting->logo) ? "show-box" : ""  }}">
+                                                <div class="checkbox checkbox-unlink-logo">
+                                                    <input id="checkbox_logo" class="unlink-image" type="checkbox" name="unlink_logo">
+                                                    <label for="checkbox_logo" class="mb-0">Xóa ảnh</label>
+                                                </div>
+                                            </div>
                                     </div>
                                 </div>
-                                <div class="card-box position-relative box-action-image">
-                                    <label for="logo-holder">og:image</label>
-                                    <p class="font-13">* Định dạng ảnh jpg, jpeg, png, gif</p>
 
-                                    <input type="file" name="og_image" class="filestyle" id="fileUploadOgImage" data-btnClass="btn-primary">
-                                    <div class="text-center mt-2 image-holder" id="image-holder">
-                                        @if(file_exists($setting->og_image)) <img src="{{asset($setting->og_image)}}" class="img-responsive img-thumbnail" alt="og:image"> @endif
+                                <div class="card-box position-relative box-action-image">
+                                    <label>og:image</label>
+                                    <div class="position-absolute font-weight-normal text-primary" id="box-input" style="right:2.2rem;top:1.3rem">
+                                        <label class="item-input">
+                                            <input type="file" name="og_image" class="d-none" id="fileUploadOgImage"> Chọn ảnh
+                                        </label>
                                     </div>
-                                    <div class="box-position btn btn-default waves-effect waves-light text-left {{!file_exists($setting->og_image) ? "show-box" : ""  }}">
-                                        <div class="checkbox checkbox-unlink-og">
-                                            <input id="checkbox_og" class="unlink-image" type="checkbox" name="unlink_og">
-                                            <label for="checkbox_og" class="mb-0">Xóa ảnh</label>
+                                    <p class="font-13">* Định dạng ảnh jpg, jpeg, png, gif</p>
+                                    <div class="dropzone p-2 text-center">
+                                        @if(!file_exists($setting->og_image))
+                                            <div class="dz-message text-center needsclick mb-2" id="remove-label">
+                                                <label for="fileUploadOgImage" class="w-100 mb-0">
+                                                    <div class="icon-dropzone pt-2">
+                                                        <i class="h1 text-muted dripicons-cloud-upload"></i>
+                                                    </div>
+                                                    <span class="text-muted font-13">Sử dụng nút <strong>Chọn ảnh</strong> để thêm ảnh</span>
+                                                </label>
+                                            </div>
+                                        @endif
+                                        <div class="{{!file_exists($setting->og_image) ? "show-box" : ""}} image-holder pl-0 mb-0 w-100">
+                                            @if(file_exists($setting->og_image)) <img src="{{asset($setting->og_image)}}" alt="{{$setting->name}}"> @endif
                                         </div>
+                                            <div class="box-position btn btn-default waves-effect waves-light text-left {{!file_exists($setting->og_image) ? "show-box" : ""  }}">
+                                                <div class="checkbox checkbox-unlink-og">
+                                                    <input id="checkbox_og" class="unlink-image" type="checkbox" name="unlink_og">
+                                                    <label for="checkbox_og" class="mb-0">Xóa ảnh</label>
+                                                </div>
+                                            </div>
                                     </div>
                                 </div>
+
                                 <div class="card-box position-relative box-action-image">
-                                    <label for="favicon-holder">Favicon</label>
+                                    <label>Favicon</label>
+                                    <div class="position-absolute font-weight-normal text-primary" id="box-input" style="right:2.2rem;top:1.3rem">
+                                        <label class="item-input">
+                                            <input type="file" name="favicon" class="d-none" id="faviconUpload"> Chọn ảnh
+                                        </label>
+                                    </div>
                                     <p class="font-13">* Định dạng ảnh jpg, jpeg, png, gif / Tỷ lệ 1:1 / Kích thước gợi ý 50x50 (px)</p>
-
-                                    <input type="file" name="favicon" class="filestyle" id="faviconUpload" data-btnClass="btn-primary">
-                                    <div class="text-center mt-2 image-holder" id="image-holder">
-                                        @if(file_exists($setting->favicon)) <img src="{{asset($setting->favicon)}}" class="img-responsive img-thumbnail" alt="favicon"> @endif
-                                    </div>
-                                    <div class="box-position btn btn-default waves-effect waves-light text-left {{!file_exists($setting->favicon) ? "show-box" : ""  }} ">
-                                        <div class="checkbox checkbox-unlink-favicon">
-                                            <input id="checkbox_favicon" class="unlink-image" type="checkbox" name="unlink_favicon">
-                                            <label for="checkbox_favicon" class="mb-0">Xóa ảnh</label>
+                                    <div class="dropzone p-2 text-center">
+                                        @if(!file_exists($setting->og_image))
+                                            <div class="dz-message text-center needsclick mb-2" id="remove-label">
+                                                <label for="faviconUpload" class="w-100 mb-0">
+                                                    <div class="icon-dropzone pt-2">
+                                                        <i class="h1 text-muted dripicons-cloud-upload"></i>
+                                                    </div>
+                                                    <span class="text-muted font-13">Sử dụng nút <strong>Chọn ảnh</strong> để thêm ảnh</span>
+                                                </label>
+                                            </div>
+                                        @endif
+                                        <div class="{{!file_exists($setting->og_image) ? "show-box" : ""}} image-holder pl-0 mb-0 w-100">
+                                            @if(file_exists($setting->og_image)) <img src="{{asset($setting->og_image)}}" alt="{{$setting->name}}"> @endif
                                         </div>
+                                            <div class="box-position btn btn-default waves-effect waves-light text-left {{!file_exists($setting->favicon) ? "show-box" : ""  }} ">
+                                                <div class="checkbox checkbox-unlink-favicon">
+                                                    <input id="checkbox_favicon" class="unlink-image" type="checkbox" name="unlink_favicon">
+                                                    <label for="checkbox_favicon" class="mb-0">Xóa ảnh</label>
+                                                </div>
+                                            </div>
                                     </div>
-                                    <hr>
                                 </div>
-
-                                <div class="card-box position-relative box-action-image">
+                                <div class="card-box position-relative box-action-image d-none">
                                     <label for="watermark-holder">Watermark</label>
                                     <p class="font-13">* Định dạng ảnh jpg, jpeg, png, gif</p>
 

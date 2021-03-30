@@ -21,7 +21,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="card-box table-responsive">
-                        <div class="action-datatable mb-3">
+                        <div class="action-datatable text-right mb-3">
                             <a href="{{route('admin.action.module.add',$module->table)}}" class="btn btn-primary waves-effect width-md waves-light">
                                 <span class="icon-button"><i class="fe-plus"></i></span> Thêm mới</a>
                         </div>
@@ -40,12 +40,12 @@
                             @foreach($data as $key => $items)
                                 <tr>
                                     @foreach($items as $value)
-                                        <td> @if(strpos($value,'storage') === false) {!!str_limit($value,500)!!}  @else <img src="{{url($value)}}" class="img-responsive img-thumbnail" style="max-height: 80px"> @endif</td>
+                                        <td> @if(strpos($value,'storage') === false) {!!str_limit($value,500)!!}  @else <img src="{{asset($value)}}" class="img-responsive img-thumbnail" style="max-height: 80px"> @endif</td>
                                     @endforeach
                                     <td>
-                                        <a href="{{route('admin.action.module.edit',[$module->table,$items->id])}}" class="btn btn-purple waves-effect waves-light">
+                                        <a href="{{route('admin.action.module.edit',[$module->table,$items->id])}}" class="btn btn-default waves-effect waves-light">
                                             <span class="icon-button"><i class="fe-edit-2"></i></span></a>
-                                        <a href="{{route('admin.action.module.destroy',[$module->table,$items->id])}}" onclick="return confirm('Bạn có chắc muốn xóa?');" class="btn btn-warning waves-effect waves-light">
+                                        <a href="{{route('admin.action.module.destroy',[$module->table,$items->id])}}" onclick="return confirm('Bạn có chắc muốn xóa?');" class="btn btn-default waves-effect waves-light">
                                             <span class="icon-button"><i class="fe-x"></i></span></a>
                                     </td>
                                 </tr>

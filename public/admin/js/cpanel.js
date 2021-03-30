@@ -1,4 +1,11 @@
-
+function copyToClipboard(element) {
+    var $temp = $("<input>");
+    $("body").append($temp);
+    $temp.val($(element).html()).select();
+    document.execCommand("copy");
+    $temp.remove();
+    flash('success','Coppy link ảnh thành công!');
+}
 
 function nl2br (str, replaceMode, isXhtml) {
 
@@ -176,7 +183,67 @@ function flash(status = 'success',message = 'Thành công'){
         stack: 1
     })
 }
+function uploadPhotoMultiple(input){
+    if (input.files) {
+        let box = input.closest('.box-action-image');
+        let label  = $(box).find('#remove-label');
+        let showbox = $(box).find('.show-box');
+        let filesAmount = input.files.length;
+        let holder = $(box).find('.image-holder');
+        let imgPath = input.value;
+        let boxinput = $(box).find('#box-input');
+        let li = $(box).find('li').length;
+        let extn = imgPath.substring(imgPath.lastIndexOf('.') + 1).toLowerCase();
+        label.hide();
+        if (extn == "gif" || extn == "png" || extn == "jpg" || extn == "jpeg" || extn == "ico" || extn == "webp" || extn == "jfif") {
+            if (typeof (FileReader) != "undefined") {
+                //loop for each file selected for uploaded.
+                for (var i = 0; i < filesAmount; i++) {
+                    var reader = new FileReader();
+                    reader.onload = function (e){
+                        $('<li class="box-product-images" data-target="'+e.target.fileId+'" >' +
+                            '<div class="item-image position-relative">' +
+                            '<div class="img-rounded"><img src="'+e.target.result+'" class="position-image-product"/></div>' +
+                            '<input name="checkFile[]" type="hidden" value="'+ e.target.fileName +'">' +
+                            '<div class="photo-hover-overlay">' +
+                            '<div class="box-hover-overlay">' +
+                            '<a class="tooltip-hover view-image text-white" data-image="'+e.target.result+'" data-toggle="modal" data-target="#viewImage" title="Xem hình ảnh">' +
+                            '<i class="far fa-eye"></i>' +
+                            '</a>' +
+                            '<a class="pl-2 icon-product-image-delete tooltip-hover text-white" title="Xóa hình ảnh">' +
+                            '<i class="far fa-trash-alt"></i>' +
+                            '</a>' +
+                            '</div> '+
+                            '</div>' +
+                            '</div>' +
+                            '</li>').appendTo(holder);
+                       return initEvents();
+                    }
 
+                    reader.fileName = input.files[i].name;
+                    reader.fileId = i + li;
+                    reader.readAsDataURL(input.files[i]);
+                }
+                boxinput.find('.item-input').hide();
+
+                boxinput.append('<label class="item-input">' +
+                    '<input type="file" name="photo[]" class="d-none" id="fileUploadMultiple" multiple> Chọn ảnh' +
+                    '</label>');
+
+                holder.show();
+                showbox.addClass('d-inline-block');
+            }else{
+                if(li == 0){label.show();}
+                showbox.remove('d-inline-block');
+                alert("This browser does not support FileReader.");
+            }
+        }else{
+            if(li == 0){label.show();}
+            showbox.remove('d-inline-block');
+            alert("Please select only images");
+        }
+    }
+}
 function uploadPhoto(input){
     if (input.files) {
         let box = input.closest('.box-action-image');
@@ -185,6 +252,7 @@ function uploadPhoto(input){
         let classItem = filesAmount == 1 ? "w-100" : "w-50";
         let holder = $(box).find('.image-holder');
         let imgPath = input.value;
+        let label  = $(box).find('#remove-label');
         let extn = imgPath.substring(imgPath.lastIndexOf('.') + 1).toLowerCase();
         $(holder).empty();
         if (extn == "gif" || extn == "png" || extn == "jpg" || extn == "jpeg" || extn == "ico" || extn == "webp" || extn == "jfif") {
@@ -193,17 +261,19 @@ function uploadPhoto(input){
                 for (var i = 0; i < filesAmount; i++) {
                     var reader = new FileReader();
                     reader.onload = function (e) {
-                        $('<li id="item" class="'+classItem+' text-center"><img src="'+e.target.result+'" class="rounded p-1"/></li>').appendTo(holder);
-                        new CBPGridGallery( document.getElementById( 'grid-gallery' ));
+                        $('<img src="'+e.target.result+'" class="rounded"/>').appendTo(holder);
                     }
                     holder.show();
                     showbox.show();
                     reader.readAsDataURL(input.files[i]);
                 }
+                label.hide();
             }else{
+                label.show();
                 alert("This browser does not support FileReader.");
             }
         }else{
+            label.show();
             alert("Please select only images");
         }
     }
@@ -231,6 +301,19 @@ function changeSeo(){
     $('.change-seo').slideToggle();
 }
 $(document).ready(function(){
+    $(document).on('click','.icon-product-image-delete',function(){
+        let box =  $(this).closest('.box-action-image');
+        let label = $(box).find('#remove-label');
+        let showbox = $(box).find('.show-box');
+        $(this).parent().parent().parent().parent().remove();
+        let li = box.find('.box-product-images');
+
+        if(li.length == 0){
+            label.show();
+            showbox.removeClass('d-inline-block');
+        }
+    })
+
     $('.change-seo').hide();
 
     $('#fileUpload').on('change',function(){
@@ -240,8 +323,8 @@ $(document).ready(function(){
         uploadPhoto(this);
     })
 
-    $('#fileUploadMultiple').on('change',function(){
-        uploadPhoto(this);
+    $(document).on('change','#fileUploadMultiple',function(){
+        uploadPhotoMultiple(this);
     })
 
     $('#backgroundUpload').on('change',function(){

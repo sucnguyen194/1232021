@@ -12,7 +12,10 @@ class Media extends Model
     protected $guarded = ['id'];
 
     public function gallery(){
-        return $this->belongsTo(Gallerys::class,'type_id','id');
+        return $this->belongsTo(Gallerys::class,'type_id');
+    }
+    public function product(){
+        return $this->belongsTo(Product::class,'type_id');
     }
     public function scopePublic($q){
         $q->wherePublic(1);

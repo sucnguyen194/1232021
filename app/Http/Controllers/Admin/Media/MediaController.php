@@ -67,36 +67,38 @@ class MediaController extends Controller
 
         if(check_admin_systems(SystemsModuleType::MEDIA))
 
-        if($request->hasFile('image')){
+        $checkFile = $request->checkFile ?? null;
+        $count = $count = count($request->file('image'));
 
-            $count = count($request->file('image'));
+        if($request->hasFile('image') && $checkFile){
             for ($i = 0; $i < $count; $i++) {
                 $file = $request->file('image')[$i];
-                $file->store('media');
-                $path = $file->hashName('media/thumb');
-                $resizeThumb = Image::make($file);
-                $resizeThumb->fit(375, 375, function ($constraint) {
-                    $constraint->aspectRatio();
-                });
-                Storage::put($path, (string) $resizeThumb->encode());
+                $name = $file->getClientOriginalName();
+                if(in_array($name, $checkFile)){
+                    $file->store('media');
+                    $path = $file->hashName('media/thumb');
+                    $resizeThumb = Image::make($file);
+                    $resizeThumb->fit(375, 375, function ($constraint) {
+                        $constraint->aspectRatio();
+                    });
+                    Storage::put($path, (string) $resizeThumb->encode());
 
-                $thumb = "storage/".$path;
-                $image = "storage/".$file->hashName('media');
-
-                Media::create([
-                    'name' => $request->name,
-                    'path' => $request->path,
-                    'image' => $image,
-                    'thumb' => $thumb,
-                    'position' => $request->position,
-                    'description' => $request->description,
-                    'type_id' => 0,
-                    'type' => MediaType::MEDIA,
-                    'user_id' => \Auth::id(),
-                    'public' => 1,
-                    'lang' => \Session::get('lang')
-                ]);
-
+                    $thumb = "storage/".$path;
+                    $image = "storage/".$file->hashName('media');
+                    Media::create([
+                        'name' => $request->name,
+                        'path' => $request->path,
+                        'image' => $image,
+                        'thumb' => $thumb,
+                        'position' => $request->position,
+                        'description' => $request->description,
+                        'type_id' => 0,
+                        'type' => MediaType::MEDIA,
+                        'user_id' => \Auth::id(),
+                        'public' => $request->has('public') ? 1 : 0,
+                        'lang' => \Session::get('lang')
+                    ]);
+                }
             }
         }else{
             Media::create([
@@ -192,6 +194,7 @@ class MediaController extends Controller
             'path' => $request->path,
             'image' => $image,
             'thumb' => $thumb,
+            'public' => $request->has('public') ? 1 : 0,
             'position' => $request->position,
             'description' => $request->description,
             'user_edit' => \Auth::id(),

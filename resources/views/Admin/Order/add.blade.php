@@ -32,7 +32,7 @@
                                 <option value="0">--Chọn khách hàng--</option>
                                 <option v-for="(item,key) in users" v-bind:value="item.id" v-bind:key="key">@{{ item.name ?? item.account }} (SĐT: @{{ item.phone }})</option>
                             </select>
-                            <p v-if="customer == 0" class="text-danger mt-2">Vui lòng chọn khách hàng</p>
+                            <p v-if="customer == 0" class="text-danger mt-1">Vui lòng chọn khách hàng</p>
                         </div>
                         <div class="form-group">
                             <label>Tên sản phẩm <span class="required">*</span></label>

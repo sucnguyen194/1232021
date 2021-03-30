@@ -6,7 +6,8 @@ use App\Enums\AliasType;
 use App\Enums\MediaType;
 use App\Enums\ProductSessionType;
 use Illuminate\Database\Eloquent\Model;
-use MongoDB\Driver\Session;
+use Illuminate\Support\Facades\Auth;
+use Session;
 
 class Product extends Model
 {
@@ -86,6 +87,9 @@ class Product extends Model
             $product->title_seo = $product->title_seo ? $product->title_seo : $product->name;
             $product->description_seo = $product->description_seo ? $product->description_seo : $product->name;
             $product->keyword_seo = $product->keyword_seo ? $product->keyword_seo : $product->name;
+
+            $product->lang = $product->lang ? $product->lang : Session::get('lang');
+            $product->user_id = $product->user_id ? $product->user_id : Auth::id();
         });
         static::created(function($product){
             Alias::create([
@@ -103,19 +107,15 @@ class Product extends Model
             $product->tags()->delete();
             $product->categorys()->delete();
 
-            if(file_exists($product->image))
-                unlink($product->image);
-
-            if(file_exists($product->thumb))
-                unlink($product->thumb);
-            if($product->photos())
-                foreach ($product->photos() as $item):
+            if($product->photos){
+                foreach ($product->photos()->get() as $item):
                     if(file_exists($item->image))
                         unlink($item->image);
                     if(file_exists($item->thumb))
                         unlink($item->thumb);
+                    $product->photos()->delete();
                 endforeach;
-            $product->photos()->delete();
+            }
 
         });
     }

@@ -121,7 +121,7 @@
                                         </div>
                                     </td>
                                     <td style="width: 5%"  class="position-relative"><input style="width: 80px" type="number" class="form-control" name="sort" data-id="{{$item->id}}" value="{{$item->sort}}"> <span id="change-sort-success_{{$item->id}}" class="change-sort"></span></td>
-                                    <td class="text-center">@if(file_exists($item->image))<img src="{{asset($item->image)}}" class="img-thumbnail img-responsive" style="height: 80px">@endif</td>
+                                    <td class="text-center">@if(file_exists($item->image))<img src="{{asset($item->thumb ?? $item->image)}}" class="img-thumbnail img-responsive" style="height: 80px">@endif</td>
                                     <td style="width: 15%"><a href="{{route('alias',$item->alias)}}" title="{{$item->name}}" target="_blank">{{ $item->name}} ({{$item->amount}}) </a></td>
                                     <td> {{$item->category->name ?? "Chưa có danh mục"}}</td>
                                     <td>
