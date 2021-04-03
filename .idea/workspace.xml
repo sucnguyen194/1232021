@@ -20,149 +20,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b3b9f26c-59c6-4a81-8472-a31af9821b60" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/MenuController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Enums/AliasType.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Enums/AliasType.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Enums/MediaType.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Enums/MediaType.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Enums/SystemsModuleType.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Enums/SystemsModuleType.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Helpers/Helper.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Helpers/Helper.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin.zip" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/AjaxController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/AjaxController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/CommentController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/CommentController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/Customer/CustomerController.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/Gallery/GalleryController.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/Lang/LangController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/Lang/LangController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/Media/MediaController.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/Menu/MenuController.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/News/NewsCategoryController.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/News/NewsController.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/Order/OrderController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/Order/OrderController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/Page/PagesController.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/Product/AttributeCategoryController.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/Product/AttributeController.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/Product/ProductCategoryController.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/Product/ProductController.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/SiteSetting/SiteOptionController.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/Support/SupportController.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/Video/VideosController.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Controller.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Controller.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/StoreNewsRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/StoreNewsRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Alias.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Alias.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/CategoryProduct.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/CategoryToProduct.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Comment.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Comment.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Gallerys.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Media.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Menu.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Menu.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/News.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/NewsCategory.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/NewsToCategory.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Pages.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Product.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Product.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Support.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Support.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Videos.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Rules/ValidRecapcha.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Rules/ValidRecapcha.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2020_12_14_161659_create_news_category_table.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2020_12_14_162847_create_customer_table.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2020_12_14_163355_create_gallery_table.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2020_12_14_164824_create_media_table.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2020_12_14_170601_create_news_table.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2020_12_14_171102_create_news_to_category.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2020_12_14_171524_create_pages_create.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2020_12_14_172350_create_product_table.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2020_12_14_172834_create_product_category_table.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2020_12_14_173342_create_product_to_category_table.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2020_12_14_173740_create_recruitment_table.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2020_12_14_174625_create_recruitment_category_table.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2020_12_14_174755_create_recruitment_to_category_table.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2020_12_14_174858_create_site_option_table.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2020_12_14_175756_create_support_table.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2020_12_14_180528_create_video_table.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2020_12_16_174639_add_sort_in_news_category_table.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2020_12_26_095919_add_seo_in_site_option_table.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2020_12_28_120735_add_background_image_in_news_category.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2020_12_28_144524_add_postion_in_new_category.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2020_12_30_174618_add_user_in_news_category_table.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2020_12_30_174912_add_user_edit_in_news_category_table.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2021_01_04_173020_add_tags_in_news_table.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2021_01_05_105658_add_tags_in_pages_table.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2021_01_05_111029_add_user_edit_in_news_table.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2021_01_05_153426_add_user_in_video_table.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2021_01_05_153942_add_tags_in_video_table.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2021_01_05_160315_add_seo_in_video_table.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2021_01_05_163924_add_sort_in_video_table.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2021_01_06_092831_add_user_in_customer_table.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2021_01_06_093037_add_status_in_customer_table.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2021_01_06_100205_add_address_in_customer_table.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2021_01_06_102957_add_social_in_customer_table.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2021_01_07_115205_add_user_in_support_table.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2021_01_08_160834_add_user_in_media_table.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2021_01_12_142451_add_path_in_media_table.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2021_01_12_143244_add_description_in_media_table.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2021_01_14_153238_add_user_in_gallery_table.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2021_01_26_170129_add_position_in_product_category.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2021_01_28_133424_add_zalo_in_site_option_table.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2021_02_01_142850_add_option_in_product_table.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2021_02_01_163310_add_user_edit_in_product_table.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2021_02_01_172102_create_attribute_categorys_table.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2021_03_04_160953_add_og_image_in_site_setting_table.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2021_03_20_135803_add_re_catcha_in_site_option_table.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2021_03_27_160044_add_pic_in_media_table.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/seeds/SiteSettingSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeds/SiteSettingSeeder.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/admin/assets/js/pages/form-advanced.init.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/admin/assets/js/pages/form-advanced.init.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/admin/js/cpanel.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/admin/js/cpanel.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/Admin/Customer/add.blade.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/Admin/Customer/edit.blade.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/Admin/Customer/list.blade.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/Admin/Dashboard/dashboard.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Admin/Dashboard/dashboard.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/Admin/Gallery/add.blade.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/Admin/Gallery/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Admin/Gallery/edit.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/Admin/Gallery/list.blade.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/Admin/Image/add.blade.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/Admin/Image/edit.blade.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/Admin/Image/list.blade.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/Admin/Import/create.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Admin/Import/create.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/Admin/Layout/layout.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Admin/Layout/layout.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/Admin/Login/login.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Admin/Login/login.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/Admin/Menu/add.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Admin/Menu/add.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/Admin/Menu/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Admin/Menu/edit.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/Admin/Menu/menu.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Admin/Menu/menu.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/Admin/News/add.blade.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/Admin/News/category/add.blade.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/Admin/News/category/edit.blade.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/Admin/News/category/lang.blade.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/Admin/News/category/list.blade.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/Admin/News/edit.blade.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/Admin/News/lang.blade.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/Admin/News/list.blade.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/Admin/Order/add.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Admin/Order/add.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/Admin/Order/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Admin/Order/edit.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/Admin/Page/add.blade.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/Admin/Page/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Admin/Page/edit.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/Admin/Page/lang.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Admin/Page/lang.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/Admin/Page/list.blade.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/Admin/Product/Category/create.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Admin/Product/Category/create.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/Admin/Product/Category/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Admin/Product/Category/edit.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/Admin/Product/Category/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Admin/Product/Category/index.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/Admin/Product/Category/lang.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Admin/Product/Category/lang.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/Admin/Product/add.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Admin/Product/add.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/Admin/Product/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Admin/Product/edit.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/Admin/Product/lang.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Admin/Product/lang.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/Admin/Product/list.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Admin/Product/list.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/Admin/SiteSetting/index.blade.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/Admin/Support/add.blade.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/Admin/Support/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Admin/Support/edit.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/Admin/Support/list.blade.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/Admin/User/agency/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Admin/User/agency/index.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/Admin/User/list.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Admin/User/list.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/Admin/Video/add.blade.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/Admin/Video/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Admin/Video/edit.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/Admin/Video/lang.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Admin/Video/lang.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/Admin/Video/list.blade.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/Contact/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Contact/index.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/Errors/note.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Errors/note.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/Layouts/layout.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Layouts/layout.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/seeds/SystemsSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeds/SystemsSeeder.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -392,7 +252,7 @@
       <workItem from="1617242224717" duration="8488000" />
       <workItem from="1617251211258" duration="19221000" />
       <workItem from="1617328444661" duration="26109000" />
-      <workItem from="1617412304075" duration="2830000" />
+      <workItem from="1617412304075" duration="3513000" />
     </task>
     <servers />
   </component>

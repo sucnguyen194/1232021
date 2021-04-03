@@ -21,8 +21,6 @@ final class SystemsModuleType extends Enum
     const CATEGORY = 'CATEGORY';
     const SUPPORT =  'SUPPORT';
 
-    const NEWS_CATEGORY =   'NEWS_CATEGORY';
-
     const PRODUCT =   'PRODUCT';
     const ADD_PRODUCT =   'ADD_PRODUCT';
     const LIST_PRODUCT =   'LIST_PRODUCT';

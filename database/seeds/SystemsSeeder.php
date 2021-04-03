@@ -31,29 +31,29 @@ class SystemsSeeder extends Seeder
 
         \App\Models\SystemsModule::create([
             'name' => 'Blog',
-            'type' =>  \App\Enums\SystemsModuleType::NEWS,
+            'type' =>  \App\Enums\SystemsModuleType::POST,
             'parent_id'=> 0,
             'position' => 1,
             'icon' => 'pe-7s-news-paper',
             'sort' => 3
         ]);
-        $systems = \App\Models\SystemsModule::whereType('NEWS')->first();
+        $systems = \App\Models\SystemsModule::whereType('POST')->first();
         \App\Models\SystemsModule::create([
             'name' => 'Thêm bài viết',
-            'route' => 'admin.news.create',
+            'route' => 'admin.posts.create',
             'type' =>  \App\Enums\SystemsModuleType::ADD_NEWS,
             'parent_id'=> $systems->id,
         ]);
         \App\Models\SystemsModule::create([
-            'name' => 'Danh mục bài viết',
-            'route' => 'admin.news_category.index',
-            'type' =>  \App\Enums\SystemsModuleType::NEWS_CATEGORY,
+            'name' => 'Danh sách bài viết',
+            'route' => 'admin.posts.index',
+            'type' =>  \App\Enums\SystemsModuleType::POST,
             'parent_id'=> $systems->id,
         ]);
         \App\Models\SystemsModule::create([
-            'name' => 'Danh sách bài viết',
-            'route' => 'admin.news.index',
-            'type' =>  \App\Enums\SystemsModuleType::LIST_NEWS,
+            'name' => 'Danh mục bài viết',
+            'route' => 'admin.posts.categories.index',
+            'type' =>  \App\Enums\SystemsModuleType::POST_CATEGORY,
             'parent_id'=> $systems->id,
         ]);
 
@@ -73,15 +73,15 @@ class SystemsSeeder extends Seeder
             'parent_id'=> $systems->id,
         ]);
         \App\Models\SystemsModule::create([
-            'name' => 'Danh mục sản phẩm',
-            'route' => 'admin.product_categorys.index',
-            'type' =>  \App\Enums\SystemsModuleType::PRODUCT_CATEGORY,
-            'parent_id'=> $systems->id,
-        ]);
-        \App\Models\SystemsModule::create([
             'name' => 'Danh sách sản phẩm',
             'route' => 'admin.products.index',
             'type' =>  \App\Enums\SystemsModuleType::LIST_PRODUCT,
+            'parent_id'=> $systems->id,
+        ]);
+        \App\Models\SystemsModule::create([
+            'name' => 'Danh mục sản phẩm',
+            'route' => 'admin.products.categories.index',
+            'type' =>  \App\Enums\SystemsModuleType::PRODUCT_CATEGORY,
             'parent_id'=> $systems->id,
         ]);
 
@@ -108,48 +108,48 @@ class SystemsSeeder extends Seeder
         ]);
         \App\Models\SystemsModule::create([
             'name' => 'Pages',
-            'type' =>  \App\Enums\SystemsModuleType::PAGES,
+            'type' =>  \App\Enums\SystemsModuleType::PAGE,
             'parent_id'=> 0,
             'position' => 1,
             'icon' => 'pe-7s-wallet',
             'sort' => 5
         ]);
-        $systems = \App\Models\SystemsModule::whereType('PAGES')->first();
+        $systems = \App\Models\SystemsModule::whereType('PAGE')->first();
         \App\Models\SystemsModule::create([
             'name' => 'Thêm mới',
-            'route' => 'admin.pages.create',
+            'route' => 'admin.posts.pages.create',
             'type' =>  \App\Enums\SystemsModuleType::ADD_PAGES,
             'parent_id'=> $systems->id,
         ]);
         \App\Models\SystemsModule::create([
             'name' => 'Danh sách bài viết',
-            'route' => 'admin.pages.index',
+            'route' => 'admin.posts.pages.index',
             'type' =>  \App\Enums\SystemsModuleType::LIST_PAGES,
             'parent_id'=> $systems->id,
         ]);
         \App\Models\SystemsModule::create([
             'name' => 'Media',
-            'type' =>  \App\Enums\SystemsModuleType::MEDIA,
+            'type' =>  \App\Enums\SystemsModuleType::PHOTO,
             'parent_id'=> 0,
             'icon' => 'pe-7s-musiclist',
             'sort' => 7
         ]);
-        $systems = \App\Models\SystemsModule::whereType('MEDIA')->first();
+        $systems = \App\Models\SystemsModule::whereType('PHOTO')->first();
         \App\Models\SystemsModule::create([
             'name' => 'Thư viện hình ảnh',
-            'route' => 'admin.media.index',
-            'type' =>  \App\Enums\SystemsModuleType::IMAGE,
+            'route' => 'admin.photos.index',
+            'type' =>  \App\Enums\SystemsModuleType::PHOTO,
             'parent_id'=> $systems->id,
         ]);
         \App\Models\SystemsModule::create([
             'name' => 'Thư viện video',
-            'route' => 'admin.videos.index',
+            'route' => 'admin.products.videos.index',
             'type' =>  \App\Enums\SystemsModuleType::VIDEO,
             'parent_id'=> $systems->id,
         ]);
         \App\Models\SystemsModule::create([
             'name' => 'Gallery',
-            'route' => 'admin.gallerys.index',
+            'route' => 'admin.products.gallerys.index',
             'type' =>  \App\Enums\SystemsModuleType::GALLERY,
             'parent_id'=> $systems->id,
         ]);
@@ -171,14 +171,14 @@ class SystemsSeeder extends Seeder
         $systems = \App\Models\SystemsModule::whereType('CUSTOMER')->first();
         \App\Models\SystemsModule::create([
             'name' => 'Ý kiến khách hàng',
-            'route' => 'admin.customer.index',
+            'route' => 'admin.supports.customers.index',
             'type' =>  \App\Enums\SystemsModuleType::CUSTOMER_COMMENT,
             'parent_id'=> $systems->id,
         ]);
 
         \App\Models\SystemsModule::create([
             'name' => 'Đội ngũ hỗ trợ',
-            'route' => 'admin.support.index',
+            'route' => 'admin.supports.index',
             'type' =>   \App\Enums\SystemsModuleType::SUPPORT,
             'parent_id'=> $systems->id,
         ]);
@@ -199,7 +199,7 @@ class SystemsSeeder extends Seeder
         $systems = \App\Models\SystemsModule::whereType('WEBSITE')->first();
         \App\Models\SystemsModule::create([
             'name' => 'Cấu hình hệ thống',
-            'route' => 'admin.site.setting',
+            'route' => 'admin.settings',
             'type' =>   \App\Enums\SystemsModuleType::SITE_SETTING,
             'parent_id'=> $systems->id,
         ]);
