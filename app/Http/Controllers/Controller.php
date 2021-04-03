@@ -2,12 +2,7 @@
 
 use App\Enums\ActiveDisable;
 use App\Models\Lang;
-use App\Models\Media;
-use App\Models\Menu;
-use App\Models\News;
-use App\Models\NewsCategory;
-use App\Models\Pages;
-use App\Models\SiteSetting;
+use App\Models\Setting;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesCommands;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -27,8 +22,10 @@ abstract class Controller extends BaseController {
 				$value = $lang ? $lang->value : config('app.locale');
 				Session::put('lang',$value);
 			}
-            $setting = SiteSetting::langs()->first();
-            view()->share('setting',$setting);
+			if(!session()->has('setting')){
+                $setting = Setting::langs()->firstOrFail();
+                session()->put('setting', $setting);
+            }
 		}
 	}
 }

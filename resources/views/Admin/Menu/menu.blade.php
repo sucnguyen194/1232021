@@ -47,9 +47,9 @@ Danh sách menu
                             <div class="card-box">
                                 <h4 class="header-title mb-3"><b>Danh mục sản phẩm</b></h4>
                                 <div class="form-group">
-                                    @foreach($product_category->where('parent_id', 0) as $item)
+                                    @foreach($categories->where('parent_id', 0)->where('type',\App\Enums\SystemsModuleType::PRODUCT_CATEGORY) as $item)
                                         <label class="w-100"><a href="javascript:void(0)" class="addmenu text-secondary"  title='Thêm ::::::{{$item->name}}:::::: vào menu'charset=""  data-name="{{$item->name}}" data-url="{{$item->alias}}" data-image="{{$item->image}}" data-thumb="{{$item->thumb}}"><span class=""><i class="fe-plus pr-1"></i>  {{$item->name}}</span></a></label>
-                                        {{sub_menu_category_checkbox($product_category,$item->id)}}
+                                        {{sub_menu_category_checkbox($categories,$item->id)}}
                                     @endforeach
                                 </div>
                             </div>
@@ -57,9 +57,9 @@ Danh sách menu
                             <div class="card-box">
                                 <h4 class="header-title mb-3"><b>Danh mục Blog</b></h4>
                                 <div class="form-group">
-                                    @foreach($news_category->where('parent_id', 0) as $item)
-                                       <label class="w-100"><a href="javascript:void(0)" class="addmenu text-secondary"  title='Thêm ::::::{{$item->title}}:::::: vào menu'charset=""  data-name="{{$item->title}}" data-url="{{$item->alias}}" data-image="{{$item->image}}" data-thumb="{{$item->thumb}}"><span class=""><i class="fe-plus pr-1"></i>  {{$item->title}}</span></a></label>
-                                        {{sub_menu_category_checkbox($news_category,$item->id)}}
+                                    @foreach($categories->where('parent_id', 0)->where('type',\App\Enums\SystemsModuleType::NEWS_CATEGORY) as $item)
+                                        <label class="w-100"><a href="javascript:void(0)" class="addmenu text-secondary"  title='Thêm ::::::{{$item->name}}:::::: vào menu'charset=""  data-name="{{$item->name}}" data-url="{{$item->alias}}" data-image="{{$item->image}}" data-thumb="{{$item->thumb}}"><span class=""><i class="fe-plus pr-1"></i>  {{$item->name}}</span></a></label>
+                                        {{sub_menu_category_checkbox($categories,$item->id)}}
                                     @endforeach
                                 </div>
                             </div>
@@ -104,7 +104,7 @@ Danh sách menu
                                                <form method="post" action="{{route('admin.menus.destroy',$items)}}" class="d-inline-block">
                                                    @method('DELETE')
                                                    @csrf
-                                                   <button type="submit" onclick="return confirm('Bạn chắc chắn muốn xóa?')" class="btn btn-primary waves-effect waves-light"><i class="fe-x"></i></button>
+                                                   <button type="submit" onclick="return confirm('Bạn chắc chắn muốn xóa?')" class="btn btn-warning waves-effect waves-light"><i class="fe-x"></i></button>
                                                </form>
                                            </div>
 
@@ -175,8 +175,6 @@ Danh sách menu
             $('.addmenu').click(function(){
                 name = $(this).attr('data-name');
                 url = $(this).attr('data-url');
-                image = $(this).attr('data-image');
-                thumb = $(this).attr('data-thumb');
                 _token = $('input[name="_token"]').val();
                 local = '{{route('admin.ajax.add.menu')}}';
                 $.ajax({
@@ -184,13 +182,12 @@ Danh sách menu
                     type:'post',
                     cache:false,
                     data:{
-                        'name':name,'url':url,'image':image,'thumb':thumb,'_token':_token,
+                        'name':name,'url':url,'_token':_token,
                     },
                     success:function(result){
-                        //obj = JSON.parse(result);
                         $('#result_data').append(result);
                         $('.dd-empty').remove();
-                        flash('success','Thêm mới thành công');
+                        flash({'message':'Thêm mới thành công!', 'type': 'success'});
                     }
                 })
             })
@@ -200,7 +197,6 @@ Danh sách menu
                 position = $(this).val();
                 url = "{{route('admin.change.position.menu',":position")}}";
                 url = url.replace(':position', position);
-
                 window.location.href = url;
             });
 
@@ -233,7 +229,6 @@ Danh sách menu
                     data:{"val":val,'_token':_token},
                     cache:false,
                     success:function(result, status){
-                        // flash('success','Cập nhật thành công');
                     }
                 });
             });

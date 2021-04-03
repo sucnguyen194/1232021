@@ -3,20 +3,19 @@
 namespace App\Models;
 
 use App\Enums\AliasType;
-use App\Enums\MediaType;
 use App\Enums\ProductSessionType;
+use App\Enums\SystemsModuleType;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Session;
 
 class Product extends Model
 {
-    protected $table = "product";
-
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
     protected $casts = [
         'options' => 'array',
+        'tags' => 'array',
     ];
 
     public function comments(){
@@ -25,7 +24,10 @@ class Product extends Model
     }
 
     public function category(){
-        return  $this->belongsTo(CategoryProduct::class,'category_id');
+        return  $this->belongsTo(Category::class);
+    }
+    public function categories(){
+        return $this->belongsToMany(Category::class);
     }
     public function sessions(){
         return $this->hasMany(ProductSession::class,'product_id');
@@ -43,30 +45,41 @@ class Product extends Model
         return  $this->belongsTo(User::class);
     }
 
-    public function categorys(){
-        return $this->hasMany(CategoryToProduct::class,'product_id');
-    }
     public function language(){
         return $this->belongsTo(Lang::class,'lang','value');
     }
 
-    public function post_lang(){
+    public function postLangsAfter(){
         return $this->hasMany(PostLang::class, 'post_id');
     }
 
-    public function post_langs(){
+    public function postLangsBefore(){
         return $this->hasMany(PostLang::class, 'post_lang_id');
     }
 
-    public function alias(){
+    public function slug(){
         return $this->belongsTo(Alias::class,'alias','alias');
     }
     public function photos(){
-        return $this->hasMany(Media::class,'type_id')->where('type',MediaType::PRODUCT);
+        return $this->hasMany(Photo::class,'type_id')->whereType($this->type);
     }
 
     public function tags(){
-        return $this->hasMany(Tags::class,'type_id')->where('type',AliasType::PRODUCT);
+        return $this->hasMany(Tags::class,'type_id')->whereType($this->type);
+    }
+
+    public function getRouteAttribute(){
+        switch ($this->type){
+            case SystemsModuleType::PRODUCT:
+                return route('admin.products.index');
+                break;
+            case SystemsModuleType::VIDEO:
+                return route('admin.products.videos.index');
+                break;
+            case SystemsModuleType::GALLERY:
+                return route('admin.products.galleries.index');
+                break;
+        }
     }
 
     public function scopePublic($q){
@@ -87,9 +100,9 @@ class Product extends Model
             $product->title_seo = $product->title_seo ? $product->title_seo : $product->name;
             $product->description_seo = $product->description_seo ? $product->description_seo : $product->name;
             $product->keyword_seo = $product->keyword_seo ? $product->keyword_seo : $product->name;
-
             $product->lang = $product->lang ? $product->lang : Session::get('lang');
             $product->user_id = $product->user_id ? $product->user_id : Auth::id();
+            $product->slug()->update(['alias' => $product->alias]);
         });
         static::created(function($product){
             Alias::create([
@@ -101,11 +114,11 @@ class Product extends Model
 
         static::deleting(function($product){
             $product->comments()->delete();
-            $product->post_lang()->delete();
-            $product->post_langs()->delete();
-            $product->alias()->delete();
+            $product->postLangsBefore()->delete();
+            $product->postLangsAfter()->delete();
+            $product->slug()->delete();
             $product->tags()->delete();
-            $product->categorys()->delete();
+            $product->categories()->delete();
 
             if($product->photos){
                 foreach ($product->photos()->get() as $item):

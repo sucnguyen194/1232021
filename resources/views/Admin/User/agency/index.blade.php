@@ -52,15 +52,15 @@
                                    @if($item->status == 1) <span class="text-primary font-weight-bold">Hoạt động</span> @else <span class="text-secondary font-weight-bold">Tạm dừng</span> @endif
                                 </td>
                                 <td>
-                                    <a href="{{route('admin.agencys.edit',$item)}}" class="btn btn-default waves-effect waves-light">
+                                    <a href="{{route('admin.agencys.edit',$item)}}" class="btn btn-primary waves-effect waves-light">
                                         <span class="icon-button"><i class="fe-edit-2"></i></span></a>
                                     <form method="post" action="{{route('admin.agencys.destroy',$item)}}" class="d-inline-block">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" name="delete" onclick="return confirm('Bạn có chắc muốn xóa?');" value="delete" class="btn btn-default waves-effect waves-light">
+                                        <button type="submit" name="delete" onclick="return confirm('Bạn có chắc muốn xóa?');" value="delete" class="btn btn-warning waves-effect waves-light">
                                             <span class="icon-button"><i class="fe-x"></i></span></button>
                                     </form>
-                                    <a href="{{route('admin.agencys.show',$item)}}" class="btn btn-default waves-effect waves-light">Transaction</a>
+                                    <a href="{{route('admin.agencys.show',$item)}}" class="btn btn-info waves-effect waves-light">Transaction</a>
                                 </td>
                             </tr>
                         @endforeach

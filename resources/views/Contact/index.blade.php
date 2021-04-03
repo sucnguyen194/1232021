@@ -78,7 +78,7 @@
 
                         <div class="form-group">
                             <label for="captcha">Captcha</label>
-                            <div class="g-recaptcha" id="feedback-recaptcha" data-sitekey="{{$setting->re_captcha_key}}"></div>
+                            <div class="g-recaptcha" id="feedback-recaptcha" data-sitekey="{{setting()->re_captcha_key}}"></div>
                         </div>
                     </div>
                     <button class="w3-button w3-block w3-green w3-section w3-padding w3-round" type="submit">Gửi Cho

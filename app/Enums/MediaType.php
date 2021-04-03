@@ -11,7 +11,7 @@ use BenSampo\Enum\Enum;
  */
 final class MediaType extends Enum
 {
-    const MEDIA = 'MEDIA';
+    const PHOTO = 'PHOTO';
     const PRODUCT = 'PRODUCT';
     const GALLERY = 'GALLERY';
 }

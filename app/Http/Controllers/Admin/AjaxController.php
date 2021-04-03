@@ -1,28 +1,19 @@
 <?php namespace App\Http\Controllers\Admin;
 
-use App\Enums\AliasType;
-use App\Enums\MediaType;
 use App\Enums\ProductSessionType;
 use App\Enums\SystemsModuleType;
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Models\Attribute;
-use App\Models\AttributeCategory;
-use App\Models\CategoryProduct;
-use App\Models\Customer;
-use App\Models\Gallerys;
+use App\Models\Category;
 use App\Models\Import;
-use App\Models\Media;
-use App\Models\News;
-use App\Models\NewsCategory;
-use App\Models\Pages;
+use App\models\Photo;
+use App\Models\Post;
 use App\Models\Product;
 use App\Models\ProductSession;
 use App\Models\Support;
 use App\Models\SystemsModule;
 use App\Models\User;
 use App\Models\UserAgency;
-use App\Models\Videos;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Request,Session,Cart,Mail, Image;
@@ -30,10 +21,10 @@ use Request,Session,Cart,Mail, Image;
 class AjaxController extends Controller {
 
     public function removePhoto($id){
-        $photo = Media::find($id);
+        $photo = Photo::find($id);
 
         if($photo->pic == 1){
-            $update = Media::whereSort(1)->first();
+            $update = Photo::whereSort(1)->first();
             $update->update(['pic' => 1]);
             $update->product()->update([
                'image' => $update->image,
@@ -50,43 +41,56 @@ class AjaxController extends Controller {
         return response()->json('success');
     }
 
-    public function uploadPhoto($id){
+    public function uploadPhoto($id, $type){
         $files = request()->file('files');
         $count = count($files);
-        $product = Product::find($id);
+        $data = Product::find($id);
+        $sort = $data->photos->count();
 
         for($i=0 ; $i < $count ; $i++){
             $file = request()->file('files')[$i];
-            $file->store('product');
-            $path = $file->hashName('product/thumb');
+            $file->store('photo');
+            $path = $file->hashName('photo/thumb');
             $resizeThumb = Image::make($file);
             $resizeThumb->fit(375, 375, function ($constraint) {
                 $constraint->aspectRatio();
             });
             Storage::put($path, (string) $resizeThumb->encode());
             $thumb = "storage/".$path;
-            $image = "storage/".$file->hashName('product');
-            Media::create([
-                'name' => $product->name,
+            $image = "storage/".$file->hashName('photo');
+
+            Photo::create([
+                'name' => $data->name ?? $data->title,
                 'image' => $image,
                 'thumb' => $thumb,
-                'type_id' => $product->id,
-                'type' => MediaType::PRODUCT,
+                'type_id' => $data->id,
+                'type' => $type,
                 'user_id' => \Auth::id(),
                 'public' => 1,
-                'lang' => $product->lang
+                'sort' => $i + $sort,
+                'lang' => $data->lang
             ]);
         }
-        return response()->json('success');
+        if(empty($data->image)){
+            $photo = Photo::whereSort(0)->whereType($type)->whereTypeId($id)->first();
+            if($photo){
+                $data->update([
+                    'thumb' => $photo->thumb,
+                    'image' => $photo->image
+                ]);
+            }
+        }
+
+        return response()->json($data);
     }
     public function setAltPhoto($id, $alt){
-        $photo = Media::find($id);
+        $photo = Photo::find($id);
         $photo->update(['name' => $alt]);
         return response()->json('ok');
     }
 
     public function getAltPhoto($id){
-        $photo = Media::find($id);
+        $photo = Photo::find($id);
         $data['image'] = asset($photo->image);
         $data['name'] = $photo->name;
         $data['id'] = $photo->id;
@@ -96,11 +100,10 @@ class AjaxController extends Controller {
     public function setPositionPhoto($json){
         $photo = json_decode($json);
         foreach ($photo as $key => $id){
-            $photo = Media::find($id);
+            $photo = Photo::find($id);
             $photo->update(['sort' => $key,'pic' => 0]);
             if($photo->sort == 0){
-                $photo->update(['pic' => 1]);
-                $photo->products()->update([
+                $photo->product()->update([
                     'image' => $photo->image,
                     'thumb' => $photo->thumb,
                 ]);
@@ -114,38 +117,20 @@ class AjaxController extends Controller {
             case SystemsModuleType::PRODUCT:
                 $data = Product::find(request()->id);
                 break;
-            case SystemsModuleType::PRODUCT_CATEGORY:
-                $data = CategoryProduct::find(request()->id);
+            case SystemsModuleType::CATEGORY:
+                $data = Category::find(request()->id);
                 break;
-            case SystemsModuleType::NEWS:
-                $data = News::find(request()->id);
-                break;
-            case SystemsModuleType::NEWS_CATEGORY:
-                $data = NewsCategory::find(request()->id);
-                break;
-            case SystemsModuleType::PAGES:
-                $data = Pages::find(request()->id);
-                break;
-            case SystemsModuleType::VIDEO:
-                $data = Videos::find(request()->id);
-                break;
-            case SystemsModuleType::GALLERY:
-                $data = Gallerys::find(request()->id);
-                break;
-            case SystemsModuleType::CUSTOMER:
-                $data = Customer::find(request()->id);
+            case SystemsModuleType::POST:
+                $data = Post::find(request()->id);
                 break;
             case SystemsModuleType::SUPPORT:
                 $data = Support::find(request()->id);
                 break;
-            case SystemsModuleType::MEDIA:
-                $data = Media::find(request()->id);
+            case SystemsModuleType::PHOTO:
+                $data = Photo::find(request()->id);
                 break;
             case SystemsModuleType::SYSTEMS_MODULE:
                 $data = SystemsModule::find(request()->id);
-                break;
-            case SystemsModuleType::ATTRIBUTE_CATEGORY:
-                $data = AttributeCategory::find(request()->id);
                 break;
             case SystemsModuleType::ATTRIBUTE:
                 $data = Attribute::find(request()->id);
@@ -159,19 +144,21 @@ class AjaxController extends Controller {
     public function getEditDataSort(){
         $data = $this->getSystemsModule(request()->type);
         $data->update(['sort' => request()->num,'user_edit' => Auth::id()]);
+        return $data;
     }
 
     public function getEditDataStatus(){
         $data = $this->getSystemsModule(request()->type);
         $status = $data->status == 1 ? 0 : 1;
         $data->update(['status' => $status,'user_edit' => \Auth::id()]);
-        // return $cate;
+        return $data;
     }
 
     public function getEditDataPublic(){
         $data = $this->getSystemsModule(request()->type);
         $public = $data->public == 1 ? 0 : 1;
         $data->update(['public' => $public,'user_edit' => \Auth::id()]);
+        return $data;
     }
 
     public function getEditMenuSort(){
@@ -186,15 +173,32 @@ class AjaxController extends Controller {
         $weight = request()->weight ?? 0;
         $qty = $amount ?? 1;
 
-        Cart::instance('import')->add([
-            'id'=>$product->id,
-            'name'=>$product->name,
-            'price'=> $price,
-            'weight'=> $weight,
-            'qty'=>$qty,
-        ]);
+        $cart = Cart::instance('import')->content()->where('id',$id);
+        if(count($cart)){
+            Cart::instance('import')->update($cart->first()->rowId,[
+                'id'=>$product->id,
+                'name'=>$product->name,
+                'price'=> $price,
+                'weight'=> $weight,
+                'qty'=>$cart->first()->qty + $qty,
+                'options' => [
+                    'sort' => time()
+                ],
+            ]);
+        }else{
+            Cart::instance('import')->add([
+                'id'=>$product->id,
+                'name'=>$product->name,
+                'price'=> $price,
+                'weight'=> $weight,
+                'qty'=>$qty,
+                'options' => [
+                    'sort' => time()
+                ],
+            ]);
+        }
 
-        $data['cart'] = Cart::instance('import')->content();
+        $data['cart'] = Cart::instance('import')->content()->sort();
         $data['total'] = Cart::instance('import')->subtotal(0);
         $data['count'] = Cart::instance('import')->count();
 
@@ -203,7 +207,7 @@ class AjaxController extends Controller {
     public function getImportProduct(){
         $id = request()->id;
         $product = Product::find($id);
-        Session::put('import_product', $id);
+        session()->put('import_product', $id);
         $agency = UserAgency::find(request()->agency);
         $price = $agency->imports()->where('product_id', $product->id)->latest()->take(1)->pluck('price_in');
         $price_in = ProductSession::where('product_id',$product->id)->latest()->take(1)->pluck('price_in');
@@ -218,7 +222,7 @@ class AjaxController extends Controller {
     {
         $id = request()->id;
         $agency = UserAgency::find($id);
-        Session::put('agency', $id);
+        session()->put('agency', $id);
 
         $product = Product::find(request()->product);
         $price = $agency->imports()->where('product_id', $product->id)->latest()->take(1)->pluck('price_in');
@@ -282,7 +286,8 @@ class AjaxController extends Controller {
                 'options' => [
                     'revenue' => $revenue,
                     'price_in' => $sesions ? $sesions->price_in : null,
-                    'amount' => $product->amount
+                    'amount' => $product->amount,
+                    'sort' => time()
                 ]
             ]);
         }else{
@@ -295,12 +300,13 @@ class AjaxController extends Controller {
                 'options' => [
                     'revenue' => $revenue,
                     'price_in' => $sesions ? $sesions->price_in : null,
-                    'amount' => $product->amount
+                    'amount' => $product->amount,
+                    'sort' => time()
                 ]
             ]);
         }
         $data['revenue'] = $revenue;
-        $data['cart'] = Cart::instance('export')->content();
+        $data['cart'] = Cart::instance('export')->content()->sort();
         $data['total'] = str_replace(',','',Cart::instance('export')->subtotal(0)) ;
         $data['count'] = Cart::instance('export')->count();
         $data['max'] = $amount;
@@ -327,22 +333,27 @@ class AjaxController extends Controller {
     public function getExportUser()
     {
         $id = request()->id;
-        Session::put('customer', $id);
+        session()->put('customer', $id);
+        if($id > 0)
         $user = User::find($id);
         $product = Product::find(request()->product);
-        if($user){
+        $price_in = 0;
+        $price = 0;
+        if($user && $product){
             $price = $user->exports()->where('product_id',$product->id)->latest()->take(1)->pluck('price');
             $price_in = ProductSession::where('product_id',$product->id)->latest()->take(1)->pluck('price_in');
+
+            $price_in = isset($user) && $price_in->count() ? $price_in : 'Chưa nhập';
+            $price = isset($user) && $price->count() ? $price : 'Mua lần đầu';
         }
         $data['customer'] = $user ? $user->id : 0;
         $data['product'] = $product;
-        $price_in = isset($user) && $price_in->count() ? $price_in : 'Chưa nhập';
-        $price = isset($user) && $price->count() ? $price : 'Mua lần đầu';
         $data['price_in']  = $price_in;
         $data['price']  = $price;
         $data['products'] = Product::selectRaw('id,name,amount')->public()->get();
 
         return response()->json($data);
+
     }
     public function setUpdateProduct($id, $amount,$price,$checkout,$agency,$customer){
         $agency = UserAgency::find($agency);
@@ -419,10 +430,11 @@ class AjaxController extends Controller {
             'options'=> [
                 'revenue' => $revenue,
                 'price_in' => $cart->options->price_in,
-                'amount' => $cart->options->amount
+                'amount' => $cart->options->amount,
+                'sort' => time()
             ]
         ]);
-        $data['cart'] = Cart::instance('export')->content();
+        $data['cart'] = Cart::instance('export')->content()->sort();
         $data['total'] = Cart::instance('export')->subtotal(0);
         return response()->json($data);
     }
@@ -453,7 +465,7 @@ class AjaxController extends Controller {
     }
 
     public function sumRevenueSession($item, $quantity, $price){
-        $session = $item->where('id','>',$item->id)->first();
+        $session = $item->where('id','>',$item->id)->whereProductId($item->product_id)->whereType('import')->oldest()->first();
         $amount = $session->amount - $quantity;
         if($amount >= 0) {
             $revenue = $price * abs($quantity) - $session->price_in *  abs($quantity);

@@ -8,7 +8,7 @@
     <meta content="Coderthemes" name="author" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <!-- App favicon -->
-    <link rel="shortcut icon" href="{{asset($setting->favicon)}}">
+    <link rel="shortcut icon" href="{{asset(setting()->favicon)}}">
     <!-- Jquery Toast css -->
     <link href="/admin/assets/libs/jquery-toast/jquery.toast.min.css" rel="stylesheet" type="text/css" />
     <!-- App css -->
@@ -34,7 +34,7 @@
                             <div class="account-logo-box">
                                 <div class="text-center">
                                     <a href="/">
-                                        <img src="{{asset($setting->logo)}}" alt="" height="30">
+                                        <img src="{{asset(setting()->logo)}}" alt="" height="30">
                                     </a>
                                 </div>
                                 <h5 class="text-uppercase mb-1 mt-4">Đăng nhập</h5>
@@ -120,6 +120,7 @@
 <!-- Tost-->
 <script src="/admin/assets/libs/jquery-toast/jquery.toast.min.js"></script>
 
+<script src="{{asset('admin/js/cpanel.js')}}"></script>
 <!-- toastr init js-->
 {{--<script src="/admin/assets/js/pages/toastr.init.js"></script>--}}
 <!-- App js -->

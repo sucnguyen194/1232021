@@ -14,10 +14,15 @@ final class SystemsModuleType extends Enum
     const DASHBOARD =   'DASHBOARD';
     const SYSTEMS_MODULE =   'SYSTEMS_MODULE';
     const USER =   'USER';
-    const NEWS =   'NEWS';
-    const ADD_NEWS =   'ADD_NEWS';
+    const POST =   'POST';
+    const ADD_POST = 'ADD_POST';
+    const POST_CATEGORY = 'POST_CATEGORY';
+    const PAGE =   'PAGE';
+    const CATEGORY = 'CATEGORY';
+    const SUPPORT =  'SUPPORT';
+
     const NEWS_CATEGORY =   'NEWS_CATEGORY';
-    const LIST_NEWS =   'LIST_NEWS';
+
     const PRODUCT =   'PRODUCT';
     const ADD_PRODUCT =   'ADD_PRODUCT';
     const LIST_PRODUCT =   'LIST_PRODUCT';
@@ -25,25 +30,20 @@ final class SystemsModuleType extends Enum
     const ATTRIBUTE =   'ATTRIBUTE';
     const ATTRIBUTE_CATEGORY =   'ATTRIBUTE_CATEGORY';
     const LIST_ORDER =   'LIST_ORDER';
-    const PAGES =   'PAGES';
+
     const ADD_PAGES =   'ADD_PAGES';
     const LIST_PAGES =   'LIST_PAGES';
-    const RECRUITMENT =   'RECUITMENT';
-    const ADD_RECRUITMENT =   'ADD_RECRUITMENT';
-    const RECRUITMENT_CATEGORY =   'RECUITMENT_CATEGORY';
-    const LIST_RECRUITMENT =   'LIST_CRUITMENT';
-    const MEDIA =   'MEDIA';
     const VIDEO =   'VIDEO';
-    const IMAGE =   'IMAGE';
+    const PHOTO =   'PHOTO';
     const GALLERY =   'GALLERY';
     const MENU =   'MENU';
     const CUSTOMER =   'CUSTOMER';
     const CUSTOMER_COMMENT =   'CUSTOMER_COMMENT';
-    const SUPPORT =   'SUPPORT';
+
     const CONTACT =   'CONTACT';
     const WEBSITE =   'WEBSITE';
     const SOURCE =   'SOURCE';
-    const SITE_SETTING =   'SITE_SETTING';
+    const SETTING =   'SETTING';
     const ALIAS =   'ALIAS';
     const LANG =   'LANG';
     const CONFIG_MODULE =   'CONFIG_MODULE';

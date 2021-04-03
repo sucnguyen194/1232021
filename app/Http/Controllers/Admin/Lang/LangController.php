@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Lang;
 use App\Enums\SystemsModuleType;
 use App\Http\Controllers\Controller;
 use App\Models\Lang;
+use App\Models\Setting;
 use App\Models\SiteSetting;
 use Illuminate\Http\Request;
 use Session;
@@ -62,7 +63,7 @@ class LangController extends Controller
             'value' => $request->value
         ]);
 
-        SiteSetting::create([
+        Setting::create([
             'name' => 'Site Setting',
             'lang' => $request->value
         ]);
@@ -138,7 +139,7 @@ class LangController extends Controller
             if(Lang::count() == 1)
                 return redirect()->back()->withErrors(['message' => 'Bạn không thể thực hiện hành động này!']);
 
-        $setting = SiteSetting::whereLang($lang->value)->first();
+        $setting = Setting::whereLang($lang->value)->first();
 
         if(file_exists($setting->logo))
             unlink($setting->logo);

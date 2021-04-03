@@ -4,7 +4,7 @@ function copyToClipboard(element) {
     $temp.val($(element).html()).select();
     document.execCommand("copy");
     $temp.remove();
-    flash('success','Coppy link ảnh thành công!');
+    flash({'message': 'Coppy link ảnh thành công!', 'type': 'success'});
 }
 
 function nl2br (str, replaceMode, isXhtml) {
@@ -171,14 +171,27 @@ function number_format(int){
         return int;
     }
 }
-function flash(status = 'success',message = 'Thành công'){
-    let color = status ? '#5ba035' : '#bf441d';
+function flash(obj){
+    switch (obj.type){
+        case 'success':
+          var color = '#5ba035';
+            break;
+        case 'warning':
+            var color = '#ffa91c';
+            break;
+        case 'error':
+            var color = '#bf441d';
+        default:
+            var color = '#ffa91c';
+            obj.message = 'Đã có lỗi xảy ra!';
+            obj.type = 'warning';
+    }
     return $.toast({
         heading: "Thông báo!",
-        text: message,
+        text: obj.message,
         position: "top-right",
         loaderBg: color,
-        icon: status,
+        icon: obj.type,
         hideAfter: 3e3,
         stack: 1
     })
@@ -255,6 +268,7 @@ function uploadPhoto(input){
         let label  = $(box).find('#remove-label');
         let extn = imgPath.substring(imgPath.lastIndexOf('.') + 1).toLowerCase();
         $(holder).empty();
+        $(box).find('input[type=checkbox]').prop('checked',false);
         if (extn == "gif" || extn == "png" || extn == "jpg" || extn == "jpeg" || extn == "ico" || extn == "webp" || extn == "jfif") {
             if (typeof (FileReader) != "undefined") {
                 //loop for each file selected for uploaded.
@@ -359,15 +373,15 @@ $(document).ready(function(){
         actionPhoto(this);
     })
 
-    $('button[name="delall"]').attr('disabled',true);
+    $('button[name="destroy"]').attr('disabled',true);
 
     $('input[name="checkAll"]').click(function(){
         if($(this).is(':checked')){
             $('.check_del').prop('checked',true);
-            $('button[name="delall"]').attr('disabled',false);
+            $('button[name="destroy"]').attr('disabled',false);
         }else{
             $('.check_del').prop('checked',false);
-            $('button[name="delall"]').attr('disabled',true);
+            $('button[name="destroy"]').attr('disabled',true);
         }
     })
 

@@ -71,6 +71,7 @@
                                     <tr v-if="product_id > 0 && customer > 0">
                                          <td><div class="font-weight-bold mb-1"> @{{ product.name }} <a href="javascript:void(0)" data-toggle="modal" data-target="#update-product" v-if="amount > product.max" v-on:click="getProduct(product.id)" class="font-weight-bold text-purple"> [ Cập nhật ]</a></div>
                                          <div class="text-primary">[Giá nhập: <span class="text-danger">@{{number_format(product.price_in)}}</span>]</div>
+                                             <div class="text-primary">[Giá bán: <span class="text-danger">@{{number_format(product.price)}}</span>]</div>
                                          <div class="text-primary">[Giá bán gần nhất: <span class="text-danger">@{{number_format(product.price_buy)}}</span>]</div>
                                          </td>
                                          <td>
@@ -106,8 +107,8 @@
                                                 <div class="form-control font-weight-bold">@{{ cart.revenue.toLocaleString() }}</div>
                                             </div>
                                         </td>
-                                         <td><input type="hidden" value="" class="product-id">
-                                             <button class="btn btn-primary" v-on:click="addCart()" :disabled="!amount || !price_out || amount > product.max" type="button"><span class="icon-button"><i class="fe-plus"></i></span> Thêm</button>
+                                         <td>
+                                             <button class="btn btn-primary" v-on:click="addCart()" :disabled="!amount || amount > product.max" type="button"><span class="icon-button"><i class="fe-plus"></i></span> Thêm</button>
                                          </td>
                                      </tr>
                                     </tbody>
@@ -177,7 +178,7 @@
                             </table>
                         </div>
 
-                        <div class="form-group" v-if="total > 0">
+                        <div class="form-group" v-if="revenue_carts">
                             <div class="row">
                                 <div class="col-lg-6 form-group">
                                     <label>Tổng tiền</label>
@@ -250,14 +251,14 @@
                             <label>Ghi chú</label>
                             <textarea class="form-control" onkeyup="textareaBr('#note')" id="note" v-model="note" rows="4" name="note" v-html="note"> {!! old('note') !!}</textarea>
                         </div>
-                        <div class="justify-content-end" v-if="total > 0 && customer > 0"  style="display: -webkit-box">
+                        <div class="justify-content-end" v-if="revenue_carts && customer > 0"  style="display: -webkit-box">
                             <a href="#print-cart" v-on:click="printCart(customer)" class="btn btn-primary waves-effect cancel waves-light align-right" data-toggle="modal" data-target="#print-cart"><span class="icon-button"><i class="pe-7s-print"></i></span> In đơn hàng</a>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-12">
                     <button type="submit" class="btn btn-default waves-effect cancel waves-light" onclick="return confirm('Hủy toàn bộ đơn hàng?')" :disabled="total == 0" name="send" value="cancel"><span class="icon-button"><i class="pe-7s-close-circle"></i></span> Hủy đơn hàng</button>
-                    <button type="submit" class="btn btn-primary waves-effect save width-md waves-light float-right" onclick="return confirm('Xác nhận đơn hàng?')" :disabled="customer == 0 || total == 0" name="send" value="save"><span class="icon-button"><i class="fe-plus"></i></span> Xác nhận</button>
+                    <button type="submit" class="btn btn-primary waves-effect save width-md waves-light float-right" onclick="return confirm('Xác nhận đơn hàng?')" :disabled="customer > 0 && !revenue_carts" name="send" value="save"><span class="icon-button"><i class="fe-plus"></i></span> Xác nhận</button>
                 </div>
             </div>
             <!-- end row -->
@@ -403,7 +404,7 @@
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
         </div><!-- /.modal -->
-        <div id="print-cart" class="modal fade" v-if="total > 0" tabindex="-1" role="dialog" aria-hidden="true">
+        <div id="print-cart" class="modal fade" v-if="revenue_carts && customer > 0" tabindex="-1" role="dialog" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-body">
@@ -418,12 +419,12 @@
                         </style>
                         <div class="xacnhandondang" id="detailPrint">
                             <div class="CssBillPaperSize" style="background-color:white; padding-left:4px;padding-right:4px; margin-left:0px; font-family:tahoma;line-height: 18px;">
-                                <div class="CssPrintRow" style="text-align:center;font-weight:bold;font-size:16px; margin-bottom: 15px">{{$setting->name}}</div>
-                                <div class="CssPrintRow" style="font-size: 13px;">{!! $setting->contact !!}</div>
+                                <div class="CssPrintRow" style="text-align:center;font-weight:bold;font-size:16px; margin-bottom: 15px">{{setting()->name}}</div>
+                                <div class="CssPrintRow" style="font-size: 13px;">{!! setting()->contact !!}</div>
                                 <div style="text-align:center">-----------------------------------</div>
                                 <div style="font-weight:bold;font-size:16px;text-align:center;text-transform: uppercase">Hóa đơn xuất bán</div>
                                 <div class="CssPrintRow" style="padding: 2px 0;font-size: 13px;">Ngày giờ: @{{ print.time }}</div>
-                                <div class="CssPrintRow" style="padding: 2px 0;font-size: 13px;">Thu Ngân: Quản trị {{$setting->name}}</div>
+                                <div class="CssPrintRow" style="padding: 2px 0;font-size: 13px;">Thu Ngân: Quản trị {{setting()->name}}</div>
                                 {{--                                <div class="CssPrintRow">Số phiếu: #XBA.2021.1084</div>--}}
                                 <div class="CssPrintRow" style="padding: 2px 0 4px 0;font-size: 13px;">Khách hàng: @{{ print.customer }}</div>
                                 <div class="CssBillDetail">
@@ -489,11 +490,11 @@
     var app = new Vue({
         el: '#add-cart',
         data: {
-            product_id: {{Session::get('export_product') ?? 0}},
-            amount : 1,
+            product_id: {{session()->get('export_product') ?? 0}},
+            amount : 0,
             price: 0,
             checkout: 0,
-            customer: {{Session::get('customer') ?? 0}},
+            customer: {{session()->get('customer') ?? 0}},
             price_out: 0,
             transport: 0,
             discount: 0,
@@ -523,14 +524,14 @@
             },
 
             name_update: 0,
-            amount_update: 1,
+            amount_update: 0,
             price_update: 0,
             agency_update:0,
             checkout_update:0,
 
             selected_product: 0,
 
-            carts: @json(Cart::instance('export')->content()),
+            carts: @json(Cart::instance('export')->content()->sort()),
             total: {{str_replace(',','',Cart::instance('export')->subtotal(0))}},
             users : @json($users),
             products : @json($products),
@@ -538,7 +539,7 @@
         },
         methods: {
             sumRevenue:function(id,amount, price){
-                if(amount > 0 && price > 0){
+                if(amount > 0){
                     fetch('{{route('admin.ajax.get.revenue',[':id',':amount',':price'])}}'.replace(':id',id).replace(':amount',amount).replace(':price',price)).then(function(response){
                         return response.json().then(function(data){
                             app.cart.revenue = data;
@@ -548,7 +549,7 @@
                 }
             },
             sumRevenueItem:function(id,amount, price){
-                if(amount > 0 && price > 0){
+                if(amount > 0){
                     fetch('{{route('admin.ajax.get.revenue',[':id',':amount',':price'])}}'.replace(':id',id).replace(':amount',amount).replace(':price',price)).then(function(response){
                         return response.json().then(function(data){
                             app.cart.revenue_update = data;
@@ -646,7 +647,6 @@
                 console.log(this.cart.revenue);
                 fetch('{{route('admin.ajax.export.product',[':id',':amount',':price',':revenue'])}}'.replace(":id",this.product_id).replace(":amount",this.amount).replace(":price",this.price_out).replace(":revenue",this.cart.revenue)).then(function(reponse){
                     return reponse.json().then(function(data){
-                        console.log(data);
                         if(data == 'max'){
                             flash('error','Tồn kho không đủ! Vui lòng cập nhật thêm!');
                         }else{
@@ -667,7 +667,7 @@
                        app.product.price_buy = data.price;
                        app.product.max = data.product.amount;
                        app.price_update = data.price_in;
-                       app.amount = 1;
+                       app.amount = 0;
                         app.price_out = 0;
                        $('#customer_update').select2();
                     });
@@ -684,7 +684,7 @@
                             app.product.price_buy = data.price;
                             app.product.max = data.product.amount;
                             app.price_update = data.price_in;
-                            app.amount = 1;
+                            app.amount = 0;
                             app.price_out = 0;
                             $('#customer_update').select2();
                         });

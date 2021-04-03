@@ -133,7 +133,7 @@
     <script src="/admin/assets/libs/c3/c3.min.js"></script>
 
     <!-- Init js -->
-    // <script src="/admin/assets/js/pages/c3.init.js"></script>
+    <script src="/admin/assets/js/pages/c3.init.js"></script>
     <script>
         var chart = c3.generate({
             bindto: '#chart',
@@ -170,9 +170,7 @@
         });
 
     </script>
-
-@stop
-
+@endsection
 @section('css')
     <!-- C3 Chart css -->
     <link href="/admin/assets/libs/c3/c3.min.css" rel="stylesheet" type="text/css" />

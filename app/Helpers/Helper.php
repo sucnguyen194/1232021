@@ -1,8 +1,104 @@
 <?php
 
+use App\Models\Photo;
+use App\Models\Tags;
 use Illuminate\Support\Facades\Auth;
 use App\Models\PostLang;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
+if (!function_exists('setting')){
+    function setting(){
+        return  session()->get('setting');
+    }
+}
+
+if(!function_exists('create_tags')){
+    function create_tags($data, $type = null){
+        $type = $data->type ?? $type;
+        $tag = null;
+        foreach(explode(',', $data->tags) as $items){
+            $alias = Str::slug($items, '-');
+            if(!Tags::whereAlias($alias)->whereType($type)->whereTypeId($data->id)->count()){
+                $tag = new Tags();
+                $tag->name = $items;
+                $tag->alias = $alias;
+                $tag->type = $type;
+                $tag->type_id = $data->id;
+                $tag->lang = $data->lang;
+                $tag->save();
+            }
+        }
+        return $tag;
+    }
+}
+if (!function_exists('upload_multiple_image')){
+    function upload_multiple_image($data, $check, $files , $width = null , $height = null){
+        $sort = 0;
+
+        if($data->photos){
+            $sort = $data->photos()->count();
+        }
+        $count = count($files);
+        for ($i = 0; $i < $count; $i++) {
+            $file = $files[$i];
+            $name = $file->getClientOriginalName();
+            if(in_array($name, $check)){
+                $file->store('photo');
+                $image = "storage/".$file->hashName('photo');
+                $thumb = null;
+                if($width && $height){
+                    $path = $file->hashName('photo/thumb');
+                    $resizeThumb = Image::make($file);
+                    $resizeThumb->fit(375, 375, function ($constraint) {
+                        $constraint->aspectRatio();
+                    });
+                    Storage::put($path, (string) $resizeThumb->encode());
+                    $thumb = "storage/".$path;
+                }
+                if($data->photos){
+                    if($check[0] == $name){
+                        $data->update([
+                            'image' => $image,
+                            'thumb' => $thumb
+                        ]);
+                    }
+                }
+                Photo::create([
+                    'name' => $data->name,
+                    'image' => $image,
+                    'thumb' => $thumb,
+                    'type_id' => $data->id,
+                    'type' => $data->type,
+                    'user_id' => \Auth::id(),
+                    'public' => 1,
+                    'sort' => $i+$sort,
+                    'lang' => $data->lang
+                ]);
+            }
+        }
+
+        return $data;
+    }
+}
+
+if(!function_exists('upload_file_image')){
+    function upload_file_image($data,$file, $width = null , $height = null, $colum = null){
+        $file->store('photo');
+        $colum = is_null($colum) ? \App\Enums\Upload::image : $colum;
+        $data->$colum = "storage/".$file->hashName('photo');
+        if($width && $height){
+            $path = $file->hashName('photo/thumb');
+            $resizeThumb = Image::make($file);
+            $resizeThumb->fit($width, $height, function ($constraint) {
+                $constraint->aspectRatio();
+            });
+            Storage::put($path, (string) $resizeThumb->encode());
+            $data->thumb = "storage/".$path;
+        }
+        return $data;
+    }
+}
 
 if (! function_exists('nav_active')) {
 
@@ -32,91 +128,6 @@ if (! function_exists('date_range')) {
     }
 }
 
-if(!function_exists('list_product_category')){
-    function list_product_category($data){
-
-        foreach($data->where('parent_id', 0) as $items){
-                $status = $items->status == 1 ? "checked" : "";
-                $public = $items->public == 1 ? "checked" : "";
-
-                $sort= '<input style="width:120px;" class="form-control" type="text" name="sort" data-id="'.$items->id.'" value="'.$items->sort.'"><span id="change-sort-success_'.$items->id.'" class="change-sort"></span>';
-
-                $display = '<div class="checkbox">';
-                $display .= '<input id="checkbox_public_'.$items->id.'" id="public"  '.$public.' type="checkbox" name="public">';
-                $display .= '<label for="checkbox_public_'.$items->id.'" class="data_public" data-id="'.$items->id.'">Hiển thị</label>';
-                $display .= '</div>';
-                $display .= '<div class="checkbox">';
-                $display .= '<input id="checkbox_status_'.$items->id.'" id="status" '.$status.' type="checkbox" name="status">';
-                $display .= '<label for="checkbox_status_'.$items->id.'" class="mb-0 data_status" data-id="'.$items->id.'">Nổi bật</label>';
-                $display .=  '</div>';
-
-                $action = '<a href="'.route('admin.product_categorys.edit',$items).'" title="Sửa" class="btn btn-default waves-effect waves-light mr-1">
-                                        <span class="icon-button"><i class="fe-edit-2"></i></span></a>';
-                $action .= '<a href="'.route('admin.product.category.del',$items->id).' " title="Xóa" onclick="return confirm(\'Bạn chắc chắn muốn xóa!\')" class="btn btn-default waves-effect waves-light"><span class="icon-button"><i class="fe-x"></i></span> </a>
-				';
-
-                echo '<tr><td>';
-                echo  '<div class="checkbox">';
-                echo   '<input id="checkbox_del_'.$items->id.'" class="check_del"  value="'.$items->id.'"  type="checkbox" name="check_del[]">';
-                echo   '<label for="checkbox_del_'.$items->id.'"></label></div></td>';
-				echo '<td>'. $items->id.'</td>';
-				echo '<td class="position-relative">'.$sort.'</td>';
-				echo '<td><a href="'.route('alias',$items->alias).'" target="_blank">'.$items->name.'</a></td>';
-				echo '<td></td>';
-				echo '<td>'.$items->updated_at->diffForHumans().'</td>';
-				echo '<td>'.$display.'</td>';
-				echo '<td>'.$action.'</td>';
-				echo '</tr>';
-
-                sub_list_product_category($data, $items->id);
-
-        }
-
-    }
-}
-
-if(!function_exists('sub_list_product_category')){
-    function sub_list_product_category($data,$parent_id,$user=0,$tab = '&nbsp;&nbsp;&nbsp;&nbsp;'){
-        foreach($data as $items){
-
-            if($items->parent_id == $parent_id){
-
-                $status = $items->status == 1 ? "checked" : "";
-                $public = $items->public == 1 ? "checked" : "";
-
-                $sort= '<input style="width:120px;" class="form-control" type="text" name="sort" data-id="'.$items->id.'" value="'.$items->sort.'"><span id="change-sort-success_'.$items->id.'" class="change-sort"></span>';
-                $display = '<div class="checkbox">';
-                $display .= '<input id="checkbox_public_'.$items->id.'" id="public"  '.$public.' type="checkbox" name="public">';
-                $display .= '<label for="checkbox_public_'.$items->id.'" class="data_public" data-id="'.$items->id.'">Hiển thị</label>';
-                $display .= '</div>';
-                $display .= '<div class="checkbox">';
-                $display .= '<input id="checkbox_status_'.$items->id.'" id="status" '.$status.' type="checkbox" name="status">';
-                $display .= '<label for="checkbox_status_'.$items->id.'" class="mb-0 data_status" data-id="'.$items->id.'">Nổi bật</label>';
-                $display .= '</div>';
-
-                $action = '<a href="'.route('admin.product_categorys.edit',$items).'" title="Sửa" class="btn btn-default waves-effect waves-light mr-1">';
-                $action .= '<span class="icon-button"><i class="fe-edit-2"></i></span></a>';
-                $action .= '<a href="'.route('admin.product.category.del',$items->id).' " title="Xóa" onclick="return confirm(\'Bạn chắc chắn muốn xóa!\')" class="btn btn-default waves-effect waves-light"><span class="icon-button"><i class="fe-x"></i></span> </a>';
-
-                echo '<tr><td>';
-                echo '<div class="checkbox">';
-                echo '<input id="checkbox_del_'.$items->id.'" class="check_del"  value="'.$items->id.'"  type="checkbox" name="check_del[]">';
-                echo '<label for="checkbox_del_'.$items->id.'"></label></div></td>';
-				echo '<td>'. $items->id.'</td>';
-				echo '<td class="position-relative">'.$sort.'</td>';
-				echo '<td><a href="'.route('alias',$items->alias).'" target="_blank">'.$tab.'<span class="tree-sub"></span>'.$items->name.'</a></td>';
-				echo '<td>'.$items->parents->name.'</td>';
-				echo '<td>'.$items->updated_at->diffForHumans().'</td>';
-				echo '<td>'.$display.'</td>';
-				echo '<td>'.$action.'</td>';
-				echo '</tr>';
-
-                sub_list_product_category($data,$items->id,$user,$tab."&nbsp;&nbsp;&nbsp;&nbsp;");
-            }
-        }
-    }
-}
-
 if(!function_exists('check_admin_systems')){
     function check_admin_systems($type){
 
@@ -126,7 +137,7 @@ if(!function_exists('check_admin_systems')){
         if(Auth::user()->lever == \App\Enums\LeverUser::SUPPERADMIN)
             return true;
 
-        if(in_array($type, Auth::user()->systemsModule()->pluck('type')->toArray()))
+        if(in_array($type, Auth::user()->systemsModule->pluck('type')->toArray()))
             return true;
 
         return abort(404);
@@ -137,20 +148,43 @@ if(!function_exists('sub_news_category')){
     function sub_option_category($data,$id,$old="",$tab = '&nbsp;&nbsp;&nbsp;&nbsp;'){
 
         foreach($data->where('parent_id', $id) as $item):
-            $select = "";
-            if($old == $item->id || old('category') == $item->id || request('category') == $item->id){
+            $select = null;
+            if($old == $item->id){
                 $select = "selected";
             }
-            $name = $item->title ?? $item->name;
-            echo '<option value="'.$item->id.'"'.$select.'>'.$tab.$name.'</option>';
+            echo '<option value="'.$item->id.'"'.$select.'>'.$tab.$item->name.'</option>';
 
             sub_option_category($data,$item->id,$old,$tab."&nbsp;&nbsp;&nbsp;&nbsp;");
         endforeach;
     }
 }
 
-if(!function_exists('list_news_category')){
-    function list_news_category($data){
+if (! function_exists('flash')) {
+
+    function flash($message='',$type=1,$url=null,$target='_self')
+    {
+        $types=[
+            0=>'error',
+            1=>'success',
+            2=>'info',
+            3=>'warning',
+        ];
+        $m['type']=$types[$type];
+        $m['message']=$message;
+        $m['url']=$url;
+        $m['target']=$target;
+
+        session()->flash('message',$m);
+
+        if($url)
+            return redirect($url);
+
+        return back()->withInput();
+    }
+}
+
+if(!function_exists('list_categories')){
+    function list_categories($data){
         foreach($data->where('parent_id',0) as $items){
 
                 $status = $items->status == 1 ? "checked" : "";
@@ -166,22 +200,23 @@ if(!function_exists('list_news_category')){
                 $display .= '<label for="checkbox_status_'.$items->id.'" class="mb-0 data_status" data-id="'.$items->id.'">Nổi bật</label>';
                 $display .= '</div>';
 
-                $action = '<a href="'.route('admin.news_category.edit',$items).'" title="Sửa" class="btn btn-default waves-effect waves-light">
+                $action = '<a href="'.$items->url.'" title="Sửa" class="btn btn-primary waves-effect waves-light">
                                         <span class="icon-button"><i class="fe-edit-2"></i></span></a> ';
-                $action .= '<a href="'.route('admin.news.category.del',$items->id).' " title="Xóa" onclick="return confirm(\'Bạn chắc chắn muốn xóa!\')" class="btn btn-default waves-effect waves-light"><span class="icon-button"><i class="fe-x"></i></span> </a>';
+                $action .= '<a href="'.route('admin.categories.remove',$items->id).' " title="Xóa" onclick="return confirm(\'Bạn chắc chắn muốn xóa!\')" class="btn btn-warning waves-effect waves-light"><span class="icon-button"><i class="fe-x"></i></span> </a>';
                 echo '<tr><td>';
                 echo '<div class="checkbox">';
                 echo '<input id="checkbox_del_'.$items->id.'" class="check_del"  value="'.$items->id.'"  type="checkbox" name="check_del[]">';
                 echo '<label for="checkbox_del_'.$items->id.'"></label></div></td>';
+                echo '<td>'.$items->id.'</td>';
 				echo '<td class="position-relative">'.$sort.'</td>';
-				echo '<td><a href="'.route('alias',$items->alias).'" target="_blank">'.$items->title.'</a></td>';
+				echo '<td><a href="'.route('alias',$items->alias).'" target="_blank">'.$items->name.'</a></td>';
 				echo '<td></td>';
 				echo '<td>'.$items->updated_at->diffForHumans().'</td>';
 				echo '<td>'.$display.'</td>';
 				echo '<td>'.$action.'</td>';
 				echo '</tr>';
 
-                sub_list_news_category($data, $items->id);
+                sub_list_categories($data, $items->id);
 
         }
 
@@ -190,7 +225,7 @@ if(!function_exists('list_news_category')){
 
 if(!function_exists('sub_list_news_category')){
 
-    function sub_list_news_category($data,$parent_id,$user=0,$tab = '&nbsp;&nbsp;&nbsp;&nbsp;'){
+    function sub_list_categories($data,$parent_id,$user=0,$tab = '&nbsp;&nbsp;&nbsp;&nbsp;'){
 
         foreach($data->where('parent_id', $parent_id) as $items){
 
@@ -208,23 +243,23 @@ if(!function_exists('sub_list_news_category')){
                 $display .= '<label for="checkbox_status_'.$items->id.'" class="mb-0 data_status" data-id="'.$items->id.'">Nổi bật</label>';
                 $display .= '</div>';
 
-                $action = '<a href="'.route('admin.news_category.edit',$items).'" title="Sửa" class="btn btn-default waves-effect waves-light">
+                $action = '<a href="'.$items->url.'" title="Sửa" class="btn btn-default waves-effect waves-light">
                                        <span class="icon-button"><i class="fe-edit-2"></i></span></a> ';
-                $action .= '<a href="'.route('admin.news.category.del',$items->id).' " title="Xóa" onclick="return confirm(\'Bạn chắc chắn muốn xóa!\')" class="btn btn-default waves-effect waves-light"><span class="icon-button"><i class="fe-x"></i></span> </a>';
+                $action .= '<a href="'.route('admin.categories.remove',$items->id).' " title="Xóa" onclick="return confirm(\'Bạn chắc chắn muốn xóa!\')" class="btn btn-default waves-effect waves-light"><span class="icon-button"><i class="fe-x"></i></span> </a>';
 
                 echo '<tr><td>';
                 echo '<div class="checkbox">';
                 echo '<input id="checkbox_del_'.$items->id.'" class="check_del"  value="'.$items->id.'"  type="checkbox" name="check_del[]">';
                 echo '<label for="checkbox_del_'.$items->id.'"></label></div></td>';
 				echo '<td class="position-relative">'.$sort.'</td>';
-				echo '<td><a href="'.route('alias',$items->alias).'" target="_blank">'.$tab.'<span class="tree-sub"></span>'.$items->title.'</a></td>';
-                echo '<td><a href="'.route('alias',$items->parents->alias).'" target="_blank">'.$items->parents->title.'</a></td>';
+				echo '<td><a href="'.route('alias',$items->alias).'" target="_blank">'.$tab.'<span class="tree-sub"></span>'.$items->name.'</a></td>';
+                echo '<td><a href="'.route('alias',$items->parent->alias).'" target="_blank">'.$items->parent->name.'</a></td>';
 				echo '<td>'.$items->updated_at->diffForHumans().'</td>';
 				echo '<td>'.$display.'</td>';
 				echo '<td>'.$action.'</td>';
 				echo '</tr>';
 
-                sub_list_news_category($data,$items->id,$user,$tab."&nbsp;&nbsp;&nbsp;&nbsp;");
+            sub_list_categories($data,$items->id,$user,$tab."&nbsp;&nbsp;&nbsp;&nbsp;");
 
         }
     }
@@ -250,20 +285,10 @@ if(!function_exists('checked')){
     }
 }
 
-if(!function_exists('check_sub')){
-    function check_sub($a,$b){
-        if($a == $b)
-            return true;
-        if(is_array($b) && in_array($a,$b))
-            return true;
-        return false;
-    }
-}
-
 if(!function_exists('sub_menu_checkbox')){
     function sub_menu_checkbox($data,$parent,$old="",$tab='&nbsp;&nbsp;&nbsp;&nbsp;'){
         foreach ($data->where('parent_id', $parent) as $key => $value) {
-                echo $tab.'<option value="'.$value->id.'" '.selected($value->id,$old->categorys->pluck('category_id')->toArray()).'>'.$tab.$value->title.'</option>';
+                echo $tab.'<option value="'.$value->id.'" '.selected($value->id,$old->categories->pluck('id')->toArray()).'>'.$tab.$value->title.'</option>';
                 sub_menu_checkbox($data,$value->id,$old,$tab.'&nbsp;&nbsp;&nbsp;&nbsp;');
         }
     }
@@ -449,7 +474,7 @@ if(!function_exists('admin_menu_sub')){
             echo '<form method="post" action="'.route('admin.menus.destroy',$items).'" class="d-inline-block">';
             echo '<input type="hidden" name="_method" value="DELETE">';
             echo '<input type="hidden" name="_token" value="'.csrf_token().'">';
-            echo '<button type="submit" onclick="return confirm(\'Bạn chắc chắn muốn xóa?\')" class="btn btn-primary waves-effect waves-light"><i class="fe-x"></i></button>';
+            echo '<button type="submit" onclick="return confirm(\'Bạn chắc chắn muốn xóa?\')" class="btn btn-warning waves-effect waves-light"><i class="fe-x"></i></button>';
             echo '</form>';
             echo '</div>';
 
@@ -468,7 +493,7 @@ if(!function_exists('add_post_lang')){
     function add_post_lang($id,$data,$data_old,$type,$lang){
         $postlang = PostLang::get();
 
-        if($postlang->where('post_id', $id)->count() > 0){
+        if($postlang->where('post_id', $id)->count()){
 
             foreach($postlang->where('post_id', $id) as $post){
                 PostLang::create([

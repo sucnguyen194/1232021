@@ -29,17 +29,14 @@ class Comment extends Model
             case 'products':
                 return new Product();
                 break;
-            case 'news':
-                return new News();
-                break;
-            case 'pages':
-                return new Pages();
+            case 'posts':
+                return new Post();
                 break;
             case 'videos':
                 return new Videos();
                 break;
             case 'gallerys':
-                return new Gallerys();
+                return new Gallery();
                 break;
         }
     }

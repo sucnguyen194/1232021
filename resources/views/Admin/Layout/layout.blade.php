@@ -8,13 +8,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- App favicon -->
-    <link rel="shortcut icon" href="{{asset(optional($setting)->favicon)}}">
-
-    <!-- Jquery -->
-    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-
+    <link rel="shortcut icon" href="{{asset(setting()->favicon)}}">
     @yield('css')
-    <link href="/admin/assets/libs/spinkit/spinkit.css" rel="stylesheet" type="text/css" >
+
     <!-- Jquery Toast css -->
     <link href="/admin/assets/libs/jquery-toast/jquery.toast.min.css" rel="stylesheet" type="text/css" />
     <!-- App css -->
@@ -24,10 +20,11 @@
 
     <!-- Cpanel css -->
     <link href="{{asset('admin/css/cpanel.css')}}" rel="stylesheet" type="text/css">
+    <!-- Jquery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script src="/admin/ckeditor/ckeditor.js"></script>
     <script src="/admin/ckfinder/ckfinder.js"></script>
-    <!-- Vendor js -->
-    <script src="{{asset('admin/assets/js/vendor.min.js')}}"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <!-- Cpanel -->
@@ -135,17 +132,14 @@
             <div id="sidebar-menu">
                 <ul class="metismenu" id="side-menu">
                     @php
-                        $news = new \App\Models\News();
+                        $post = new \App\Models\Post();
                         $products = new \App\Models\Product();
-                        $pages = new \App\Models\Pages();
-                        $type = \App\Models\UserModuleSystems::where('user_id', Auth::id())->pluck('type');
+                        $type = auth()->user()->systemsModule()->pluck('type');
                         $nav = \App\Models\SystemsModule::whereIn('type',$type)->orderby('sort','asc')->get();
                         $module = \App\Models\Modules::get();
                         $comments = \App\Models\Comment::whereStatus(0)->get();
-
-                        $news = $comments->where('comment_type',get_class($news))->count();
+                        $posts = $comments->where('comment_type',get_class($post))->count();
                         $products = $comments->where('comment_type',get_class($products))->count();
-                        $pages = $comments->where('comment_type',get_class($pages))->count();
 
                         if(Auth::user()->lever == \App\Enums\LeverUser::SUPPERADMIN)
                             $nav = \App\Models\SystemsModule::orderby('sort','asc')->get();
@@ -166,10 +160,8 @@
                                 <ul class="nav-second-level" aria-expanded="false">
                                     @foreach($nav->where('parent_id', $item->id) as $sub)
                                         <li><a href="{{$sub->route ? route($sub->route, $sub->var ?? null) : "javascript:void(0)"}}">{{$sub->name}}
-                                                @if($sub->route == 'admin.comments.list' && $sub->var == 'news')
-                                                    <span class="badge badge-danger badge-pill float-right">{{$news}}</span>
-                                                @elseif($sub->route == 'admin.comments.list' && $sub->var == 'pages')
-                                                    <span class="badge badge-danger badge-pill float-right">{{$pages}}</span>
+                                                @if($sub->route == 'admin.comments.list' && $sub->var == 'posts')
+                                                    <span class="badge badge-danger badge-pill float-right">{{$posts}}</span>
                                                 @elseif($sub->route == 'admin.comments.list' && $sub->var == 'products')
                                                     <span class="badge badge-danger badge-pill float-right">{{$products}}</span>
                                                 @endif
@@ -330,18 +322,17 @@
         <div class="sk-cube sk-cube9"></div>
     </div>
 </div>
-
-<!-- javascript -->
+<!-- Vendor js -->
+<script src="{{asset('admin/assets/js/vendor.min.js')}}"></script>
 @yield('javascript')
-
-
+<!-- App js -->
+<script src="{{asset('admin/assets/js/app.min.js')}}"></script>
+<!-- javascript -->
+<link href="/admin/assets/libs/spinkit/spinkit.css" rel="stylesheet" type="text/css" >
 <!-- Tost-->
 <script src="/admin/assets/libs/jquery-toast/jquery.toast.min.js"></script>
 <!-- toastr init js-->
 {{--<script src="/admin/assets/js/pages/toastr.init.js"></script>--}}
-
-<!-- App js -->
-<script src="{{asset('admin/assets/js/app.min.js')}}"></script>
 @include('Errors.note')
 
 <script type="text/javascript">
@@ -350,20 +341,20 @@
            $(this).tooltipster();
         })
     }
+
     initEvents();
-    CKEDITOR.replace( 'summernote' ,{
-        height:150
-    });
-    CKEDITOR.replace( 'summerbody' ,{
-        height:300
-    });
+    // CKEDITOR.replace( 'summernote' ,{
+    //     height:150
+    // });
+    // CKEDITOR.replace( 'summerbody' ,{
+    //     height:300
+    // });
 </script>
 
 <script type="text/javascript">
     $(window).on('load',function() {
         $('.loading').fadeOut();
     });
-
 </script>
 
 <script type="text/javascript">
@@ -448,6 +439,58 @@
         })
 
     });
+</script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('input[name=sort]').keyup(function(){
+            url = "{{route('admin.ajax.data.sort')}}";
+            id = $(this).attr('data-id');
+            num = $(this).val();
+            type = $('input.type').val();
+            _token = $('input[name=_token]').val();
+            $.ajax({
+                url:url,
+                type:'GET',
+                cache:false,
+                data:{'_token':_token,'id':id,'num':num,'type':type},
+                success:function(data){
+                    flash({'message': 'Cập nhật thành công', 'type': 'success'})
+                }
+            });
+        });
+
+        $('.data_status').click(function(){
+            url = "{{route('admin.ajax.data.status')}}";
+            id = $(this).attr('data-id');
+            _token = $('input[name=_token]').val();
+            type = $('input.type').val();
+            $.ajax({
+                url:url,
+                type:'GET',
+                cache:false,
+                data:{'_token':_token,'id':id,'type':type},
+                success:function(data){
+                    flash({'message': 'Cập nhật thành công', 'type': 'success'})
+                }
+            });
+        });
+
+        $('.data_public').click(function(){
+            url = "{{route('admin.ajax.data.public')}}";
+            id = $(this).attr('data-id');
+            _token = $('input[name=_token]').val();
+            type = $('input.type').val();
+            $.ajax({
+                url:url,
+                type:'GET',
+                cache:false,
+                data:{'_token':_token,'id':id,'type':type},
+                success:function(data){
+                    flash({'message': 'Cập nhật thành công', 'type': 'success'})
+                }
+            });
+        });
+    })
 </script>
 </body>
 

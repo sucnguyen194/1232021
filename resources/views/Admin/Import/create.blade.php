@@ -32,7 +32,7 @@
                                 <option value="0">--Chọn nhà cung cấp--</option>
                                 <option v-for="item in agencys" v-bind:value="item.id" >@{{ item.name }}</option>
                             </select>
-                            <p v-if="agency_id == 0" class="text-danger mt-2">Vui lòng chọn nhà cung cấp</p>
+                            <p v-if="agency_id == 0" class="text-danger mt-1">Vui lòng chọn nhà cung cấp</p>
                         </div>
                         <div class="form-group">
                             <label>Tên sản phẩm <span class="required">*</span></label>
@@ -40,7 +40,7 @@
                                 <option value="0">--Chọn sản phẩm--</option>
                                 <option v-for="product in products" v-bind:value="product.id" >@{{ product.name }} (@{{ product.amount }})</option>
                             </select>
-                            <p v-if="product_id == 0" class="text-danger mt-2">Vui lòng chọn sản phẩm</p>
+                            <p v-if="product_id == 0" class="text-danger mt-1">Vui lòng chọn sản phẩm</p>
                         </div>
 
                         <div class="form-group">
@@ -238,7 +238,6 @@
                     </div>
 
                 </div>
-
                 <div class="col-lg-12">
                     <button type="submit" class="btn btn-default waves-effect cancel waves-light" onclick="return confirm('Hủy toàn bộ đơn hàng?')" :disabled="carts.length == 0" name="send" value="cancel"><span class="icon-button"><i class="pe-7s-close-circle"></i></span> Hủy đơn hàng</button>
                     <button type="submit" class="btn btn-primary waves-effect save width-md waves-light float-right" onclick="return confirm('Xác nhận đơn hàng?')" :disabled="carts.length == 0" name="send" value="save"><span class="icon-button"><i class="fe-plus"></i></span> Xác nhận</button>
@@ -254,7 +253,7 @@
         data:{
             agencys: @json($agencys),
             products: @json($products),
-            carts: @json(Cart::instance('import')->content()),
+            carts: @json(Cart::instance('import')->content()->sort()),
             total: {{str_replace(',','',Cart::subtotal(0))}},
 
             product_id: 0,

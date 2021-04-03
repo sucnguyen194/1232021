@@ -3,6 +3,7 @@
 namespace App\Rules;
 
 use App\Http\Controllers\Controller;
+use App\Models\Setting;
 use App\Models\SiteSetting;
 use Illuminate\Contracts\Validation\Rule;
 use GuzzleHttp\Client;
@@ -28,16 +29,13 @@ class ValidRecapcha extends Controller implements Rule
      */
     public function passes($attribute, $value)
     {
-        $setting = new SiteSetting();
-        $re_captcha_secret = $setting->whereNotNull('re_captcha_secret')->whereNotNull('re_captcha_key')->pluck('re_captcha_secret');
-
         $client = new Client([
             'base_uri' => 'https://google.com/recaptcha/api/'
         ]);
 
         $response = $client->post('siteverify', [
             'query' => [
-                'secret' => $re_captcha_secret[0],
+                'secret' => setting()->re_captcha_secret,
                 'response' => $value
             ]
         ]);

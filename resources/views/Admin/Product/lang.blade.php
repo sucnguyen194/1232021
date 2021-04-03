@@ -174,9 +174,9 @@
                             <label>Danh mục chính</label>
                             <select class="form-control" data-toggle="select2" name="data[category_id]">
                                 <option value="0">Chọn danh mục</option>
-                                @foreach($category->where('parent_id', 0) as $item )
+                                @foreach($categories->where('parent_id', 0) as $item )
                                     <option value="{{$item->id}}" {{old('data.category_id') == $item->id ? "selected" : ""}} class="font-weight-bold">{{$item->name}}</option>
-                                    {{sub_option_category($category ,$item->id)}}
+                                    {{sub_option_category($categories ,$item->id)}}
                                 @endforeach
                             </select>
                         </div>
@@ -186,9 +186,9 @@
                             <label>Danh mục phụ</label>
                             <p class="font-13">* Chọn được nhiều danh mục</p>
                             <select class="form-control select2-multiple" data-toggle="select2" multiple="multiple" name="category_id[]" data-placeholder="Chọn danh mục">
-                                @foreach($category->where('parent_id', 0) as $item )
+                                @foreach($categories->where('parent_id', 0) as $item )
                                     <option value="{{$item->id}}" {{old('category_id') == $item->id ? "selected" : ""}} class="font-weight-bold">{{$item->name}}</option>
-                                    {{sub_option_category($category ,$item->id)}}
+                                    {{sub_option_category($categories ,$item->id)}}
                                 @endforeach
                             </select>
                         </div>
@@ -202,6 +202,7 @@
                 </div>
 
                 <div class="col-lg-12">
+                    <input type="hidden" name="data.type" value="{{\App\Enums\SystemsModuleType::PRODUCT}}">
                     <a href="{{route('admin.products.index')}}" class="btn btn-default waves-effect waves-light"><span class="icon-button"><i class="fe-arrow-left"></i></span> Quay lại</a>
                     <button type="submit" class="btn btn-primary waves-effect width-md waves-light float-right" name="send" value="save"><span class="icon-button"><i class="fe-plus"></i></span> Lưu lại</button>
                 </div>
@@ -221,11 +222,18 @@
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
+
     <script>
         $(document).on('click','.view-image',function(){
             let image = $(this).attr('data-image');
             $('.showImage').attr('src', image);
         })
+        CKEDITOR.replace( 'summernote' ,{
+            height:150
+        });
+        CKEDITOR.replace( 'summerbody' ,{
+            height:300
+        });
     </script>
 @stop
 
@@ -246,12 +254,6 @@
 
     <!-- Init js-->
     <script src="{{asset('admin/assets/js/pages/form-advanced.init.js')}}"></script>
-
-    <!-- Summernote js -->
-    {{--    <script src="{{asset('admin/assets/libs/summernote/summernote-bs4.min.js')}}"></script>--}}
-    {{--    <!-- Init js -->--}}
-    {{--    <script src="{{asset('admin/assets/js/pages/form-summernote.init.js')}}"></script>--}}
-
     <script>
         $(function() {
             $( "#sortable" ).sortable();
@@ -263,10 +265,6 @@
             });
         });
     </script>
-
-    <!-- scrollbar init-->
-    <script src="{{asset('admin/assets/js/pages/scrollbar.init.js')}}"></script>
-
     <script src="{{asset('admin/assets/libs/tooltipster/tooltipster.bundle.min.js')}}"></script>
 @stop
 
@@ -277,9 +275,5 @@
     <link href="{{asset('admin/assets/libs/select2/select2.min.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{asset('admin/assets/libs/bootstrap-select/bootstrap-select.min.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{asset('admin/assets/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.css')}}" rel="stylesheet" type="text/css" />
-
     <link href="/admin/assets/libs/tooltipster/tooltipster.bundle.min.css" rel="stylesheet" type="text/css" >
-    <!-- Summernote css -->
-    {{--    <link href="/admin/assets/libs/summernote/summernote-bs4.css" rel="stylesheet" type="text/css" />--}}
-
 @stop

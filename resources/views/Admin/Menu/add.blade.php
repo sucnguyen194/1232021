@@ -5,7 +5,6 @@ Thêm mới
 @section('content')
 
     <div class="container-fluid">
-
         <!-- start page title -->
         <div class="row">
             <div class="col-12">
@@ -41,9 +40,9 @@ Thêm mới
                         <div class="card-box">
                             <h4 class="header-title mb-3"><b>Danh mục sản phẩm</b></h4>
                             <div class="form-group">
-                                @foreach($product_category->where('parent_id', 0) as $item)
+                                @foreach($categories->where('parent_id', 0)->where('type',\App\Enums\SystemsModuleType::PRODUCT_CATEGORY) as $item)
                                     <label class="w-100"><a href="javascript:void(0)" class="addmenu text-secondary"  title='Thêm ::::::{{$item->name}}:::::: vào menu' charset=""  data-name="{{$item->name}}" data-url="{{$item->alias}}" data-image="{{$item->image}}" data-thumb="{{$item->thumb}}"><span class=""><i class="fe-plus pr-1"></i>  {{$item->name}}</span></a></label>
-                                    {{sub_menu_category_checkbox($product_category,$item->id)}}
+                                    {{sub_menu_category_checkbox($categories,$item->id)}}
                                 @endforeach
                             </div>
                         </div>
@@ -51,9 +50,9 @@ Thêm mới
                         <div class="card-box">
                             <h4 class="header-title mb-3"><b>Danh mục Blog</b></h4>
                             <div class="form-group">
-                                @foreach($news_category->where('parent_id', 0) as $item)
+                                @foreach($categories->where('parent_id', 0)->where('type',\App\Enums\SystemsModuleType::NEWS_CATEGORY) as $item)
                                     <label class="w-100"><a href="javascript:void(0)" class="addmenu text-secondary"  title='Thêm ::::::{{$item->title}}:::::: vào menu'charset=""  data-name="{{$item->title}}" data-url="{{$item->alias}}" data-image="{{$item->image}}" data-thumb="{{$item->thumb}}"><span class=""><i class="fe-plus pr-1"></i>  {{$item->title}}</span></a></label>
-                                    {{sub_menu_category_checkbox($news_category,$item->id)}}
+                                    {{sub_menu_category_checkbox($categories,$item->id)}}
                                 @endforeach
                             </div>
                         </div>
@@ -90,7 +89,7 @@ Thêm mới
                                                     <form method="post" action="{{route('admin.menus.destroy',$items)}}" class="d-inline-block">
                                                         @method('DELETE')
                                                         @csrf
-                                                        <button type="submit" onclick="return confirm('Bạn chắc chắn muốn xóa?')" class="btn btn-primary waves-effect waves-light"><i class="fe-x"></i></button>
+                                                        <button type="submit" onclick="return confirm('Bạn chắc chắn muốn xóa?')" class="btn btn-warning waves-effect waves-light"><i class="fe-x"></i></button>
                                                     </form>
                                                 </div>
 
@@ -166,29 +165,29 @@ Thêm mới
                                         <option value="mega">Mega Menu</option>
                                     </select>
                                 </div>
-                                <div class="form-group position-relative box-action-image">
-                                    <label>Icon</label>
-                                    <p class="font-13">* Định dạng ảnh jpg, jpeg, png, gif</p>
-
-                                    <input type="file" name="image" class="filestyle" id="fileUpload" data-btnClass="btn-primary">
-                                    <div class="text-center mt-2 image-holder" id="image-holder">
-
-                                    </div>
-                                    <div class="box-position btn btn-default waves-effect waves-light text-left show-box">
-
-{{--                                        <div class="checkbox checkbox-unlink-watermark">--}}
-{{--                                            <input id="checkbox_watermark" class="watermark" type="checkbox" name="watermark">--}}
-{{--                                            <label for="checkbox_watermark">Gắn watermark</label>--}}
-{{--                                        </div>--}}
-
-                                        <div class="checkbox checkbox-unlink-image">
-                                            <input id="checkbox_unlink" class="unlink-image" type="checkbox" name="unlink">
-                                            <label for="checkbox_unlink" class="mb-0">Xóa ảnh</label>
+                            <div class="position-relative box-action-image">
+                                <label>Icon</label>
+                                <div class="position-absolute font-weight-normal text-primary" id="box-input" style="right:0;top:0">
+                                    <label class="item-input">
+                                        <input type="file" name="image" class="d-none" id="fileUpload"> Chọn ảnh
+                                    </label>
+                                </div>
+                                <p class="font-13">* Ghi chú: Định dạng ảnh jpg, jpeg, png, gif</p>
+                                <div class="dropzone p-2 text-center image-holder" id="image-holder">
+                                    <label for="fileUpload" class="w-100 mb-0">
+                                        <div class="icon-dropzone pt-2">
+                                            <i class="h1 text-muted dripicons-cloud-upload"></i>
                                         </div>
-
+                                        <span class="text-muted font-13">Sử dụng nút <strong>Chọn ảnh</strong> để thêm ảnh</span>
+                                    </label>
+                                </div>
+                                <div class="box-position btn btn-default waves-effect waves-light text-left show-box">
+                                    <div class="checkbox checkbox-unlink-image">
+                                        <input id="checkbox_unlink" class="unlink-image" type="checkbox" name="unlink">
+                                        <label for="checkbox_unlink" class="mb-0">Xóa ảnh</label>
                                     </div>
                                 </div>
-
+                            </div>
                         </div>
                             <div class="">
                                 <a href="{{route('admin.menus.index')}}" class="btn btn-default waves-effect waves-light"><span class="icon-button"><i class="fe-arrow-left"></i></span> Quay lại</a>
@@ -202,6 +201,11 @@ Thêm mới
         <!-- end Row -->
 
     </div> <!-- end container-fluid -->
+    <script>
+        CKEDITOR.replace('summernote',{
+            height:150
+        })
+    </script>
 @stop
 
 @section('css')
@@ -251,8 +255,6 @@ Thêm mới
             $('.addmenu').click(function(){
                 name = $(this).attr('data-name');
                 url = $(this).attr('data-url');
-                image = $(this).attr('data-image');
-                thumb = $(this).attr('data-thumb');
                 _token = $('input[name="_token"]').val();
                 local = '{{route('admin.ajax.add.menu')}}';
                 $.ajax({
@@ -260,13 +262,13 @@ Thêm mới
                     type:'post',
                     cache:false,
                     data:{
-                        'name':name,'url':url,'image':image,'thumb':thumb,'_token':_token,
+                        'name':name,'url':url,'_token':_token,
                     },
                     success:function(result){
                         //obj = JSON.parse(result);
                         $('#result_data').append(result);
                         $('.dd-empty').remove();
-                        flash('success','Thêm mới thành công');
+                        flash({'message':'Thêm mới thành công!', 'type': 'success'});
                     }
                 })
             })

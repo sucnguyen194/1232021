@@ -160,7 +160,7 @@ class OrderController extends Controller
         $users = User::selectRaw('id,name,account')->whereLever(LeverUser::ADMIN)->get();
         $customers = User::selectRaw('id,name,account,phone')->whereLever(LeverUser::USER)->get();
         $agencys = UserAgency::status()->get()->pluck('name','id','phone');
-        $products = Product::selectRaw('id,name,amount')->whereNotIn('id', $order->sessions()->pluck('product_id')->toArray())->public()->orderByDesc('created_at')->get();
+        $products = Product::selectRaw('id,name,amount, price')->whereNotIn('id', $order->sessions()->pluck('product_id')->toArray())->public()->orderByDesc('created_at')->get();
         $array = $products->pluck('id')->toArray();
 
         foreach(Cart::instance('export_'.$order->id)->content() as $cart){
@@ -184,7 +184,7 @@ class OrderController extends Controller
         $price_in = isset($customer) &&  $price_in->count() ? $price_in[0] : "Chưa nhập giá";
         $price = isset($customer) && $price->count() ? $price[0] : "Mua lần đầu";
 
-        $product = Product::find(Session::get('export_product'));
+        $product = Product::find(session()->get('export_product'));
 
         return view('Admin.Order.edit',compact('order','users','customers','products','selected','price','price_in','product','agencys'));
     }
@@ -245,6 +245,7 @@ class OrderController extends Controller
                 $transport = $request->transport;
                 $discount = $request->discount;
                 $total = str_replace(',','',Cart::instance('export_'.$order->id)->subtotal(0));
+
                 foreach(Cart::instance('export_'.$order->id)->content() as $cart):
                     $session = ProductSession::create([
                         'order_id' => $order->id,
@@ -254,7 +255,7 @@ class OrderController extends Controller
                         'amount' => $cart->qty,
                         'price' => $cart->price,
                         'price_in' => $cart->options->price_in,
-                        'revenue' => $cart->price*$cart->qty - $cart->options->price_in*$cart->qty,
+                        'revenue' => $cart->options->revenue,
                         'type' => ProductSessionType::getKey(ProductSessionType::export)
                     ]);
 
@@ -425,7 +426,8 @@ class OrderController extends Controller
                 'options' => [
                     'revenue' => $revenue,
                     'price_in' => $sesions ? $sesions->price_in : null,
-                    'amount' => $product->amount
+                    'amount' => $product->amount,
+                    'sort' => time()
                 ]
             ]);
         }else{
@@ -438,12 +440,13 @@ class OrderController extends Controller
                 'options' => [
                     'revenue' => $revenue,
                     'price_in' => $sesions ? $sesions->price_in : null,
-                    'amount' => $product->amount
+                    'amount' => $product->amount,
+                    'sort' => time()
                 ]
             ]);
         }
 
-        $data['cart'] = Cart::instance('export_'.$order->id)->content();
+        $data['cart'] = Cart::instance('export_'.$order->id)->content()->sort();
         $data['total'] = Cart::instance('export_'.$order->id)->subtotal(0);
         $data['count'] = Cart::instance('export_'.$order->id)->count();
         $data['max'] = $amount;
@@ -474,11 +477,12 @@ class OrderController extends Controller
             'options'=> [
                 'revenue' => $revenue,
                 'price_in' => $cart->options->price_in,
-                'amount' => $cart->options->amount
+                'amount' => $cart->options->amount,
+                'sort' => time()
             ]
         ]);
 
-        $data['cart'] = Cart::instance('export_'.$order->id)->content();
+        $data['cart'] = Cart::instance('export_'.$order->id)->content()->sort();
         $data['total'] = Cart::instance('export_'.$order->id)->subtotal(0);
         return response()->json($data);
     }
@@ -486,7 +490,7 @@ class OrderController extends Controller
         check_admin_systems(SystemsModuleType::EXPORT);
         $order = Order::find($order);
         Cart::instance('export_'.$order->id)->remove($rowId);
-        $data['cart'] = Cart::instance('export_'.$order->id)->content();
+        $data['cart'] = Cart::instance('export_'.$order->id)->content()->sort();
         $data['total'] = Cart::instance('export_'.$order->id)->subtotal(0);
         return response()->json($data);
     }
@@ -504,7 +508,7 @@ class OrderController extends Controller
     }
 
     public function sumRevenueSession($item, $quantity, $price){
-        $session = $item->where('id','>',$item->id)->first();
+        $session = $item->where('id','>',$item->id)->whereProductId($item->product_id)->whereType('import')->oldest()->first();
         $amount = $session->amount - $quantity;
         if($amount >= 0) {
             $revenue = $price * abs($quantity) - $session->price_in *  abs($quantity);

@@ -39,9 +39,9 @@
                         <div class="card-box">
                             <h4 class="header-title mb-3"><b>Danh mục sản phẩm</b></h4>
                             <div class="form-group">
-                                @foreach($product_category->where('parent_id', 0) as $item)
+                                @foreach($categories->where('parent_id', 0)->where('type',\App\Enums\SystemsModuleType::PRODUCT_CATEGORY) as $item)
                                     <label class="w-100"><a href="javascript:void(0)" class="addmenu text-secondary"  title='Thêm ::::::{{$item->name}}:::::: vào menu'charset=""  data-name="{{$item->name}}" data-url="{{$item->alias}}" data-image="{{$item->image}}" data-thumb="{{$item->thumb}}"><span class=""><i class="fe-plus pr-1"></i>  {{$item->name}}</span></a></label>
-                                    {{sub_menu_category_checkbox($product_category,$item->id)}}
+                                    {{sub_menu_category_checkbox($categories,$item->id)}}
                                 @endforeach
                             </div>
                         </div>
@@ -49,11 +49,9 @@
                         <div class="card-box">
                             <h4 class="header-title mb-3"><b>Danh mục Blog</b></h4>
                             <div class="form-group">
-                                @foreach($news_category as $item)
-                                    @if($item->parent_id==0)
-                                        <label class="w-100"><a href="javascript:void(0)" class="addmenu text-secondary"  title='Thêm ::::::{{$item->title}}:::::: vào menu'charset=""  data-name="{{$item->title}}" data-url="{{$item->alias}}" data-image="{{$item->image}}" data-thumb="{{$item->thumb}}"><span class=""><i class="fe-plus pr-1"></i>  {{$item->title}}</span></a></label>
-                                        {{sub_menu_category_checkbox($news_category,$item->id)}}
-                                    @endif
+                                @foreach($categories->where('parent_id', 0)->where('type',\App\Enums\SystemsModuleType::NEWS_CATEGORY) as $item)
+                                    <label class="w-100"><a href="javascript:void(0)" class="addmenu text-secondary"  title='Thêm ::::::{{$item->name}}:::::: vào menu'charset=""  data-name="{{$item->name}}" data-url="{{$item->alias}}" data-image="{{$item->image}}" data-thumb="{{$item->thumb}}"><span class=""><i class="fe-plus pr-1"></i>  {{$item->name}}</span></a></label>
+                                    {{sub_menu_category_checkbox($categories,$item->id)}}
                                 @endforeach
                             </div>
                         </div>
@@ -89,7 +87,7 @@
                                                     <form method="post" action="{{route('admin.menus.destroy',$items)}}" class="d-inline-block">
                                                         @method('DELETE')
                                                         @csrf
-                                                        <button type="submit" onclick="return confirm('Bạn chắc chắn muốn xóa?')" class="btn btn-primary waves-effect waves-light"><i class="fe-x"></i></button>
+                                                        <button type="submit" onclick="return confirm('Bạn chắc chắn muốn xóa?')" class="btn btn-warning waves-effect waves-light"><i class="fe-x"></i></button>
                                                     </form>
                                                 </div>
 
@@ -136,11 +134,9 @@
                                     <label>Danh mục cha</label>
                                     <select id="parent_id" name="data[parent_id]" class="form-control" data-toggle="select2">
                                         <option value="0">-----</option>
-                                        @foreach($menus as $items)
-                                            @if($items->parent_id == 0)
-                                                <option value="{{$items->id}}" @if($menu->parent_id == $items->id) selected @endif>{{$items->name}}</option>
-                                                {{sub_add_menu($menus,$items->id, $menu->parent_id)}}
-                                            @endif
+                                        @foreach($menus->where('parent_id', 0) as $items)
+                                            <option value="{{$items->id}}" @if($menu->parent_id == $items->id) selected @endif>{{$items->name}}</option>
+                                            {{sub_add_menu($menus,$items->id, $menu->parent_id)}}
                                         @endforeach
                                     </select>
                                 </div>
@@ -168,29 +164,36 @@
                                         <option value="mega"  @if($menu->type == 'mega') selected @endif>Mega Menu</option>
                                     </select>
                                 </div>
-                                <div class="form-group position-relative box-action-image">
+                                <div class="position-relative box-action-image">
                                     <label>Icon</label>
-                                    <p class="font-13">* Định dạng ảnh jpg, jpeg, png, gif</p>
-
-                                    <input type="file" name="image" class="filestyle" id="fileUpload" data-btnClass="btn-primary">
-                                    <div class="text-center mt-2 image-holder" id="image-holder">
-                                        @if(file_exists($menu->image)) <img src="{{asset($menu->image)}}" class="img-fluid"> @endif
+                                    <div class="position-absolute font-weight-normal text-primary" id="box-input" style="right:2.2rem;top:1.3rem">
+                                        <label class="item-input">
+                                            <input type="file" name="image" class="d-none" id="fileUpload"> Chọn ảnh
+                                        </label>
                                     </div>
-                                    <div class="box-position btn btn-default waves-effect waves-light text-left  @if(!file_exists($menu->image)) show-box @endif">
-
-{{--                                        <div class="checkbox checkbox-warning checkbox-circle checkbox-unlink-watermark">--}}
-{{--                                            <input id="checkbox_watermark" class="watermark" type="checkbox" name="watermark">--}}
-{{--                                            <label for="checkbox_watermark">Gắn watermark</label>--}}
-{{--                                        </div>--}}
-
-                                        <div class="checkbox checkbox-unlink-image">
-                                            <input id="checkbox_unlink" class="unlink-image" type="checkbox" name="unlink">
-                                            <label for="checkbox_unlink" class="mb-0">Xóa ảnh</label>
+                                    <p class="font-13">* Định dạng ảnh jpg, jpeg, png, gif</p>
+                                    <div class="dropzone p-2 text-center">
+                                        @if(!file_exists($menu->image))
+                                            <div class="dz-message text-center needsclick mb-2" id="remove-label">
+                                                <label for="fileUpload" class="w-100 mb-0">
+                                                    <div class="icon-dropzone pt-2">
+                                                        <i class="h1 text-muted dripicons-cloud-upload"></i>
+                                                    </div>
+                                                    <span class="text-muted font-13">Sử dụng nút <strong>Chọn ảnh</strong> để thêm ảnh</span>
+                                                </label>
+                                            </div>
+                                        @endif
+                                        <div class="{{!file_exists($menu->image) ? "show-box" : ""}} image-holder pl-0 mb-0 w-100">
+                                            @if(file_exists($menu->image)) <img src="{{asset($menu->image)}}" alt="{{$menu->name}}"> @endif
                                         </div>
-
+                                        <div class="box-position btn btn-default waves-effect waves-light text-left @if(!file_exists($menu->image)) show-box @endif">
+                                            <div class="checkbox checkbox-unlink-image">
+                                                <input id="checkbox_unlink" class="unlink-image" type="checkbox" name="unlink">
+                                                <label for="checkbox_unlink" class="mb-0">Xóa ảnh</label>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-
                             </div>
 
                             <div class="">
@@ -205,6 +208,11 @@
     <!-- end Row -->
 
     </div> <!-- end container-fluid -->
+    <script>
+        CKEDITOR.replace('summernote',{
+            height:150
+        })
+    </script>
 @stop
 
 @section('css')
@@ -242,8 +250,6 @@
     <link href="{{asset('admin/assets/libs/bootstrap-select/bootstrap-select.min.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{asset('admin/assets/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.css')}}" rel="stylesheet" type="text/css" />
 
-    <!-- Summernote css -->
-{{--    <link href="{{asset('admin/assets/libs/summernote/summernote-bs4.css')}}" rel="stylesheet" type="text/css" />--}}
     <!-- Plugins css -->
     <link href="/admin/assets/libs/nestable2/jquery.nestable.min.css" rel="stylesheet" type="text/css" />
 @stop
@@ -254,8 +260,6 @@
             $('.addmenu').click(function(){
                 name = $(this).attr('data-name');
                 url = $(this).attr('data-url');
-                image = $(this).attr('data-image');
-                thumb = $(this).attr('data-thumb');
                 _token = $('input[name="_token"]').val();
                 local = '{{route('admin.ajax.add.menu')}}';
                 $.ajax({
@@ -263,13 +267,12 @@
                     type:'post',
                     cache:false,
                     data:{
-                        'name':name,'url':url,'image':image,'thumb':thumb,'_token':_token,
+                        'name':name,'url':url,'_token':_token,
                     },
                     success:function(result){
                         //obj = JSON.parse(result);
                         $('#result_data').append(result);
-                        $('.dd-empty').remove();
-                        flash('success','Thêm mới thành công');
+                        flash({'message':'Thêm mới thành công!', 'type': 'success'});
                     }
                 })
             })
@@ -322,7 +325,6 @@
     <script src="{{asset('admin/assets/libs/switchery/switchery.min.js')}}"></script>
     <script src="{{asset('admin/assets/libs/bootstrap-tagsinput/bootstrap-tagsinput.min.js')}}"></script>
     <script src="https://coderthemes.com/adminox/layouts/vertical/assets/libs/select2/select2.min.js"></script>
-    {{--    <script src="{{asset('admin/assets/libs/jquery-mockjax/jquery.mockjax.min.js')}}"></script>--}}
     <script src="{{asset('admin/assets/libs/autocomplete/jquery.autocomplete.min.js')}}"></script>
     <script src="{{asset('admin/assets/libs/bootstrap-select/bootstrap-select.min.js')}}"></script>
     <script src="{{asset('admin/assets/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.js')}}"></script>
@@ -331,13 +333,6 @@
 
     <!-- Init js-->
     <script src="{{asset('admin/assets/js/pages/form-advanced.init.js')}}"></script>
-
-{{--    <!-- Summernote js -->--}}
-{{--    <script src="{{asset('admin/assets/libs/summernote/summernote-bs4.min.js')}}"></script>--}}
-
-{{--    <!-- Init js -->--}}
-{{--    <script src="{{asset('admin/assets/js/pages/form-summernote.init.js')}}"></script>--}}
-
     <!-- Plugins js-->
     <script src="/admin/assets/libs/nestable2/jquery.nestable.min.js"></script>
 

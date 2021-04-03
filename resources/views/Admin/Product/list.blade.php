@@ -52,7 +52,7 @@
                                 <label>Thành viên</label>
                                 <select class="form-control" data-toggle="select2" name="user">
                                     <option value="">-----</option>
-                                    @foreach($user as $item)
+                                    @foreach($users as $item)
                                         <option value="{{$item->id}}" {{request()->user == $item->id ? "selected" : ""}}> {{$item->account}}</option>
                                     @endforeach
                                 </select>
@@ -62,9 +62,9 @@
                                 <select class="form-control" data-toggle="select2" name="category">
                                     <option value="">-----</option>
                                     <option value="-1" {{request()->category == -1 ? "selected" : ""}} class="font-weight-bold">Chưa có danh mục</option>
-                                    @foreach($category->where('parent_id', 0) as $item )
+                                    @foreach($categories->where('parent_id', 0) as $item )
                                         <option value="{{$item->id}}" {{request()->category == $item->id ? "selected" : ""}} class="font-weight-bold">{{$item->name}}</option>
-                                        {{sub_option_category($category,$item->id)}}
+                                        {{sub_option_category($categories,$item->id)}}
                                     @endforeach
                                 </select>
                             </div>
@@ -85,10 +85,10 @@
         <div class="row">
             <div class="col-12">
                 <div class="card-box table-responsive">
-                    <form method="post" action="{{route('admin.products.delMulti')}}" enctype="multipart/form-data">
+                    <form method="post" action="{{route('admin.products.delete')}}" enctype="multipart/form-data">
                         @csrf
                         <div class="action-datatable mb-3">
-                            <button class="btn btn-default text-primary border-primary waves-effect waves-light" onclick="return confirm('Bạn chắc chắn muốn xóa!')" type="submit" name="delall" value="delete"> Xóa tất cả</button>
+                            <button class="btn btn-warning waves-effect waves-light" onclick="return confirm('Bạn chắc chắn muốn xóa!')" type="submit" name="destroy" value="delete"> Xóa tất cả</button>
                             <a href="{{route('admin.products.create')}}" class="btn btn-primary waves-effect width-md waves-light float-right">
                                 <span class="icon-button"><i class="fe-plus"></i></span> Thêm mới</a>
                         </div>
@@ -140,9 +140,9 @@
                                     </td>
 
                                     <td>
-                                        <a href="{{route('admin.products.edit',$item)}}" class="btn btn-default waves-effect waves-light">
+                                        <a href="{{route('admin.products.edit',$item)}}" class="btn btn-primary waves-effect waves-light">
                                             <span class="icon-button"><i class="fe-edit-2"></i></span></a>
-                                        <a href="{{route('admin.products.del',$item->id)}}" onclick="return confirm('Bạn có chắc muốn xóa?');" class="btn btn-default waves-effect waves-light">
+                                        <a href="{{route('admin.products.remove',$item->id)}}" onclick="return confirm('Bạn có chắc muốn xóa?');" class="btn btn-warning waves-effect waves-light">
                                             <span class="icon-button"><i class="fe-x"></i></span></a>
                                     </td>
                                 </tr>
@@ -156,7 +156,7 @@
         <!-- end row -->
 
     </div>
-
+<input type="hidden" class="type" value="{{\App\Enums\SystemsModuleType::PRODUCT}}">
 @stop
 
 @section('css')
@@ -169,59 +169,6 @@
 @stop
 
 @section('javascript')
-
-    <script type="text/javascript">
-        $(document).ready(function(){
-            let type = '{{\App\Enums\SystemsModuleType::PRODUCT}}';
-            $('input[name=sort]').keyup(function(){
-                url = "{{route('admin.ajax.data.sort')}}";
-                id = $(this).attr('data-id');
-                num = $(this).val();
-                _token = $('input[name=_token]').val();
-                $.ajax({
-                    url:url,
-                    type:'GET',
-                    cache:false,
-                    data:{'_token':_token,'id':id,'num':num,'type':type},
-                    success:function(data){
-                        flash('success','Cập nhật thành công');
-                    }
-                });
-            });
-
-            $('.data_status').click(function(){
-                url = "{{route('admin.ajax.data.status')}}";
-                id = $(this).attr('data-id');
-                _token = $('input[name=_token]').val();
-                console.log(id);
-                $.ajax({
-                    url:url,
-                    type:'GET',
-                    cache:false,
-                    data:{'_token':_token,'id':id,'type':type},
-                    success:function(data){
-                        flash('success','Cập nhật thành công');
-                    }
-                });
-            });
-
-            $('.data_public').click(function(){
-                url = "{{route('admin.ajax.data.public')}}";
-                id = $(this).attr('data-id');
-                _token = $('input[name=_token]').val();
-                $.ajax({
-                    url:url,
-                    type:'GET',
-                    cache:false,
-                    data:{'_token':_token,'id':id,'type':type},
-                    success:function(data){
-                        flash('success','Cập nhật thành công');
-                    }
-                });
-            });
-        })
-    </script>
-
     <!-- Required datatable js -->
     <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
 

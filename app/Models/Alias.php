@@ -35,7 +35,7 @@ class Alias extends Model
                         return new Videos();
                         break;
                     case AliasType::GALLERY:
-                        return new Gallerys();
+                        return new Gallery();
                         break;
                 }
                 break;
@@ -60,7 +60,7 @@ class Alias extends Model
                             return Videos::find($id);
                             break;
                         case AliasType::GALLERY:
-                            return Gallerys::find($id);
+                            return Gallery::find($id);
                             break;
                     }
         }

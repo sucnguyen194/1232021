@@ -12,7 +12,7 @@
                     <div class="page-title-right">
                         <ol class="breadcrumb m-0">
                             <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Bảng điều khiển</a></li>
-                            <li class="breadcrumb-item"><a href="{{route('admin.support.index')}}">Đội ngũ hỗ trợ</a></li>
+                            <li class="breadcrumb-item"><a href="{{route('admin.supports.index')}}">Đội ngũ hỗ trợ</a></li>
                             <li class="breadcrumb-item active">Cập nhật nội dung</li>
                             <li class="breadcrumb-item active">#{{$support->id}}</li>
                         </ol>
@@ -22,11 +22,13 @@
             </div>
         </div>
         <!-- end page title -->
+        <!-- End row -->
+    </div>
+    <div class="container">
 
         <!-- Clickable Wizard -->
         <div class="row">
-        <div class="col-lg-10 offset-lg-1">
-            <form action="{{route('admin.support.update',$support)}}" method="post" enctype="multipart/form-data">
+            <form action="{{route('admin.supports.update',$support)}}" method="post" enctype="multipart/form-data">
                 <div id="wizard-clickable">
                     @csrf
                     @method('PATCH')
@@ -37,11 +39,11 @@
                                 <div class="card-box">
                                     <div class="form-group">
                                         <label for="name">Tên khách hàng <span class="required">*</span></label>
-                                        <input type="text" class="form-control" name="name" id="name" value="{{$customer->name ?? old('name')}}" required>
+                                        <input type="text" class="form-control" name="data[name]" id="name" value="{{$support->name}}" required>
                                     </div>
                                     <div class="form-group mb-0">
                                         <label for="description">Đánh giá <span class="required">*</span></label>
-                                        <textarea class="form-control summernote" id="summernote" name="description" required>{!! $customer->description ?? old('description') !!}</textarea>
+                                        <textarea class="form-control summernote" id="summernote" name="data[description]" required>{!! $support->description !!}</textarea>
                                     </div>
                                 </div>
 
@@ -51,11 +53,12 @@
                                     <label class="mb-0">Trạng thái</label>
                                     <hr>
                                     <div class="checkbox">
-                                        <input id="checkbox_public" {{$customer->public == 1 ? "checked" : ""}} type="checkbox" name="public">
+                                        <input id="checkbox_public" {{$support->public == 1 ? "checked" : ""}} type="checkbox" name="data[public]" value="1">
                                         <label for="checkbox_public">Hiển thị</label>
                                     </div>
+
                                     <div class="checkbox">
-                                        <input id="checkbox_status" {{$customer->status == 1 ? "checked" : ""}} type="checkbox" name="status">
+                                        <input id="checkbox_status" type="checkbox" {{$support->status == 1 ? "checked" : ""}} name="status">
                                         <label for="checkbox_status" class="mb-0">Nổi bật</label>
                                     </div>
                                 </div>
@@ -69,7 +72,7 @@
                                     </div>
                                     <p class="font-13">* Định dạng ảnh jpg, jpeg, png, gif</p>
                                     <div class="dropzone p-2 text-center">
-                                        @if(!file_exists($customer->image))
+                                        @if(!file_exists($support->image))
                                             <div class="dz-message text-center needsclick mb-2" id="remove-label">
                                                 <label for="fileUpload" class="w-100 mb-0">
                                                     <div class="icon-dropzone pt-2">
@@ -79,9 +82,15 @@
                                                 </label>
                                             </div>
                                         @endif
-                                        <ul class="show-box image-holder pl-0 mb-0 w-100" id="sortable">
-                                            @if(file_exists($customer->image)) <img src="{{asset($customer->image)}}" alt="{{$customer->name}}"> @endif
-                                        </ul>
+                                        <div class="{{!file_exists($support->image) ? "show-box" : ""}} image-holder pl-0 mb-0 w-100">
+                                            @if(file_exists($support->image)) <img src="{{asset($support->image)}}" alt="{{$support->name}}"> @endif
+                                        </div>
+                                        <div class="box-position btn btn-default waves-effect waves-light text-left @if(!file_exists($support->image)) show-box @endif">
+                                            <div class="checkbox checkbox-unlink-image">
+                                                <input id="checkbox_unlink" class="unlink-image" type="checkbox" name="unlink">
+                                                <label for="checkbox_unlink" class="mb-0">Xóa ảnh</label>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -89,34 +98,35 @@
                     </fieldset>
                     <fieldset title="2">
                         <legend>Thông tin cá nhân</legend>
-
                         <div class="card-box mt-1">
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="phone">Số điện thoại</label>
-                                        <input type="text" class="form-control" id="phone" value="{{$customer->hotline ?? old('phone')}}" name="phone">
+                                        <label for="hotline">Số điện thoại</label>
+                                        <input type="text" class="form-control" id="hotline" value="{{$support->hotline}}" name="data[hotline]">
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="email">Email</label>
-                                        <input type="text" class="form-control" id="email" value="{{$customer->email ?? old('email')}}" name="email">
+                                        <input type="text" class="form-control" id="email" value="{{$support->email}}" name="data[email]">
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="job">Công việc</label>
-                                        <input type="text" class="form-control" value="{{$customer->job ?? old('job')}}" id="job" name="job">
+                                        <input type="text" class="form-control" value="{{$support->job}}" id="job" name="data[job]">
                                     </div>
+
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-group mb-0">
                                         <label for="address">Địa chỉ</label>
-                                        <textarea name="address" id="address" cols="30" rows="5" class="form-control">{{$customer->address ?? old('address')}}</textarea>
+                                        <textarea name="data[address]" id="address" rows="10" class="form-control">{{$support->address}}</textarea>
                                     </div>
                                 </div>
                             </div>
+
                         </div>
                     </fieldset>
                     <fieldset title="3">
@@ -126,28 +136,28 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="facebook">Facebook</label>
-                                        <input type="text" class="form-control" value="{{$customer->facebook ?? old('facebook')}}" id="facebook" name="facebook">
+                                        <input type="text" class="form-control" value="{{$support->facebook}}" id="facebook" name="data[facebook]">
                                     </div>
                                     <div class="form-group">
                                         <label for="skype">Skype</label>
-                                        <input type="text" class="form-control" value="{{$customer->skype ?? old('skype')}}" id="skype" name="skype">
+                                        <input type="text" class="form-control" value="{{$support->skype}}" id="skype" name="data[skype]">
                                     </div><div class="form-group">
                                         <label for="zalo">Zalo</label>
-                                        <input type="text" class="form-control" value="{{$customer->zalo ?? old('zalo')}}" id="zalo" name="zalo">
+                                        <input type="text" class="form-control" value="{{$support->zalo}}" id="zalo" name="data[zalo]">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="twitter">Twitter</label>
-                                        <input type="text" class="form-control" value="{{$customer->twitter ?? old('twitter')}}" id="twitter" name="twitter">
+                                        <input type="text" class="form-control" value="{{$support->twitter}}" id="twitter" name="data[twitter]">
                                     </div>
                                     <div class="form-group">
                                         <label for="instagram">Instagram</label>
-                                        <input type="text" class="form-control" value="{{$customer->instagram ?? old('instagram')}}"  id="instagram" name="instagram">
+                                        <input type="text" class="form-control" value="{{$support->instagram}}"  id="instagram" name="data[instagram]">
                                     </div>
                                     <div class="form-group">
                                         <label for="youtube">Youtube</label>
-                                        <input type="text" class="form-control" value="{{$customer->youtube ?? old('youtube')}}" id="youtube" name="youtube">
+                                        <input type="text" class="form-control" value="{{$support->youtube}}" id="youtube" name="data[youtube]">
                                     </div>
                                 </div>
                             </div>
@@ -156,13 +166,11 @@
                     <button type="submit" class="btn btn-primary stepy-finish"><span class="icon-button"><i class="fe-send"></i></span> Lưu lại</button>
                 </div>
                 <div class="mt-3">
-                    <a href="{{route('admin.support.index')}}" class="btn btn-default waves-effect waves-light"><span class="icon-button"><i class="fe-arrow-left"></i></span> Quay lại</a>
+                    <a href="{{route('admin.supports.index')}}" class="btn btn-default waves-effect waves-light"><span class="icon-button"><i class="fe-arrow-left"></i></span> Quay lại</a>
                     <button type="submit" class="btn btn-primary waves-effect waves-light float-right" name="send" value="update"><span class="icon-button"><i class="fe-plus"></i></span> Lưu lại</button>
                 </div>
             </form>
         </div>
-    </div>
-        <!-- End row -->
     </div>
     <script>
         CKEDITOR.replace( 'summernote' ,{
@@ -177,13 +185,6 @@
 
     <!-- Validation init js-->
     <script src="{{asset('admin/assets/js/pages/wizard.init.js')}}"></script>
-
-    <!-- Summernote js -->
-{{--    <script src="{{asset('admin/assets/libs/summernote/summernote-bs4.min.js')}}"></script>--}}
-
-{{--    <!-- Init js -->--}}
-{{--    <script src="{{asset('admin/assets/js/pages/form-summernote.init.js')}}"></script>--}}
-
     <script src="{{asset('admin/assets/libs/bootstrap-filestyle2/bootstrap-filestyle.min.js')}}"></script>
 @stop
 

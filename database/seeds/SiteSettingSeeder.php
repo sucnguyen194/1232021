@@ -12,12 +12,12 @@ class SiteSettingSeeder extends Seeder
     public function run()
     {
         //
-        \App\Models\SiteSetting::create([
+        \App\Models\Setting::create([
             'name' => 'Trang chủ',
             'lang' => 'vn'
         ]);
 
-        \App\Models\SiteSetting::create([
+        \App\Models\Setting::create([
             'name' => 'Home',
             'lang' => 'en'
         ]);

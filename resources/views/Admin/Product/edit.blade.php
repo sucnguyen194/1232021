@@ -56,12 +56,12 @@
                         </div>
                         <div class="form-group">
                             <label>Mô tả</label>
-                            <textarea class="form-control summernote" id="summernote" name="data[description]">{!! $product->description ?? old('data.description') !!}</textarea>
+                            <textarea class="form-control summernote" id="summernote" name="data[description]">{!! $product->description !!}</textarea>
                         </div>
 
                         <div class="form-group mb-0">
                             <label>Chi tiết</label>
-                            <textarea class="form-control summerbody" id="summerbody" name="data[content]">{!! $product->content ?? old('data.content') !!}</textarea>
+                            <textarea class="form-control summerbody" id="summerbody" name="data[content]">{!! $product->content !!}</textarea>
                         </div>
                     </div>
                     <div class="card-box position-relative box-action-image">
@@ -121,9 +121,9 @@
                             </thead>
                             <tbody>
 
-                            @if($product->option)
+                            @if($product->options)
 
-                                @foreach($product->option as $key => $item)
+                                @foreach($product->options as $key => $item)
                                     <tr>
                                         <td><input type="text" name="fields[{{$key}}][name]" value="{{$item['name']}}" class="form-control"></td>
                                         <td><input type="text" name="fields[{{$key}}][value]" value="{{$item['value']}}" class="form-control"></td>
@@ -171,23 +171,23 @@
                             <div class="form-group">
                                 <label>Tiêu đề trang</label>
                                 <p class="font-13">* Ghi chú: Giới hạn tối đa 70 ký tự</p>
-                                <input type="text" maxlength="70" value="{{$product->title_seo ?? old('data.title_seo')}}" name="data[title_seo]" class="form-control" id="alloptions" />
+                                <input type="text" maxlength="70" value="{{$product->title_seo}}" name="data[title_seo]" class="form-control" id="alloptions" />
                             </div>
                             <div class="form-group">
                                 <label>Mô tả trang</label>
                                 <p class="font-13">* Ghi chú: Giới hạn tối đa 320 ký tự</p>
-                                <textarea  class="form-control" rows="3" name="data[description_seo]" maxlength="320" id="alloptions">{{$product->description_seo ?? old('data.description_seo')}}</textarea>
+                                <textarea  class="form-control" rows="3" name="data[description_seo]" maxlength="320" id="alloptions">{{$product->description_seo}}</textarea>
                             </div>
                             <div class="form-group">
                                 <label>Từ khóa</label>
                                 <p class="font-13">* Ghi chú: Từ khóa được phân chia sau dấu phẩy <strong>","</strong></p>
 
-                                <input type="text" name="data[keyword_seo]" value="{{$product->keyword_seo ?? old('data.keyword_seo')}}" class="form-control"  data-role="tagsinput"/>
+                                <input type="text" name="data[keyword_seo]" value="{{$product->keyword_seo}}" class="form-control"  data-role="tagsinput"/>
                             </div>
                             <div class="form-group">
                                 <label>Đường dẫn <span class="required">*</span></label>
                                 <div class="d-flex form-control">
-                                    <span>{{route('home')}}/</span><input type="text" class="border-0 alias" id="alias" value="{{$product->alias ?? old('data.alias')}}" name="data[alias]" required>
+                                    <span>{{route('home')}}/</span><input type="text" class="border-0 alias" id="alias" value="{{$product->alias }}" name="data[alias]" required>
                                 </div>
 
                             </div>
@@ -226,7 +226,7 @@
                             <p class="font-13">* Chọn được nhiều danh mục</p>
                             <select class="form-control select2-multiple" data-toggle="select2" multiple="multiple" name="category_id[]" data-placeholder="Chọn danh mục">
                                 @foreach($category->where('parent_id', 0) as $item )
-                                    <option value="{{$item->id}}" {{selected($item->id,$product->categorys->pluck('category_id')->toArray())}} class="font-weight-bold">{{$item->name}}</option>
+                                    <option value="{{$item->id}}" {{selected($item->id,$product->categories->pluck('id')->toArray())}} class="font-weight-bold">{{$item->name}}</option>
                                     {{sub_menu_checkbox($category ,$item->id,$product)}}
                                 @endforeach
                             </select>
@@ -241,10 +241,6 @@
                             @if(file_exists($product->image)) <img src="{{asset($product->image)}}" class="img-fluid mt-2 img-responsive" height="120"> @endif
                         </div>
                         <div class="box-position btn btn-default waves-effect waves-light text-left @if(!file_exists($product->image)) show-box @endif">
-{{--                            <div class="checkbox checkbox-warning checkbox-circle checkbox-unlink-watermark">--}}
-{{--                                <input id="checkbox_watermark" class="watermark" type="checkbox" name="watermark">--}}
-{{--                                <label for="checkbox_watermark">Gắn watermark</label>--}}
-{{--                            </div>--}}
                             <div class="checkbox checkbox-unlink-image">
                                 <input id="checkbox_unlink" class="unlink-image" type="checkbox" name="unlink">
                                 <label for="checkbox_unlink" class="mb-0">Xóa ảnh</label>
@@ -255,24 +251,14 @@
 
                     <div class="card-box">
                         <label class="w-100">Ngôn ngữ</label>
-                        @php
-                            if($product->post_langs){
-                                $id = array_unique($product->post_langs->pluck('post_id')->toArray());
-                                $posts = \App\Models\Product::whereIn('id',$id)->get()->load('language');
-                                $langs = \App\Models\Lang::whereNotIn('value',$posts->pluck('lang'))->where('value','<>',$product->lang)->get();
-                            }else{
-                                $langs = \App\Models\Lang::where('value','<>',$product->lang)->get();
-                            }
-
-                        @endphp
                         <div class="clearfix">
                             @foreach($langs as $lang)
-                                <a href="{{route('admin.products.add.lang',[$lang->value,$product->id])}}" class="btn btn-primary waves-effect width-md waves-light"><span class="icon-button"><i class="fe-plus"></i> {{$lang->name}}</a>
+                                <a href="{{route('admin.products.lang',[$lang->value,$product->id])}}" class="btn btn-primary waves-effect width-md waves-light"><span class="icon-button"><i class="fe-plus"></i> {{$lang->name}}</a>
                             @endforeach
 
-                            @if($product->post_langs)
+                            @if($product->postLangsBefore)
                                 @foreach($posts as $item)
-                                    <a href="{{route('admin.products.edit',$item->id)}}" class="btn btn-default waves-effect waves-light"><span class="icon-button"><i class="fe-edit-2" aria-hidden="true"></i></span> {{$item->language->name}} #{{$item->id}}</a>
+                                    <a href="{{route('admin.products.edit',$item->id)}}" class="btn btn-purple waves-effect waves-light"><span class="icon-button"><i class="fe-edit-2" aria-hidden="true"></i></span> {{$item->language->name}} #{{$item->id}}</a>
                                 @endforeach
                             @endif
                         </div>
@@ -332,14 +318,41 @@
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
+  @stop
 
+@section('javascript')
+
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script src="/admin/js/dynamicrows/dynamicrows.js"></script>
+
+    <script src="/admin/assets/libs/switchery/switchery.min.js"></script>
+    <script src="/admin/assets/libs/bootstrap-tagsinput/bootstrap-tagsinput.min.js"></script>
+    <script src="https://coderthemes.com/adminox/layouts/vertical/assets/libs/select2/select2.min.js"></script>
+    <script src="/admin/assets/libs/autocomplete/jquery.autocomplete.min.js"></script>
+    <script src="/admin/assets/libs/bootstrap-select/bootstrap-select.min.js"></script>
+    <script src="/admin/assets/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.js"></script>
+    <script src="/admin/assets/libs/bootstrap-maxlength/bootstrap-maxlength.min.js"></script>
+    <script src="/admin/assets/libs/bootstrap-filestyle2/bootstrap-filestyle.min.js"></script>
+
+    <!-- Init js-->
+    <script src="/admin/assets/js/pages/form-advanced.init.js"></script>
+    <script src="/admin/assets/libs/tooltipster/tooltipster.bundle.min.js"></script>
+    <script>
+        $(function() {
+            $('[data-dynamicrows]').dynamicrows({
+                animation: 'fade',
+                copyValues: true,
+                minrows: 1
+            });
+        });
+    </script>
     <script>
         $(document).on('click','.view-image',function(){
             let image = $(this).attr('data-image');
             $('.showImage').attr('src', image);
         })
         function removePhoto(id){
-          return  $('[data-toggle='+id+']').remove();
+            return  $('[data-toggle='+id+']').remove();
         }
     </script>
 
@@ -363,31 +376,34 @@
             },
             data: {
                 id: {{$product->id}},
+                type: '{{\App\Enums\MediaType::PRODUCT}}',
                 photo: {
                     id: null,
                     image: null,
                     name: null,
                 },
+                files: [],
             },
             methods:{
                 removePhoto:function(id){
-                  if(confirm('Xóa hình ảnh?')){
-                      fetch('{{route('admin.ajax.remove.photo',':id')}}'.replace(':id',id)).then(function(res){
-                          return res.json().then(function(data){
-                              removePhoto(id);
-                              flash('success','Xóa hình ảnh thành công!');
-                          })
-                      })
-                  }
+                    if(confirm('Xóa hình ảnh?')){
+                        fetch('{{route('admin.ajax.remove.photo',':id')}}'.replace(':id',id)).then(function(res){
+                            return res.json().then(function(data){
+                                removePhoto(id);
+                                flash('success','Xóa hình ảnh thành công!');
+                            })
+                        })
+                    }
                 },
                 uploadPhoto:function(files){
-                    let formData = new FormData();
-                    for( var i = 0; i < files.length; i++ ){
-                        let file = this.files[i];
-
+                    this.files = files;
+                    var formData = new FormData();
+                    for( var i = 0; i < this.files.length; i++ ){
+                        var file = this.files[i];
                         formData.append('files[' + i + ']', file);
                     }
-                    axios.post( '{{route('admin.ajax.upload.photo',':id')}}'.replace(':id',this.id),formData,
+
+                    axios.post( '{{route('admin.ajax.upload.photo',[':id',':type'])}}'.replace(':id',this.id).replace(':type',this.type),formData,
                         {
                             headers: {
                                 'Content-Type': 'multipart/form-data'
@@ -429,58 +445,23 @@
             }
         })
     </script>
-  @stop
-
-
-@section('javascript')
-
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-    <script src="{{asset('admin/js/dynamicrows/dynamicrows.js')}}"></script>
-
-    <script src="{{asset('admin/assets/libs/switchery/switchery.min.js')}}"></script>
-    <script src="{{asset('admin/assets/libs/bootstrap-tagsinput/bootstrap-tagsinput.min.js')}}"></script>
-    <script src="https://coderthemes.com/adminox/layouts/vertical/assets/libs/select2/select2.min.js"></script>
-{{--    <script src="{{asset('admin/assets/libs/jquery-mockjax/jquery.mockjax.min.js')}}"></script>--}}
-    <script src="{{asset('admin/assets/libs/autocomplete/jquery.autocomplete.min.js')}}"></script>
-    <script src="{{asset('admin/assets/libs/bootstrap-select/bootstrap-select.min.js')}}"></script>
-    <script src="{{asset('admin/assets/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.js')}}"></script>
-    <script src="{{asset('admin/assets/libs/bootstrap-maxlength/bootstrap-maxlength.min.js')}}"></script>
-    <script src="{{asset('admin/assets/libs/bootstrap-filestyle2/bootstrap-filestyle.min.js')}}"></script>
-
-    <!-- Init js-->
-    <script src="{{asset('admin/assets/js/pages/form-advanced.init.js')}}"></script>
     <script>
-        $(function() {
-            $('[data-dynamicrows]').dynamicrows({
-                animation: 'fade',
-                copyValues: true,
-                minrows: 1
-            });
+        CKEDITOR.replace( 'summernote' ,{
+            height:150
+        });
+        CKEDITOR.replace( 'summerbody' ,{
+            height:300
         });
     </script>
-    <!-- Summernote js -->
-{{--    <script src="{{asset('admin/assets/libs/summernote/summernote-bs4.min.js')}}"></script>--}}
-
-{{--    <!-- Init js -->--}}
-{{--    <script src="{{asset('admin/assets/js/pages/form-summernote.init.js')}}"></script>--}}
-
-    <!-- scrollbar init-->
-    <script src="{{asset('admin/assets/js/pages/scrollbar.init.js')}}"></script>
-
-    <script src="{{asset('admin/assets/libs/tooltipster/tooltipster.bundle.min.js')}}"></script>
-{{--    <script src="{{asset('admin/assets/js/pages/tooltipster.init.js')}}"></script>--}}
-@stop
+@endsection
 
 @section('css')
     <link href="https://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
-    <link href="{{asset('admin/assets/libs/bootstrap-tagsinput/bootstrap-tagsinput.css')}}" rel="stylesheet" />
-    <link href="{{asset('admin/assets/libs/switchery/switchery.min.css')}}" rel="stylesheet" type="text/css" />
-    <link href="{{asset('admin/assets/libs/select2/select2.min.css')}}" rel="stylesheet" type="text/css" />
-    <link href="{{asset('admin/assets/libs/bootstrap-select/bootstrap-select.min.css')}}" rel="stylesheet" type="text/css" />
-    <link href="{{asset('admin/assets/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.css')}}" rel="stylesheet" type="text/css" />
+    <link href="/admin/assets/libs/bootstrap-tagsinput/bootstrap-tagsinput.css" rel="stylesheet" />
+    <link href="/admin/assets/libs/switchery/switchery.min.css" rel="stylesheet" type="text/css" />
+    <link href="/admin/assets/libs/select2/select2.min.css" rel="stylesheet" type="text/css" />
+    <link href="/admin/assets/libs/bootstrap-select/bootstrap-select.min.css" rel="stylesheet" type="text/css" />
+    <link href="/admin/assets/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.css" rel="stylesheet" type="text/css" />
 
     <link href="/admin/assets/libs/tooltipster/tooltipster.bundle.min.css" rel="stylesheet" type="text/css" >
-    <!-- Summernote css -->
-{{--    <link href="https://coderthemes.com/adminox/layouts/vertical/assets/libs/summernote/summernote-bs4.css" rel="stylesheet" type="text/css" />--}}
-
-@stop
+@endsection

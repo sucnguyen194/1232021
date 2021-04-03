@@ -8,6 +8,9 @@ class Menu extends Model
 {
     protected $guarded = ['id'];
 
+    public function parents(){
+        return $this->hasMany(Menu::class,'parent_id');
+    }
     public function scopePosition($q){
         $q->wherePosition(\Session::get('menu_position'));
     }
@@ -39,17 +42,11 @@ class Menu extends Model
         $q->whereParentId(0);
     }
 
-    public function getParentAttribute(){
-
-        return Menu::whereParentId($this->id)->sort()->get();
-    }
-
     public static function boot(){
         parent::boot();
 
         self::deleting(function($menu){
-
-            foreach($menu->parent as $item){
+            foreach($menu->parents()->get() as $item){
                 $item->update(['parent_id' => 0]);
             }
         });

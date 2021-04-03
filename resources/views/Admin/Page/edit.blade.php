@@ -12,7 +12,7 @@
                     <div class="page-title-right">
                         <ol class="breadcrumb m-0">
                             <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Bảng điều khiển</a></li>
-                            <li class="breadcrumb-item"><a href="{{route('admin.pages.index')}}">Danh sách bài viết</a></li>
+                            <li class="breadcrumb-item"><a href="{{route('admin.posts.pages.index')}}">Danh sách bài viết</a></li>
                             <li class="breadcrumb-item active">Cập nhật nội dung</li>
                             <li class="breadcrumb-item">#{{$page->id}}</li>
                         </ol>
@@ -24,7 +24,7 @@
         <!-- end page title -->
     </div>
     <div class="container">
-        <form method="post" action="{{route('admin.pages.update',$page)}}" enctype="multipart/form-data">
+        <form method="post" action="{{route('admin.posts.update',$page)}}" enctype="multipart/form-data">
             <div class="row">
                 @csrf
                 @method('PATCH')
@@ -32,16 +32,16 @@
                     <div class="card-box">
                         <div class="form-group">
                             <label>Tiêu đề <span class="required">*</span></label>
-                            <input type="text" class="form-control" value="{{$page->title ?? old('title')}}" id="title" onkeyup="ChangeToSlug();" name="title" required>
+                            <input type="text" class="form-control" value="{{$page->title}}" id="title" onkeyup="ChangeToSlug();" name="data[title]" required>
                         </div>
                         <div class="form-group">
                             <label>Mô tả</label>
-                            <textarea class="form-control summernote" id="summernote" name="description">{!!$page->description ?? old('description') !!}</textarea>
+                            <textarea class="form-control summernote" id="summernote" name="data[description]">{!!$page->description !!}</textarea>
                         </div>
 
                         <div class="form-group">
                             <label>Chi tiết</label>
-                            <textarea class="form-control summerbody" id="summerbody" name="note">{!!$page->content ?? old('note') !!}</textarea>
+                            <textarea class="form-control summerbody" id="summerbody" name="data[content]">{!!$page->content !!}</textarea>
                         </div>
 
                     </div>
@@ -69,23 +69,23 @@
                             <div class="form-group">
                                 <label>Tiêu đề trang</label>
                                 <p class="font-13">* Ghi chú: Giới hạn tối đa 70 ký tự</p>
-                                <input type="text" maxlength="70" value="{{$page->title_seo ??  old('title_seo')}}" name="title_seo" class="form-control" id="alloptions" />
+                                <input type="text" maxlength="70" value="{{$page->title_seo}}" name="data[title_seo]" class="form-control" id="alloptions" />
                             </div>
                             <div class="form-group">
                                 <label>Mô tả trang</label>
                                 <p class="font-13">* Ghi chú: Giới hạn tối đa 320 ký tự</p>
-                                <textarea  class="form-control" rows="3" name="description_seo" maxlength="320" id="alloptions">{{$page->description_seo ?? old('description_seo')}}</textarea>
+                                <textarea  class="form-control" rows="3" name="data[description_seo]" maxlength="320" id="alloptions">{{$page->description_seo}}</textarea>
                             </div>
                             <div class="form-group">
                                 <label>Từ khóa</label>
                                 <p class="font-13">* Ghi chú: Từ khóa được phân chia sau dấu phẩy <strong>","</strong></p>
 
-                                <input type="text" name="keyword_seo" value="{{$page->keyword_seo ?? old('keyword_seo')}}" class="form-control"  data-role="tagsinput"/>
+                                <input type="text" name="data[keyword_seo]" value="{{$page->keyword_seo}}" class="form-control"  data-role="tagsinput"/>
                             </div>
                             <div class="form-group">
                                 <label>Đường dẫn <span class="required">*</span></label>
                                 <div class="d-flex form-control">
-                                    <span>{{route('home')}}/</span><input type="text" class="border-0 alias" id="alias" value="{{$page->alias ?? old('alias')}}" name="alias" required>
+                                    <span>{{route('home')}}/</span><input type="text" class="border-0 alias" id="alias" value="{{$page->alias}}" name="data[alias]" required>
                                 </div>
 
                             </div>
@@ -139,25 +139,13 @@
                     </div>
                     <div class="card-box">
                         <label class="w-100">Ngôn ngữ</label>
-
-                        @php
-                            if($page->post_langs){
-                                $id = array_unique($page->post_langs->pluck('post_id')->toArray());
-                                $pages = \App\Models\Pages::whereIn('id',$id)->get()->load('language');
-                                $langs = \App\Models\Lang::whereNotIn('value',$pages->pluck('lang'))->where('value','<>',$page->lang)->get();
-                            }else{
-                                $langs = \App\Models\Lang::where('value','<>',$page->lang)->get();
-                            }
-
-                        @endphp
-
                         @foreach($langs as $lang)
-                            <a href="{{route('admin.pages.add.lang',[$lang->value,$page->id])}}" class="btn btn-primary waves-effect width-md waves-light mb-1"><span class="icon-button"><i class="fe-plus"></i> {{$lang->name}}</a>
+                            <a href="{{route('admin.posts.pages.lang',[$lang->value,$page->id])}}" class="btn btn-primary waves-effect width-md waves-light mb-1"><span class="icon-button"><i class="fe-plus"></i> {{$lang->name}}</a>
                         @endforeach
 
-                        @if($page->post_langs)
+                        @if($page->postLangsBefore)
                             @foreach($pages as $item)
-                                <a href="{{route('admin.pages.edit',$item->id)}}" class="btn btn-purple waves-effect waves-light mb-1"><span class="icon-button"><i class="fe-edit-2" aria-hidden="true"></i></span> {{$item->language->name}} #{{$item->id}}</a>
+                                <a href="{{route('admin.posts.pages.edit',$item->id)}}" class="btn btn-purple waves-effect waves-light mb-1"><span class="icon-button"><i class="fe-edit-2" aria-hidden="true"></i></span> {{$item->language->name}} #{{$item->id}}</a>
                             @endforeach
                         @endif
 
@@ -165,18 +153,26 @@
                     <div class="card-box tags">
                         <label>Tags</label>
                         <p class="font-13">* Từ khóa được phân chia sau dấu phẩy <strong>","</strong></p>
-                        <input class="form-control" name="tags" value="{{$page->tags}}" data-role="tagsinput" placeholder="add tags">
+                        <input class="form-control" name="data[tags]" value="{{$page->tags}}" data-role="tagsinput" placeholder="add tags">
                     </div>
                 </div>
 
                 <div class="col-lg-12">
-                    <a href="{{route('admin.pages.index')}}" class="btn btn-default waves-effect waves-light"><span class="icon-button"><i class="fe-arrow-left"></i></span> Quay lại</a>
+                    <a href="{{route('admin.posts.pages.index')}}" class="btn btn-default waves-effect waves-light"><span class="icon-button"><i class="fe-arrow-left"></i></span> Quay lại</a>
                     <button type="submit" class="btn btn-primary waves-effect width-md waves-light float-right" name="send" value="update"><span class="icon-button"><i class="fe-plus"></i></span> Lưu lại</button>
                 </div>
             </div>
             <!-- end row -->
         </form>
     </div>
+    <script>
+        CKEDITOR.replace( 'summernote' ,{
+            height:150
+        });
+        CKEDITOR.replace( 'summerbody' ,{
+            height:300
+        });
+    </script>
 @stop
 
 @section('javascript')
@@ -192,19 +188,6 @@
 
     <!-- Init js-->
     <script src="{{asset('admin/assets/js/pages/form-advanced.init.js')}}"></script>
-
-{{--    <!-- Summernote js -->--}}
-{{--    <script src="{{asset('admin/assets/libs/summernote/summernote-bs4.min.js')}}"></script>--}}
-
-{{--    <!-- Init js -->--}}
-{{--    <script src="{{asset('admin/assets/js/pages/form-summernote.init.js')}}"></script>--}}
-
-    <!-- Plugins js -->
-    <script src="{{asset('admin/assets/libs/katex/katex.min.js')}}"></script>
-
-    <script src="{{asset('admin/assets/libs/quill/quill.min.js')}}"></script>
-    <!-- Init js-->
-    <script src="{{asset('admin/assets/js/pages/form-quilljs.init.js')}}"></script>
 @stop
 
 @section('css')
@@ -213,12 +196,4 @@
     <link href="{{asset('admin/assets/libs/select2/select2.min.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{asset('admin/assets/libs/bootstrap-select/bootstrap-select.min.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{asset('admin/assets/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.css')}}" rel="stylesheet" type="text/css" />
-
-    <!-- Summernote css -->
-{{--    <link href="{{asset('admin/assets/libs/summernote/summernote-bs4.css')}}" rel="stylesheet" type="text/css" />--}}
-
-    <!-- Plugins css -->
-    <link href="{{asset('admin/assets/libs/quill/quill.core.css')}}" rel="stylesheet" type="text/css" />
-    <link href="{{asset('admin/assets/libs/quill/quill.bubble.css')}}" rel="stylesheet" type="text/css" />
-    <link href="{{asset('admin/assets/libs/quill/quill.snow.css')}}" rel="stylesheet" type="text/css" />
 @stop

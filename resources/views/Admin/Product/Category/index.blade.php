@@ -43,16 +43,16 @@
                                 <label>Ngôn ngữ</label>
                                 <select class="form-control" data-toggle="select2" name="lang">
                                     <option value="">-----</option>
-                                    @foreach($lang as $item)
+                                    @foreach($langs as $item)
                                         <option value="{{$item->value}}" {{request()->lang == $item->value ? "selected" : ""}}> {{$item->name}}</option>
                                     @endforeach
                                 </select>
                             </div>
                             <div class="col-lg-2 col-md-4 mb-lg-0 mb-md-0">
-                                <label class="font-weight-bold">Thành viên</label>
+                                <label>Thành viên</label>
                                 <select class="form-control" data-toggle="select2" name="user">
                                     <option value="">-----</option>
-                                    @foreach($user as $item)
+                                    @foreach($users as $item)
                                         <option value="{{$item->id}}" {{request()->user == $item->id ? "selected" : ""}}> {{$item->account}}</option>
                                     @endforeach
                                 </select>
@@ -61,7 +61,7 @@
                                 <label class="ql-color-white hidden-xs" style="opacity: 0">-</label>
                                 <div class="mb-2 mb-lg-0 mb-md-0">
                                     <button class="btn btn-primary waves-effect waves-light" type="submit"><span class="icon-button"><i class="fe-search"></i></span> Tìm kiếm</button>
-                                    <a class="btn btn-default waves-effect waves-light" href="{{route('admin.product_categorys.index')}}"><span class="icon-button"><i class="fe-arrow-left"></i></span> Quay lại</a>
+                                    <a class="btn btn-default waves-effect waves-light" href="{{route('admin.products.categories.index')}}"><span class="icon-button"><i class="fe-arrow-left"></i></span> Quay lại</a>
                                 </div>
                             </div>
                         </div>
@@ -74,11 +74,11 @@
         <div class="row">
             <div class="col-12">
                 <div class="card-box table-responsive">
-                    <form method="post" action="{{route('admin.product.category.delMulti')}}" enctype="multipart/form-data">
+                    <form method="post" action="{{route('admin.categories.delete')}}" enctype="multipart/form-data">
                         @csrf
                         <div class="action-datatable mb-3">
-                            <button class="btn btn-default text-primary border-primary waves-effect waves-light" onclick="return confirm('Bạn chắc chắn muốn xóa!')" type="submit" name="delall" value="delete"> Xóa tất cả</button>
-                            <a href="{{route('admin.product_categorys.create')}}" class="btn btn-primary waves-effect width-md waves-light float-right">
+                            <button class="btn btn-warning waves-effect waves-light" onclick="return confirm('Bạn chắc chắn muốn xóa!')" type="submit" name="destroy" value="delete"> Xóa tất cả</button>
+                            <a href="{{route('admin.products.categories.create')}}" class="btn btn-primary waves-effect width-md waves-light float-right">
                                 <span class="icon-button"><i class="fe-plus"></i></span> Thêm mới</a>
                         </div>
                         <table id="datatable-buttons" class="table table-bordered table-hover bs-table">
@@ -86,7 +86,7 @@
                             <tr>
                                 <th>
                                     <div class="checkbox">
-                                        <input id="check-all" class="check_del" {{$category->count() == 0 ? "disabled" : "" }} type="checkbox" name="checkAll">
+                                        <input id="check-all" class="check_del" {{$categories->count() == 0 ? "disabled" : "" }} type="checkbox" name="checkAll">
                                         <label for="check-all"></label>
                                     </div>
                                 </th>
@@ -101,7 +101,7 @@
                             </thead>
 
                             <tbody>
-                            {{list_product_category($category)}}
+                            {{list_categories($categories)}}
                             </tbody>
                         </table>
                     </form>
@@ -109,9 +109,8 @@
             </div>
         </div>
         <!-- end row -->
-
     </div>
-
+    <input type="hidden" class="type" value="{{\App\Enums\SystemsModuleType::CATEGORY}}">
 @stop
 
 @section('css')

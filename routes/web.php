@@ -28,59 +28,70 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
     Route::post('admin/first/user', 'login\AdminController@postFirstUse')->name('first.user');
 
     Route::group(['prefix' => 'admin'], function () {
-
+        //dashboard
         Route::get('logout', 'login\AdminController@logout')->name('logout');
         Route::get('dashboard', 'DashboardController@index')->name('dashboard');
+
+        //categories
+        Route::get('/remove/categories/{id}', 'CategoryController@remove')->name('categories.remove');
+        Route::post('/delete/categories', 'CategoryController@delete')->name('categories.delete');
+        Route::post('/add/categories/{lang}/{id}', 'CategoryController@add')->name('categories.add');
+        Route::resource('categories','CategoryController');
+
+        //pages
+        Route::get('/posts/pages/lang/{lang}/{id}', 'PageController@lang')->name('posts.pages.lang');
+        Route::resource('/posts/pages','PageController',['as' => 'posts']);
+        //posts categories
+        Route::get('/posts/categories/lang/{lang}/{id}', 'PostCategoryController@lang')->name('posts.categories.lang');
+        Route::resource('/posts/categories','PostCategoryController',['as' => 'posts']);
+        //posts
+        Route::get('/lang/posts/{lang}/{id}', 'PostController@lang')->name('posts.lang');
+        Route::post('/add/posts/{lang}/{id}', 'PostController@add')->name('posts.add');
+        Route::get('/remove/posts/{id}', 'PostController@remove')->name('posts.remove');
+        Route::get('/delete/posts', 'PostController@delete')->name('posts.delete');
+        Route::resource('posts','PostController');
+
+
+        //products categories
+        Route::get('/products/categories/lang/{lang}/{id}', 'ProductCategoryController@lang')->name('products.categories.lang');
+        Route::resource('/products/categories','ProductCategoryController',['as' => 'products']);
+        //videos
+        Route::get('add/products/videos/{lang}/{id}', 'VideoController@lang')->name('products.videos.lang');
+        Route::resource('/products/videos','VideoController',['as' => 'products']);
+        //galeries
+        Route::get('add/products/galleries/{lang}/{id}', 'GalleryController@lang')->name('products.galleries.lang');
+        Route::resource('/products/galleries','GalleryController',['as' => 'products']);
+        //products
+        Route::get('stock/card','ProductController@stock')->name('products.stock');
+        Route::get('remove/products/{id}', 'ProductController@remove')->name('products.remove');
+        Route::post('delete/products', 'ProductController@delete')->name('products.delete');
+        Route::post('add/products/{lang}/{id}', 'ProductController@add')->name('products.add');
+        Route::get('add/products/{lang}/{id}', 'ProductController@lang')->name('products.lang');
+        Route::resource('products','ProductController');
+
+        Route::group(['namespace' => 'Product'], function () {
+
+            Route::resource('attributes','AttributeController');
+            Route::resource('attribute_categorys','AttributeCategoryController');
+
+        });
+        //Photos
+        Route::resource('photos','PhotoController');
+
+        //Menus
+        Route::post('/add/menus', 'MenuController@add')->name('ajax.add.menu');
+        Route::get('/position/menus/{position}', 'MenuController@position')->name('change.position.menu');
+        Route::resource('menus','MenuController');
+
+        //supports
+        Route::resource('/supports/customers','CustomerController',['as' => 'supports']);
+        Route::get('remove/supports/{id}', 'SupportController@remove')->name('supports.remove');
+        Route::post('delete/supports', 'SupportController@delete')->name('supports.delete');
+        Route::resource('supports','SupportController');
 
         Route::group(['namespace' => 'User'], function () {
             Route::resource('user','UserController');
             Route::resource('agencys','UserAgencyController');
-        });
-
-        Route::group(['namespace' => 'News'], function () {
-
-            //NEWS CATEGORY
-            Route::resource('news_category','NewsCategoryController');
-            Route::get('del-cate-news/{id}', 'NewsCategoryController@destroy')->name('news.category.del');
-            Route::post('delall-news-category', 'NewsCategoryController@delMulti')->name('news.category.delMulti');
-            Route::get('add-cate-news/{lang}/{id}', 'NewsCategoryController@createLang')->name('news.category.add.lang');
-            Route::post('add-cate-news/{lang}/{id}', 'NewsCategoryController@storeLang');
-
-            //NEWS
-            Route::resource('news','NewsController');
-            Route::get('del-news/{id}', 'NewsController@destroy')->name('news.del');
-            Route::post('delall-news', 'NewsController@delMulti')->name('news.delMulti');
-            Route::get('add-news/{lang}/{id}', 'NewsController@createLang')->name('news.add.lang');
-            Route::post('add-news/{lang}/{id}', 'NewsController@storeLang');
-
-        });
-
-        Route::group(['namespace' => 'Page'], function () {
-            Route::resource('pages','PagesController');
-            Route::get('add-page/{lang}/{id}', 'PagesController@createLang')->name('pages.add.lang');
-            Route::post('add-page/{lang}/{id}', 'PagesController@storeLang');
-            Route::get('del-page/{id}', 'PagesController@destroy')->name('pages.del');
-            Route::post('list-page', 'PagesController@delMulti')->name('pages.delMulti');
-
-        });
-        Route::group(['namespace' => 'Video'], function () {
-            Route::resource('videos','VideosController');
-            Route::get('add-videos/{lang}/{id}', 'VideosController@createLang')->name('videos.add.lang');
-            Route::post('add-videos/{lang}/{id}', 'VideosController@storeLang');
-            Route::get('del-videos/{id}', 'VideosController@destroy')->name('videos.del');
-            Route::post('list-videos', 'VideosController@delMulti')->name('videos.delMulti');
-        });
-
-        Route::group(['namespace' => 'Customer'], function () {
-            Route::resource('customer','CustomerController');
-            Route::get('del-customer/{id}', 'CustomerController@destroy')->name('customer.del');
-            Route::post('list-customer', 'CustomerController@delMulti')->name('customer.delMulti');
-        });
-
-        Route::group(['namespace' => 'Support'], function () {
-            Route::resource('support','SupportController');
-            Route::get('del-support/{id}', 'SupportController@destroy')->name('support.del');
-            Route::post('list-support', 'SupportController@delMulti')->name('support.delMulti');
         });
 
         Route::group(['namespace' => 'Contact'], function () {
@@ -90,13 +101,11 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
             Route::get('del-contact/{id}', 'ContactController@destroy')->name('contact.del');
         });
 
+        Route::get('settings','SettingController@index')->name('settings');
+        Route::post('settings','SettingController@update');
+
         Route::group(['namespace' => 'Alias'], function () {
             Route::resource('alias','AliasController');
-        });
-
-        Route::group(['namespace' => 'SiteSetting'], function () {
-            Route::get('site-setting', 'SiteOptionController@index')->name('site.setting');
-            Route::post('site-setting', 'SiteOptionController@post')->name('site.setting');
         });
 
         Route::group(['namespace' => 'Source'], function () {
@@ -118,46 +127,7 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
 
         });
 
-        Route::group(['namespace' => 'Media'], function () {
-            Route::get('del-media/{id}', 'MediaController@destroy')->name('media.del');
-            Route::post('list-media', 'MediaController@delMulti')->name('media.delMulti');
-            Route::resource('media','MediaController');
-        });
 
-        Route::group(['namespace' => 'Gallery'], function () {
-            Route::get('add-gallerys/{lang}/{id}', 'GalleryController@createLang')->name('gallerys.add.lang');
-            Route::post('add-gallerys/{lang}/{id}', 'GalleryController@storeLang');
-            Route::get('del-gallerys/{id}', 'GalleryController@destroy')->name('gallerys.del');
-            Route::post('list-gallerys', 'GalleryController@delMulti')->name('gallerys.delMulti');
-            Route::resource('gallerys','GalleryController');
-        });
-
-        Route::group(['namespace' => 'Menu'], function () {
-            Route::post('ajax-add-menu', 'MenuController@ajax_add_menu')->name('ajax.add.menu');
-            Route::get('menus/position/{position}', 'MenuController@position')->name('change.position.menu');
-            Route::resource('menus','MenuController');
-        });
-
-
-        Route::group(['namespace' => 'Product'], function () {
-
-            Route::get('del-product/{id}', 'ProductController@destroy')->name('products.del');
-            Route::post('delall-product', 'ProductController@delMulti')->name('products.delMulti');
-            Route::get('add-product/{lang}/{id}', 'ProductController@createLang')->name('products.add.lang');
-            Route::post('add-product/{lang}/{id}', 'ProductController@storeLang');
-            Route::get('stock-card','ProductController@stock')->name('products.stock');
-            Route::resource('products','ProductController');
-
-            Route::get('del-product-category/{id}', 'ProductCategoryController@destroy')->name('product.category.del');
-            Route::post('delall-product-category', 'ProductCategoryController@delMulti')->name('product.category.delMulti');
-            Route::get('add-product-category/{lang}/{id}', 'ProductCategoryController@createLang')->name('product.category.add.lang');
-            Route::post('add-product-category/{lang}/{id}', 'ProductCategoryController@storeLang');
-            Route::resource('product_categorys','ProductCategoryController');
-
-            Route::resource('attributes','AttributeController');
-            Route::resource('attribute_categorys','AttributeCategoryController');
-
-        });
 
         Route::group(['namespace' => 'Order'], function () {
             Route::get('orders/update/session/{id}/{amount}/{price}/{revenue}','OrderController@updateItemSession')->name('orders.update.session');
@@ -185,9 +155,9 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
         Route::resource('reports','ReportController');
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        Route::get('ajax/data_sort', 'AjaxController@getEditDataSort')->name('ajax.data.sort');
-        Route::get('ajax/data_public', 'AjaxController@getEditDataPublic')->name('ajax.data.public');
-        Route::get('ajax/data_status', 'AjaxController@getEditDataStatus')->name('ajax.data.status');
+        Route::get('ajax/data/sort', 'AjaxController@getEditDataSort')->name('ajax.data.sort');
+        Route::get('ajax/data/public', 'AjaxController@getEditDataPublic')->name('ajax.data.public');
+        Route::get('ajax/data/status', 'AjaxController@getEditDataStatus')->name('ajax.data.status');
 
         Route::get('ajax/menu-sort', 'AjaxController@getEditMenuSort')->name('ajax.menu.sort');
 
@@ -226,7 +196,7 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
         Route::get('ajax/edit-alt/{id}/{alt}','AjaxController@setAltPhoto')->name('ajax.set.alt');
         Route::get('ajax/get-alt/{id}','AjaxController@getAltPhoto')->name('ajax.get.alt');
 
-        Route::post('ajax/upload-photo/{id}','AjaxController@uploadPhoto')->name('ajax.upload.photo');
+        Route::post('ajax/upload-photo/{id}/{type}','AjaxController@uploadPhoto')->name('ajax.upload.photo');
         Route::get('ajax/remove-photo/{id}','AjaxController@removePhoto')->name('ajax.remove.photo');
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

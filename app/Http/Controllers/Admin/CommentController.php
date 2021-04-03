@@ -4,7 +4,7 @@ use App\Http\Controllers\Controller;
 use App\Enums\SystemsModuleType;
 use App\Models\Alias;
 use App\Models\Comment;
-use App\Models\Gallerys;
+use App\Models\Gallery;
 use App\Models\News;
 use App\Models\Pages;
 use App\Models\Product;
@@ -57,7 +57,7 @@ class CommentController extends Controller
                 $class = new Videos();
                 break;
             case 'gallerys':
-                $class = new Gallerys();
+                $class = new Gallery();
                 break;
         }
         $comment = new Comment();
