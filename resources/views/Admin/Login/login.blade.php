@@ -127,5 +127,4 @@
 <script src="{{asset('admin/assets/js/app.min.js')}}"></script>
 @include('Errors.note')
 </body>
-<!-- Mirrored from coderthemes.com/adminox/layouts/vertical/page-login.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 17 Dec 2020 10:36:10 GMT -->
 </html>

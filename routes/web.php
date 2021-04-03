@@ -89,30 +89,46 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
         Route::post('delete/supports', 'SupportController@delete')->name('supports.delete');
         Route::resource('supports','SupportController');
 
-        Route::group(['namespace' => 'User'], function () {
-            Route::resource('user','UserController');
-            Route::resource('agencys','UserAgencyController');
-        });
+        //Alias
+        Route::resource('alias','AliasController');
 
-        Route::group(['namespace' => 'Contact'], function () {
-            Route::resource('contact','ContactController');
+        //Orders
+        Route::get('orders/update/session/{id}/{amount}/{price}/{revenue}','OrderController@updateItemSession')->name('orders.update.session');
+        Route::get('orders/destroy/session/{id}','OrderController@destroyItemSession')->name('orders.destroy.session');
+        Route::get('orders/get/session/{id}','OrderController@getItemSession')->name('orders.get.session');
 
-            Route::post('list-contact', 'ContactController@delMulti')->name('contact.delMulti');
-            Route::get('del-contact/{id}', 'ContactController@destroy')->name('contact.del');
-        });
+        Route::get('orders/add/cart/{order}/{id}/{amount}/{price}/{revenue}','OrderController@addItemCart')->name('orders.add.cart');
+        Route::get('orders/destroy/cart/{order}/{rowId}','OrderController@destroyItemCart')->name('orders.destroy.cart');
+        Route::get('orders/get/cart/{order}/{rowId}','OrderController@getItemCart')->name('orders.get.cart');
+        Route::get('orders/update/cart/{order}/{rowId}/{amount}/{price}/{revenue}','OrderController@updateItemCart')->name('orders.update.cart');
 
+        Route::resource('orders','OrderController');
+
+        //Imports
+        Route::post('update/session/{id}','ImportController@updateSession')->name('update.session');
+        Route::get('destroy/session/{id}','ImportController@destroySession')->name('destroy.session');
+        Route::get('get/session/{id}','ImportController@ajax')->name('ajax.session');
+        Route::resource('imports','ImportController');
+        //settings
         Route::get('settings','SettingController@index')->name('settings');
         Route::post('settings','SettingController@update');
+        //contacts
+        Route::post('delete/contacts', 'ContactController@delete')->name('contacts.delete');
+        Route::get('remove/contacts/{id}', 'ContactController@remove')->name('contacts.remove');
+        Route::resource('contacts','ContactController');
 
-        Route::group(['namespace' => 'Alias'], function () {
-            Route::resource('alias','AliasController');
-        });
+        Route::resource('users','UserController');
+        Route::resource('agencys','UserAgencyController');
 
-        Route::group(['namespace' => 'Source'], function () {
-            Route::resource('source','SourceController');
-            Route::get('ajax-load-source', 'SourceController@load')->name('ajax.load.source');
-            Route::post('ajax-push-source', 'SourceController@push')->name('ajax.push.source');
-        });
+        //source
+        Route::get('ajax/load/source', 'SourceController@load')->name('ajax.load.source');
+        Route::post('ajax/push/source', 'SourceController@push')->name('ajax.push.source');
+        Route::resource('source','SourceController');
+
+        //lang
+        Route::get('change-lang/{lang}', 'LangController@change')->name('change.lang');
+        Route::get('active-lang/{id}','LangController@active')->name('active.lang');
+        Route::resource('lang','LangController');
 
         Route::group(['namespace' => 'Module'], function () {
             Route::get('modules/action/{table}', 'ModulesController@actionIndex')->name('action.module.index');
@@ -127,27 +143,6 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
 
         });
 
-
-
-        Route::group(['namespace' => 'Order'], function () {
-            Route::get('orders/update/session/{id}/{amount}/{price}/{revenue}','OrderController@updateItemSession')->name('orders.update.session');
-            Route::get('orders/destroy/session/{id}','OrderController@destroyItemSession')->name('orders.destroy.session');
-            Route::get('orders/get/session/{id}','OrderController@getItemSession')->name('orders.get.session');
-
-            Route::get('orders/add/cart/{order}/{id}/{amount}/{price}/{revenue}','OrderController@addItemCart')->name('orders.add.cart');
-            Route::get('orders/destroy/cart/{order}/{rowId}','OrderController@destroyItemCart')->name('orders.destroy.cart');
-            Route::get('orders/get/cart/{order}/{rowId}','OrderController@getItemCart')->name('orders.get.cart');
-            Route::get('orders/update/cart/{order}/{rowId}/{amount}/{price}/{revenue}','OrderController@updateItemCart')->name('orders.update.cart');
-
-            Route::resource('orders','OrderController');
-
-        });
-        Route::group(['namespace' => 'Import'], function () {
-            Route::post('update/session/{id}','ImportController@updateSession')->name('update.session');
-            Route::get('destroy/session/{id}','ImportController@destroySession')->name('destroy.session');
-            Route::get('get/session/{id}','ImportController@ajax')->name('ajax.session');
-            Route::resource('imports','ImportController');
-        });
         Route::get('comments/{type}','CommentController@list')->name('comments.list');
         Route::get('comments/{type}/{id}','CommentController@detail')->name('comments.detail');
         Route::get('comments/destroys/{type}/{id}','CommentController@destroys')->name('comments.destroys');
@@ -168,7 +163,6 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
         Route::get('ajax/get-item-import/{rowId}','AjaxController@getItemImport')->name('ajax.get.item.import');
         Route::get('ajax/destroy-item-import/{rowId}','AjaxController@setDestroyItemImport')->name('ajax.destroy.item.import');
         Route::get('ajax/update-item-import/{rowId}/{amount}/{price}','AjaxController@setUpdateItemImport')->name('ajax.update.item.import');
-
 
         //End Import
 
@@ -201,11 +195,6 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        Route::group(['namespace' => 'lang'], function () {
-            Route::resource('lang','LangController');
-            Route::get('change-lang/{lang}', 'LangController@change')->name('change.lang');
-            Route::get('active-lang/{id}','LangController@active')->name('active.lang');
-        });
     });
 
 });

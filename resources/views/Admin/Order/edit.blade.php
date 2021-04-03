@@ -206,7 +206,7 @@
                                     </div>
                                 </td>
                                 <td><a href="javascript:void(0)" class="btn btn-default waves-effect waves-light" v-on:click="getItemCart(cart.rowId)" data-toggle="modal" data-target="#item-cart"><span class="icon-button"><i class="fe-edit-2"></i></span> </a>
-                                    <button type="button" class="btn btn-default waves-effect waves-light" v-on:click="destroyItemCart(cart.rowId)"><span class="icon-button"><i class="fe-x"></i></span> </button>
+                                    <button type="button" class="btn btn-warning waves-effect waves-light" v-on:click="destroyItemCart(cart.rowId)"><span class="icon-button"><i class="fe-x"></i></span> </button>
                                 </td>
                             </tr>
                             </tbody>
@@ -282,8 +282,8 @@
                                     <div class="form-control font-weight-bold">@{{ number_format((session.revenue)) }}</div>
                                 </div>
                             </td>
-                            <td><a href="javascript:void(0)" class="btn btn-default waves-effect waves-light" v-on:click="getItemSession(session.id)" data-toggle="modal" data-target="#item-session"><span class="icon-button"><i class="fe-edit-2"></i></span> </a>
-                                <button type="button" class="btn btn-default waves-effect waves-light" v-on:click="destroyItemSession(session.id)"><span class="icon-button"><i class="fe-x"></i></span> </button>
+                            <td><a href="javascript:void(0)" class="btn btn-primary waves-effect waves-light" v-on:click="getItemSession(session.id)" data-toggle="modal" data-target="#item-session"><span class="icon-button"><i class="fe-edit-2"></i></span> </a>
+                                <button type="button" class="btn btn-warning waves-effect waves-light" v-on:click="destroyItemSession(session.id)"><span class="icon-button"><i class="fe-x"></i></span> </button>
                             </td>
                         </tr>
                         </tbody>
@@ -628,7 +628,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal"> Đóng</button>
+                        <button type="button" class="btn btn-default waves-effect" data-dismiss="modal"> Đóng</button>
                         <button type="button" class="btn btn-purple waves-effect waves-light" onclick="PrintElem('#detailPrint')"><span class="icon-button"><i class="pe-7s-print"></i></span> In đơn hàng</button>
                     </div>
                 </div><!-- /.modal-content -->
@@ -667,7 +667,8 @@
                                             <th nowrap="" style="padding-right:4px;border-bottom:dotted 1px black">T.tiền</th>
                                         </tr>
                                         <tr v-for="item in sessions">
-                                            <th nowrap="" style="padding-right:4px;border-bottom:dotted 1px black; white-space: normal;word-break: break-all; width: 250px">@{{ item.product.name }}</th>
+                                            <th nowrap="" v-if="item.product" style="padding-right:4px;border-bottom:dotted 1px black; white-space: normal;word-break: break-all; width: 250px">@{{ item.product.name }}</th>
+                                            <th v-else style="padding-right:4px;border-bottom:dotted 1px black; white-space: normal;word-break: break-all; width: 250px"> Đã xóa</th>
                                             <th nowrap="" style="padding-right:4px;border-bottom:dotted 1px black">@{{ item.amount }}</th>
                                             <th nowrap="" style="padding-right:4px;border-bottom:dotted 1px black">@{{ number_format(item.price) }}</th>
                                             <th nowrap="" style="padding-right:4px;border-bottom:dotted 1px black">@{{ (item.price*item.amount).toLocaleString() }}</th>

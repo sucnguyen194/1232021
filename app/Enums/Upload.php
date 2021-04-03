@@ -17,4 +17,5 @@ final class Upload extends Enum
     const image = 'image';
     const thumbnail = 'thumb';
     const og_image = 'og_image';
+    const avata = 'avata';
 }

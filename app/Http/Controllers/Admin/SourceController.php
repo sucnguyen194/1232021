@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Module;
+namespace App\Http\Controllers\Admin;
 
 use App\Enums\SystemsModuleType;
 use App\Http\Controllers\Controller;
-use App\Models\Modules;
 use Illuminate\Http\Request;
 
-class ActionModulesController extends Controller
+class SourceController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,9 +15,30 @@ class ActionModulesController extends Controller
      */
     public function index()
     {
-        return  abort(404);
+        if(!check_admin_systems(SystemsModuleType::SOURCE))
+            flash('Bạn không thể thực hiện hành động này!', 3);
+
+        return view('Admin.Source.list');
     }
 
+    public function load(Request $request){
+        if(!check_admin_systems(SystemsModuleType::SOURCE))
+            flash('Bạn không thể thực hiện hành động này!', 3);
+
+        $path = $request->path;
+        $file = file_get_contents($path);
+        return $file;
+    }
+
+    public function push(Request $request){
+        if(!check_admin_systems(SystemsModuleType::SOURCE))
+            flash('Bạn không thể thực hiện hành động này!', 3);
+        $content = $request->put_file;
+        $dir = $request->dir;
+        file_put_contents($dir,$content);
+        $time = time();
+        return $time;
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -26,8 +46,7 @@ class ActionModulesController extends Controller
      */
     public function create()
     {
-        if(!check_admin_systems(SystemsModuleType::ADD_MODULE))
-            return redirect()->back()->withErrors(['message'=>'Bạn không thể thực hiện hành động này!']);
+        return abort(404);
     }
 
     /**
@@ -38,8 +57,7 @@ class ActionModulesController extends Controller
      */
     public function store(Request $request)
     {
-        if(!check_admin_systems(SystemsModuleType::ADD_MODULE))
-            return redirect()->back()->withErrors(['message'=>'Bạn không thể thực hiện hành động này!']);
+        return abort(404);
     }
 
     /**
@@ -48,12 +66,9 @@ class ActionModulesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($table)
+    public function show($id)
     {
-        if(!check_admin_systems(SystemsModuleType::ADD_MODULE))
-            return redirect()->back()->withErrors(['message'=>'Bạn không thể thực hiện hành động này!']);
-
-        return $table;
+        return abort(404);
     }
 
     /**
@@ -64,8 +79,7 @@ class ActionModulesController extends Controller
      */
     public function edit($id)
     {
-        if(!check_admin_systems(SystemsModuleType::ADD_MODULE))
-            return redirect()->back()->withErrors(['message'=>'Bạn không thể thực hiện hành động này!']);
+        return abort(404);
     }
 
     /**
@@ -77,8 +91,7 @@ class ActionModulesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if(!check_admin_systems(SystemsModuleType::ADD_MODULE))
-            return redirect()->back()->withErrors(['message'=>'Bạn không thể thực hiện hành động này!']);
+        return abort(404);
     }
 
     /**
@@ -89,6 +102,6 @@ class ActionModulesController extends Controller
      */
     public function destroy($id)
     {
-        //
+        return abort(404);
     }
 }

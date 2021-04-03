@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Alias;
+namespace App\Http\Controllers\Admin;
 
 use App\Enums\SystemsModuleType;
 use App\Http\Controllers\Controller;
@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 
 class AliasController extends Controller
 {
+    public  $type = SystemsModuleType::ALIAS;
     /**
      * Display a listing of the resource.
      *
@@ -16,8 +17,7 @@ class AliasController extends Controller
      */
     public function index()
     {
-        if(!check_admin_systems(SystemsModuleType::ALIAS))
-            return redirect()->back()->withErrors(['message'=>'Bạn không thể thực hiện hành động này!']);
+        check_admin_systems($this->type);
 
         $alias = Alias::orderByDesc('id')->get();
 
@@ -31,8 +31,7 @@ class AliasController extends Controller
      */
     public function create()
     {
-        if(!check_admin_systems(SystemsModuleType::ALIAS))
-            return redirect()->back()->withErrors(['message'=>'Bạn không thể thực hiện hành động này!']);
+        check_admin_systems($this->type);
 
         return view('Admin.Alias.add');
     }
@@ -45,25 +44,23 @@ class AliasController extends Controller
      */
     public function store(Request $request)
     {
-        if(!check_admin_systems(SystemsModuleType::ALIAS))
-            return redirect()->back()->withErrors(['message'=>'Bạn không thể thực hiện hành động này!']);
+        check_admin_systems($this->type);
 
         $request->validate([
             'alias' => 'required|string',
             'type' => 'required|string',
-            'id' => 'integer'
+            'type_id' => 'integer'
         ]);
 
         if(Alias::whereAlias($request->alias)->count())
-            return redirect()->back()->withInput()->withErrors(['message' => 'Đường dẫn đã tồn tại']);
+            return flash('Đường dẫn đã tồn tại', 3);
 
         Alias::create([
             'alias' => $request->alias,
             'type' => $request->type,
             'type_id' => $request->type_id,
         ]);
-
-        return  redirect()->route('admin.alias.index')->with(['message' => 'Thêm mới thành công']);
+        return flash('Thêm mới thành công', 1, route('admin.alias.index'));
     }
 
     /**
@@ -85,8 +82,7 @@ class AliasController extends Controller
      */
     public function edit(Alias $alias)
     {
-        if(!check_admin_systems(SystemsModuleType::ALIAS))
-            return redirect()->back()->withErrors(['message'=>'Bạn không thể thực hiện hành động này!']);
+        check_admin_systems($this->type);
 
         return view('Admin.Alias.edit',compact('alias'));
     }
@@ -100,17 +96,16 @@ class AliasController extends Controller
      */
     public function update(Request $request, Alias $alias)
     {
-        if(!check_admin_systems(SystemsModuleType::ALIAS))
-            return redirect()->back()->withErrors(['message'=>'Bạn không thể thực hiện hành động này!']);
+        check_admin_systems($this->type);
 
         $request->validate([
             'alias' => 'required|string',
             'type' => 'required|string',
-            'id' => 'integer'
+            'type_id' => 'integer'
         ]);
 
-        if(Alias::whereAlias($request->alias)->count())
-            return redirect()->back()->withInput()->withErrors(['message' => 'Đường dẫn đã tồn tại']);
+        if(Alias::whereAlias($request->alias)->whereNotIn('type_id', $alias->id)->count())
+          return  flash('Đường dẫn đã tồn tại', 3);
 
         $alias->model()->update([
            'alias' => $request->alias,
@@ -122,7 +117,7 @@ class AliasController extends Controller
             'type_id' => $request->type_id,
         ]);
 
-        return  redirect()->route('admin.alias.index')->with(['message' => 'Sửa thành công']);
+        return flash('Cập nhật thành công!', 1);
     }
 
     /**
@@ -133,11 +128,10 @@ class AliasController extends Controller
      */
     public function destroy(Alias $alias)
     {
-        if(!check_admin_systems(SystemsModuleType::ALIAS))
-            return redirect()->back()->withErrors(['message'=>'Bạn không thể thực hiện hành động này!']);
+        check_admin_systems($this->type);
 
         $alias->delete();
 
-        return  redirect()->route('admin.alias.index')->with(['message' => 'Xóa thành công']);
+        return flash('Xóa thành công!', 1);
     }
 }

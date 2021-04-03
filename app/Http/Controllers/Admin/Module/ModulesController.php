@@ -55,7 +55,7 @@ class ModulesController extends Controller
         ]);
 
         if(Schema::hasTable($request->table))
-            return redirect()->back()->withErrors('Tên bảng đã tồn tại');
+            return  flash('Table đã tồn tại', 3);
 
         Schema::create($request->table, function(Blueprint $table) use ($request) {
             $column = $request->column;
@@ -106,8 +106,7 @@ class ModulesController extends Controller
             'collumn' => count($fields),
             'fields' => json_encode($fields),
         ]);
-
-        return redirect()->route('admin.modules.index')->with(['message' => 'Thêm mới thành công']);
+        return  flash('Thêm mới thành công', 1, route('admin.modules.index'));
     }
 
     /**
@@ -162,8 +161,7 @@ class ModulesController extends Controller
             Storage::deleteDirectory($module->table);
         }
         $module->delete();
-
-        return redirect()->route('admin.modules.index')->with(['message' => 'Xóa thành công']);
+        return  flash('Xóa thành công', 1);
     }
 
     public function actionIndex($table){
@@ -212,8 +210,7 @@ class ModulesController extends Controller
             }
         }
         \DB::table($table)->insert($arr);
-
-        return redirect()->route('admin.action.module.index',$table)->with(['message' => 'Thêm mới thành công']);
+        return  flash('Thêm mới thành công', 1, route('admin.action.module.index',$table));
     }
 
     public function editAction($table, $id){
@@ -270,7 +267,7 @@ class ModulesController extends Controller
 
         \DB::table($table)->where(['id' => $id])->update($arr);
 
-        return redirect()->route('admin.action.module.index',$table)->with(['message' => 'Sửa thành công']);
+        return  flash('Cập nhật thành công', 1);
     }
 
     public function detroyAction($table, $id){
@@ -290,6 +287,6 @@ class ModulesController extends Controller
         }
         \DB::table($table)->where(['id' => $id])->delete();
 
-        return redirect()->route('admin.action.module.index',$table)->with(['message' => 'Xóa thành công']);
+        return  flash('Xóa thành công', 1);
     }
 }

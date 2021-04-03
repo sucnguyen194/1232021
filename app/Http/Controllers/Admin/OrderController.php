@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Order;
+namespace App\Http\Controllers\Admin;
 
 use App\Enums\LeverUser;
 use App\Enums\ProductSessionType;
@@ -100,7 +100,7 @@ class OrderController extends Controller
                 Cart::instance('export')->destroy();
                 Session::forget('user');
                 Session::forget('export_product');
-                return back()->with(['message' => 'Hủy đơn hàng thành công']);
+                return flash('Hủy đơn thành công',1);
                 break;
 
             case "save":
@@ -126,11 +126,11 @@ class OrderController extends Controller
                     'discount' => $discount,
                     'debt' => $total + $transport - $checkout - $discount,
                 ]);
-                return redirect()->route('admin.orders.index')->with(['message' => 'Tạo đơn hàng thành công!']);
+                return flash('Tạo đơn hàng thành công!',1,route('admin.orders.index'));
                 break;
 
             default;
-               return back()->with(['message' => 'Lỗi!']);
+                return flash('Lỗi',0);
         }
     }
 
@@ -204,7 +204,7 @@ class OrderController extends Controller
             case "cancel":
                 Cart::instance('export')->destroy();
                 Session::forget('user');
-                return back()->with(['message' => 'Hủy đơn hàng thành công']);
+                return flash('Hủy đơn hàng thành công',1);
                 break;
 
             case 'update':
@@ -215,7 +215,7 @@ class OrderController extends Controller
                 $user = User::find($request->user);
                 $customer = User::find($request->customer);
                 if(!$user || !$customer)
-                    return back()->withInput()->withErrors(['message' => 'Thông tin chưa được cập nhật!']);
+                    return flash('Thông tin chưa được cập nhật!',3);
 
                 if($customer->id  <> $order->customer->id){
                     $order->customer->increaseBalance(-$order->debt,'Thay đổi thông tin khách hàng - đơn hàng #'.$order->id, $order);
@@ -303,7 +303,7 @@ class OrderController extends Controller
 //                   'debt' => $order->total - $checkout,
 //                   'revenue' => $revenue
 //                ]);
-                return back()->withInput()->with(['message' => 'Cập nhật thành công!']);
+                return flash('Cập nhật thành công!',1);
                 break;
             case 'save':
 //                $request->validate([
@@ -316,7 +316,7 @@ class OrderController extends Controller
 //
                 break;
         }
-        return back()->withInput()->with(['message' => 'Cập nhật thành công']);
+        return flash('Cập nhật thành công!',1);
     }
     public function getItemSession($id){
         check_admin_systems(SystemsModuleType::EXPORT);
@@ -528,9 +528,8 @@ class OrderController extends Controller
     {
         check_admin_systems(SystemsModuleType::EXPORT);
         if($order->sessions->count())
-            return back()->withErrors(['message' => 'Bạn không thể thực hiện hành động này!']);
-
+            return flash('Bạn không thể thực hiện hành động này!',3);
         $order->delete();
-        return back()->with(['message' => 'Xóa thành công!']);
+        return flash('Xóa thành công!',1);
     }
 }

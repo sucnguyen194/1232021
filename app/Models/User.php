@@ -9,6 +9,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 
 class User extends Authenticatable
 {
@@ -47,8 +48,8 @@ class User extends Authenticatable
         return 'https://www.gravatar.com/avatar/'.md5(strtolower($this->email)).'.jpg?s=200&d=identicon';
     }
 
-    public function systemsModule(){
-        return $this->hasMany(UserModuleSystems::class,'user_id');
+    public function systems(){
+        return $this->belongsToMany(System::class);
     }
     public function sessions(){
         return $this->hasMany(ProductSession::class,'user_id');
@@ -88,9 +89,9 @@ class User extends Authenticatable
         parent::boot();
 
         static::deleting(function($user){
+            File::delete($user->avata);
             $user->transactions()->delete();
-            if(file_exists($user->avata)) unlink($user->avata);
-            $user->systemsModule()->delete();
+            $user->systems()->delete();
         });
     }
 }

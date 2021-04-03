@@ -32,17 +32,15 @@ class AdminController extends Controller {
 			if(!User::whereAccount($account)->wherePassword($password)->count()){
 
 				if(!User::whereEmail($account)->wherePassword($password)->count()){
-
-					return redirect()->back()->withInput()->withErrors(['message'=> 'Sai tên đăng nhập hoặc mật khẩu!']);
+                    return flash('Sai tên đăng nhập hoặc mật khẩu!', 3);
 				}else{
 				    $user = User::whereEmail($account)->first();
 					Auth::login($user,true);
 
 					if(Auth::user()->lever > LeverUser::ADMIN){
-                        return redirect()->route('home')->with(['message' => 'Đăng nhập thành công!']);
+                        return  flash('Đăng nhập thành công!', 1,route('home') );
                     }
-
-					return redirect()->back()->withInput()->with(['message' => 'Đăng nhập thành công!']);
+                    return flash('Đăng nhập thành công!', 1);
 				}
 			}else{
 
@@ -53,11 +51,11 @@ class AdminController extends Controller {
                     Auth::login($user);
                 }
                 if(Auth::user()->lever > LeverUser::ADMIN){
-                    return redirect()->route('home')->with(['message' => 'Đăng nhập thành công!']);
+                    return  flash('Đăng nhập thành công!', 1,route('home') );
                 }
-                return redirect()->back()->with(['message' => 'Đăng nhập thành công!']);
+                return flash('Đăng nhập thành công!', 1);
 			}
-            return redirect()->back()->withInput()->withErrors(['message' => 'Sai tên đăng nhập hoặc mật khẩu!']);
+            return  flash('Sai tên đăng nhập hoặc mật khẩu!', 3);
 		}
 	}
 	public function logout(){
@@ -78,7 +76,7 @@ class AdminController extends Controller {
 		$re_password = $request->re_password;
 
 		if($password != $re_password){
-			return redirect()->back()->withInput()->withErrors(['message'=> 'Mật khẩu nhập lại không đúng!']);
+            return  flash('Mật khẩu nhập lại không đúng!', 3);
 
 			$password = sha1(md5($password));
 			if(Schema::hasTable('module')){

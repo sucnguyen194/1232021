@@ -16,14 +16,15 @@ class SourceController extends Controller
     public function index()
     {
         if(!check_admin_systems(SystemsModuleType::SOURCE))
-            return redirect()->back()->withErrors(['message'=>'Bạn không thể thực hiện hành động này!']);
+            flash('Bạn không thể thực hiện hành động này!', 3);
 
         return view('Admin.Source.list');
     }
 
     public function load(Request $request){
         if(!check_admin_systems(SystemsModuleType::SOURCE))
-            return redirect()->back()->withErrors(['message'=>'Bạn không thể thực hiện hành động này!']);
+            flash('Bạn không thể thực hiện hành động này!', 3);
+
         $path = $request->path;
         $file = file_get_contents($path);
         return $file;
@@ -31,7 +32,7 @@ class SourceController extends Controller
 
     public function push(Request $request){
         if(!check_admin_systems(SystemsModuleType::SOURCE))
-            return redirect()->back()->withErrors(['message'=>'Bạn không thể thực hiện hành động này!']);
+            flash('Bạn không thể thực hiện hành động này!', 3);
         $content = $request->put_file;
         $dir = $request->dir;
         file_put_contents($dir,$content);

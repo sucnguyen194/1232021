@@ -11,6 +11,7 @@ use App\Models\Post;
 use App\Models\Product;
 use App\Models\ProductSession;
 use App\Models\Support;
+use App\Models\System;
 use App\Models\SystemsModule;
 use App\Models\User;
 use App\Models\UserAgency;
@@ -130,7 +131,7 @@ class AjaxController extends Controller {
                 $data = Photo::find(request()->id);
                 break;
             case SystemsModuleType::SYSTEMS_MODULE:
-                $data = SystemsModule::find(request()->id);
+                $data = System::find(request()->id);
                 break;
             case SystemsModuleType::ATTRIBUTE:
                 $data = Attribute::find(request()->id);

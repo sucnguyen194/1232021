@@ -52,7 +52,7 @@ class PostController extends Controller
         })
         ->orderByDesc('id')->get();
 
-        $category = Category::whereLang($lang)->whereType(SystemsModuleType::NEWS_CATEGORY)->public()->get();
+        $category = Category::whereLang($lang)->whereType(SystemsModuleType::POST_CATEGORY)->public()->get();
 
         $langs =  Lang::get();
 
@@ -103,10 +103,6 @@ class PostController extends Controller
             create_tags($post);
         }
         $post->categories()->attach($request->category_id);
-
-        if($request->input('data.tags')){
-            create_tags($post, $post->type, $request->input('data.tags'));
-        }
 
         return flash('Thêm mới thành công',1, $post->route);
     }
@@ -199,7 +195,7 @@ class PostController extends Controller
         return view('Admin.Post.lang',compact('post','lang','categories'));
     }
     public function add(Request $request, $lang, $id){
-        check_admin_systems(SystemsModuleType::ADD_POST) || check_admin_systems(SystemsModuleType::PAGES);
+        check_admin_systems(SystemsModuleType::ADD_POST) || check_admin_systems(SystemsModuleType::PAGE);
 
         $request->validate([
             'data.title' => 'required',

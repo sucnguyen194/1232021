@@ -23,7 +23,7 @@
             <div class="col-12">
                 <div class="card-box table-responsive">
                     <div class="action-datatable text-right mb-3">
-                        <a href="{{route('admin.user.create')}}" class="btn btn-primary waves-effect width-md waves-light">
+                        <a href="{{route('admin.users.create')}}" class="btn btn-primary waves-effect width-md waves-light">
                             <span class="icon-button"><i class="fe-plus"></i></span> Thêm mới</a>
                     </div>
 
@@ -51,15 +51,15 @@
                             <td>{{$item->phone}}</td>
                             <td>{{$item->address}}</td>
                             <td>
-                                <a href="{{route('admin.user.edit',$item)}}" class="btn btn-primary waves-effect waves-light">
+                                <a href="{{route('admin.users.edit',$item)}}" class="btn btn-primary waves-effect waves-light">
                                     <span class="icon-button"><i class="fe-edit-2"></i></span></a>
-                                <form method="post" action="{{route('admin.user.destroy',$item)}}" class="d-inline-block">
+                                <form method="post" action="{{route('admin.users.destroy',$item)}}" class="d-inline-block">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" name="delete" onclick="return confirm('Bạn có chắc muốn xóa?');" value="delete" class="btn btn-warning waves-effect waves-light">
                                         <span class="icon-button"><i class="fe-x"></i></span></button>
                                 </form>
-                                <a href="{{route('admin.user.show',$item)}}" class="btn btn-info waves-effect waves-light"> Transaction</a>
+                                <a href="{{route('admin.users.show',$item)}}" class="btn btn-info waves-effect waves-light"> Transaction</a>
                             </td>
                         </tr>
                         @endforeach

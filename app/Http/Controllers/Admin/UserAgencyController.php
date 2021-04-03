@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin\User;
+namespace App\Http\Controllers\Admin;
 
 use App\Enums\LeverUser;
 use App\Enums\SystemsModuleType;

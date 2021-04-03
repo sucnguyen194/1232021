@@ -163,14 +163,14 @@
 {{--                                    </td>--}}
 
                                     <td>
-                                        <a href="{{route('admin.orders.edit',$item)}}" class="btn btn-default waves-effect waves-light">
+                                        <a href="{{route('admin.orders.edit',$item)}}" class="btn btn-primary waves-effect waves-light">
                                             <span class="icon-button"><i class="pe-7s-magic-wand"></i> </span>Chi tiết</a>
 
                                         @if(!$item->sessions->count())
                                         <form method="post" action="{{route('admin.orders.destroy',$item)}}" class="d-inline-block">
                                             @method('DELETE')
                                             @csrf
-                                            <button type="submit" onclick="return confirm('Bạn có chắc muốn xóa?');" class="btn btn-default waves-effect waves-light"><span class="icon-button"><i class="fe-x"></i></span></button>
+                                            <button type="submit" onclick="return confirm('Bạn có chắc muốn xóa?');" class="btn btn-warning waves-effect waves-light"><span class="icon-button"><i class="fe-x"></i></span></button>
                                         </form>
                                         @endif
                                     </td>

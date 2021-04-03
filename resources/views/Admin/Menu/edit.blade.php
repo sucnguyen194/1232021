@@ -38,7 +38,7 @@
 
                         <div class="card-box">
                             <h4 class="header-title mb-3"><b>Danh mục sản phẩm</b></h4>
-                            <div class="form-group">
+                            <div class="form-group mb-0">
                                 @foreach($categories->where('parent_id', 0)->where('type',\App\Enums\SystemsModuleType::PRODUCT_CATEGORY) as $item)
                                     <label class="w-100"><a href="javascript:void(0)" class="addmenu text-secondary"  title='Thêm ::::::{{$item->name}}:::::: vào menu'charset=""  data-name="{{$item->name}}" data-url="{{$item->alias}}" data-image="{{$item->image}}" data-thumb="{{$item->thumb}}"><span class=""><i class="fe-plus pr-1"></i>  {{$item->name}}</span></a></label>
                                     {{sub_menu_category_checkbox($categories,$item->id)}}
@@ -48,7 +48,7 @@
 
                         <div class="card-box">
                             <h4 class="header-title mb-3"><b>Danh mục Blog</b></h4>
-                            <div class="form-group">
+                            <div class="form-group mb-0">
                                 @foreach($categories->where('parent_id', 0)->where('type',\App\Enums\SystemsModuleType::POST_CATEGORY) as $item)
                                     <label class="w-100"><a href="javascript:void(0)" class="addmenu text-secondary"  title='Thêm ::::::{{$item->name}}:::::: vào menu'charset=""  data-name="{{$item->name}}" data-url="{{$item->alias}}" data-image="{{$item->image}}" data-thumb="{{$item->thumb}}"><span class=""><i class="fe-plus pr-1"></i>  {{$item->name}}</span></a></label>
                                     {{sub_menu_category_checkbox($categories,$item->id)}}
@@ -58,7 +58,7 @@
 
                         <div class="card-box">
                             <h4 class="header-title mb-3"><b>Pages</b></h4>
-                            <div class="form-group">
+                            <div class="form-group mb-0">
                                 @foreach($pages as $item)
                                     <label class="w-100"><a href="javascript:void(0)" class="addmenu text-secondary"  title='Thêm ::::::{{$item->title}}:::::: vào menu'charset=""  data-name="{{$item->title}}" data-url="{{$item->alias}}" data-image="{{$item->image}}" data-thumb="{{$item->thumb}}"><span class=""><i class="fe-plus pr-1"></i>  {{$item->title}}</span></a></label>
                                 @endforeach

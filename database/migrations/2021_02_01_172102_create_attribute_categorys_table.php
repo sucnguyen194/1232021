@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateProductToAttribute extends Migration
+class CreateAttributeCategorysTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,11 @@ class CreateProductToAttribute extends Migration
      */
     public function up()
     {
-        Schema::create('product_to_attribute', function (Blueprint $table) {
+        Schema::create('attribute_categorys', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('product_id');
-            $table->integer('attribute_id');
+            $table->string('name');
+            $table->integer('sort')->default(0);
+            $table->integer('public')->default(0);
             $table->timestamps();
         });
     }
@@ -28,6 +29,6 @@ class CreateProductToAttribute extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('product_to_attribute');
+        Schema::dropIfExists('attribute_categorys');
     }
 }

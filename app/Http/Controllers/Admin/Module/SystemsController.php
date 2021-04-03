@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin\Module;
 use App\Enums\SystemsModuleType;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SystemsRequest;
-use App\Models\SystemsModule;
+use App\Models\System;
 
 class SystemsController extends Controller
 {
@@ -18,7 +18,7 @@ class SystemsController extends Controller
     public function index()
     {
         check_admin_systems($this->type);
-        $systems = SystemsModule::orderby('sort','asc')->get();
+        $systems = System::orderby('sort','asc')->get();
         return view('Admin.Module.systems.list',compact('systems'));
     }
 
@@ -30,8 +30,7 @@ class SystemsController extends Controller
     public function create()
     {
         if(check_admin_systems($this->type))
-            $systems = SystemsModule::where('parent_id',0)->orderby('sort','asc')->get();
-
+            $systems = System::where('parent_id',0)->orderby('sort','asc')->get();
         return view('Admin.Module.systems.add',compact('systems'));
 
     }
@@ -48,7 +47,7 @@ class SystemsController extends Controller
 
             if($request->send == 'save'){
 
-                SystemsModule::create([
+                System::create([
                     'name' => $request->name,
                     'route' => $request->route,
                     'var' => $request->var,
@@ -57,8 +56,7 @@ class SystemsController extends Controller
                     'parent_id' => $request->parent_id,
                     'position' => $request->position,
                 ]);
-
-                return redirect()->route('admin.systems.index')->with(['message'=>'Thêm mới thành công!']);
+                return flash('Thêm mới thành công', 1, route('admin.systems.index'));
             }
     }
 
@@ -79,11 +77,11 @@ class SystemsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(SystemsModule $system)
+    public function edit(System $system)
     {
         if(check_admin_systems($this->type))
 
-            $systems = SystemsModule::where('parent_id',0)->orderby('sort','asc')->get();
+            $systems = System::where('parent_id',0)->orderby('sort','asc')->get();
 
         return view('Admin.Module.systems.edit',compact('system','systems'));
     }
@@ -95,7 +93,7 @@ class SystemsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(SystemsRequest $request, SystemsModule $system)
+    public function update(SystemsRequest $request, System $system)
     {
         if(check_admin_systems($this->type))
 
@@ -110,8 +108,7 @@ class SystemsController extends Controller
                     'parent_id' => $request->parent_id,
                     'position' => $request->position,
                 ]);
-
-                return redirect()->route('admin.systems.index')->with(['message','Sửa thành công!']);
+                return flash('Cập nhật thành công', 1);
             }
 
     }
@@ -122,12 +119,11 @@ class SystemsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(SystemsModule $system)
+    public function destroy(System $system)
     {
         if(check_admin_systems($this->type))
-
             $system->delete();
 
-        return redirect()->route('admin.systems.index')->with(['message'=>'Xóa thành công!']);
+        return flash('Xóa thành công', 1);
     }
 }

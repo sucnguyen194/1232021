@@ -71,7 +71,7 @@
                                     <tr v-if="product_id > 0 && customer > 0">
                                          <td><div class="font-weight-bold mb-1"> @{{ product.name }} <a href="javascript:void(0)" data-toggle="modal" data-target="#update-product" v-if="amount > product.max" v-on:click="getProduct(product.id)" class="font-weight-bold text-purple"> [ Cập nhật ]</a></div>
                                          <div class="text-primary">[Giá nhập: <span class="text-danger">@{{number_format(product.price_in)}}</span>]</div>
-                                             <div class="text-primary">[Giá bán: <span class="text-danger">@{{number_format(product.price)}}</span>]</div>
+{{--                                             <div class="text-primary">[Giá bán: <span class="text-danger">@{{number_format(product.price)}}</span>]</div>--}}
                                          <div class="text-primary">[Giá bán gần nhất: <span class="text-danger">@{{number_format(product.price_buy)}}</span>]</div>
                                          </td>
                                          <td>
@@ -169,8 +169,8 @@
                                                 <div class="form-control font-weight-bold">@{{ (item.qty*item.price).toLocaleString() }}</div>
                                             </div>
                                         </td>
-                                        <td><a href="javascript:void(0)" class="btn btn-default waves-effect waves-light" v-on:click="getItem(item.rowId)" data-toggle="modal" data-target="#item-cart"><span class="icon-button"><i class="fe-edit-2"></i></span> </a>
-                                            <button type="button" class="btn btn-default waves-effect waves-light" v-on:click="destroyItem(item.rowId)"><span class="icon-button"><i class="fe-x"></i></span> </button>
+                                        <td><a href="javascript:void(0)" class="btn btn-primary waves-effect waves-light" v-on:click="getItem(item.rowId)" data-toggle="modal" data-target="#item-cart"><span class="icon-button"><i class="fe-edit-2"></i></span> </a>
+                                            <button type="button" class="btn btn-warning waves-effect waves-light" v-on:click="destroyItem(item.rowId)"><span class="icon-button"><i class="fe-x"></i></span> </button>
                                         </td>
                                     </tr>
 
@@ -257,7 +257,7 @@
                     </div>
                 </div>
                 <div class="col-lg-12">
-                    <button type="submit" class="btn btn-default waves-effect cancel waves-light" onclick="return confirm('Hủy toàn bộ đơn hàng?')" :disabled="total == 0" name="send" value="cancel"><span class="icon-button"><i class="pe-7s-close-circle"></i></span> Hủy đơn hàng</button>
+                    <button type="submit" class="btn btn-warning waves-effect cancel waves-light" onclick="return confirm('Hủy toàn bộ đơn hàng?')" :disabled="total == 0" name="send" value="cancel"><span class="icon-button"><i class="pe-7s-close-circle"></i></span> Hủy đơn hàng</button>
                     <button type="submit" class="btn btn-primary waves-effect save width-md waves-light float-right" onclick="return confirm('Xác nhận đơn hàng?')" :disabled="customer > 0 && !revenue_carts" name="send" value="save"><span class="icon-button"><i class="fe-plus"></i></span> Xác nhận</button>
                 </div>
             </div>

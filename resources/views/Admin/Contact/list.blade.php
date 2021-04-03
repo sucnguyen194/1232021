@@ -45,7 +45,7 @@
                                 <label class="ql-color-white hidden-xs" style="opacity: 0">-</label>
                                 <div class="mb-2 mb-lg-0 mb-md-0">
                                     <button class="btn btn-primary waves-effect waves-light" type="submit"><span class="icon-button"><i class="fe-search"></i></span> Tìm kiếm</button>
-                                    <a class="btn btn-default waves-effect waves-light" href="{{route('admin.contact.index')}}"><span class="icon-button"><i class="fe-arrow-left"></i></span> Quay lại</a>
+                                    <a class="btn btn-default waves-effect waves-light" href="{{route('admin.contacts.index')}}"><span class="icon-button"><i class="fe-arrow-left"></i></span> Quay lại</a>
                                 </div>
                             </div>
                         </div>
@@ -58,10 +58,10 @@
         <div class="row">
             <div class="col-12">
                 <div class="card-box table-responsive">
-                    <form method="post" action="{{route('admin.contact.delMulti')}}" enctype="multipart/form-data">
+                    <form method="post" action="{{route('admin.contacts.delete')}}" enctype="multipart/form-data">
                         @csrf
                         <div class="action-datatable mb-3">
-                            <button class="btn btn-default text-primary border-primary waves-effect waves-light" onclick="return confirm('Bạn chắc chắn muốn xóa!')" type="submit" name="delall" value="delete"><span class="icon-button"><i class="fe-x-circle" aria-hidden="true"></i></span> Xóa tất cả</button>
+                            <button class="btn btn-warning waves-effect waves-light" onclick="return confirm('Bạn chắc chắn muốn xóa!')" type="submit" name="destroy" value="delete"><span class="icon-button"><i class="fe-x-circle" aria-hidden="true"></i></span> Xóa tất cả</button>
                         </div>
                         <table id="datatable-buttons" class="table table-bordered table-hover bs-table" style="border-collapse: collapse; border-spacing: 0; ;">
                             <thead>
@@ -104,10 +104,10 @@
                                     </td>
 
                                     <td>
-                                        <a href="{{route('admin.contact.show',$item)}}" class="btn btn-default waves-effect waves-light">
+                                        <a href="{{route('admin.contacts.show',$item)}}" class="btn btn-default waves-effect waves-light">
                                             <span class="icon-button"><i class="pe-7s-look"></i></span></a>
 
-                                        <a href="{{route('admin.contact.del',$item->id)}}" onclick="return confirm('Bạn có chắc muốn xóa?');" class="btn btn-default waves-effect waves-light">
+                                        <a href="{{route('admin.contacts.remove',$item->id)}}" onclick="return confirm('Bạn có chắc muốn xóa?');" class="btn btn-default waves-effect waves-light">
                                             <span class="icon-button"><i class="fe-x"></i></span></a>
                                     </td>
                                 </tr>

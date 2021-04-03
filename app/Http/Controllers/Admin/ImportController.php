@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Import;
+namespace App\Http\Controllers\Admin;
 
 use App\Enums\LeverUser;
 use App\Enums\ProductSessionType;
@@ -72,13 +72,13 @@ class ImportController extends Controller
         check_admin_systems(SystemsModuleType::IMPORT);
 
         if(!Cart::instance('import')->count())
-            return back()->with(['message' => 'Đơn hàng trống!']);
+            return flash('Đơn hàng trống!', 3);
 
         switch ($request->send){
             case "cancel":
                 Cart::instance('import')->destroy();
                 Session::forget('agency');
-                return back()->with(['message' => 'Hủy đơn hàng thành công']);
+                return flash('Hủy đơn hàng thành công!', 1);
                 break;
 
             case "save":
@@ -122,11 +122,10 @@ class ImportController extends Controller
                 $import->agency()->update(['debt' => $debt]);
                 Session::forget('agency');
                 Cart::instance('import')->destroy();
-                return  redirect()->route('admin.imports.index')->with(['message' => 'Nhập kho thành công!']);
-
+                return flash('Nhập kho thành công!', 1, route('admin.imports.index'));
                 break;
                 default;
-                    return back()->with(['message' => 'Lỗi!']);
+                    return flash('Lỗi', 0);
         }
     }
 
@@ -142,6 +141,7 @@ class ImportController extends Controller
 
         $users = User::whereLever(LeverUser::ADMIN)->get();
         $agencys = UserAgency::status()->get();
+        $import->load('sessions');
 
         return view('Admin.Import.show',compact('import','users','agencys'));
     }
@@ -177,7 +177,7 @@ class ImportController extends Controller
 
                 $agency = UserAgency::find($request->agency);
                 $user = User::find($request->user);
-                if(!$agency || !$user) return back()->withInput()->withErrors(['message' => 'Thông tin chưa được cập nhật!']);
+                if(!$agency || !$user)  return flash('Thông tin chưa được cập nhật!', 3);
                     if($agency->id <> $import->agency->id){
                         $agency->increaseBalance($import->debt,'Thay đổi thông tin nhập hàng #'.$import->id, $import);
                         $agency->update([
@@ -219,8 +219,7 @@ class ImportController extends Controller
 
                 break;
         }
-
-        return back()->withInput()->with(['message' => 'Cập nhật thành công!']);
+        return flash('Cập nhật thành công!', 1);
     }
 
     public function updateSession(Request $request, $id){
@@ -259,7 +258,7 @@ class ImportController extends Controller
             'amount' => $request->amount,
             'price_in' => $request->price,
         ]);
-        return back()->withInput()->with(['message' => 'Cập nhật thành công!']);
+        return flash('Cập nhật thành công!', 1);
     }
 
     public function destroySession($id){
@@ -290,8 +289,7 @@ class ImportController extends Controller
         }
 
         $session->delete();
-
-        return back()->withInput()->with(['message' => 'Xóa thành công!']);
+        return flash('Xóa thành công!', 1);
     }
     public function ajax($id){
         check_admin_systems(SystemsModuleType::HISTORY_IMPORT);
@@ -310,7 +308,6 @@ class ImportController extends Controller
         check_admin_systems(SystemsModuleType::IMPORT);
         if(!$import->sessions->count())
             $import->delete();
-
-        return back()->with(['message' => 'Xóa thành công!']);
+        return flash('Xóa thành công!', 1);
     }
 }

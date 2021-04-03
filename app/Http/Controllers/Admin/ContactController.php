@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Contact;
+namespace App\Http\Controllers\Admin;
 
 use App\Enums\SystemsModuleType;
 use App\Http\Controllers\Controller;
@@ -17,8 +17,7 @@ class ContactController extends Controller
      */
     public function index()
     {
-        if(!check_admin_systems(SystemsModuleType::CONTACT))
-            return redirect()->back()->withErrors(['message'=>'Errors']);
+        check_admin_systems(SystemsModuleType::CONTACT);
 
         $contact = Contact::when(request()->status,function($q){
             $status = request()->status == 'true' ? 1 : 0 ;
@@ -63,8 +62,7 @@ class ContactController extends Controller
      */
     public function show(Contact $contact)
     {
-        if(!check_admin_systems(SystemsModuleType::CONTACT))
-            return redirect()->back()->withErrors(['message'=>'Bạn không thể thực hiện hành động này!']);
+        check_admin_systems(SystemsModuleType::CONTACT);
 
         if($contact->status == 0)
             $contact->update(['status' => 1,'user_edit' => \Auth::id()]);
@@ -101,36 +99,29 @@ class ContactController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
-        if(!check_admin_systems(SystemsModuleType::CONTACT))
-            return redirect()->back()->withErrors(['message'=>'Bạn không thể thực hiện hành động này!']);
-
+    public function remove($id){
+        check_admin_systems(SystemsModuleType::CONTACT);
         $contact = Contact::find($id);
-
         $contact->delete();
-
-        return redirect()->route('admin.contact.index')->with(['messsage' => 'Xóa thành công']);
-
+        return flash('Xóa thành công', 1);
     }
-
-    public function delMulti(Request $request)
+    public function delete(Request $request)
     {
-        if(!check_admin_systems(SystemsModuleType::PAGES))
-            return redirect()->back()->withErrors(['message'=>'Bạn không thể thực hiện hành động này!']);
-        if($request->delall == 'delete'){
+        check_admin_systems(SystemsModuleType::CONTACT);
 
+        if($request->destroy == 'delete'){
             $count = count($request->check_del);
             for($i=0;$i<$count;$i++){
                 $id = $request->check_del[$i];
-
                 $contact = Contact::find($id);
-
                 $contact->delete();
-
             }
-            return redirect()->route('admin.contact.index')->with(['message'=>'Xóa thành công']);
+            return flash('Xóa thành công', 1);
         }
-        return redirect()->route('admin.contact.index')->withErrors(['message'=>'LỖi']);
+    }
+
+    public function destroy($id)
+    {
+
     }
 }

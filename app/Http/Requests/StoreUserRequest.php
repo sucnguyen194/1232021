@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Validator;
 
 class StoreUserRequest extends FormRequest
 {
@@ -24,8 +25,8 @@ class StoreUserRequest extends FormRequest
     public function rules()
     {
         return [
-            'account' => 'required|unique:users,account',
-            'email' => 'required|email|unique:users,email',
+            'data.account' => 'required|unique:users,account',
+            'data.email' => 'required|email|unique:users,email',
             'password' => 'required',
             're_password' => 'required',
         ];

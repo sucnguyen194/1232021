@@ -21,8 +21,47 @@
   <component name="ChangeListManager">
     <list default="true" id="b3b9f26c-59c6-4a81-8472-a31af9821b60" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Enums/Upload.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Enums/Upload.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Helpers/Helper.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Helpers/Helper.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/AjaxController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/AjaxController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/Alias/AliasController.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/Contact/ContactController.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/Import/ImportController.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/Lang/LangController.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/Login/AdminController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/Login/AdminController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/Mail/MailController.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/Module/ActionModulesController.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/Module/ModulesController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/Module/ModulesController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/Module/SystemsController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/Module/SystemsController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/Order/OrderController.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/PostController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/PostController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/Source/SourceController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/Source/SourceController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/User/UserAgencyController.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/User/UserController.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Requests/StoreUserRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/StoreUserRequest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Requests/UpdateUserRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/UpdateUserRequest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/SystemsModule.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/User.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/UserModuleSystems.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2020_12_14_173507_create_product_to_attribute.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2021_02_01_172102_create_attribute_categorys_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/seeds/SystemsSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeds/SystemsSeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/Admin/Contact/list.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Admin/Contact/list.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/Admin/Import/create.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Admin/Import/create.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/Admin/Import/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Admin/Import/index.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/Admin/Import/show.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Admin/Import/show.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/Admin/Layout/layout.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Admin/Layout/layout.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/Admin/Login/login.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Admin/Login/login.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/Admin/Menu/add.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Admin/Menu/add.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/Admin/Menu/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Admin/Menu/edit.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/Admin/Menu/menu.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Admin/Menu/menu.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/Admin/Module/systems/list.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Admin/Module/systems/list.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/Admin/Order/add.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Admin/Order/add.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/Admin/Order/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Admin/Order/edit.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/Admin/Order/list.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Admin/Order/list.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/Admin/User/add.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Admin/User/add.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/Admin/User/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Admin/User/edit.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/Admin/User/list.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Admin/User/list.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -207,7 +246,7 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/Http/Controllers/Admin" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/database/migrations" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
@@ -217,11 +256,12 @@
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="D:\laragon\www\1232021\app\Http\Controllers\Admin" />
-      <recent name="D:\laragon\www\1232021\app\Models" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\laragon\www\1232021\database\migrations" />
+      <recent name="D:\laragon\www\1232021\app\Http\Controllers\Admin" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\laragon\www\1232021\app\Models" />
       <recent name="D:\laragon\www\1232021\app\Http\Controllers\Admin" />
     </key>
   </component>
@@ -252,7 +292,7 @@
       <workItem from="1617242224717" duration="8488000" />
       <workItem from="1617251211258" duration="19221000" />
       <workItem from="1617328444661" duration="26109000" />
-      <workItem from="1617412304075" duration="3732000" />
+      <workItem from="1617412304075" duration="17954000" />
     </task>
     <servers />
   </component>
@@ -300,6 +340,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="233" y="138" width="1345" height="710" maximized="true" key="dock-window-2/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1616989062968" />
+    <state x="-1253" y="253" width="585" height="534" key="find.popup" timestamp="1617425503153">
+      <screen x="-1920" y="0" width="1920" height="1040" />
+    </state>
+    <state x="-1253" y="253" width="585" height="534" key="find.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1617425503153" />
     <state x="-1304" y="240" key="run.anything.popup" timestamp="1616832849747">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>

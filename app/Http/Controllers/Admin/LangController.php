@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Lang;
+namespace App\Http\Controllers\Admin;
 
 use App\Enums\SystemsModuleType;
 use App\Http\Controllers\Controller;
@@ -8,6 +8,7 @@ use App\Models\Lang;
 use App\Models\Setting;
 use App\Models\SiteSetting;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Session;
 
 class LangController extends Controller
@@ -19,8 +20,7 @@ class LangController extends Controller
      */
     public function index()
     {
-        if(!check_admin_systems(SystemsModuleType::LANG))
-            return redirect()->back()->withErrors(['message'=>'Bạn không thể thực hiện hành động này!']);
+        check_admin_systems(SystemsModuleType::LANG);
 
         $lang = Lang::orderByDesc('id')->get();
 
@@ -34,8 +34,7 @@ class LangController extends Controller
      */
     public function create()
     {
-        if(!check_admin_systems(SystemsModuleType::LANG))
-            return redirect()->back()->withErrors(['message'=>'Bạn không thể thực hiện hành động này!']);
+        check_admin_systems(SystemsModuleType::LANG);
 
         $lang = Lang::orderByDesc('id')->get();
 
@@ -50,8 +49,7 @@ class LangController extends Controller
      */
     public function store(Request $request)
     {
-        if(!check_admin_systems(SystemsModuleType::LANG))
-            return redirect()->back()->withErrors(['message'=>'Bạn không thể thực hiện hành động này!']);
+        check_admin_systems(SystemsModuleType::LANG);
 
         $request->validate([
             'name' => 'required|string|unique:lang',
@@ -67,8 +65,7 @@ class LangController extends Controller
             'name' => 'Site Setting',
             'lang' => $request->value
         ]);
-
-        return redirect()->route('admin.lang.index')->with(['message' => 'Thêm mới thành công']);
+        return flash('Thêm mới thành công', 1 ,route('admin.lang.index'));
     }
 
     /**
@@ -90,7 +87,7 @@ class LangController extends Controller
      */
     public function edit(Lang $lang)
     {
-        if(check_admin_systems(SystemsModuleType::LANG))
+        check_admin_systems(SystemsModuleType::LANG);
 
         $langs = Lang::orderByDesc('id')->get();
 
@@ -106,7 +103,7 @@ class LangController extends Controller
      */
     public function update(Request $request, Lang $lang)
     {
-        if(check_admin_systems(SystemsModuleType::LANG))
+        check_admin_systems(SystemsModuleType::LANG);
 
         $request->validate([
             'name' => 'required|string',
@@ -116,14 +113,13 @@ class LangController extends Controller
         $check = Lang::whereName($lang->name)->whereValue($lang->value)->whereNotIn('id',[$lang->id])->count();
 
         if($check > 0)
-            return redirect()->back()->withInput()->withErrors(['messsage' => 'Tên ngôn ngữ hoặc giá trị đã tồn tại']);
+            return flash('Tên ngôn ngữ hoặc giá trị đã tồn tại', 3 );
 
         $lang->update([
             'name' => $request->name,
             'value' => $request->value
         ]);
-
-        return redirect()->route('admin.lang.index')->with(['message' => 'Sửa thành công']);
+        return flash('Sửa thành công', 1 );
     }
 
     /**
@@ -137,22 +133,18 @@ class LangController extends Controller
         if(check_admin_systems(SystemsModuleType::LANG))
 
             if(Lang::count() == 1)
-                return redirect()->back()->withErrors(['message' => 'Bạn không thể thực hiện hành động này!']);
+                return flash('Bạn không thể thực hiện hành động này!', 3 );
 
         $setting = Setting::whereLang($lang->value)->first();
 
-        if(file_exists($setting->logo))
-            unlink($setting->logo);
-        if(file_exists($setting->favicon))
-            unlink($setting->favicon);
-        if(file_exists($setting->watermark))
-            unlink($setting->watermark);
-
+        File::delete($setting->logo);
+        File::delete($setting->favicon);
+        File::delete($setting->og_image);
+        File::delete($setting->watermark);
         $setting->delete();
-
         $lang->delete();
 
-        return redirect()->route('admin.lang.index')->with(['message' => 'Xóa thành công']);
+        return flash('Xóa thành công!', 1 );
     }
 
     public function active($id){
@@ -166,14 +158,12 @@ class LangController extends Controller
         $lang->update(['status' => 1]);
 
         \Session::put('lang', $lang->value);
-
-        return redirect()->route('admin.lang.index')->with(['message' => 'Cập nhật thành công']);
+        return flash('Cập nhật thành công!', 1 );
     }
 
     public function change($lang){
         if(check_admin_systems(SystemsModuleType::LANG))
-
         Session::put('lang',$lang);
-        return  redirect()->back()->withInput()->with(['message' => 'Cập nhật thành công']);
+        return flash('Cập nhật thành công!', 1 );
     }
 }

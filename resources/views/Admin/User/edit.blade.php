@@ -11,7 +11,7 @@ Cập nhật thông tin #{{$user->id}}
                     <div class="page-title-right">
                         <ol class="breadcrumb m-0">
                             <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Bảng điều khiển</a></li>
-                            <li class="breadcrumb-item"><a href="{{route('admin.user.index')}}">Danh sách thành viên</a></li>
+                            <li class="breadcrumb-item"><a href="{{route('admin.users.index')}}">Danh sách thành viên</a></li>
                             <li class="breadcrumb-item">Cập nhật thông tin</li>
                             <li class="breadcrumb-item active">#{{$user->id}}</li>
                         </ol>
@@ -25,7 +25,7 @@ Cập nhật thông tin #{{$user->id}}
         <!-- Clickable Wizard -->
         <div class="row">
             <div class="col-lg-10 offset-1">
-                <form action="{{route('admin.user.update',$user)}}" method="post" novalidate enctype="multipart/form-data">
+                <form action="{{route('admin.users.update',$user)}}" method="post" novalidate enctype="multipart/form-data">
                     <div class="card-box" id="wizard-clickable" >
                         @csrf
                         @method('PATCH')
@@ -36,12 +36,12 @@ Cập nhật thông tin #{{$user->id}}
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="account">Tài khoản <span class="required">*</span></label>
-                                        <input type="text" class="form-control" name="account" id="account" value="{{$user->account ?? old('account')}}" required placeholder="user">
+                                        <input type="text" class="form-control" name="data[account]" id="account" value="{{old('data.account') ?? $user->account}}" required placeholder="user">
                                     </div>
 
                                     <div class="form-group">
                                         <label for="email">Tài khoản email <span class="required">*</span></label>
-                                        <input type="text" class="form-control" id="email" name="email"  value="{{$user->email ?? old('email')}}" placeholder="nguyenvan@gmail.com">
+                                        <input type="text" class="form-control" id="email" name="data[email]"  value="{{old('data.email') ?? $user->email}}" placeholder="nguyenvan@gmail.com">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -65,19 +65,19 @@ Cập nhật thông tin #{{$user->id}}
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="name">Họ và tên</label>
-                                        <input type="text" class="form-control" id="name" name="name" value="{{$user->name ?? old('name')}}" placeholder="Nguyễn Văn A">
+                                        <input type="text" class="form-control" id="name" name="data[name]" value="{{old('data.name') ?? $user->name}}" placeholder="Nguyễn Văn A">
                                     </div>
 
                                     <div class="form-group">
                                         <label for="phone">Số điện thoại</label>
-                                        <input type="text" class="form-control" id="phone" name="phone" value="{{$user->phone}}" placeholder="0965 688 533">
+                                        <input type="text" class="form-control" id="phone" name="data[phone]" value="{{old('data.phone') ?? $user->phone}}" placeholder="0965 688 533">
                                     </div>
 
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="note">Địa chỉ</label>
-                                        <textarea name="address" id="address" cols="30" rows="5" class="form-control" placeholder="Số 30, ngõ 19, Hà Đông, Hà Nội">{!! $user->address !!}</textarea>
+                                        <textarea name="data[address]" id="address" cols="30" rows="5" class="form-control" placeholder="Số 30, ngõ 19, Hà Đông, Hà Nội">{!! old('data.address') ?? $user->address !!}</textarea>
                                     </div>
 
                                 </div>
@@ -92,7 +92,7 @@ Cập nhật thông tin #{{$user->id}}
                                         <div class="form-group">
                                             <label>Quyền quản trị</label>
                                             <div class="input-group">
-                                                <select id="level" name="lever" data-toggle="select2" class="form-control" >
+                                                <select id="level" name="data[lever]" data-toggle="select2" class="form-control" >
                                                     <option value="0">Chọn quyền quản trị</option>
                                                     @if(Auth::user()->lever == \App\Enums\LeverUser::SUPPERADMIN)
                                                         <option value="1" @if($user->lever == \App\Enums\LeverUser::SUPPERADMIN) selected @endif>Administrator</option>
@@ -115,13 +115,13 @@ Cập nhật thông tin #{{$user->id}}
                                                 @foreach($systems->where('parent_id',0)->where('position',0) as $key => $item)
                                                     <div class="item-systems">
                                                         <div class="mb-1 checkbox">
-                                                            <input id="checkbox{{$item->id}}"  {{checked($item->type, $user->systemsModule->pluck('type')->toArray())}}  type="checkbox" name="type[]" value="{{$item->type}}">
+                                                            <input id="checkbox{{$item->id}}"  {{checked($item->id, $user->systems->pluck('id')->toArray())}}  type="checkbox" name="system[]" value="{{$item->id}}">
                                                             <label for="checkbox{{$item->id}}">{{$item->name}} </label>@if($systems->where('parent_id', $item->id)->count())<span class="sub-header" target="#{{$item->id}}"><i class="fe-chevron-down"></i></span> @endif
                                                         </div>
                                                         <div class="sub-systems" id="{{$item->id}}">
                                                             @foreach($systems->where('parent_id', $item->id) as $sub)
                                                                 <div class="mb-1 checkbox">
-                                                                    <input id="checkbox{{$sub->id}}" class="prop-checked" {{checked($sub->type, $user->systemsModule->pluck('type')->toArray())}} type="checkbox" name="type[]" value="{{$sub->type}}">
+                                                                    <input id="checkbox{{$sub->id}}" class="prop-checked" {{checked($sub->id, $user->systems->pluck('id')->toArray())}} type="checkbox" name="system[]" value="{{$sub->id}}">
                                                                     <label for="checkbox{{$sub->id}}">
                                                                         <span class="tree-sub"></span>
                                                                         <span>{{$sub->name}}</span>
@@ -138,13 +138,13 @@ Cập nhật thông tin #{{$user->id}}
                                                 @foreach($systems->where('parent_id',0)->where('position',2) as $key => $item)
                                                     <div class="item-systems">
                                                         <div class="mb-1 checkbox">
-                                                            <input id="checkbox{{$item->id}}"  {{checked($item->type, $user->systemsModule->pluck('type')->toArray())}}  type="checkbox" name="type[]" value="{{$item->type}}">
+                                                            <input id="checkbox{{$item->id}}"  {{checked($item->id, $user->systems->pluck('id')->toArray())}}  type="checkbox" name="system[]" value="{{$item->id}}">
                                                             <label for="checkbox{{$item->id}}">{{$item->name}} </label>@if($systems->where('parent_id', $item->id)->count())<span class="sub-header" target="#{{$item->id}}"><i class="fe-chevron-down"></i></span> @endif
                                                         </div>
                                                         <div class="sub-systems" id="{{$item->id}}">
                                                             @foreach($systems->where('parent_id', $item->id) as $sub)
                                                                 <div class="mb-1 checkbox">
-                                                                    <input id="checkbox{{$sub->id}}" class="prop-checked" {{checked($sub->type, $user->systemsModule->pluck('type')->toArray())}} type="checkbox" name="type[]" value="{{$sub->type}}">
+                                                                    <input id="checkbox{{$sub->id}}" class="prop-checked" {{checked($sub->id, $user->systems->pluck('id')->toArray())}} type="checkbox" name="system[]" value="{{$sub->id}}">
                                                                     <label for="checkbox{{$sub->id}}">
                                                                         <span class="tree-sub"></span>
                                                                         <span>{{$sub->name}}</span>
@@ -161,13 +161,13 @@ Cập nhật thông tin #{{$user->id}}
                                                 @foreach($systems->where('parent_id',0)->where('position',1) as $key => $item)
                                                     <div class="item-systems">
                                                         <div class="mb-1 checkbox">
-                                                            <input id="checkbox{{$item->id}}"  {{checked($item->type, $user->systemsModule->pluck('type')->toArray())}}  type="checkbox" name="type[]" value="{{$item->type}}">
+                                                            <input id="checkbox{{$item->id}}"  {{checked($item->id, $user->systems->pluck('id')->toArray())}}  type="checkbox" name="system[]" value="{{$item->id}}">
                                                             <label for="checkbox{{$item->id}}">{{$item->name}} </label>@if($systems->where('parent_id', $item->id)->count())<span class="sub-header" target="#{{$item->id}}"><i class="fe-chevron-down"></i></span> @endif
                                                         </div>
                                                         <div class="sub-systems" id="{{$item->id}}">
                                                             @foreach($systems->where('parent_id', $item->id) as $sub)
                                                                 <div class="mb-1 checkbox">
-                                                                    <input id="checkbox{{$sub->id}}" class="prop-checked" {{checked($sub->type, $user->systemsModule->pluck('type')->toArray())}} type="checkbox" name="type[]" value="{{$sub->type}}">
+                                                                    <input id="checkbox{{$sub->id}}" class="prop-checked" {{checked($sub->id, $user->systems->pluck('id')->toArray())}} type="checkbox" name="system[]" value="{{$sub->id}}">
                                                                     <label for="checkbox{{$sub->id}}">
                                                                         <span class="tree-sub"></span>
                                                                         <span>{{$sub->name}}</span>
@@ -185,14 +185,14 @@ Cập nhật thông tin #{{$user->id}}
                                                 @foreach($systems->where('parent_id',0)->where('position',3) as $key => $item)
                                                     <div class="item-systems">
                                                         <div class="mb-1 checkbox">
-                                                            <input id="checkbox{{$item->id}}"  {{checked($item->type, $user->systemsModule->pluck('type')->toArray())}}  type="checkbox" name="type[]" value="{{$item->type}}">
+                                                            <input id="checkbox{{$item->id}}"  {{checked($item->id, $user->systems->pluck('id')->toArray())}}  type="checkbox" name="system[]" value="{{$item->id}}">
                                                             <label for="checkbox{{$item->id}}">{{$item->name}}</label>
                                                             @if($systems->where('parent_id', $item->id)->count())<span class="sub-header" target="#{{$item->id}}"><i class="fe-chevron-down"></i></span> @endif
                                                         </div>
                                                         <div class="sub-systems" id="{{$item->id}}">
                                                             @foreach($systems->where('parent_id', $item->id) as $sub)
                                                                 <div class="mb-1 checkbox">
-                                                                    <input id="checkbox{{$sub->id}}" class="prop-checked" {{checked($sub->type, $user->systemsModule->pluck('type')->toArray())}} type="checkbox" name="type[]" value="{{$sub->type}}">
+                                                                    <input id="checkbox{{$sub->id}}" class="prop-checked" {{checked($sub->id, $user->systems->pluck('id')->toArray())}} type="checkbox" name="system[]" value="{{$sub->id}}">
                                                                     <label for="checkbox{{$sub->id}}">
                                                                         <span class="tree-sub"></span>
                                                                         <span>{{$sub->name}}</span>
@@ -201,7 +201,6 @@ Cập nhật thông tin #{{$user->id}}
                                                             @endforeach
                                                         </div>
                                                     </div>
-
                                                 @endforeach
                                             </div>
                                         </div>
@@ -213,7 +212,7 @@ Cập nhật thông tin #{{$user->id}}
                         <button type="submit" class="btn btn-primary stepy-finish"><span class="icon-button"><i class="fe-plus"></i></span> Lưu lai</button>
                     </div>
                     <div class="">
-                        <a href="{{route('admin.user.index')}}" class="btn btn-default waves-effect waves-light"><span class="icon-button"><i class="fe-arrow-left"></i></span> Quay lại</a>
+                        <a href="{{route('admin.users.index')}}" class="btn btn-default waves-effect waves-light"><span class="icon-button"><i class="fe-arrow-left"></i></span> Quay lại</a>
                         <button type="submit" class="btn btn-primary waves-effect width-md waves-light float-right" name="send" value="update"><span class="icon-button"><i class="fe-plus"></i></span> Lưu lại</button>
                     </div>
                 </form>

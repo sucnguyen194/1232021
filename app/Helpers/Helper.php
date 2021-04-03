@@ -136,8 +136,8 @@ if(!function_exists('check_admin_systems')){
 
         if(Auth::user()->lever == \App\Enums\LeverUser::SUPPERADMIN)
             return true;
-
-        if(in_array($type, Auth::user()->systemsModule->pluck('type')->toArray()))
+        $id = \App\Models\System::whereType($type)->firstOrFail()->id;
+        if(\auth()->user()->systems()->whereId($id)->exists())
             return true;
 
         return abort(404);

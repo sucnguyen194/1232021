@@ -143,8 +143,8 @@
                                         </div>
                                     </td>
 
-                                    <td><a href="javascript:void(0)" class="btn btn-default waves-effect waves-light" v-on:click="getItem(item.rowId)" data-toggle="modal" data-target="#item-cart"><span class="icon-button"><i class="fe-edit-2"></i></span> </a>
-                                        <button type="button" class="btn btn-default waves-effect waves-light" v-on:click="destroyItem(item.rowId)"><span class="icon-button"><i class="fe-x"></i></span> </button>
+                                    <td><a href="javascript:void(0)" class="btn btn-primary waves-effect waves-light" v-on:click="getItem(item.rowId)" data-toggle="modal" data-target="#item-cart"><span class="icon-button"><i class="fe-edit-2"></i></span> </a>
+                                        <button type="button" class="btn btn-warning waves-effect waves-light" v-on:click="destroyItem(item.rowId)"><span class="icon-button"><i class="fe-x"></i></span> </button>
                                     </td>
                                 </tr>
 

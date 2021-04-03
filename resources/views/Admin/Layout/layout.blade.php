@@ -63,7 +63,7 @@
                     @if($contact->count())
                     <div class="slimscroll noti-scroll">
                         @foreach($contact as $item)
-                        <a href="{{route('admin.contact.show',$item)}}" class="dropdown-item notify-item">
+                        <a href="{{route('admin.contacts.show',$item)}}" class="dropdown-item notify-item">
                             <div class="notify-icon bg-success"><i class="mdi mdi-comment-account-outline"></i></div>
                             <p class="notify-details">{{$item->note ? str_limit($item->note) : 'Khách hàng yêu cầu nhận thông tin'}}<small class="text-muted">{{$item->created_at->diffForHumans()}}</small></p>
                         </a>
@@ -73,7 +73,7 @@
                        </div>
                         @endif
                     <!-- All-->
-                    <a href="{{route('admin.contact.index')}}" class="dropdown-item text-center text-primary notify-item notify-all"> Xem tất cả <i class="fi-arrow-right"></i> </a> </div>
+                    <a href="{{route('admin.contacts.index')}}" class="dropdown-item text-center text-primary notify-item notify-all"> Xem tất cả <i class="fi-arrow-right"></i> </a> </div>
             </li>
 
             <li class="dropdown notification-list"> <a class="nav-link dropdown-toggle nav-user mr-0 waves-effect waves-light" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false"> <img src="{{Auth::user()->gravatar}}" alt="user-image" class="rounded-circle"> <span class="pro-user-name ml-1"> {{Auth::user()->name}} <i class="mdi mdi-chevron-down"></i> </span> </a>
@@ -84,7 +84,7 @@
                     </div>
 
                     <!-- item-->
-                    <a href="{{route('admin.user.edit',Auth::id())}}" class="dropdown-item notify-item"> <i class="fe-user"></i> <span>Tài khoản</span> </a>
+                    <a href="{{route('admin.users.edit',Auth::id())}}" class="dropdown-item notify-item"> <i class="fe-user"></i> <span>Tài khoản</span> </a>
 
                     <!-- item-->
 {{--                    <a href="javascript:void(0);" class="dropdown-item notify-item"> <i class="fe-settings"></i> <span>Settings</span> </a>--}}
@@ -134,15 +134,15 @@
                     @php
                         $post = new \App\Models\Post();
                         $products = new \App\Models\Product();
-                        $type = auth()->user()->systemsModule()->pluck('type');
-                        $nav = \App\Models\SystemsModule::whereIn('type',$type)->orderby('sort','asc')->get();
+                        $type = auth()->user()->systems()->pluck('id');
+                        $nav = \App\Models\System::whereIn('id',$type)->orderby('sort','asc')->get();
                         $module = \App\Models\Modules::get();
                         $comments = \App\Models\Comment::whereStatus(0)->get();
                         $posts = $comments->where('comment_type',get_class($post))->count();
                         $products = $comments->where('comment_type',get_class($products))->count();
 
                         if(Auth::user()->lever == \App\Enums\LeverUser::SUPPERADMIN)
-                            $nav = \App\Models\SystemsModule::orderby('sort','asc')->get();
+                            $nav = \App\Models\System::orderby('sort','asc')->get();
                     @endphp
 
                     @foreach($nav->where('parent_id', 0)->where('position',0) as $item)
@@ -192,7 +192,7 @@
                                 @endif
                             </li>
                     @endforeach
-                    <li class="menu-title" style="{{$nav->where('parent_id', 0)->where('position',2) ? "" : "display:none"}}">Bán hàng</li>
+                    <li class="menu-title" style="{{$nav->where('parent_id', 0)->where('position',2)->count() ? "" : "display:none"}}">Bán hàng</li>
                     @foreach($nav->where('parent_id', 0)->where('position',2) as $item)
                         <li>
                             <a href="{{$item->route ? route($item->route) : "javascript:void(0)"}}">

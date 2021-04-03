@@ -110,7 +110,7 @@
                                     </tr>
                                     </thead>
                                     <tbody class="show-card">
-                                    @foreach($import->sessions()->get()->load('product') as $item)
+                                    @foreach($import->sessions->load('product') as $item)
                                         <tr>
                                             <td>
                                                 <div class="input-group">
@@ -144,7 +144,7 @@
                                                     <div class="form-control font-weight-bold">{{number_format($item->price_in*$item->amount)}}</div>
                                                 </div>
                                             </td>
-                                            <td><a href="javascript:void(0)" class="btn btn-default waves-effect waves-light" v-on:click="getSession({{$item->id}})" data-toggle="modal" data-target="#product-item-{{$item->id}}"><span class="icon-button"><i class="fe-edit-2"></i></span> </a> <a href="{{route('admin.destroy.session',$item->id)}}" class="btn btn-default waves-effect waves-light" onclick="return confirm('Xóa sản phẩm?')"><span class="icon-button"><i class="fe-x"></i></span> </a></td>
+                                            <td><a href="javascript:void(0)" class="btn btn-primary waves-effect waves-light" v-on:click="getSession({{$item->id}})" data-toggle="modal" data-target="#product-item-{{$item->id}}"><span class="icon-button"><i class="fe-edit-2"></i></span> </a> <a href="{{route('admin.destroy.session',$item->id)}}" class="btn btn-warning waves-effect waves-light" onclick="return confirm('Xóa sản phẩm?')"><span class="icon-button"><i class="fe-x"></i></span> </a></td>
                                         </tr>
                                     @endforeach
                                     </tbody>
@@ -154,7 +154,7 @@
                         </div>
                     </div>
 
-                @foreach($import->sessions()->get()->load('product') as $item)
+                @foreach($import->sessions->load('product') as $item)
                     <div id="product-item-{{$item->id}}" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
                         <form method="post" action="{{route('admin.update.session',$item->id)}}">
                             @csrf
