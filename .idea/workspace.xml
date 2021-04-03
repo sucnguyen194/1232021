@@ -21,8 +21,8 @@
   <component name="ChangeListManager">
     <list default="true" id="b3b9f26c-59c6-4a81-8472-a31af9821b60" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Enums/SystemsModuleType.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Enums/SystemsModuleType.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/seeds/SystemsSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeds/SystemsSeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/Admin/Menu/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Admin/Menu/edit.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/Admin/Menu/menu.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Admin/Menu/menu.blade.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -252,7 +252,7 @@
       <workItem from="1617242224717" duration="8488000" />
       <workItem from="1617251211258" duration="19221000" />
       <workItem from="1617328444661" duration="26109000" />
-      <workItem from="1617412304075" duration="3513000" />
+      <workItem from="1617412304075" duration="3732000" />
     </task>
     <servers />
   </component>
