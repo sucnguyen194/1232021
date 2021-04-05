@@ -1,7 +1,7 @@
 @extends('Admin.Layout.layout')
 @section('title') Đơn hàng @stop
 @section('content')
-    <div class="container-fluid">
+    <div class="container-fluid" id="orders-index">
         <!-- start page title -->
         <div class="row">
             <div class="col-12">
@@ -144,8 +144,8 @@
                                     <td>
                                         {{$item->created_at->format('d/m/Y H:i')}}
                                     </td>
-                                    <td  style="width: 10%"><a href="{{route('admin.user.index',['id'=> $item->user->id ?? 0])}}" target="_blank">{{ $item->user->name ?? 'Tên trống hoặc đã xóa'}}</a></td>
-                                    <td style="width: 10%"><a href="{{route('admin.user.index',['id'=> $item->customer->id ?? 0])}}" target="_blank">{{ $item->customer->name ?? 'Tên trống hoặc đã xóa'}}</a></td>
+                                    <td  style="width: 10%"><a href="{{route('admin.users.index',['id'=> $item->user->id ?? 0])}}" target="_blank">{{ $item->user->name ?? 'Tên trống hoặc đã xóa'}}</a></td>
+                                    <td style="width: 10%"><a href="{{route('admin.users.index',['id'=> $item->customer->id ?? 0])}}" target="_blank">{{ $item->customer->name ?? 'Tên trống hoặc đã xóa'}}</a></td>
                                     <td>
                                         {{number_format($item->total)}} @if($item->transport > 0) <br> <small>Phí vận chuyển: {{number_format($item->transport)}}</small>@endif
                                     </td>
@@ -163,8 +163,7 @@
 {{--                                    </td>--}}
 
                                     <td>
-                                        <a href="{{route('admin.orders.edit',$item)}}" class="btn btn-primary waves-effect waves-light">
-                                            <span class="icon-button"><i class="pe-7s-magic-wand"></i> </span>Chi tiết</a>
+                                        <a href="{{route('admin.orders.edit',$item)}}" class="btn btn-primary waves-effect waves-light">Chi tiết</a>
 
                                         @if(!$item->sessions->count())
                                         <form method="post" action="{{route('admin.orders.destroy',$item)}}" class="d-inline-block">
@@ -173,6 +172,7 @@
                                             <button type="submit" onclick="return confirm('Bạn có chắc muốn xóa?');" class="btn btn-warning waves-effect waves-light"><span class="icon-button"><i class="fe-x"></i></span></button>
                                         </form>
                                         @endif
+                                        <a href="#print-order"  data-toggle="modal" data-target="#print-order" v-on:click="printCart({{$item->id}})" class="btn btn-purple waves-effect waves-light">In đơn</a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -182,9 +182,130 @@
             </div>
         </div>
         <!-- end row -->
+        <div id="print-order" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <style type="text/css">
+                            @media all {.page-break	{ display: none; page-break-before: avoid;  }}
+                            @media print {
+                                .page-break	{ display: none; page-break-before: avoid; }
+                            }
+                            @page {margin:0mm;padding:0px;font-size: 14px}
+                            @page :first {margin-top: 0cm /* Top margin on first page 10cm */}
 
+                        </style>
+                        <div class="xacnhandondang" id="detailPrintOrder">
+                            <div class="CssBillPaperSize" style="background-color:white; padding-left:4px;padding-right:4px; margin-left:0px; font-family:tahoma;line-height: 18px;">
+                                <div class="CssPrintRow" style="text-align:center;font-weight:bold;font-size:16px; margin-bottom: 15px">{{setting()->name}}</div>
+                                <div class="CssPrintRow" style="font-size: 13px;">{!! setting()->contact !!}</div>
+                                <div style="text-align:center">-----------------------------------</div>
+                                <div style="font-weight:bold;font-size:16px;text-align:center;text-transform: uppercase">Hóa đơn xuất bán</div>
+                                <div class="CssPrintRow" style="padding: 2px 0;font-size: 13px;">Ngày giờ: @{{ time }}</div>
+                                <div class="CssPrintRow" style="padding: 2px 0;font-size: 13px;">Thu Ngân: Quản trị {{setting()->name}}</div>
+                                {{--                                <div class="CssPrintRow">Số phiếu: #XBA.2021.1084</div>--}}
+                                <div class="CssPrintRow" style="padding: 2px 0 4px 0;font-size: 13px;">Khách hàng: @{{ customer }} <span v-if="phone">- @{{ phone }}</span> <span v-if="address">- @{{ address  }}</span></div>
+                                <div class="CssBillDetail">
+                                    <table class="table table-bordered" style="width: 100%;font-size:12px;line-height: 18px;">
+                                        <tbody>
+                                        <tr>
+                                            <th nowrap="" style="padding-right:4px;border-bottom:dotted 1px black">Tên</th>
+                                            <th nowrap="" style="padding-right:4px;border-bottom:dotted 1px black">SL</th>
+                                            <th nowrap="" style="padding-right:4px;border-bottom:dotted 1px black">Đ.giá</th>
+                                            <th nowrap="" style="padding-right:4px;border-bottom:dotted 1px black">T.tiền</th>
+                                        </tr>
+                                        <tr v-for="item in sessions">
+                                            <th nowrap="" v-if="item.product" style="padding-right:4px;border-bottom:dotted 1px black; white-space: normal;word-break: break-all; width: 250px">@{{ item.product.name }}</th>
+                                            <th v-else style="padding-right:4px;border-bottom:dotted 1px black; white-space: normal;word-break: break-all; width: 250px"> Đã xóa</th>
+                                            <th nowrap="" style="padding-right:4px;border-bottom:dotted 1px black">@{{ item.amount }}</th>
+                                            <th nowrap="" style="padding-right:4px;border-bottom:dotted 1px black">@{{ number_format(item.price) }}</th>
+                                            <th nowrap="" style="padding-right:4px;border-bottom:dotted 1px black">@{{ (item.price*item.amount).toLocaleString() }}</th>
+                                        </tr>
+                                        <tr>
+                                            <td nowrap="" colspan="3" class="CssNoLine" style="font-weight: bold">Tổng cộng </td>
+                                            <td nowrap="" class="CssNoLine" style="font-weight: bold">@{{number_format(total)}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td nowrap="" colspan="3" class="CssNoLine" style="font-weight: bold">Giảm giá </td>
+                                            <td nowrap="" class="CssNoLine" style="font-weight: bold">@{{number_format(discount)}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td nowrap="" colspan="3" class="CssNoLine" style="font-weight: bold">Vận chuyển </td>
+                                            <td nowrap="" class="CssNoLine" style="font-weight: bold">@{{number_format(transport)}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td nowrap="" colspan="3" class="CssNoLine" style="font-weight: bold">Thanh toán </td>
+                                            <td nowrap="" class="CssNoLine" style="font-weight: bold">@{{number_format(checkout)}}</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td class="CssNoLine" colspan="3" style="font-weight: bold">Phải trả:</td>
+                                            <td class="CssNoLine" style=" font-weight: bold">@{{number_format(money)}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="CssNoLine" colspan="4"><span style="font-style: italic; font-weight: bold">Bằng chữ: @{{ DocTienBangChu(money) }}</span></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="CssBillDetail" style="font-size: 12px">
+                                    <strong>* Ghi chú: <div v-html="note" style="padding-left: 15px"></div></strong>
+                                </div>
+                                <div style="font-style:italic; margin-top:10px;text-align:center; font-size: 13px">Khách hàng vui lòng kiểm tra kĩ, hàng đã thanh toán, ra khỏi kho, kho không chịu trách nhiệm!</div>
+                                <div style="margin-top:10px;text-align:center; font-size: 13px">Xin cảm ơn Quý khách!</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default waves-effect" data-dismiss="modal"> Đóng</button>
+                        <button type="button" class="btn btn-purple waves-effect waves-light" onclick="PrintElem('#detailPrintOrder')"><span class="icon-button"><i class="pe-7s-print"></i></span> In đơn hàng</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div>
     </div>
-
+ <script>
+     var app = new Vue({
+        el: '#orders-index',
+        data:{
+            sessions: null,
+            time: null,
+            customer: null,
+            phone: 0,
+            address:null,
+            note: null,
+            total: 0,
+            discount:0,
+            transport: 0,
+            checkout: 0,
+        },
+        methods:{
+            printCart:function (id){
+                let route = '{{route('admin.ajax.get.order.print',':id')}}'.replace(':id',id);
+                fetch(route).then(function(res){
+                    return res.json().then(function(data){
+                        console.log(data.customer);
+                        app.sessions = data.sessions;
+                        app.time = data.time;
+                        app.customer = data.customer.name ?? data.customer.id;
+                        app.phone = data.customer.phone;
+                        app.address = data.customer.address;
+                        app.note = data.order.note;
+                        app.total = data.order.total;
+                        app.discount = data.order.discount;
+                        app.transport = data.order.transport;
+                        app.checkout = data.order.checkout;
+                    })
+                })
+            }
+        },
+         computed:{
+            money:function(){
+                return this.total - this.discount + this.transport - this.checkout;
+            }
+         }
+     });
+ </script>
 @stop
 
 @section('css')

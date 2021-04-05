@@ -89,6 +89,10 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
         //Alias
         Route::resource('alias','AliasController');
 
+        //Debts
+        Route::get('/update/debts/{id}/{type}/{current}','UserDebtController@debts')->name('update.debts');
+        Route::resource('debts','UserDebtController');
+
         //Orders
         Route::get('orders/update/session/{id}/{amount}/{price}/{revenue}','OrderController@updateItemSession')->name('orders.update.session');
         Route::get('orders/destroy/session/{id}','OrderController@destroyItemSession')->name('orders.destroy.session');
@@ -173,6 +177,8 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
         Route::get('ajax/get-product-update/{id}','AjaxController@getProductUpdate')->name('ajax.get.product.export');
 
         Route::get('ajax/get-data-print/{customer}','AjaxController@getDataPrint')->name('ajax.get.data.print');
+
+        Route::get('ajax/order/print/{id}','AjaxController@getOrderPrint')->name('ajax.get.order.print');
 
         Route::get('ajax/get-revenue/session/{id}/{amount}/{price}','AjaxController@getRevenueSession')->name('ajax.get.revenue');
         Route::get('ajax/get-revenue-old/session/{id}/{amount}/{price}','AjaxController@getRenvenueAfter')->name('ajax.get.revenue.old');

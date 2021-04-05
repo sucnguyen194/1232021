@@ -44,8 +44,8 @@ class ProductSession extends Model
                 'amount_export' => 0
             ]);
             $this->subUpdateAmountSessionAfter($session,abs($amount));
-
         }
+        return $session;
     }
 
     public function subUpdateAmountSessionAfter($item, $quantity){
@@ -62,7 +62,6 @@ class ProductSession extends Model
                 'amount_export' => 0
             ]);
             return $this->subUpdateAmountSessionAfter($session,abs($amount));
-
         }
     }
     public function updateAmountSession($id,$quantity){
@@ -103,4 +102,5 @@ class ProductSession extends Model
             return $this->subUpdateAmountSession($session,abs($amount));
         }
     }
+
 }

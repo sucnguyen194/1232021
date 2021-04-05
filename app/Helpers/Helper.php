@@ -244,14 +244,15 @@ if(!function_exists('sub_list_news_category')){
                 $display .= '<label for="checkbox_status_'.$items->id.'" class="mb-0 data_status" data-id="'.$items->id.'">Nổi bật</label>';
                 $display .= '</div>';
 
-                $action = '<a href="'.$items->url.'" title="Sửa" class="btn btn-default waves-effect waves-light">
+                $action = '<a href="'.$items->url.'" title="Sửa" class="btn btn-primary waves-effect waves-light">
                                        <span class="icon-button"><i class="fe-edit-2"></i></span></a> ';
-                $action .= '<a href="'.route('admin.categories.remove',$items->id).' " title="Xóa" onclick="return confirm(\'Bạn chắc chắn muốn xóa!\')" class="btn btn-default waves-effect waves-light"><span class="icon-button"><i class="fe-x"></i></span> </a>';
+                $action .= '<a href="'.route('admin.categories.remove',$items->id).' " title="Xóa" onclick="return confirm(\'Bạn chắc chắn muốn xóa!\')" class="btn btn-warning waves-effect waves-light"><span class="icon-button"><i class="fe-x"></i></span> </a>';
 
                 echo '<tr><td>';
                 echo '<div class="checkbox">';
                 echo '<input id="checkbox_del_'.$items->id.'" class="check_del"  value="'.$items->id.'"  type="checkbox" name="check_del[]">';
                 echo '<label for="checkbox_del_'.$items->id.'"></label></div></td>';
+                echo '<td>'.$items->id.'</td>';
 				echo '<td class="position-relative">'.$sort.'</td>';
 				echo '<td><a href="'.route('alias',$items->alias).'" target="_blank">'.$tab.'<span class="tree-sub"></span>'.$items->name.'</a></td>';
                 echo '<td><a href="'.route('alias',$items->parent->alias).'" target="_blank">'.$items->parent->name.'</a></td>';

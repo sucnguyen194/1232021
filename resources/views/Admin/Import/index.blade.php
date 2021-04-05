@@ -86,7 +86,7 @@
                                 <tr>
                                     <td >{{$item->id}}</td>
                                     <td>{{$item->created_at->format('d/m/Y H:i')}}</td>
-                                    <td><a href="{{route('admin.user.index',['id' => @$item->user->id ?? 0])}}" target="_blank">{{@$item->user->name ?? @$item->user->account}}</a> </td>
+                                    <td><a href="{{route('admin.users.index',['id' => @$item->user->id ?? 0])}}" target="_blank">{{@$item->user->name ?? @$item->user->account}}</a> </td>
                                     <td><a href="{{route('admin.agencys.index',['id' => @$item->agency->id ?? 0])}}" target="_blank">{{@$item->agency->name ?? 'Tên trống hoặc đã xóa'}}</a>  @if(@$item->agency->phone)[{{@$item->agency->phone}}] @endif</td>
                                     <td>{{number_format($item->total)}}</td>
                                     <td>{{number_format($item->checkout)}}</td>

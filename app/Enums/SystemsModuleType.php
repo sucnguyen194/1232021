@@ -20,7 +20,7 @@ final class SystemsModuleType extends Enum
     const PAGE =   'PAGE';
     const CATEGORY = 'CATEGORY';
     const SUPPORT =  'SUPPORT';
-
+    const DEBT = 'DEBT';
     const PRODUCT =   'PRODUCT';
     const ADD_PRODUCT =   'ADD_PRODUCT';
     const LIST_PRODUCT =   'LIST_PRODUCT';

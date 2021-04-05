@@ -31,13 +31,13 @@
                 <div class="form-group">
                     <div class="row">
                         <div class="col-lg-3">Người xuất hàng</div>
-                        <div class="col-lg-9 font-weight-bold"><a href="{{route('admin.user.index',['id' => $order->user->id ?? 0])}}" target="_blank">{{$order->user->name ?? 'Tên trống hoặc đã xóa'}}</a> </div>
+                        <div class="col-lg-9 font-weight-bold"><a href="{{route('admin.users.index',['id' => $order->user->id ?? 0])}}" target="_blank">{{$order->user->name ?? 'Tên trống hoặc đã xóa'}}</a> </div>
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="row">
                         <div class="col-lg-3">Khách hàng</div>
-                        <div class="col-lg-9 font-weight-bold"><a href="{{route('admin.user.index',['id' => $order->customer->id ?? 0])}}" target="_blank">{{$order->customer->name ?? 'Tên trống hoặc đã xóa'}} (SĐT: {{$order->customer->phone ?? null}})</a> </div>
+                        <div class="col-lg-9 font-weight-bold"><a href="{{route('admin.users.index',['id' => $order->customer->id ?? 0])}}" target="_blank">{{$order->customer->name ?? 'Tên trống hoặc đã xóa'}} (SĐT: {{$order->customer->phone ?? null}})</a> </div>
                     </div>
                 </div>
                 <div class="form-group">
@@ -216,7 +216,7 @@
             </div>
         </section>
         <section>
-            <div class="card-box"  v-if="action.sessions.total != 0 || action.carts.revenue_update != 0">
+            <div class="card-box"  v-if="action.sessions.total != 0 || action.carts.revenue_update != 0 || action.carts.total != 0 ">
                 <div class="form-group" v-if="action.sessions.total != 0">
                     <label>Danh sách sản phẩm</label>
                     <table class="table table-bordered table-striped">
@@ -372,7 +372,7 @@
                 </div>
 
             </div>
-            <div class="" v-if="action.sessions.total != 0 || action.carts.revenue_update != 0">
+            <div class="" v-if="action.sessions.total != 0 || action.carts.revenue_update != 0 || action.carts.total != 0 ">
                 <a href="{{route('admin.orders.index')}}" class="btn btn-default waves-effect waves-light"><span class="icon-button"><i class="fe-arrow-left"></i></span> Quay lại</a>
                 <button type="submit" class="btn btn-primary waves-effect save width-md waves-light float-right" onclick="return confirm('Xác nhận thông tin?')" name="send" value="checkout"><span class="icon-button"><i class="fe-plus"></i></span> Cập nhật đơn hàng</button>
             </div>
@@ -565,7 +565,6 @@
                 </div><!-- /.modal-dialog -->
             </form>
         </div><!-- /.modal -->
-
         <div id="print-cart" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -588,7 +587,7 @@
                                 <div class="CssPrintRow" style="padding: 2px 0;font-size: 13px;">Ngày giờ: @{{ action.print.time }}</div>
                                 <div class="CssPrintRow" style="padding: 2px 0;font-size: 13px;">Thu Ngân: Quản trị {{setting()->name}}</div>
                                 {{--                                <div class="CssPrintRow">Số phiếu: #XBA.2021.1084</div>--}}
-                                <div class="CssPrintRow" style="padding: 2px 0 4px 0;font-size: 13px;">Khách hàng: @{{ action.print.name }}</div>
+                                <div class="CssPrintRow" style="padding: 2px 0 4px 0;font-size: 13px;">Khách hàng: @{{ action.print.name }} <span v-if="action.print.phone">- @{{ action.print.phone }}</span> <span v-if="action.print.address">- @{{ action.print.address }}</span></div>
                                 <div class="CssBillDetail">
                                     <table class="table table-bordered" style="width: 100%;font-size:12px;line-height: 18px;">
                                         <tbody>
@@ -610,11 +609,30 @@
                                         </tr>
 
                                         <tr>
-                                            <td class="CssNoLine" colspan="3" style="font-weight: bold">Phải trả:</td>
-                                            <td class="CssNoLine" style="text-align:right; font-weight: bold">@{{number_format(action.carts.total)}}</td>
+                                            <td nowrap="" colspan="3" class="CssNoLine" style="font-weight: bold">Tổng cộng </td>
+                                            <td nowrap="" class="CssNoLine" style="text-align:right; font-weight: bold">@{{number_format(action.carts.total)}}</td>
                                         </tr>
                                         <tr>
-                                            <td class="CssNoLine" colspan="4"><span style="font-style: italic; font-weight: bold">Bằng chữ: @{{ DocTienBangChu(action.carts.total) }}</span></td>
+                                            <td nowrap="" colspan="3" class="CssNoLine" style="font-weight: bold">Giảm giá</td>
+                                            <td nowrap="" class="CssNoLine" style="text-align:right; font-weight: bold">@{{number_format(action.sessions.discount)}}</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td nowrap="" colspan="3" class="CssNoLine" style="font-weight: bold">Vận chuyển</td>
+                                            <td nowrap="" class="CssNoLine" style="text-align:right; font-weight: bold">@{{number_format(action.sessions.transport)}}</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td nowrap="" colspan="3" class="CssNoLine" style="font-weight: bold">Thanh toán</td>
+                                            <td nowrap="" class="CssNoLine" style="text-align:right; font-weight: bold">@{{number_format(action.sessions.checkout)}}</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td class="CssNoLine" colspan="3" style="font-weight: bold">Phải trả:</td>
+                                            <td class="CssNoLine" style="text-align:right; font-weight: bold">@{{number_format(debt_session)}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="CssNoLine" colspan="4"><span style="font-style: italic; font-weight: bold">Bằng chữ: @{{ DocTienBangChu(debt_session) }}</span></td>
                                         </tr>
                                         </tbody>
                                     </table>
@@ -656,7 +674,7 @@
                                 <div class="CssPrintRow" style="padding: 2px 0;font-size: 13px;">Ngày giờ: @{{ action.print.time }}</div>
                                 <div class="CssPrintRow" style="padding: 2px 0;font-size: 13px;">Thu Ngân: Quản trị {{setting()->name}}</div>
                                 {{--                                <div class="CssPrintRow">Số phiếu: #XBA.2021.1084</div>--}}
-                                <div class="CssPrintRow" style="padding: 2px 0 4px 0;font-size: 13px;">Khách hàng: @{{ action.print.name }}</div>
+                                <div class="CssPrintRow" style="padding: 2px 0 4px 0;font-size: 13px;">Khách hàng: @{{ action.print.name }} <span v-if="action.print.phone">- @{{ action.print.phone }}</span> <span v-if="action.print.address">- @{{ action.print.address }}</span></div>
                                 <div class="CssBillDetail">
                                     <table class="table table-bordered" style="width: 100%;font-size:12px;line-height: 18px;">
                                         <tbody>
@@ -814,6 +832,8 @@
                     note: '{!! $order->note !!}',
                     time: 0,
                     name: 0,
+                    phone:0,
+                    address:0
                 },
                 products: {
                     id: {{@$product->id ?? 0}},
@@ -1036,7 +1056,8 @@
                                 app.action.sessions.total = data.order.total;
                                 app.action.sessions.checkout = data.order.checkout;
                                 app.action.sessions.revenue = data.order.revenue;
-                                flash('success','Xóa sản phẩm thành công!');
+                                flash({'message': 'Xóa sản phẩm thành công!', 'type': 'success'});
+                                console.log(data);
                             }
                         })
                     })
@@ -1046,7 +1067,9 @@
                 fetch('{{route('admin.ajax.get.data.print',':customer')}}'.replace(':customer',customer)).then(function(response){
                     return response.json().then(function(data){
                         app.action.print.time = data.time;
-                        app.action.print.name = data.customer.name;
+                        app.action.print.name = data.customer.name ?? data.customer.account;
+                        app.action.print.phone = data.customer.phone;
+                        app.action.print.address = data.customer.address;
                     })
                 })
             },

@@ -51,6 +51,7 @@ class ProductCategoryController extends Controller
     {
         check_admin_systems(SystemsModuleType::PRODUCT_CATEGORY);
         $categories = Category::whereType(CategoryType::PRODUCT_CATEGORY)->langs()->orderByDesc('id')->get();
+
         return view('Admin.Product.category.create',compact('categories'));
     }
 

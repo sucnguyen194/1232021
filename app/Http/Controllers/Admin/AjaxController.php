@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Attribute;
 use App\Models\Category;
 use App\Models\Import;
+use App\Models\Order;
 use App\models\Photo;
 use App\Models\Post;
 use App\Models\Product;
@@ -452,17 +453,28 @@ class AjaxController extends Controller {
         return response()->json($data);
     }
 
-    public function getRevenueSession($id,$quantity,$price){
-        $item = ProductSession::where('amount','>','amount_export')->whereProductId($id)->whereType('import')->oldest()->first();
+    public function getOrderPrint($id){
+        $order = Order::find($id);
+        $data['sessions'] = $order->sessions()->get()->load('product');
+        $data['customer'] = $order->customer;
+        $data['time'] = date('d/m/Y H:i', time());
+        $data['order'] = $order;
+        return response()->json($data);
+    }
 
-        $amount = $item->amount - abs($quantity);
-        if($amount >= 0){
-            $revenue = $price * $quantity - $item->price_in *  $quantity;
-        }else{
-            $revenue = $price * $item->amount - $item->price_in *  $item->amount;
-            $revenue += $this->sumRevenueSession($item,abs($amount),$price);
+    public function getRevenueSession($id,$quantity,$price){
+        $item = ProductSession::whereProductId($id)->whereType('import')->whereColumn('amount_export','<','amount')->oldest()->first();
+        if($item){
+            $amount = $item->amount - abs($quantity);
+            if($amount >= 0){
+                $revenue = $price * $quantity - $item->price_in *  $quantity;
+            }else{
+                $revenue = $price * $item->amount - $item->price_in *  $item->amount;
+                $revenue += $this->sumRevenueSession($item,abs($amount),$price);
+            }
+            return response()->json($revenue);
         }
-        return response()->json($revenue);
+        return response()->json('error');
     }
 
     public function sumRevenueSession($item, $quantity, $price){

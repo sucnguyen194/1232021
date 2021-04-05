@@ -125,6 +125,7 @@ class OrderController extends Controller
                     'transport' => $transport,
                     'discount' => $discount,
                     'debt' => $total + $transport - $checkout - $discount,
+                    'note' => $request->note,
                 ]);
                 return flash('Tạo đơn hàng thành công!',1,route('admin.orders.index'));
                 break;
@@ -328,7 +329,6 @@ class OrderController extends Controller
         check_admin_systems(SystemsModuleType::EXPORT);
         $product_session = new ProductSession();
         $session = ProductSession::find($id);
-
         $product_session->updateAmountSessionAfter($session->product_id, $amount);
 
         if(!$session) return 'error';
@@ -366,15 +366,18 @@ class OrderController extends Controller
     }
     public function destroyItemSession($id){
         check_admin_systems(SystemsModuleType::EXPORT);
+
         $session = ProductSession::find($id);
         if(!$session) return 'error';
+
+        $product_session = new ProductSession();
+        $product_session->updateAmountSessionAfter($session->product_id, $session->amount);
         //update số lượng sản phẩm
         if($session->product){
             $session->product()->update([
                 'amount' => $session->amount + $session->product->amount
             ]);
         }
-
         $total = $session->export->total - ($session->amount * $session->price);
         $debt = $total - $session->export->checkout;
         $revenue = $session->export->revenue - $session->revenue;

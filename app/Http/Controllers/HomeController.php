@@ -8,6 +8,7 @@ use App\Models\News;
 use App\Models\NewsCategory;
 use App\Models\Pages;
 use App\Models\Product;
+use App\Models\ProductSession;
 use App\Models\SiteSetting;
 use App\Models\Tags;
 use Illuminate\Http\Request;
@@ -32,6 +33,11 @@ class HomeController extends Controller
      */
     public function index()
     {
+        $id = 2;
+        //$item = ProductSession::whereProductId(2)->whereType('import')->where('amount','>','amount_export')->oldest()->get();
+        $item = ProductSession::whereProductId($id)->whereType('import')->whereColumn('amount','<>','amount_export')->oldest()->first();
+        dd($item);
+
         return view('Layouts.home');
     }
 

@@ -426,7 +426,7 @@
                                 <div class="CssPrintRow" style="padding: 2px 0;font-size: 13px;">Ngày giờ: @{{ print.time }}</div>
                                 <div class="CssPrintRow" style="padding: 2px 0;font-size: 13px;">Thu Ngân: Quản trị {{setting()->name}}</div>
                                 {{--                                <div class="CssPrintRow">Số phiếu: #XBA.2021.1084</div>--}}
-                                <div class="CssPrintRow" style="padding: 2px 0 4px 0;font-size: 13px;">Khách hàng: @{{ print.customer }}</div>
+                                <div class="CssPrintRow" style="padding: 2px 0 4px 0;font-size: 13px;">Khách hàng: @{{ print.customer }} <span v-if="print.phone">- @{{ print.phone }}</span> <span v-if="print.address">- @{{ print.address }}</span></div>
                                 <div class="CssBillDetail">
                                     <table class="table table-bordered" style="width: 460px;font-size:12px;line-height: 18px;">
                                         <tbody>
@@ -521,6 +521,8 @@
             print:{
               time: 0,
               customer: 0,
+              phone: 0,
+              address: null
             },
 
             name_update: 0,
@@ -543,7 +545,7 @@
                     fetch('{{route('admin.ajax.get.revenue',[':id',':amount',':price'])}}'.replace(':id',id).replace(':amount',amount).replace(':price',price)).then(function(response){
                         return response.json().then(function(data){
                             app.cart.revenue = data;
-                            //console.log(data);
+                            console.log(data);
                         })
                     })
                 }
@@ -563,6 +565,8 @@
                   return response.json().then(function(data){
                         app.print.time = data.time;
                         app.print.customer = data.customer.name ?? data.customer.account;
+                        app.print.phone = data.customer.phone;
+                        app.print.address = data.customer.address;
                   })
               })
             },

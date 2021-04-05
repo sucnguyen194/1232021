@@ -128,6 +128,7 @@ class UserController extends Controller
             if($user->lever < Auth::user()->lever)
                 return flash('Lỗi', 0, route('admin.users.index'));
 
+            $user->forceFill($request->data);
             if($request->hasFile('image')){
                 File::delete($user->avata);
                 upload_file_image($user, $request->input('image'), null,null, Upload::avata);

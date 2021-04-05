@@ -36,7 +36,7 @@
                             <label>Danh mục cha</label>
                             <select class="form-control" data-toggle="select2" name="data[parent_id]">
                                 <option value="0">Chọn danh mục</option>
-                                @foreach($categories as $item )
+                                @foreach($categories->where('parent_id',0) as $item )
                                     <option value="{{$item->id}}" {{old('category') == $item->id ? "selected" : ""}} class="font-weight-bold">{{$item->name}}</option>
                                     {{sub_option_category($categories,$item->id)}}
                                 @endforeach
