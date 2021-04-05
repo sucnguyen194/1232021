@@ -114,7 +114,7 @@
                             return res.json().then(function(data){
                                 $('.updatedebt').modal('hide');
                                 app.users = data;
-                                flash('success','Cập nhật thành công');
+                                flash({'message': 'success' ,'type': 'Cập nhật thành công'});
                             })
                         })
                     }
