@@ -132,7 +132,6 @@ class UserController extends Controller
                 File::delete($user->avata);
                 upload_file_image($user, $request->input('image'), null,null, Upload::avata);
             }
-
             if($request->password){
                 $password = $request->password;
                 $re_password = Hash::make($request->re_password);
@@ -143,7 +142,10 @@ class UserController extends Controller
                 $user->password = sha1(md5($request->password));
             }
            $user->save();
-           Auth::login($user, true);
+
+           if(auth()->id() == $user->id){
+               Auth::login($user, true);
+           }
 
            $user->systems()->sync($request->system);
 

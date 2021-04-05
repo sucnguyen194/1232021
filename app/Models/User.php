@@ -91,7 +91,6 @@ class User extends Authenticatable
         static::deleting(function($user){
             File::delete($user->avata);
             $user->transactions()->delete();
-            $user->systems()->delete();
         });
     }
 }

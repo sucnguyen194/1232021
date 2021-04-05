@@ -12,24 +12,24 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-//include 'Mobile_Detect.php';
-//$detect = new Mobile_Detect;
 
-
-Auth::routes();
-
+//Auth::routes();
 
 Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
 
-    Route::get('admincp', 'Login\AdminController@getLogin')->name('login');
-    Route::post('admincp', 'Login\AdminController@postLogin');
+//    Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
+//    Route::post('login', 'Auth\LoginController@login');
+//    Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 
-    Route::get('admin/first/user', 'login\AdminController@getFirstUse')->name('first.user');
-    Route::post('admin/first/user', 'login\AdminController@postFirstUse')->name('first.user');
+    Route::get('admincp', 'AdminController@getLogin')->name('login');
+    Route::post('admincp', 'AdminController@postLogin');
 
-    Route::group(['prefix' => 'admin'], function () {
+    Route::get('admin/first/user', 'AdminController@getFirstUse')->name('first.user');
+    Route::post('admin/first/user', 'AdminController@postFirstUse')->name('first.user');
+
+    Route::group(['prefix'=> 'admin'], function () {
+        Route::get('logout', 'AdminController@logout')->name('logout');
         //dashboard
-        Route::get('logout', 'login\AdminController@logout')->name('logout');
         Route::get('dashboard', 'DashboardController@index')->name('dashboard');
 
         //categories
@@ -62,19 +62,16 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
         Route::get('add/products/galleries/{lang}/{id}', 'GalleryController@lang')->name('products.galleries.lang');
         Route::resource('/products/galleries','GalleryController',['as' => 'products']);
         //products
+        Route::resource('attributes/categories','AttributeCategoryController',['as' => 'attributes']);
         Route::get('stock/card','ProductController@stock')->name('products.stock');
         Route::get('remove/products/{id}', 'ProductController@remove')->name('products.remove');
         Route::post('delete/products', 'ProductController@delete')->name('products.delete');
         Route::post('add/products/{lang}/{id}', 'ProductController@add')->name('products.add');
         Route::get('add/products/{lang}/{id}', 'ProductController@lang')->name('products.lang');
         Route::resource('products','ProductController');
+        Route::resource('attributes','AttributeController');
 
-        Route::group(['namespace' => 'Product'], function () {
 
-            Route::resource('attributes','AttributeController');
-            Route::resource('attribute_categorys','AttributeCategoryController');
-
-        });
         //Photos
         Route::resource('photos','PhotoController');
 
@@ -130,18 +127,15 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
         Route::get('active-lang/{id}','LangController@active')->name('active.lang');
         Route::resource('lang','LangController');
 
-        Route::group(['namespace' => 'Module'], function () {
-            Route::get('modules/action/{table}', 'ModulesController@actionIndex')->name('action.module.index');
-            Route::get('modules/action/{table}/add', 'ModulesController@createAction')->name('action.module.add');
-            Route::post('modules/action/{table}/add', 'ModulesController@storeAction');
-            Route::get('modules/action/{table}/{id}/edit', 'ModulesController@editAction')->name('action.module.edit');
-            Route::post('modules/action/{table}/{id}/edit', 'ModulesController@updateAction');
-            Route::get('modules/action/{table}/{id}/del', 'ModulesController@detroyAction')->name('action.module.destroy');
-
-            Route::resource('modules','ModulesController');
-            Route::resource('systems','SystemsController');
-
-        });
+        //module
+        Route::get('modules/action/{table}', 'ModulesController@actionIndex')->name('action.module.index');
+        Route::get('modules/action/{table}/add', 'ModulesController@createAction')->name('action.module.add');
+        Route::post('modules/action/{table}/add', 'ModulesController@storeAction');
+        Route::get('modules/action/{table}/{id}/edit', 'ModulesController@editAction')->name('action.module.edit');
+        Route::post('modules/action/{table}/{id}/edit', 'ModulesController@updateAction');
+        Route::get('modules/action/{table}/{id}/del', 'ModulesController@detroyAction')->name('action.module.destroy');
+        Route::resource('modules','ModulesController');
+        Route::resource('systems','SystemsController');
 
         Route::get('comments/{type}','CommentController@list')->name('comments.list');
         Route::get('comments/{type}/{id}','CommentController@detail')->name('comments.detail');

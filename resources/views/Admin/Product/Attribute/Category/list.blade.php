@@ -21,7 +21,7 @@
             <div class="col-12">
                 <div class="card-box table-responsive">
                     <div class="action-datatable text-right mb-3">
-                        <a href="{{route('admin.attribute_categorys.create')}}" class="btn btn-primary waves-effect width-md waves-light">
+                        <a href="{{route('admin.attributes.categories.create')}}" class="btn btn-primary waves-effect width-md waves-light">
                             <span class="icon-button"><i class="fe-plus"></i></span> Thêm mới</a>
                     </div>
                     <table id="datatable-buttons" class="table table-bordered dt-responsive" style="border-collapse: collapse; border-spacing: 0; ;">
@@ -54,12 +54,12 @@
                                 </td>
 
                                 <td>
-                                    <a href="{{route('admin.attribute_categorys.edit',$item)}}" class="btn btn-default waves-effect waves-light">
+                                    <a href="{{route('admin.attributes.categories.edit',$item)}}" class="btn btn-primary waves-effect waves-light">
                                         <span class="icon-button"><i class="fe-edit-2"></i></span></a>
-                                    <form method="post" action="{{route('admin.attribute_categorys.destroy',$item)}}" class="d-inline-block">
+                                    <form method="post" action="{{route('admin.attributes.categories.destroy',$item)}}" class="d-inline-block">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" onclick="return confirm('Bạn có chắc muốn xóa?');" class="btn btn-default waves-effect waves-light"><span class="icon-button"><i class="fe-x"></i></span></button>
+                                        <button type="submit" onclick="return confirm('Bạn có chắc muốn xóa?');" class="btn btn-warning waves-effect waves-light"><span class="icon-button"><i class="fe-x"></i></span></button>
                                     </form>
                                 </td>
                             </tr>

@@ -141,6 +141,7 @@ if(!function_exists('check_admin_systems')){
             return true;
 
         return abort(404);
+        return true;
     }
 }
 

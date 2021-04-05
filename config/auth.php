@@ -41,6 +41,11 @@ return [
             'provider' => 'users',
         ],
 
+        'admin' => [
+            'driver' => 'session',
+            'provider' => 'admins',
+        ],
+
         'api' => [
             'driver' => 'token',
             'provider' => 'users',
@@ -70,16 +75,21 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
         ],
-        'admins' => [
-            'driver' => 'eloquent',
-            'model' => App\Models\User::class,
-        ],
+//        'admins' => [
+//            'driver' => 'eloquent',
+//            'model' => App\Models\User::class,
+//        ],
         // 'users' => [
         //     'driver' => 'database',
         //     'table' => 'users',
         // ],
     ],
-
+//    'socialite' => [
+//        'drivers' => [
+//            'google',
+//            'facebook',
+//        ],
+//    ],
     /*
     |--------------------------------------------------------------------------
     | Resetting Passwords

@@ -1,4 +1,4 @@
-<?php namespace App\Http\Controllers\Admin\Login;
+<?php namespace App\Http\Controllers\Admin;
 use App\Enums\LeverUser;
 use App\Http\Requests\FirstUserRequest;
 use App\Models\User;

@@ -118,7 +118,6 @@ class Product extends Model
             $product->postLangsAfter()->delete();
             $product->slug()->delete();
             $product->tags()->delete();
-            $product->categories()->delete();
 
             if($product->photos){
                 foreach ($product->photos()->get() as $item):

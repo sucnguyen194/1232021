@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Module;
+namespace App\Http\Controllers\Admin;
 
 use App\Enums\SystemsModuleType;
 use App\Http\Controllers\Controller;

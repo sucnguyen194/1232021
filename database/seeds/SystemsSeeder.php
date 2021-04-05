@@ -95,7 +95,7 @@ class SystemsSeeder extends Seeder
         ]);
         System::create([
             'name' => 'Danh mục thuộc tính',
-            'route' => 'admin.attribute_categorys.index',
+            'route' => 'admin.attributes.categories.index',
             'type' =>  \App\Enums\SystemsModuleType::ATTRIBUTE_CATEGORY,
             'parent_id'=> $systems->id,
         ]);

@@ -11,7 +11,7 @@
   <meta property="og:title" content="@yield('title')" />
   <meta property="og:locale" content="vi_VN" />
   <meta property="og:type" content="website" />
-  <meta property="fb:app_id" content="{{optional($setting)->facebook_app_id}}" />
+  <meta property="fb:app_id" content="{{setting()->facebook_app_id}}" />
   <meta property="fb:app_id" content="707137683311999" />
   <meta property="fb:admins" content="100003744052092"/>
   <meta property="og:description" content="@yield('description')" />
@@ -26,7 +26,7 @@
   <meta name="twitter:title" content="@yield('title')"/>
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="@yield('url')">
-  <link rel="icon" href="{{asset(optional($setting)->favicon)}}">
+  <link rel="icon" href="{{asset(setting()->favicon)}}">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
   <!--*************************---->
   <base href="{{route('home')}}">

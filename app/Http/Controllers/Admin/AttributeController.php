@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Product;
+namespace App\Http\Controllers\Admin;
 
 use App\Enums\SystemsModuleType;
 use App\Http\Controllers\Controller;
@@ -63,7 +63,7 @@ class AttributeController extends Controller
         $attribute->forceFill($request->data);
         $attribute->save();
 
-        return redirect()->route('admin.attributes.index')->with(['message' => 'Thêm mới thành công!']);
+        return flash('Thêm mới thành công!', 1, route('admin.attributes.index'));
     }
 
     /**
@@ -109,7 +109,7 @@ class AttributeController extends Controller
         $attribute->forceFill($request->data);
         $attribute->save();
 
-        return back()->with(['message' => 'Cập nhật thành công!']);
+        return flash('Thêm mới thành công!', 1);
     }
 
     /**
@@ -122,7 +122,6 @@ class AttributeController extends Controller
     {
         check_admin_systems(SystemsModuleType::ATTRIBUTE);
         $attribute->delete();
-
-        return back()->with(['message' => 'Xóa thành công!']);
+        return flash('Xóa thành công!', 1);
     }
 }

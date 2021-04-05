@@ -77,12 +77,12 @@
                                     </td>
 
                                     <td>
-                                        <a href="{{route('admin.attributes.edit',$item)}}" class="btn btn-default waves-effect waves-light">
+                                        <a href="{{route('admin.attributes.edit',$item)}}" class="btn btn-primary waves-effect waves-light">
                                             <span class="icon-button"><i class="fe-edit-2"></i></span></a>
                                         <form method="post" action="{{route('admin.attributes.destroy',$item)}}" class="d-inline-block">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" onclick="return confirm('Bạn có chắc muốn xóa?');" class="btn btn-default waves-effect waves-light"><span class="icon-button"><i class="fe-x"></i></span></button>
+                                            <button type="submit" onclick="return confirm('Bạn có chắc muốn xóa?');" class="btn btn-warning waves-effect waves-light"><span class="icon-button"><i class="fe-x"></i></span></button>
                                         </form>
                                     </td>
                                 </tr>

@@ -91,7 +91,6 @@ class Post extends Model
         });
         static::deleting(function($post){
             $post->comments()->delete();
-            $post->categories()->delete();
             $post->slug()->delete();
             $post->tags()->delete();
             $post->postLangsAfter()->delete();

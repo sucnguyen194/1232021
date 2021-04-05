@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Product;
+namespace App\Http\Controllers\Admin;
 
 use App\Enums\SystemsModuleType;
 use App\Http\Controllers\Controller;
@@ -52,8 +52,7 @@ class AttributeCategoryController extends Controller
         $category = new AttributeCategory();
         $category->forceFill($request->data);
         $category->save();
-
-        return redirect()->route('admin.attribute_categorys.index')->with(['message' => 'Thêm mới thành công!']);
+        return flash('Thêm mới thành công!', 1,route('admin.attributes.categories.index') );
     }
 
     /**
@@ -98,7 +97,7 @@ class AttributeCategoryController extends Controller
         $attribute_category->forceFill($request->data);
         $attribute_category->save();
 
-        return redirect()->route('admin.attribute_categorys.index')->with(['message' => 'Cập nhật thành công!']);
+        return flash('Cập nhật thành công!', 1);
     }
 
     /**
@@ -113,6 +112,6 @@ class AttributeCategoryController extends Controller
 
         $attribute_category->delete();
 
-        return redirect()->back()->with(['message' => 'Xóa thành công!']);
+        return flash('Xóa thành công!', 1);
     }
 }
