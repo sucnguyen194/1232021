@@ -47,13 +47,13 @@
                                     </td>
 
                                     <td>
-                                        <a href="{{route('admin.systems.edit',$item)}}" class="btn btn-default waves-effect waves-light">
+                                        <a href="{{route('admin.systems.edit',$item)}}" class="btn btn-primary waves-effect waves-light">
                                             <span class="icon-button"><i class="fe-edit-2"></i></span></a>
 
                                         <form method="post" action="{{route('admin.systems.destroy',$item)}}" class="d-inline-block">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" onclick="return confirm('Bạn có chắc muốn xóa?');" class="btn btn-default waves-effect waves-light">
+                                            <button type="submit" onclick="return confirm('Bạn có chắc muốn xóa?');" class="btn btn-warning waves-effect waves-light">
                                                 <span class="icon-button"><i class="fe-x"></i></span></button>
                                         </form>
                                     </td>
@@ -89,7 +89,7 @@
         <!-- end row -->
 
     </div>
-
+<input type="hidden" class="type" value="{{\App\Enums\SystemsModuleType::SYSTEMS_MODULE}}">
 @stop
 
 @section('css')
@@ -102,28 +102,6 @@
 @stop
 
 @section('javascript')
-
-    <script type="text/javascript">
-        $(document).ready(function(){
-            $('input[name=sort]').keyup(function(){
-                url = "{{route('admin.ajax.data.sort')}}";
-                id = $(this).attr('data-id');
-                num = $(this).val();
-                _token = $('input[name=_token]').val();
-                $.ajax({
-                    url:url,
-                    type:'GET',
-                    cache:false,
-                    data:{'_token':_token,'id':id,'num':num,'type': '{{\App\Enums\SystemsModuleType::SYSTEMS_MODULE}}'},
-                    success:function(data){
-                        $('#change-sort-success_'+id+'').html('<i class="fa fa-check text-success" aria-hidden="true"></i>');
-                        $('#change-sort-success_'+id+'').fadeIn(1000);
-                        $('#change-sort-success_'+id+'').fadeOut(5000);
-                    }
-                });
-            });
-        })
-    </script>
 
     <!-- Required datatable js -->
     <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>

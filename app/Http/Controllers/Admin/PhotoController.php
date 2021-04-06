@@ -7,6 +7,7 @@ use App\Enums\SystemsModuleType;
 use App\Http\Controllers\Controller;
 use App\models\Photo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Schema;
 
 class PhotoController extends Controller
 {
@@ -23,7 +24,9 @@ class PhotoController extends Controller
             $q->wherePosition($position);
         })->public()->get();
 
-        $positions = \DB::table('position_image')->orderby('id','desc')->get();
+        $positions = [];
+        if(Schema::hasTable('position_image'))
+            $positions = \DB::table('position_image')->orderby('id','desc')->get();
 
         return  view('Admin.Photo.index',compact('photos','positions'));
     }
@@ -36,7 +39,10 @@ class PhotoController extends Controller
     public function create()
     {
         check_admin_systems(SystemsModuleType::PHOTO);
-        $positions = \DB::table('position_image')->orderby('id','desc')->get();
+        $positions = [];
+        if(Schema::hasTable('position_image'))
+            $positions = \DB::table('position_image')->orderby('id','desc')->get();
+
         return  view('Admin.Photo.create',compact('positions'));
     }
 
@@ -92,7 +98,9 @@ class PhotoController extends Controller
     public function edit(Photo $photo)
     {
         check_admin_systems(SystemsModuleType::PHOTO);
-        $positions = \DB::table('position_image')->orderby('id','desc')->get();
+        $positions = [];
+        if(Schema::hasTable('position_image'))
+            $positions = \DB::table('position_image')->orderby('id','desc')->get();
         return  view('Admin.Photo.edit',compact('photo','positions'));
     }
 

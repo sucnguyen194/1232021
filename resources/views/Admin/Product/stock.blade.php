@@ -88,11 +88,11 @@
                                 <td>{{number_format($item->price) ?? ""}}</td>
                                 @endif
                                 <td>
-                                    <a href="{{route('admin.user.index',['id' => $item->admin->id ?? 0])}}" target="_blank" class="{{$item->type == 'import' ? 'text-default' : "text-primary"}}" >{{$item->admin->name ?? "Tài khoản chưa đặt tên hoặc đã xóa"}}</a>
+                                    <a href="{{route('admin.users.index',['id' => $item->admin->id ?? 0])}}" target="_blank" class="{{$item->type == 'import' ? 'text-default' : "text-primary"}}" >{{$item->admin->name ?? "Tài khoản chưa đặt tên hoặc đã xóa"}}</a>
                                 </td>
                                 <td>
                                     @if($item->type =='export')
-                                        <a href="{{route('admin.user.index',['id' => $item->user->id ?? 0])}}" target="_blank" class="text-primary">{{$item->user->name ?? "TK chưa đặt tên hoặc đã xóa"}}</a>
+                                        <a href="{{route('admin.users.index',['id' => $item->user->id ?? 0])}}" target="_blank" class="text-primary">{{$item->user->name ?? "TK chưa đặt tên hoặc đã xóa"}}</a>
                                         @else
                                         <a href="{{route('admin.agencys.index',['id' => $item->agency->id ?? 0])}}" target="_blank" class="text-default">{{$item->agency->name ?? "TK chưa đặt tên hoặc đã xóa"}}</a>
                                     @endif

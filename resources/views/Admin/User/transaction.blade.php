@@ -9,7 +9,7 @@
                     <div class="page-title-right">
                         <ol class="breadcrumb m-0">
                             <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Bảng điều khiển</a></li>
-                            <li class="breadcrumb-item"><a href="{{route('admin.user.index')}}">Danh sách người dùng</a></li>
+                            <li class="breadcrumb-item"><a href="{{route('admin.users.index')}}">Danh sách người dùng</a></li>
                             <li class="breadcrumb-item active">Biển động số dư #{{$user->id}}</li>
                         </ol>
                     </div>
@@ -31,7 +31,7 @@
                                 <label class="ql-color-white hidden-xs" style="opacity: 0">-</label>
                                 <div class="mb-2 mb-lg-0 mb-md-0">
                                     <button class="btn btn-primary waves-effect waves-light" type="submit"><span class="icon-button"><i class="fe-search"></i></span> Tìm kiếm</button>
-                                    <a class="btn btn-default waves-effect waves-light" href="{{route('admin.user.show',$user)}}"><span class="icon-button"><i class="fe-arrow-left"></i></span> Quay lại</a>
+                                    <a class="btn btn-default waves-effect waves-light" href="{{route('admin.users.show',$user)}}"><span class="icon-button"><i class="fe-arrow-left"></i></span> Quay lại</a>
                                 </div>
                             </div>
                         </div>
@@ -44,7 +44,7 @@
             <div class="col-12">
                 <div class="card-box table-responsive">
                     <div class="action-datatable text-right mb-3">
-                        <a href="{{route('admin.user.index')}}" class="btn btn-default waves-effect waves-light">
+                        <a href="{{route('admin.users.index')}}" class="btn btn-default waves-effect waves-light">
                             <span class="icon-button"><i class="fe-arrow-left"></i></span> Quay lại</a>
                     </div>
                     <table id="datatable-buttons" class="table table-bordered table-hover bs-table" style="border-collapse: collapse; border-spacing: 0; ;">

@@ -146,16 +146,16 @@ if(!function_exists('check_admin_systems')){
 }
 
 if(!function_exists('sub_news_category')){
-    function sub_option_category($data,$id,$old="",$tab = '&nbsp;&nbsp;&nbsp;&nbsp;'){
+    function sub_option_category($data,$id,$old=""){
 
         foreach($data->where('parent_id', $id) as $item):
             $select = null;
             if($old == $item->id){
                 $select = "selected";
             }
-            echo '<option value="'.$item->id.'"'.$select.'>'.$tab.$item->name.'</option>';
+            echo '<option value="'.$item->id.'"'.$select.'>'.$item->name.'</option>';
 
-            sub_option_category($data,$item->id,$old,$tab."&nbsp;&nbsp;&nbsp;&nbsp;");
+            sub_option_category($data,$item->id,$old);
         endforeach;
     }
 }
@@ -424,11 +424,11 @@ if(!function_exists('scan_full_dir')){
 
 //Menu
 if(!function_exists('sub_menu_category_checkbox')){
-    function sub_menu_category_checkbox($data,$parent,$tab='&nbsp;&nbsp;'){
+    function sub_menu_category_checkbox($data,$parent,$tab='<span class="ml-2"></span>'){
         foreach ($data->where('parent_id', $parent) as $key => $value) {
             $name = $value->title ?? $value->name;
            echo $tab.'<label><span class="tree-sub"></span><a href="javascript:void(0)" class="addmenu text-secondary" title="Thêm ::::::'.$name.':::::: vào menu" data-name="'.$name.'" data-url="'.$value->alias.'" data-image="'.$value->image.'" data-thumb="'.$value->thumb.'"><span class="text-left"><i class="fe-plus pr-1"></i></span>'.$name.'</a></label><br>';
-
+            sub_menu_category_checkbox($data, $value->id,$tab.'<span class="ml-2"></span>');
         }
     }
 }
@@ -448,14 +448,13 @@ if(!function_exists('menu_update_position')){
 
 if(!function_exists('sub_add_menu')){
 
-    function sub_add_menu($data,$id,$old=null,$tab = '&nbsp;&nbsp;'){
+    function sub_add_menu($data,$id,$old=null){
         foreach($data->where('parent_id', $id) as $item):
             $select = null;
             if($old == $item->id){
                 $select = "selected";
             }
-            echo '<option value="'.$item->id.'"'.$select.'>'.$tab.$item->name.'</option>';
-            sub_add_menu($data,$item->id,$old,$tab."&nbsp;&nbsp;");
+            echo '<option value="'.$item->id.'"'.$select.'>'.$item->name.'</option>';
         endforeach;
     }
 }
