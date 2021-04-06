@@ -56,7 +56,7 @@ class OrderController extends Controller
     {
         check_admin_systems(SystemsModuleType::EXPORT);
 
-        $products = Product::selectRaw('id, name, amount')->public()->orderByDesc('id')->get();
+        $products = Product::selectRaw('id, name, amount')->public()->orderby('name', 'asc')->get();
         $users = User::selectRaw('id,name,account,phone')->whereLever(LeverUser::USER)->orderByDesc('id')->get();
         $agencys = UserAgency::selectRaw('id, name, phone')->status()->orderByDesc('id')->get();
 
@@ -161,7 +161,7 @@ class OrderController extends Controller
         $users = User::selectRaw('id,name,account')->whereLever(LeverUser::ADMIN)->get();
         $customers = User::selectRaw('id,name,account,phone')->whereLever(LeverUser::USER)->get();
         $agencys = UserAgency::status()->get()->pluck('name','id','phone');
-        $products = Product::selectRaw('id,name,amount, price')->whereNotIn('id', $order->sessions()->pluck('product_id')->toArray())->public()->orderByDesc('created_at')->get();
+        $products = Product::selectRaw('id,name,amount, price')->whereNotIn('id', $order->sessions()->pluck('product_id')->toArray())->public()->orderby('name', 'asc')->get();
         $array = $products->pluck('id')->toArray();
 
         foreach(Cart::instance('export_'.$order->id)->content() as $cart){
@@ -430,7 +430,7 @@ class OrderController extends Controller
                     'revenue' => $revenue,
                     'price_in' => $sesions ? $sesions->price_in : null,
                     'amount' => $product->amount,
-                    'sort' => time()
+                    'sort' => $product->name,
                 ]
             ]);
         }else{
@@ -444,7 +444,7 @@ class OrderController extends Controller
                     'revenue' => $revenue,
                     'price_in' => $sesions ? $sesions->price_in : null,
                     'amount' => $product->amount,
-                    'sort' => time()
+                    'sort' => $product->name,
                 ]
             ]);
         }
@@ -481,7 +481,7 @@ class OrderController extends Controller
                 'revenue' => $revenue,
                 'price_in' => $cart->options->price_in,
                 'amount' => $cart->options->amount,
-                'sort' => time()
+                'sort' => $product->name,
             ]
         ]);
 

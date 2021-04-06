@@ -390,7 +390,7 @@
         slug = slug.replace(/\@\-|\-\@|\@/gi, '');
         //In slug ra textbox có id “slug”
         document.getElementById('alias').value = slug;
-        document.getElementById('alias_seo').innerText = url + $(this).val() + '.html';
+        document.getElementById('alias_seo').innerText = url + slug + '.html';
     }
     jQuery(document).ready(function($) {
 

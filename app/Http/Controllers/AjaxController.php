@@ -38,7 +38,7 @@ class AjaxController extends Controller {
         }
     }
 
-    public  function addShoppingCart($id){
+    public function addShoppingCart($id){
         $product = Product::find($id);
         $category = Category::find($product->category_id);
         $qty = $request->qty ?? 1;

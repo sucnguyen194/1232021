@@ -602,7 +602,7 @@
                                     $('#products').select2();
                                 },0)
                                 $('#update-product').modal('hide');
-                                flash('success','Cập nhật số lượng thành công!');
+                                flash({'message': 'Cập nhật số lượng thành công!', 'type': 'success'});
                             })
                         })
                 }
@@ -625,12 +625,12 @@
                     fetch('{{route('admin.ajax.update.item.export',[':rowId',':amount',':price',':revenue'])}}'.replace(':rowId', rowId).replace(':amount', amount).replace(':price', price).replace(':revenue', revenue)).then(function (response) {
                         return response.json().then(function (data) {
                             if(data == 'error'){
-                                flash('error', 'Số lượng trong kho không đủ. Vui lòng cập nhật thêm!');
+                                flash({'message': 'Số lượng trong kho không đủ. Vui lòng cập nhật thêm!', 'type': 'warning'});
                             }else{
                                 app.carts = data.cart;
                                 app.total = data.total.replaceAll(',','');
                                 $('#item-cart').modal('hide');
-                                flash('success', 'Cập nhật thành công!');
+                                flash({'message': 'Cập nhật thành công!', 'type': 'success'});
                             }
                         })
                     })
@@ -642,7 +642,7 @@
                         return reponse.json().then(function (data) {
                             app.carts = data.cart;
                             app.total = data.total;
-                            flash('success', 'Xóa sản phẩm thành công!');
+                            flash({'message': 'Xóa sản phẩm thành công!', 'type': 'success'});
                         });
                     })
                 }
@@ -652,11 +652,11 @@
                 fetch('{{route('admin.ajax.export.product',[':id',':amount',':price',':revenue'])}}'.replace(":id",this.product_id).replace(":amount",this.amount).replace(":price",this.price_out).replace(":revenue",this.cart.revenue)).then(function(reponse){
                     return reponse.json().then(function(data){
                         if(data == 'max'){
-                            flash('error','Tồn kho không đủ! Vui lòng cập nhật thêm!');
+                            flash({'message': 'Tồn kho không đủ! Vui lòng cập nhật thêm!', 'type': 'warning'});
                         }else{
                             app.carts = data.cart;
                             app.total = data.total;
-                            flash('success','Thêm sản phẩm thành công!');
+                            flash({'message': 'Thêm sản phẩm thành công!', 'type': 'success'});
                         }
                     });
                 })

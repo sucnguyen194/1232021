@@ -22,9 +22,9 @@
         <div class="row">
             <div class="col-12">
                 <div class="card-box table-responsive">
-                    <div class="action-datatable mb-3">
+                    <div class="action-datatable text-right mb-3">
 
-                        <a href="{{route('admin.debts.create')}}" class="btn btn-primary waves-effect width-md waves-light float-right">
+                        <a href="{{route('admin.debts.create')}}" class="btn btn-primary waves-effect width-md waves-light">
                             <span class="icon-button"><i class="fe-plus"></i></span> Thêm mới</a>
                     </div>
 
