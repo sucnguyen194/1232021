@@ -133,20 +133,14 @@ class DashboardController extends Controller {
             $today = $orders->whereBetween('created_at', [today()->startOfDay(), today()->endOfDay()])->count();
             $yesterday = $orders->whereBetween('created_at', [\Carbon\Carbon::yesterday()->startOfDay(), \Carbon\Carbon::yesterday()->endOfDay()])->count();
 
-            if($today > $yesterday){
+            if($today != $yesterday){
                 if($yesterday > 0){
                     $per_order = ($today - $yesterday) / $yesterday * 100;
                 }else{
                     $per_order = ($today - $yesterday) / ($yesterday+1) * 100;
                 }
-            }elseif($today == $yesterday){
-                $per_order = 0;
             }else{
-                if($today > 0){
-                    $per_order = - ($yesterday - $today) / $today * 100;
-                }else{
-                    $per_order = - ($yesterday - $today) / ($today+1) * 100;
-                }
+                $per_order = 0;
             }
 
             $data['per_order'] = $per_order;

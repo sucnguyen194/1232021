@@ -23,7 +23,15 @@
                 <div class="card-box">
                     <form method="get">
                         <div class="row">
-                            <div class="col-md-4 mb-2 mb-lg-0 mb-md-0">
+                            <div class="col-md-3 mb-2 mb-lg-0 mb-md-0">
+                                <label>Phân loại</label>
+                                <select class="form-control" data-toggle="select2" name="type">
+                                    <option value="">-----</option>
+                                    <option value="import" {{request()->type == 'import' ? "selected" : ""}}>Nhập hàng</option>
+                                    <option value="export" {{request()->type == 'export' ? "selected" : ""}}>Xuất hàng</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3 mb-2 mb-lg-0 mb-md-0">
                                 <label>Sản phẩm</label>
                                 <select class="form-control" data-toggle="select2" name="product">
                                     <option value="">-----</option>
@@ -32,12 +40,11 @@
                                     @endforeach
                                 </select>
                             </div>
-
-                            <div class="col-md-4 mb-2 mb-lg-0 mb-md-0">
+                            <div class="col-md-3 mb-2 mb-lg-0 mb-md-0">
                                 <label>Thời gian</label>
                                 <input type="text" id="reportrange" name="date" value="{{request()->date}}" placeholder="Từ ngày - đến ngày" class="form-control"/>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <label class="ql-color-white hidden-xs" style="opacity: 0">-</label>
                                 <div class="mb-2 mb-lg-0 mb-md-0">
                                     <button class="btn btn-primary waves-effect waves-light" type="submit"><span class="icon-button"><i class="fe-search"></i></span> Tìm kiếm</button>
@@ -50,7 +57,73 @@
                 </div>
             </div>
         </div>
-
+        <div class="card-box">
+            <div class="row">
+                <div class="col-lg-3">
+                    <label>Tổng nhập</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span id="basic-addon1" class="input-group-text">SL</span>
+                        </div>
+                        <div class="font-weight-bold form-control">{{$import}}</div>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <label>Tổng xuất</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span id="basic-addon1" class="input-group-text">SL</span>
+                        </div>
+                        <div class="font-weight-bold form-control">{{$export}}</div>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <label>Tồn kho</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span id="basic-addon1" class="input-group-text">SL</span>
+                        </div>
+                        <div class="font-weight-bold form-control">{{$import - $export}}</div>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <label>Tổng vốn</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span id="basic-addon1" class="input-group-text">VNĐ</span>
+                        </div>
+                        <div class="font-weight-bold form-control">{{number_format($import_debt)}}</div>
+                    </div>
+                </div>
+                <div class="col-lg-3 mt-2">
+                    <label>Doanh thu</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span id="basic-addon1" class="input-group-text">VNĐ</span>
+                        </div>
+                        <div class="font-weight-bold form-control">{{number_format($sales)}}</div>
+                    </div>
+                </div>
+                <div class="col-lg-3 mt-2">
+                    <label>Lợi nhuận</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span id="basic-addon1" class="input-group-text">VNĐ</span>
+                        </div>
+                        <div class="font-weight-bold form-control">{{number_format($revenue)}}</div>
+                    </div>
+                </div>
+                <div class="col-lg-3 mt-2">
+                    <label>Vốn tồn kho</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span id="basic-addon1" class="input-group-text">VNĐ</span>
+                        </div>
+                        <div class="font-weight-bold form-control">{{number_format($balance)}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="row">
             <div class="col-12">
                 <div class="card-box table-responsive">

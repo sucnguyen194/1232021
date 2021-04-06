@@ -21,18 +21,15 @@
   <component name="ChangeListManager">
     <list default="true" id="b3b9f26c-59c6-4a81-8472-a31af9821b60" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Helpers/Helper.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Helpers/Helper.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/PhotoController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/PhotoController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/Admin/Auth/login.blade.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/Admin/Auth/passwords/confirm.blade.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/Admin/Auth/passwords/email.blade.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/Admin/Auth/passwords/reset.blade.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/Admin/Auth/register.blade.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/Admin/Auth/verify.blade.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/Admin/Module/systems/list.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Admin/Module/systems/list.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/DashboardController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/DashboardController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/ProductController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/ProductController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/SettingController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/SettingController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/Admin/Order/list.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Admin/Order/list.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/Admin/Product/add.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Admin/Product/add.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/Admin/Product/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Admin/Product/edit.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/Admin/Product/lang.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Admin/Product/lang.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/Admin/Product/stock.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Admin/Product/stock.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/Admin/User/transaction.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Admin/User/transaction.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/home.blade.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/Admin/Report/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Admin/Report/index.blade.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -266,7 +263,7 @@
       <workItem from="1617328444661" duration="26109000" />
       <workItem from="1617412304075" duration="23815000" />
       <workItem from="1617587513664" duration="30212000" />
-      <workItem from="1617673925345" duration="4072000" />
+      <workItem from="1617673925345" duration="10148000" />
     </task>
     <servers />
   </component>

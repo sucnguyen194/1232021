@@ -39,7 +39,7 @@ class SettingController extends Controller
         }
         if($request->unlink_og){
             File::delete($setting->og_image);
-            $setting->logo =  null;
+            $setting->unlink_og =  null;
         }elseif($request->hasFile(Upload::og_image)){
             File::delete($setting->og_image);
             $file = $request->file(Upload::og_image);

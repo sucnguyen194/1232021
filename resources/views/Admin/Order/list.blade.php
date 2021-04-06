@@ -301,7 +301,7 @@
         },
          computed:{
             money:function(){
-                return this.total - this.discount + this.transport - this.checkout;
+                return Number(this.total) - Number(this.discount) + Number(this.transport) - Number(this.checkout);
             }
          }
      });

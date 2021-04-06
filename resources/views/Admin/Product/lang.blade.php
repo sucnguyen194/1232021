@@ -36,7 +36,7 @@
                             <div class="col-lg-4 col-12">
                                 <div class="form-group">
                                     <label>Mã sản phẩm</label>
-                                    <input type="text" class="form-control" value="{{old('data.code')}}" id="code" name="data[code]">
+                                    <input type="text" class="form-control" value="{{old('data.code') ?? \Illuminate\Support\Str::upper(\Illuminate\Support\Str::random(7))}}" id="code" name="data[code]">
                                 </div>
                             </div>
                             <div class="col-lg-4 col-12">

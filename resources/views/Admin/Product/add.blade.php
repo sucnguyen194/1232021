@@ -36,7 +36,7 @@
                             <div class="col-lg-4 col-12">
                                 <div class="form-group">
                                     <label>Mã sản phẩm</label>
-                                    <input type="text" class="form-control" value="{{old('data.code')}}" id="code" name="data[code]">
+                                    <input type="text" class="form-control" value="{{old('data.code') ?? \Illuminate\Support\Str::upper(\Illuminate\Support\Str::random(7))}}" id="code" name="data[code]">
                                 </div>
                             </div>
                             <div class="col-lg-4 col-12">
@@ -118,10 +118,10 @@
                         <p class="font-13">Thiết lập các thẻ mô tả giúp khách hàng dễ dàng tìm thấy trang trên công cụ tìm kiếm như Google.</p>
 
                         <div class="test-seo">
-                            <div class="">
+                            <div class="mb-1">
                                 <a href="javascript:void(0)" class="title-seo"></a>
                             </div>
-                            <div class="url-seo font-weight-bold mb-1">
+                            <div class="url-seo">
                                 <span class="alias-seo" id="alias_seo">{{route('home')}}</span>
                             </div>
                             <div class="description-seo"></div>

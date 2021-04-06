@@ -116,8 +116,8 @@
                                     {{number_format($item->balance)}}
                                 </td>
                                 <td>
-                                    <a href="{{route('admin.reports.show',$item->product_id)}}" class="btn btn-default waves-effect waves-light">
-                                        <span class="icon-button"><i class="pe-7s-magic-wand"></i> </span>Chi tiết</a>
+                                    <a href="{{route('admin.reports.show',$item->product_id)}}" class="btn btn-info waves-effect waves-light">
+                                       Chi tiết</a>
                                 </td>
                             </tr>
                         @endforeach

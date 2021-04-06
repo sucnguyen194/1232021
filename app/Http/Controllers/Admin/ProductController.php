@@ -66,10 +66,31 @@ class ProductController extends Controller
             ->when(\request()->product,function($q, $product){
                 $q->where('product_id', $product);
             })
+            ->when(\request()->type,function($q, $type){
+                $q->where('type', $type);
+            })
             ->orderByDesc('created_at')
             ->get();
+        $import = $sessions->where('type','import');
+        $export = $sessions->where('type','export');
+        $import_debt = 0;
+        $sales = 0;
+        //vốn nhập hàng
+        foreach ($import as $session){
+            $debt = $session->price_in * $session->amount;
+            $import_debt += $debt;
+        }
+        //doanh thu
+        foreach ($export as $session){
+            $revenue = $session->price * $session->amount;
+            $sales += $revenue;
+        }
+        $balance = $import_debt - $sales;
+        $revenue = $sessions->sum('revenue');
+        $import = $import->sum('amount');
+        $export = $export->sum('amount');
 
-        return view('Admin.Product.stock',compact('sessions','products'));
+        return view('Admin.Product.stock',compact('sessions','products','import','export','import_debt','sales','revenue','balance'));
     }
     /**
      * Show the form for creating a new resource.

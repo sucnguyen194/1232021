@@ -157,10 +157,10 @@
                         <p class="font-13">Thiết lập các thẻ mô tả giúp khách hàng dễ dàng tìm thấy trang trên công cụ tìm kiếm như Google.</p>
 
                         <div class="test-seo">
-                            <div class="">
+                            <div class="mb-1">
                                 <a href="javascript:void(0)" class="title-seo">{{$product->title_seo}}</a>
                             </div>
-                            <div class="url-seo font-weight-bold mb-1">
+                            <div class="url-seo">
                                 <span class="alias-seo" id="alias_seo">{{route('alias', $product->alias)}}</span>
                             </div>
                             <div class="description-seo">{!! $product->description_seo !!}</div>
@@ -390,7 +390,7 @@
                         fetch('{{route('admin.ajax.remove.photo',':id')}}'.replace(':id',id)).then(function(res){
                             return res.json().then(function(data){
                                 removePhoto(id);
-                                flash('success','Xóa hình ảnh thành công!');
+                                flash({'messsage': 'Xóa hình ảnh thành công!', 'type': 'success'});
                             })
                         })
                     }
@@ -410,7 +410,7 @@
                             }
                         }
                     ).then(function(){
-                        flash('success','Upload hình ảnh thành công!');
+                        flash({'messsage': 'Upload hình ảnh thành công!', 'type': 'success'});
                         //console.log('SUCCESS!!');
                     })
                         .catch(function(){
@@ -429,7 +429,7 @@
                     fetch('{{route('admin.ajax.set.alt',[':id',':alt'])}}'.replace(':id', id).replace(':alt',alt)).then(function(response){
                         return response.json().then(function(data){
                             $('.updateALT').modal('hide');
-                            flash('success','Cập nhật ALT thành công!');
+                            flash({'messsage': 'Cập nhật ALT thành công!', 'type': 'success'});
                         })
                     })
                 },
