@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Enums\AliasType;
+use App\Enums\SystemsModuleType;
 use App\Models\Alias;
+use App\Models\Category;
 use App\Models\News;
 use App\Models\NewsCategory;
 use App\Models\Pages;
+use App\Models\Post;
 use App\Models\Product;
 use App\Models\ProductSession;
 use App\Models\SiteSetting;
@@ -33,11 +36,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $id = 2;
-        //$item = ProductSession::whereProductId(2)->whereType('import')->where('amount','>','amount_export')->oldest()->get();
-        $item = ProductSession::whereProductId($id)->whereType('import')->whereColumn('amount','<>','amount_export')->oldest()->first();
-        dd($item);
-
         return view('Layouts.home');
     }
 
@@ -55,45 +53,34 @@ class HomeController extends Controller
             case (AliasType::PRODUCT_CATEGORY);
                 return view('Product.category');
                 break;
-            case (AliasType::NEWS);
+            case (AliasType::POST);
 //                $model = $object->findModel($object->type,$object->type_id);
 //                $data['comments'] = $model->comments->load(['user','admin']);
 //                $data['model'] = $model;
-                $news = News::whereAlias($alias)->public()->firstOrFail();
-                $data['news'] = $news;
-                $data['cate'] = NewsCategory::find($news->category_id);
-                $data['related'] = $news->categoryid()->newsnotid()->public()->langs()->take(6)->orderByDesc('updated_at')->get();
+                $post = Post::whereAlias($alias)->public()->firstOrFail();
+                $data['post'] = $post;
+                $data['cate'] = $post->category()->get();
+                //$data['related'] = $news->categoryid()->newsnotid()->public()->langs()->take(6)->orderByDesc('updated_at')->get();
 //                $data['tags'] = Tags::whereType(AliasType::NEWS)->whereTypeId($news->id)->get();
 //                $data['prev'] = News::where('id','<',$news->id)->whereCategoryId($news->category_id)->langs()->public()->first();
 //                $data['next'] = News::where('id','>',$news->id)->whereCategoryId($news->category_id)->langs()->public()->first();
 
-                if(Session::get(AliasType::NEWS) <> $news->id){
-                    $news->update(['view' => $news->view + 1]);
-                    Session::put(AliasType::NEWS, $news->id);
+                if(Session::get(AliasType::POST) <> $post->id){
+                    $post->update(['view' => $post->view + 1]);
+                    Session::put(AliasType::POST, $post->id);
                 }
+                if($post->type == SystemsModuleType::PAGE)
+                    return view('Post.page', $data);
 
-                return view('News.news',$data);
+                return view('Post.show',$data);
                 break;
-            case (AliasType::NEWS_CATEGORY);
-                $data['cate'] = NewsCategory::whereAlias($alias)->public()->firstOrFail();
-                $data['news'] = News::with(['category','categorys','user'])->orwhereHas('categorys',function($q) use ($data) {
+            case (AliasType::POST_CATEGORY);
+                $data['cate'] = Category::whereAlias($alias)->public()->firstOrFail();
+                $data['posts'] = Post::with(['category','user','categories'])->orwhereHas('categories',function($q) use ($data) {
                     $q->where('category_id',$data['cate']->id);
                 })->orWhere('category_id',$data['cate']->id)->public()->langs()->paginate(20);
 
-                return view('News.category', $data);
-                break;
-            case (AliasType::PAGES);
-                $page = Pages::whereAlias($alias)->public()->firstOrFail();
-                $data['page'] = $page;
-                $data['related'] = Pages::public()->where('id', '<>',$page->id)->langs()->take(6)->orderByDesc('updated_at')->get();
-                $data['prev'] = $page->where('id','<',$data['page']->id)->public()->langs()->first();
-                $data['next'] = $page->where('id','>',$data['page']->id)->public()->langs()->first();
-
-                if(Session::get(AliasType::PAGES) <> $page->id)
-                    $page->update(['view' => $page->view + 1]);
-                Session::put(AliasType::PAGES, $page->id);
-
-                return view('Page.page',$data);
+                return view('Post.index', $data);
                 break;
             case (AliasType::RECRUITMENT);
                 return view('Recruitment.recruitment');

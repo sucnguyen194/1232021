@@ -20,13 +20,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b3b9f26c-59c6-4a81-8472-a31af9821b60" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/resources/lang/en/lang.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/lang/vn/lang.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/AjaxController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/AjaxController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/OrderController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/OrderController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/AjaxController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/AjaxController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/Admin/Debt/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Admin/Debt/index.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/Admin/Layout/layout.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Admin/Layout/layout.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/Admin/Order/add.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Admin/Order/add.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Enums/AliasType.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Enums/AliasType.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/ProductController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/ProductController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/HomeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/HomeController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/admin/ckeditor/config.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/admin/ckeditor/config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/admin/css/cpanel.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/admin/css/cpanel.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/Admin/Order/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Admin/Order/edit.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/Admin/Product/stock.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Admin/Product/stock.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/Admin/Report/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Admin/Report/index.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/Admin/Report/show.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Admin/Report/show.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/Contact/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Contact/index.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/Layouts/home.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Layouts/home.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/News/category.blade.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/News/news.blade.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/Page/page.blade.php" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -260,7 +270,8 @@
       <workItem from="1617328444661" duration="26109000" />
       <workItem from="1617412304075" duration="23815000" />
       <workItem from="1617587513664" duration="30212000" />
-      <workItem from="1617673925345" duration="14745000" />
+      <workItem from="1617673925345" duration="19719000" />
+      <workItem from="1617760734759" duration="5448000" />
     </task>
     <servers />
   </component>
@@ -300,6 +311,10 @@
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
     <state x="-1354" y="130" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1617438408994" />
+    <state x="-1143" y="434" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1617699629513">
+      <screen x="-1920" y="0" width="1920" height="1040" />
+    </state>
+    <state x="-1143" y="434" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1617699629513" />
     <state x="-1220" y="270" width="1333" height="710" key="dock-window-1" timestamp="1617158567973">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
@@ -316,17 +331,17 @@
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
     <state x="-1304" y="240" key="run.anything.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1616832849747" />
-    <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1617621868812">
+    <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1617761361775">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
-    <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1617621868812" />
+    <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1617761361775" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="php">
           <url>file://$PROJECT_DIR$/resources/views/Admin/Order/edit.blade.php</url>
-          <line>723</line>
+          <line>736</line>
           <option name="timeStamp" value="1" />
         </line-breakpoint>
       </breakpoints>

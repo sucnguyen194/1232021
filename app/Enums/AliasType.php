@@ -19,9 +19,8 @@ final class AliasType extends Enum
     const HOMEGALLERY = 'HOMEGALLERY';
     const PRODUCT = 'PRODUCT';
     const PRODUCT_CATEGORY = 'PRODUCT_CATEGORY';
-    const NEWS = 'NEWS';
-    const NEWS_CATEGORY = 'NEWS_CATEGORY';
-    const PAGES = 'PAGES';
+    const POST = 'POST';
+    const POST_CATEGORY = 'POST_CATEGORY';
     const RECRUITMENT = 'RECRUIMENT';
     const RECRUITMENT_CATEGORY = 'RECUITMENT_CATEGORY';
 }

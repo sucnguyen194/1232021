@@ -695,13 +695,26 @@
                                             <td nowrap="" colspan="3" class="CssNoLine" style="font-weight: bold">Tổng cộng </td>
                                             <td nowrap="" class="CssNoLine" style="text-align:right; font-weight: bold">@{{number_format(action.sessions.total)}}</td>
                                         </tr>
+                                        <tr>
+                                            <td nowrap="" colspan="3" class="CssNoLine" style="font-weight: bold">Giảm giá</td>
+                                            <td nowrap="" class="CssNoLine" style="text-align:right; font-weight: bold">@{{number_format(action.sessions.discount)}}</td>
+                                        </tr>
 
                                         <tr>
-                                            <td class="CssNoLine" colspan="3" style="font-weight: bold">Phải trả:</td>
-                                            <td class="CssNoLine" style="text-align:right; font-weight: bold">@{{number_format(action.sessions.total)}}</td>
+                                            <td nowrap="" colspan="3" class="CssNoLine" style="font-weight: bold">Vận chuyển</td>
+                                            <td nowrap="" class="CssNoLine" style="text-align:right; font-weight: bold">@{{number_format(action.sessions.transport)}}</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td nowrap="" colspan="3" class="CssNoLine" style="font-weight: bold">Thanh toán</td>
+                                            <td nowrap="" class="CssNoLine" style="text-align:right; font-weight: bold">@{{number_format(action.sessions.checkout)}}</td>
                                         </tr>
                                         <tr>
-                                            <td class="CssNoLine" colspan="4"><span style="font-style: italic; font-weight: bold">Bằng chữ: @{{ DocTienBangChu(action.sessions.total) }}</span></td>
+                                            <td class="CssNoLine" colspan="3" style="font-weight: bold">Phải trả:</td>
+                                            <td class="CssNoLine" style="text-align:right; font-weight: bold">@{{number_format(debt_session)}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="CssNoLine" colspan="4"><span style="font-style: italic; font-weight: bold">Bằng chữ: @{{ DocTienBangChu(debt_session) }}</span></td>
                                         </tr>
                                         </tbody>
                                     </table>
@@ -909,12 +922,12 @@
                     fetch('{{route('admin.orders.update.cart',[':order',':rowId',':amount',':price',':revenue'])}}'.replace(':order', this.order_id).replace(':rowId', rowId).replace(':amount', amount).replace(':price', price).replace(':revenue', revenue)).then(function (response) {
                         return response.json().then(function (data) {
                             if(data == 'error'){
-                                flash('error', 'Số lượng trong kho không đủ. Vui lòng cập nhật thêm!');
+                                flash({'message': 'Số lượng trong kho không đủ. Vui lòng cập nhật thêm!', 'type': 'warning'});
                             }else{
                                 app.carts = data.cart;
                                 app.action.carts.total = data.total.replaceAll(',','');
                                 $('#item-cart').modal('hide');
-                                flash('success', 'Cập nhật thành công!');
+                                flash({'message': 'Cập nhật thành công!', 'type': 'success'});
                             }
                         })
                     })
@@ -926,7 +939,7 @@
                         return reponse.json().then(function (data) {
                             app.carts = data.cart;
                             app.action.carts.total = data.total.replaceAll(',','');
-                            flash('success', 'Xóa sản phẩm thành công!');
+                            flash({'message': 'Xóa sản phẩm thành công!', 'type': 'success'});
                         });
                     })
                 }
@@ -967,7 +980,7 @@
                                     $('#products').select2();
                                 },0)
                                 $('#update-product').modal('hide');
-                                flash('success','Cập nhật số lượng thành công!');
+                                flash({'message': 'Cập nhật số lượng thành công!', 'type': 'success'});
                             })
                         })
                 }
@@ -977,7 +990,7 @@
                     return reponse.json().then(function(data){
                         app.carts = data.cart;
                         app.action.carts.total = data.total.replaceAll(',','');
-                        flash('success','Thêm sản phẩm thành công!');
+                        flash({'message': 'Thêm sản phẩm thành công!', 'type': 'success'});
                     });
                 })
             },
@@ -1014,7 +1027,7 @@
                 fetch('{{route('admin.orders.get.session',':id')}}'.replace(':id',id)).then(function(response){
                     return response.json().then(function(data){
                         if(data == 'error'){
-                            flash(data,'Đã có lỗi xảy ra. Vui lòng thử lại!');
+                            flash({'message': 'Đã có lỗi xảy ra. Vui lòng thử lại!', 'type': 'error'});
                         }else{
                             app.action.sessions.name = data.product.name;
                             app.action.sessions.max = Number(data.product.amount) + Number(data.amount) ;
@@ -1032,14 +1045,14 @@
                     fetch('{{route('admin.orders.update.session',[':id',':amount',':price',':revenue'])}}'.replace(':id',id).replace(':amount',amount).replace(':price',price).replace(':revenue',revenue)).then(function(response){
                         return response.json().then(function (data){
                             if(data == 'error'){
-                                flash(data,'Đã có lỗi xảy ra. Vui lòng thử lại!');
+                                flash({'message': 'Đã có lỗi xảy ra. Vui lòng thử lại!', 'type': 'error'});
                             }else{
                                 app.sessions = data.session;
                                 app.action.sessions.total = data.order.total;
                                 app.action.sessions.checkout = data.order.checkout;
                                 app.action.sessions.revenue = data.order.revenue;
                                 $('.item-session').modal('hide');
-                                flash('success','Cập nhật thành công!');
+                                flash({'message': 'Cập nhật thành công!', 'type': 'success'});
                             }
                         })
                     })
@@ -1050,7 +1063,7 @@
                     fetch('{{route('admin.orders.destroy.session',':id')}}'.replace(':id',id)).then(function(response){
                         return response.json().then(function (data){
                             if(data == 'error'){
-                                flash(data,'Đã có lỗi xảy ra. Vui lòng thử lại!');
+                                flash({'message': 'Đã có lỗi xảy ra. Vui lòng thử lại!', 'type': 'error'});
                             }else{
                                 app.sessions = data.session;
                                 app.action.sessions.total = data.order.total;

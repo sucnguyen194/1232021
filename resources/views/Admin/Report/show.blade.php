@@ -48,7 +48,7 @@
                                 <div class="input-group-prepend">
                                     <span id="basic-addon1" class="input-group-text">SL</span>
                                 </div>
-                                <div class="form-control">{{$amount}}</div>
+                                <div class="form-control font-weight-bold">{{$amount}}</div>
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -57,7 +57,7 @@
                                 <div class="input-group-prepend">
                                     <span id="basic-addon1" class="input-group-text">SL</span>
                                 </div>
-                                <div class="form-control">{{$amount_export}}</div>
+                                <div class="form-control font-weight-bold">{{$amount_export}}</div>
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -66,7 +66,7 @@
                                 <div class="input-group-prepend">
                                     <span id="basic-addon1" class="input-group-text">SL</span>
                                 </div>
-                                <div class="form-control">{{$amount - $amount_export}}</div>
+                                <div class="form-control font-weight-bold">{{$amount - $amount_export}}</div>
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -75,7 +75,7 @@
                                 <div class="input-group-prepend">
                                     <span id="basic-addon1" class="input-group-text">VNĐ</span>
                                 </div>
-                                <div class="form-control">{{number_format($money)}}</div>
+                                <div class="form-control font-weight-bold">{{number_format($money)}}</div>
                             </div>
                         </div>
                     </div>

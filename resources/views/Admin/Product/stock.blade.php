@@ -83,7 +83,7 @@
                         <div class="input-group-prepend">
                             <span id="basic-addon1" class="input-group-text">SL</span>
                         </div>
-                        <div class="font-weight-bold form-control">{{$import - $export}}</div>
+                        <div class="font-weight-bold form-control">{{$import - $export < 0 ? 0 : $import - $export}}</div>
                     </div>
                 </div>
                 <div class="col-lg-3">
@@ -119,7 +119,7 @@
                         <div class="input-group-prepend">
                             <span id="basic-addon1" class="input-group-text">VNĐ</span>
                         </div>
-                        <div class="font-weight-bold form-control">{{number_format($balance)}}</div>
+                        <div class="font-weight-bold form-control">{{number_format($balance < 0 ? 0 : $balance)}}</div>
                     </div>
                 </div>
             </div>

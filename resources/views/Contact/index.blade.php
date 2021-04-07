@@ -1,10 +1,10 @@
 @extends('Layouts.layout')
-@section('title')  Liên hệ @stop
+@section('title') {{trans('lang.contact')}} @stop
 @section('url') {{route('contact.index')}} @stop
-@section('site_name') Liên hệ @stop
-@section('description') {{$setting->description_seo}} @stop
-@section('keywords') {{$setting->keyword_seo}} @stop
-@section('image') {{$setting->og_image ?? $setting->logo}} @stop
+@section('site_name') {{trans('lang.contact')}} @stop
+@section('description') {{setting()->description_seo}} @stop
+@section('keywords') {{setting()->keyword_seo}} @stop
+@section('image') {{setting()->og_image ?? setting()->logo}} @stop
 @section('content')
 {{redirect_lang(\App\Enums\AliasType::CONTACT)}}
 <script src='https://www.google.com/recaptcha/api.js'></script>
@@ -26,7 +26,7 @@
             <div class="w3-round-large w3-padding-16 w3-margin-top w3-grey w3-hover-grey">
                 <div class="w3-light-grey w3-padding-left w3-center"> <i class="fa fa-address-card-o w3-xxlarge w3-text-green"></i> <strong class="w3-xlarge">ĐỊA CHỈ</strong> </div>
                 <div class="w3-center">
-                    <p class="w3-padding"> {!! $setting->address !!}</p>
+                    <p class="w3-padding"> {!! setting()->address !!}</p>
                 </div>
             </div>
         </div>
@@ -34,7 +34,7 @@
             <div class="w3-round-large w3-padding-16 w3-margin-top w3-grey w3-hover-grey">
                 <div class="w3-light-grey w3-padding-left w3-center"> <i class="fa fa-phone w3-xxlarge w3-text-green"></i> <strong class="w3-xlarge">SỐ ĐIỆN THOẠI</strong> </div>
                 <div class="w3-center">
-                    <p class="w3-padding w3-xxlarge">{!! $setting->hotline !!}</p>
+                    <p class="w3-padding w3-xxlarge">{!! setting()->hotline !!}</p>
                 </div>
             </div>
         </div>
@@ -42,7 +42,7 @@
             <div class="w3-round-large w3-padding-16 w3-margin-top w3-grey w3-hover-grey">
                 <div class="w3-light-grey w3-padding-left w3-center"> <i class="fa fa-envelope-o w3-xxlarge w3-text-green"></i> <strong class="w3-xlarge">EMAIL</strong> </div>
                 <div class="w3-center">
-                    <p class="w3-padding-16 w3-large">{!! $setting->email !!}</p>
+                    <p class="w3-padding-16 w3-large">{!! setting()->email !!}</p>
                 </div>
             </div>
         </div>
@@ -88,7 +88,7 @@
         </div>
 
         <div class="w3-col l6 m6 s12">
-            {!! $setting->map !!}
+            {!! setting()->map !!}
         </div>
     </div>
 </section>

@@ -71,6 +71,7 @@ class ProductController extends Controller
             })
             ->orderByDesc('created_at')
             ->get();
+
         $import = $sessions->where('type','import');
         $export = $sessions->where('type','export');
         $import_debt = 0;
