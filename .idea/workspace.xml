@@ -22,17 +22,10 @@
     <list default="true" id="b3b9f26c-59c6-4a81-8472-a31af9821b60" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Helpers/Helper.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Helpers/Helper.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/PostController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/PostController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ContactController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ContactController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/admin/js/cpanel.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/admin/js/cpanel.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/Admin/Contact/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Admin/Contact/edit.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/Admin/Menu/add.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Admin/Menu/add.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/Admin/Menu/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Admin/Menu/edit.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/Admin/Post/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Admin/Post/edit.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/Admin/Product/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Admin/Product/edit.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/Contact/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Contact/index.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/Layouts/layout.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Layouts/layout.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/Post/show.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Post/show.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/Admin/Order/add.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Admin/Order/add.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/Admin/Order/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Admin/Order/edit.blade.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -267,7 +260,7 @@
       <workItem from="1617412304075" duration="23815000" />
       <workItem from="1617587513664" duration="30212000" />
       <workItem from="1617673925345" duration="19719000" />
-      <workItem from="1617760734759" duration="15307000" />
+      <workItem from="1617760734759" duration="17174000" />
     </task>
     <servers />
   </component>

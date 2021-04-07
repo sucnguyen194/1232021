@@ -62,7 +62,7 @@ Thêm mới
                                 @endforeach
                             </select>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group mb-0">
                             <label>Mô tả</label>
                             <textarea name="description" id="summernote" rows="6" class="form-control summernote"></textarea>
                         </div>

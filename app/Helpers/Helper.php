@@ -467,13 +467,9 @@ if(!function_exists('admin_menu_sub')){
     function admin_menu_sub($data,$parent_id){
 
         foreach($data->where('parent_id', $parent_id) as $items){
-
             $icon = '<i class="fa fa-star" aria-hidden="true"></i>';
-
             echo '<li class="dd-item" data-id="'.$items->id.'">';
-
             echo '<div class="dd-handle"><span class="pr-1">'.$icon.'</span> '.$items->name.'</div>';
-
             echo '<div class="menu_action">';
             echo '<a href="'.route('admin.menus.edit',$items).'" title="Sửa" class="btn btn-primary waves-effect waves-light"><i class="fe-edit-2"></i></a> ';
             echo '<form method="post" action="'.route('admin.menus.destroy',$items).'" class="d-inline-block">';
@@ -487,7 +483,6 @@ if(!function_exists('admin_menu_sub')){
             admin_menu_sub($data,$items->id);;
             echo '</ol>';
             echo '</li>';
-
         }
     }
 }
@@ -497,9 +492,7 @@ if(!function_exists('add_post_lang')){
 
     function add_post_lang($id,$data,$data_old,$type,$lang){
         $postlang = PostLang::get();
-
         if($postlang->where('post_id', $id)->count()){
-
             foreach($postlang->where('post_id', $id) as $post){
                 PostLang::create([
                     'post_id' => $data->id,

@@ -751,7 +751,7 @@
                 return this.amount_update * this.price_update;
             },
             detb_update:function(){
-                return this.amount_update * this.price_update - this.checkout_update;
+                return this.provisional_update - Number(this.checkout_update);
             },
             print_note:function(){
                 return nl2br(this.note);

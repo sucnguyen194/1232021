@@ -1104,7 +1104,7 @@
                 return Number(this.total_all - Number(this.action.sessions.checkout));
             },
             provisional_update:function(){
-                return this.action.update.amount * this.action.update.price_in;
+                return Number(this.action.update.amount) * Number(this.action.update.price_in);
             },
             detb_update:function(){
                 return Number(this.provisional_update) - Number(this.action.update.checkout);
@@ -1117,10 +1117,10 @@
                 $.each(this.carts,function(key,value){
                     revenue += Number(value.options.revenue);
                 })
-                return revenue - this.action.sessions.discount;
+                return revenue - Number(this.action.sessions.discount);
             },
             revenue_session:function(){
-                return this.action.sessions.revenue + this.revenue_carts  - (this.action.sessions.discount - this.action.sessions.discount_default);
+                return Number(this.action.sessions.revenue) + Number(this.revenue_carts) - (Number(this.action.sessions.discount) - Number(this.action.sessions.discount_default);
             }
         }
     })
