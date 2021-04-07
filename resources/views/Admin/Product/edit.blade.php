@@ -213,9 +213,9 @@
                             <label>Danh mục chính</label>
                             <select class="form-control" data-toggle="select2" name="data[category_id]">
                                 <option value="0">Chọn danh mục</option>
-                                @foreach($category->where('parent_id', 0) as $item )
+                                @foreach($category->where('parent_id', 0) as $item)
                                     <option value="{{$item->id}}" {{$product->category_id == $item->id ? "selected" : ""}} class="font-weight-bold">{{$item->name}}</option>
-                                    {{sub_option_category($category ,$item->id,$product->id)}}
+                                    {{sub_option_category($category ,$item->id,$product->category_id)}}
                                 @endforeach
                             </select>
                         </div>
@@ -227,7 +227,7 @@
                             <select class="form-control select2-multiple" data-toggle="select2" multiple="multiple" name="category_id[]" data-placeholder="Chọn danh mục">
                                 @foreach($category->where('parent_id', 0) as $item )
                                     <option value="{{$item->id}}" {{selected($item->id,$product->categories->pluck('id')->toArray())}} class="font-weight-bold">{{$item->name}}</option>
-                                    {{sub_menu_checkbox($category ,$item->id,$product)}}
+                                    {{sub_option_category($category ,$item->id,$product)}}
                                 @endforeach
                             </select>
                         </div>

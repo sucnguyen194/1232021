@@ -7,6 +7,15 @@ use App\Models\PostLang;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
+if(!function_exists('send_mail')){
+    function send_email($template, $data){
+        $setting = setting();
+       return Mail::send($template,$data,function($msg) use ($setting){
+            $msg->from(env('MAIL_USERNAME'),'Thông báo');
+            $msg->to($setting->email)->subject($setting->name);
+        });
+    }
+}
 if (!function_exists('setting')){
     function setting(){
         return  session()->get('setting');
@@ -141,28 +150,12 @@ if(!function_exists('check_admin_systems')){
             return true;
 
         return abort(404);
-        return true;
-    }
-}
-
-if(!function_exists('sub_news_category')){
-    function sub_option_category($data,$id,$old=""){
-
-        foreach($data->where('parent_id', $id) as $item):
-            $select = null;
-            if($old == $item->id){
-                $select = "selected";
-            }
-            echo '<option value="'.$item->id.'"'.$select.'>'.$item->name.'</option>';
-
-            sub_option_category($data,$item->id,$old);
-        endforeach;
     }
 }
 
 if (! function_exists('flash')) {
 
-    function flash($message='',$type=1,$url=null,$target='_self')
+    function flash($message= null,$type=1,$url=null,$target='_self')
     {
         $types=[
             0=>'error',
@@ -287,11 +280,20 @@ if(!function_exists('checked')){
     }
 }
 
-if(!function_exists('sub_menu_checkbox')){
-    function sub_menu_checkbox($data,$parent,$old="",$tab='&nbsp;&nbsp;&nbsp;&nbsp;'){
+if(!function_exists('sub_option_category')){
+    function sub_option_category($data,$parent,$old = null){
         foreach ($data->where('parent_id', $parent) as $key => $value) {
-                echo $tab.'<option value="'.$value->id.'" '.selected($value->id,$old->categories->pluck('id')->toArray()).'>'.$tab.$value->title.'</option>';
-                sub_menu_checkbox($data,$value->id,$old,$tab.'&nbsp;&nbsp;&nbsp;&nbsp;');
+            $name = $value->name ?? $value->title;
+            $selected = null;
+
+            if(optional($old)->categories){
+                $selected = selected($value->id,$old->categories->pluck('id')->toArray());
+            }elseif ($old == $value->id){
+                $selected = 'selected';
+            }
+
+            echo '<option value="'.$value->id.'" '.$selected.'>'.$name.'</option>';
+            sub_option_category($data,$value->id,$old);
         }
     }
 }
@@ -455,6 +457,8 @@ if(!function_exists('sub_add_menu')){
                 $select = "selected";
             }
             echo '<option value="'.$item->id.'"'.$select.'>'.$item->name.'</option>';
+
+            sub_add_menu($data, $item->id);
         endforeach;
     }
 }

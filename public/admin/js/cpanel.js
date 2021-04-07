@@ -215,20 +215,20 @@ function uploadPhotoMultiple(input){
                     var reader = new FileReader();
                     reader.onload = function (e){
                         $('<li class="box-product-images" data-target="'+e.target.fileId+'" >' +
-                            '<div class="item-image position-relative">' +
-                            '<div class="img-rounded"><img src="'+e.target.result+'" class="position-image-product"/></div>' +
-                            '<input name="checkFile[]" type="hidden" value="'+ e.target.fileName +'">' +
-                            '<div class="photo-hover-overlay">' +
-                            '<div class="box-hover-overlay">' +
-                            '<a class="tooltip-hover view-image text-white" data-image="'+e.target.result+'" data-toggle="modal" data-target="#viewImage" title="Xem hình ảnh">' +
-                            '<i class="far fa-eye"></i>' +
-                            '</a>' +
-                            '<a class="pl-2 icon-product-image-delete tooltip-hover text-white" title="Xóa hình ảnh">' +
-                            '<i class="far fa-trash-alt"></i>' +
-                            '</a>' +
-                            '</div> '+
-                            '</div>' +
-                            '</div>' +
+                                '<div class="item-image position-relative">' +
+                                    '<div class="img-rounded"><img src="'+e.target.result+'" class="position-image-product"/></div>' +
+                                    '<input name="checkFile[]" type="hidden" value="'+ e.target.fileName +'">' +
+                                    '<div class="photo-hover-overlay">' +
+                                        '<div class="box-hover-overlay">' +
+                                            '<a class="tooltip-hover view-image text-white" data-image="'+e.target.result+'" data-toggle="modal" data-target="#viewImage" title="Xem hình ảnh">' +
+                                            '<i class="far fa-eye"></i>' +
+                                            '</a>' +
+                                            '<a class="pl-2 icon-product-image-delete tooltip-hover text-white" title="Xóa hình ảnh">' +
+                                            '<i class="far fa-trash-alt"></i>' +
+                                            '</a>' +
+                                        '</div> '+
+                                    '</div>' +
+                                '</div>' +
                             '</li>').appendTo(holder);
                        return initEvents();
                     }
@@ -248,12 +248,12 @@ function uploadPhotoMultiple(input){
             }else{
                 if(li == 0){label.show();}
                 showbox.remove('d-inline-block');
-                alert("This browser does not support FileReader.");
+                flash({'message': 'Trình duyệt không hỗ trợ FileReader','type': 'error'});
             }
         }else{
             if(li == 0){label.show();}
             showbox.remove('d-inline-block');
-            alert("Please select only images");
+            flash({'message': 'Tính năng chỉ hỗ trợ upload hình ảnh','type': 'warning'});
         }
     }
 }
@@ -267,9 +267,9 @@ function uploadPhoto(input){
         let imgPath = input.value;
         let label  = $(box).find('#remove-label');
         let extn = imgPath.substring(imgPath.lastIndexOf('.') + 1).toLowerCase();
-        $(holder).empty();
         $(box).find('input[type=checkbox]').prop('checked',false);
         if (extn == "gif" || extn == "png" || extn == "jpg" || extn == "jpeg" || extn == "ico" || extn == "webp" || extn == "jfif") {
+            $(holder).empty();
             if (typeof (FileReader) != "undefined") {
                 //loop for each file selected for uploaded.
                 for (var i = 0; i < filesAmount; i++) {
@@ -284,11 +284,11 @@ function uploadPhoto(input){
                 label.hide();
             }else{
                 label.show();
-                alert("This browser does not support FileReader.");
+                flash({'message': 'Trình duyệt không hỗ trợ FileReader','type': 'error'});
             }
         }else{
             label.show();
-            alert("Please select only images");
+            flash({'message': 'Tính năng chỉ hỗ trợ upload hình ảnh','type': 'warning'});
         }
     }
 }

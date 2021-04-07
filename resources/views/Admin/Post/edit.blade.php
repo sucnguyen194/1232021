@@ -110,11 +110,11 @@
                     <div class="card-box">
                         <div class="form-group">
                             <label>Danh mục chính</label>
-                            <select class="form-control" data-toggle="select2" name="category">
+                            <select class="form-control" data-toggle="select2" name="data[category_id]">
                                 <option value="0">Chọn danh mục</option>
                                 @foreach($categories->where('parent_id', 0) as $item )
-                                    <option value="{{$item->id}}" {{$post->category_id == $item->id || old('category') == $item->id ? "selected" : ""}} class="font-weight-bold">{{$item->name}}</option>
-                                    {{sub_option_category($categories,$item->id,$post->id)}}
+                                    <option value="{{$item->id}}" {{$post->category_id == $item->id ? "selected" : ""}} class="font-weight-bold">{{$item->name}}</option>
+                                    {{sub_option_category($categories,$item->id,$post->category_id)}}
                                 @endforeach
                             </select>
                         </div>
@@ -125,7 +125,7 @@
                         <select class="form-control select2-multiple" data-toggle="select2" multiple="multiple" name="category_id[]" data-placeholder="Chọn danh mục">
                             @foreach($categories->where('parent_id', 0) as $item )
                                 <option value="{{$item->id}}" {{selected($item->id, $post->categories->pluck('id')->toArray())}} class="font-weight-bold">{{$item->name}}</option>
-                                {{sub_menu_checkbox($categories ,$item->id, $post)}}
+                                {{sub_option_category($categories ,$item->id, $post)}}
                             @endforeach
                         </select>
                     </div>

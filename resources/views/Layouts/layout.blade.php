@@ -68,6 +68,7 @@
         margin-left: 5px;
     }
 </style>
+<script src="/admin/js/cpanel.js"></script>
   @include('Errors.note')
   <!--*************************---->
 {{--<script src="https://cdn.jsdelivr.net/npm/vue@2.6.12"></script>--}}

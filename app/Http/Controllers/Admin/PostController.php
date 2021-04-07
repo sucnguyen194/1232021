@@ -159,17 +159,13 @@ class PostController extends Controller
 
         $post->forceFill($request->data);
         if($request->unlink){
-            if(File::exists($post->image))
-                File::delete($post->image);
-            if(File::exists($post->thumb))
-                File::delete($post->thumb);
+            File::delete($post->image);
+            File::delete($post->thumb);
             $post->image = null;
             $post->thumb = null;
         }elseif($request->hasFile('image')){
-            if(File::exists($post->image))
-                File::delete($post->image);
-            if(File::exists($post->thumb))
-                File::delete($post->thumb);
+            File::delete($post->image);
+            File::delete($post->thumb);
             upload_file_image($post, $request->file('image'), 375, 375);
         }
         $post->user_edit = Auth::id();
@@ -233,7 +229,8 @@ class PostController extends Controller
         check_admin_systems(SystemsModuleType::POST) || check_admin_systems(SystemsModuleType::PAGE);
         $post = Post::findOrFail($id);
         $post->delete();
-        return flash('Xóa thành công',1);
+
+        return flash('Xóa thành công', 1);
     }
 
     public function delete(Request $request){

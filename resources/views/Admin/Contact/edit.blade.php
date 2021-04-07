@@ -12,7 +12,7 @@
                     <div class="page-title-right">
                         <ol class="breadcrumb m-0">
                             <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Bảng điều khiển</a></li>
-                            <li class="breadcrumb-item"><a href="{{route('admin.contact.index')}}">Liên hệ từ khách hàng</a></li>
+                            <li class="breadcrumb-item"><a href="{{route('admin.contacts.index')}}">Liên hệ từ khách hàng</a></li>
                             <li class="breadcrumb-item active">#ID {{$contact->id}}</li>
                         </ol>
                     </div>
@@ -98,7 +98,7 @@
                 </div>
             </div>
             <div class="col-lg-12 text-right">
-               <a href="{{route('admin.contact.index')}}" class="btn btn-default waves-effect waves-light"><span class="icon-button"><i class="fe-arrow-left"></i></span> Quay lại</a>
+               <a href="{{route('admin.contacts.index')}}" class="btn btn-default waves-effect waves-light"><span class="icon-button"><i class="fe-arrow-left"></i></span> Quay lại</a>
             </div>
         </div>
         <!-- end row -->
