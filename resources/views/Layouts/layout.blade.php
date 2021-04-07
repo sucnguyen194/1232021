@@ -31,6 +31,7 @@
   <!--*************************---->
   <base href="{{route('home')}}">
     <link href="/admin/assets/libs/jquery-toast/jquery.toast.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12"></script>
   <!-- Latest compiled and minified CSS & JS -->
 {{--    <script src="https://code.jquery.com/jquery-3.5.1.slim.js" integrity="sha256-DrT5NfxfbHvMHux31Lkhxg42LY6of8TaYyK50jnxRnM=" crossorigin="anonymous"></script>--}}
 
@@ -71,47 +72,46 @@
 <script src="/admin/js/cpanel.js"></script>
   @include('Errors.note')
   <!--*************************---->
-{{--<script src="https://cdn.jsdelivr.net/npm/vue@2.6.12"></script>--}}
-{{--<script type="text/javascript">--}}
-{{--    let alias = $('.vue-alias').val();--}}
-{{--    var app = new Vue({--}}
-{{--        el: '#app-body',--}}
-{{--        data:{--}}
-{{--            alias: alias,--}}
-{{--            lang: {--}}
-{{--                type: 0,--}}
-{{--                id: 0,--}}
-{{--                lang:0,--}}
-{{--            },--}}
-{{--           carts: {--}}
-{{--                rowId:0,--}}
-{{--               id:0,--}}
-{{--               qty: 0,--}}
-{{--               price: 0,--}}
-{{--               options: {--}}
+<script type="text/javascript">
+    let alias = $('.vue-alias').val();
+    var app = new Vue({
+        el: '#app-body',
+        data:{
+            alias: alias,
+            lang: {
+                type: 0,
+                id: 0,
+                lang:0,
+            },
+           carts: {
+                rowId:0,
+               id:0,
+               qty: 0,
+               price: 0,
+               options: {
 
-{{--               }--}}
-{{--           }--}}
-{{--        },--}}
-{{--        methods: {--}}
-{{--            changelang:function(lang){--}}
-{{--                fetch("{{route('ajax.change.lang',[':alias',':lang'])}}".replace(":alias", this.alias).replace(":lang", lang)).then(function(response){--}}
-{{--                    return response.json().then(function(data){--}}
-{{--                        window.location.assign(data);--}}
-{{--                    })--}}
-{{--                })--}}
-{{--            }--}}
-{{--        },--}}
-{{--        watch: {--}}
-{{--            alias:function(val){--}}
-{{--                this.alias = val;--}}
-{{--            }--}}
-{{--        },--}}
-{{--        computed:{--}}
+               }
+           }
+        },
+        methods: {
+            changelang:function(lang){
+                fetch("{{route('ajax.change.lang',[':alias',':lang'])}}".replace(":alias", this.alias).replace(":lang", lang)).then(function(response){
+                    return response.json().then(function(data){
+                        window.location.assign(data);
+                    })
+                })
+            }
+        },
+        watch: {
+            alias:function(val){
+                this.alias = val;
+            }
+        },
+        computed:{
 
-{{--        }--}}
-{{--    })--}}
-{{--</script>--}}
+        }
+    })
+</script>
 <!--*************************---->
 @if(@$setting->numbercall)
 <!--****STARTACTION CALL*****---->

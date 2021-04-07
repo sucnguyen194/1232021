@@ -21,20 +21,20 @@ class AjaxController extends Controller {
                 $slugs = Alias::whereType($alias->type)->whereTypeId($id)->first();
                 return response()->json(route('alias',$slugs->alias));
                 break;
-                default;
-                    switch ($slug){
-                        case AliasType::CONTACT:
-                            return response()->json(route('contact.index'));
-                            break;
-                        case AliasType::HOMEVIDEO:
-                            return response()->json(route('video.index'));
-                            break;
-                        case AliasType::HOMEGALLERY:
-                            return response()->json(route('gallery.index'));
-                            break;
-                        default;
-                            return response()->json(route('home'));
-                    }
+            default;
+                switch ($slug){
+                    case AliasType::CONTACT:
+                        return response()->json(route('contact.index'));
+                        break;
+                    case AliasType::HOMEVIDEO:
+                        return response()->json(route('video.index'));
+                        break;
+                    case AliasType::HOMEGALLERY:
+                        return response()->json(route('gallery.index'));
+                        break;
+                    default;
+                        return response()->json(route('home'));
+                }
         }
     }
 

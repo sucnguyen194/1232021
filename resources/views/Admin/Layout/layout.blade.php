@@ -40,7 +40,7 @@
     <div class="navbar-custom">
         <ul class="list-unstyled topnav-menu float-right mb-0">
             @php
-                $contact = \App\Models\Contact::latest()->orderByDesc('status')->take(10)->get();
+                $contact = \App\Models\Contact::latest()->orderByDesc('status')->get();
                 $langs = \App\Models\Lang::all();
             @endphp
             <li class="redirect-website"><a href="{{route('home')}}" class="nav-link dropdown-toggle mr-0 waves-effect waves-light" target="_blank"><i class="fas fa-home h3 text-white"></i></a> </li>
@@ -62,9 +62,9 @@
                     </div>
                     @if($contact->count())
                     <div class="slimscroll noti-scroll">
-                        @foreach($contact as $item)
+                        @foreach($contact->take(10) as $item)
                         <a href="{{route('admin.contacts.show',$item)}}" class="dropdown-item notify-item">
-                            <div class="notify-icon bg-success"><i class="mdi mdi-comment-account-outline"></i></div>
+                            <div class="notify-icon rounded-circle"><img src="{{$item->avatar}}" class="rounded-circle"></div>
                             <p class="notify-details">{{$item->note ? str_limit($item->note) : 'Khách hàng yêu cầu nhận thông tin'}}<small class="text-muted">{{$item->created_at->diffForHumans()}}</small></p>
                         </a>
                         <!-- item-->
