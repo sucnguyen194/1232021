@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Enums\SystemsModuleType;
 use App\Models\Setting;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
 

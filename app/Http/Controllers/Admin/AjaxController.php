@@ -16,7 +16,9 @@ use App\Models\System;
 use App\Models\SystemsModule;
 use App\Models\User;
 use App\Models\UserAgency;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Request,Session,Cart,Mail, Image;
 
@@ -24,23 +26,27 @@ class AjaxController extends Controller {
 
     public function removePhoto($id){
         $photo = Photo::find($id);
+        if($photo->sort == 0){
+            $update = Photo::whereSort(1)->whereType($photo->type)->whereTypeId($photo->type_id)->first();
+            if($update){
+                $update->product()->update([
+                    'image' => $update->image,
+                    'thumb' => $update->thumb
+                ]);
+            }else{
+                $photo->product()->update([
+                   'image' => null,
+                   'thumb' => null,
+                ]);
+            }
+        }
+        File::delete($photo->image);
+        File::delete($photo->thumb);
 
-        if($photo->pic == 1){
-            $update = Photo::whereSort(1)->first();
-            $update->update(['pic' => 1]);
-            $update->product()->update([
-               'image' => $update->image,
-               'thumb' => $update->thumb
-            ]);
-        }
-        if(file_exists($photo->image)){
-            unlink($photo->image);
-        }
-        if(file_exists($photo->thumb)){
-            unlink($photo->thumb);
-        }
         $photo->delete();
-        return response()->json('success');
+
+        $photos = Photo::whereType($photo->type)->whereTypeId($photo->type_id)->get();
+        return response()->json($photos);
     }
 
     public function uploadPhoto($id, $type){
@@ -48,7 +54,6 @@ class AjaxController extends Controller {
         $count = count($files);
         $data = Product::find($id);
         $sort = $data->photos->count();
-
         for($i=0 ; $i < $count ; $i++){
             $file = request()->file('files')[$i];
             $file->store('photo');
@@ -61,7 +66,7 @@ class AjaxController extends Controller {
             $thumb = "storage/".$path;
             $image = "storage/".$file->hashName('photo');
 
-            Photo::create([
+            $photo = Photo::create([
                 'name' => $data->name ?? $data->title,
                 'image' => $image,
                 'thumb' => $thumb,
@@ -82,8 +87,8 @@ class AjaxController extends Controller {
                 ]);
             }
         }
-
-        return response()->json($data);
+        $photos = Photo::whereType($type)->whereTypeId($id)->oldest('sort')->get();
+        return response()->json($photos);
     }
     public function setAltPhoto($id, $alt){
         $photo = Photo::find($id);
@@ -103,7 +108,7 @@ class AjaxController extends Controller {
         $photo = json_decode($json);
         foreach ($photo as $key => $id){
             $photo = Photo::find($id);
-            $photo->update(['sort' => $key,'pic' => 0]);
+            $photo->update(['sort' => $key]);
             if($photo->sort == 0){
                 $photo->product()->update([
                     'image' => $photo->image,

@@ -68,43 +68,38 @@
                         <label>Hình ảnh</label>
                         <div class="position-absolute font-weight-normal text-primary" id="box-input" style="right:2.2rem;top:1.3rem">
                             <label class="item-input">
-                                <input type="file" name="photo[]" class="d-none" v-on:change="uploadPhoto(event.target.files)" id="fileUploadMultiple" multiple> Chọn ảnh
+                                <input type="file" name="photo[]" class="d-none" v-on:change="uploadPhoto(event.target.files)" multiple> Chọn ảnh
                             </label>
                         </div>
                         <p class="font-13">* Định dạng ảnh jpg, jpeg, png, gif</p>
                         <div class="dropzone pl-2 pr-2 pb-1">
-                            @if(!$photo->count())
-                                <div class="dz-message text-center needsclick mb-2" id="remove-label">
-                                    <label for="fileUploadMultiple" class="w-100 mb-0">
-                                        <div class="icon-dropzone pt-2">
-                                            <i class="h1 text-muted dripicons-cloud-upload"></i>
-                                        </div>
-                                        <span class="text-muted font-13">Sử dụng nút <strong>Chọn ảnh</strong> để thêm ảnh</span>
-                                    </label>
-                                </div>
-                            @endif
-
-                            <ul class="{{!$photo->count() ? "show-box" : "d-inline-block"}} image-holder pl-0 mb-0 w-100" id="sortable">
-                                @foreach($photo as $item)
-                                    <li class="box-product-images" data-toggle="{{$item->id}}" id="{{$item->id}}">
-                                        <div class="item-image rounded position-relative">
-                                            <div class="img-rounded"><img src="{{asset($item->image)}}" class="position-image-product"/></div>
-                                            <div class="photo-hover-overlay rounded">
-                                                <div class="box-hover-overlay">
-                                                    <a title="Xem hình ảnh" data-image="{{asset($item->image)}}" data-toggle="modal" data-target="#viewImage" class="tooltip-hover view-image text-white">
-                                                        <i class="far fa-eye"></i>
-                                                    </a>
-                                                    <a class="tooltip-hover pl-2 text-white" v-on:click="getAlt({{$item->id}})" data-target="#updateALT" data-toggle="modal" title="Sửa ALT">
-                                                        ALT
-                                                    </a>
-                                                    <a class="tooltip-hover pl-2 text-white" v-on:click="removePhoto({{$item->id}})" title="Xóa hình ảnh">
-                                                        <i class="far fa-trash-alt"></i>
-                                                    </a>
-                                                </div>
+                            <div class="dz-message text-center needsclick mb-2" v-if="photos.length == 0" id="remove-label">
+                                <label for="fileUploadMultiple" class="w-100 mb-0">
+                                    <div class="icon-dropzone pt-2">
+                                        <i class="h1 text-muted dripicons-cloud-upload"></i>
+                                    </div>
+                                    <span class="text-muted font-13">Sử dụng nút <strong>Chọn ảnh</strong> để thêm ảnh</span>
+                                </label>
+                            </div>
+                            <ul class="d-inline-block image-holder pl-0 mb-0 w-100 ui-sortable" id="sortable" v-if="photos.length > 0">
+                                <li v-for="item in photos" class="box-product-images" v-bind:id="item.id">
+                                    <div class="item-image rounded position-relative">
+                                        <div class="img-rounded"><img :src="asset + item.image" class="position-image-product"/></div>
+                                        <div class="photo-hover-overlay rounded">
+                                            <div class="box-hover-overlay">
+                                                <a title="Xem hình ảnh" :data-image="asset + item.image" data-toggle="modal" data-target="#viewImage" class="tooltip-hover view-image text-white">
+                                                    <i class="far fa-eye"></i>
+                                                </a>
+                                                <a class="tooltip-hover pl-2 text-white" v-on:click="getAlt(item.id)" data-target="#updateALT" data-toggle="modal" title="Sửa ALT">
+                                                    ALT
+                                                </a>
+                                                <a class="tooltip-hover pl-2 text-white" v-on:click="removePhoto(item.id)" title="Xóa hình ảnh">
+                                                    <i class="far fa-trash-alt"></i>
+                                                </a>
                                             </div>
                                         </div>
-                                    </li>
-                                @endforeach
+                                    </div>
+                                </li>
                             </ul>
 
                         </div>
@@ -357,6 +352,7 @@
     </script>
 
     <script>
+        const asset = "{{asset('/')}}";
         var app = new Vue({
             el:'#update-product',
             mounted:function(){
@@ -377,6 +373,7 @@
             data: {
                 id: {{$product->id}},
                 type: '{{\App\Enums\MediaType::PRODUCT}}',
+                photos: @json($photo),
                 photo: {
                     id: null,
                     image: null,
@@ -389,8 +386,8 @@
                     if(confirm('Xóa hình ảnh?')){
                         fetch('{{route('admin.ajax.remove.photo',':id')}}'.replace(':id',id)).then(function(res){
                             return res.json().then(function(data){
-                                removePhoto(id);
-                                flash({'messsage': 'Xóa hình ảnh thành công!', 'type': 'success'});
+                                app.photos = data;
+                                flash({'message': 'Xóa hình ảnh thành công!', 'type': 'success'});
                             })
                         })
                     }
@@ -409,8 +406,9 @@
                                 'Content-Type': 'multipart/form-data'
                             }
                         }
-                    ).then(function(){
-                        flash({'messsage': 'Upload hình ảnh thành công!', 'type': 'success'});
+                    ).then(function(res){
+                        app.photos = res.data;
+                        flash({'message': 'Upload hình ảnh thành công!', 'type': 'success'});
                         //console.log('SUCCESS!!');
                     })
                         .catch(function(){
@@ -429,7 +427,7 @@
                     fetch('{{route('admin.ajax.set.alt',[':id',':alt'])}}'.replace(':id', id).replace(':alt',alt)).then(function(response){
                         return response.json().then(function(data){
                             $('.updateALT').modal('hide');
-                            flash({'messsage': 'Cập nhật ALT thành công!', 'type': 'success'});
+                            flash({'message': 'Cập nhật ALT thành công!', 'type': 'success'});
                         })
                     })
                 },

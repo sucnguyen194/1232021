@@ -358,8 +358,7 @@
 </script>
 
 <script type="text/javascript">
-    var url = "{{route('home')}}/";
-
+    var url = "{{url('/')}}";
     function ChangeToSlug()
     {
         var title, slug;

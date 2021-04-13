@@ -143,10 +143,8 @@ if(!function_exists('authorize')){
         if(!auth()->check())
             return abort(403);
 
-        if(Auth::user()->lever == \App\Enums\LeverUser::SUPPERADMIN)
-            return true;
         $id = \App\Models\System::whereType($type)->firstOrFail()->id;
-        if(\auth()->user()->systems()->whereId($id)->exists())
+        if(\auth()->user()->systems()->whereId($id)->exists() || Auth::user()->lever == \App\Enums\LeverUser::SUPPERADMIN)
             return true;
 
         return abort(404);
@@ -434,21 +432,6 @@ if(!function_exists('menu_update_position')){
                 menu_update_position($items->children,$items->id);
             }
         }
-    }
-}
-
-if(!function_exists('sub_add_menu')){
-
-    function sub_add_menu($data,$id,$old=null){
-        foreach($data->where('parent_id', $id) as $item):
-            $select = null;
-            if($old == $item->id){
-                $select = "selected";
-            }
-            echo '<option value="'.$item->id.'"'.$select.'>'.$item->name.'</option>';
-
-            sub_add_menu($data, $item->id);
-        endforeach;
     }
 }
 
