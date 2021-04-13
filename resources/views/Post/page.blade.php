@@ -5,9 +5,8 @@
 @section('keywords') {{$page->keyword_seo}} @stop
 @section('image') {{asset($page->image ?? $setting->og_image)}} @stop
 @section('site_name') {{$page->title}} @stop
+@section('lang') {{redirect_lang($page->alias)}} @stop
 @section('content')
-{{redirect_lang($page->alias)}}
-
 <!-------------------------->
 <!-----------SOURCSE----------->
 <!-------------------------->

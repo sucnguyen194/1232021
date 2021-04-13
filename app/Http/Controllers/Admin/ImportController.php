@@ -25,7 +25,7 @@ class ImportController extends Controller
      */
     public function index()
     {
-        check_admin_systems(SystemsModuleType::HISTORY_IMPORT);
+        authorize(SystemsModuleType::HISTORY_IMPORT);
 
         $products = Product::selectRaw('id,name')->public()->get();
         $agencys = UserAgency::selectRaw('id,name')->status()->get();
@@ -51,7 +51,7 @@ class ImportController extends Controller
      */
     public function create()
     {
-        check_admin_systems(SystemsModuleType::IMPORT);
+        authorize(SystemsModuleType::IMPORT);
 
         $products = Product::selectRaw('id,name,amount')->public()->orderByDesc('id')->get();
         $agencys = UserAgency::selectRaw('id,name')->status()->orderByDesc('id')->get();
@@ -69,7 +69,7 @@ class ImportController extends Controller
      */
     public function store(Request $request)
     {
-        check_admin_systems(SystemsModuleType::IMPORT);
+        authorize(SystemsModuleType::IMPORT);
 
         if(!Cart::instance('import')->count())
             return flash('Đơn hàng trống!', 3);
@@ -137,7 +137,7 @@ class ImportController extends Controller
      */
     public function show(Import $import)
     {
-        check_admin_systems(SystemsModuleType::HISTORY_IMPORT);
+        authorize(SystemsModuleType::HISTORY_IMPORT);
 
         $users = User::whereLever(LeverUser::ADMIN)->get();
         $agencys = UserAgency::status()->get();
@@ -166,7 +166,7 @@ class ImportController extends Controller
      */
     public function update(Request $request, Import $import)
     {
-        check_admin_systems(SystemsModuleType::HISTORY_IMPORT);
+        authorize(SystemsModuleType::HISTORY_IMPORT);
 
         switch ($request->send){
             case 'user':
@@ -224,7 +224,7 @@ class ImportController extends Controller
 
     public function updateSession(Request $request, $id){
 
-        check_admin_systems(SystemsModuleType::HISTORY_IMPORT);
+        authorize(SystemsModuleType::HISTORY_IMPORT);
 
         $request->validate([
             'amount' => 'required|integer|min:1',
@@ -262,7 +262,7 @@ class ImportController extends Controller
     }
 
     public function destroySession($id){
-        check_admin_systems(SystemsModuleType::HISTORY_IMPORT);
+        authorize(SystemsModuleType::HISTORY_IMPORT);
 
         $session = ProductSession::find($id);
         if($session->product){
@@ -292,7 +292,7 @@ class ImportController extends Controller
         return flash('Xóa thành công!', 1);
     }
     public function ajax($id){
-        check_admin_systems(SystemsModuleType::HISTORY_IMPORT);
+        authorize(SystemsModuleType::HISTORY_IMPORT);
         $session = ProductSession::find($id);
         return response()->json($session);
     }
@@ -305,7 +305,7 @@ class ImportController extends Controller
      */
     public function destroy(Import $import)
     {
-        check_admin_systems(SystemsModuleType::IMPORT);
+        authorize(SystemsModuleType::IMPORT);
         if(!$import->sessions->count())
             $import->delete();
         return flash('Xóa thành công!', 1);

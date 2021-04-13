@@ -15,12 +15,12 @@ class SettingController extends Controller
     public $type = SystemsModuleType::SETTING;
 
     public function index(){
-        check_admin_systems($this->type);
+        authorize($this->type);
         return view('Admin.Setting.index');
     }
 
     public function update(Request $request){
-        check_admin_systems($this->type);
+        authorize($this->type);
 
         Validator::make($request->data,[
             'name' => 'required',

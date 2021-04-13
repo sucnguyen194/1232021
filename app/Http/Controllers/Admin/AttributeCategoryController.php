@@ -16,7 +16,7 @@ class AttributeCategoryController extends Controller
      */
     public function index()
     {
-        check_admin_systems(SystemsModuleType::ATTRIBUTE_CATEGORY);
+        authorize(SystemsModuleType::ATTRIBUTE_CATEGORY);
 
         $category = AttributeCategory::orderby('sort','asc')->get();
 
@@ -30,7 +30,7 @@ class AttributeCategoryController extends Controller
      */
     public function create()
     {
-        check_admin_systems(SystemsModuleType::ATTRIBUTE_CATEGORY);
+        authorize(SystemsModuleType::ATTRIBUTE_CATEGORY);
 
         return view('Admin.Product.Attribute.Category.add');
     }
@@ -43,7 +43,7 @@ class AttributeCategoryController extends Controller
      */
     public function store(Request $request)
     {
-        check_admin_systems(SystemsModuleType::ATTRIBUTE_CATEGORY);
+        authorize(SystemsModuleType::ATTRIBUTE_CATEGORY);
 
         $request->validate([
            'data.name' => 'required|unique:attribute_categorys,name',
@@ -74,7 +74,7 @@ class AttributeCategoryController extends Controller
      */
     public function edit(AttributeCategory $attribute_category)
     {
-        check_admin_systems(SystemsModuleType::ATTRIBUTE_CATEGORY);
+        authorize(SystemsModuleType::ATTRIBUTE_CATEGORY);
 
         return view('Admin.Product.Attribute.Category.edit',compact('attribute_category'));
     }
@@ -88,7 +88,7 @@ class AttributeCategoryController extends Controller
      */
     public function update(Request $request, AttributeCategory $attribute_category)
     {
-        check_admin_systems(SystemsModuleType::ATTRIBUTE_CATEGORY);
+        authorize(SystemsModuleType::ATTRIBUTE_CATEGORY);
 
         $request->validate([
             'data.name' => 'required|unique:attribute_categorys,name,'.$attribute_category->id,
@@ -108,7 +108,7 @@ class AttributeCategoryController extends Controller
      */
     public function destroy(AttributeCategory $attribute_category)
     {
-        check_admin_systems(SystemsModuleType::ATTRIBUTE_CATEGORY);
+        authorize(SystemsModuleType::ATTRIBUTE_CATEGORY);
 
         $attribute_category->delete();
 

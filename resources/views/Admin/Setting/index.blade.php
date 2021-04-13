@@ -49,7 +49,7 @@
                                         <input type="text" class="form-control" name="data[slogan]" id="slogan" value="{{setting()->slogan ?? old('data.slogan')}}">
                                     </div>
 
-                                    <div class="form-group">
+                                    <div class="form-group mb-0">
                                         <label for="path">Website</label>
                                         <input type="text" class="form-control" placeholder="www.company.com" name="data[path]" id="path" value="{{setting()->path ?? old('data.path')}}">
                                     </div>
@@ -86,7 +86,7 @@
                                             <p class="font-13">* Giới hạn tối đa 320 ký tự</p>
                                             <textarea  class="form-control" rows="3" name="data[description_seo]" maxlength="320" id="alloptions">{{setting()->description_seo ?? old('data.description_seo')}}</textarea>
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group mb-0">
                                             <label>Từ khóa</label>
                                             <p class="font-13">* Từ khóa được phân chia sau dấu phẩy <strong>","</strong></p>
 
@@ -303,7 +303,7 @@
                                         <label for="youtube">Youtube</label>
                                         <input type="text" class="form-control" value="{{setting()->youtube ?? old('data.youtube')}}" id="youtube" name="data[youtube]">
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group mb-0">
                                         <label for="zalo">Zalo</label>
                                         <input type="text" class="form-control" value="{{setting()->zalo ?? old('data.zalo')}}" id="zalo" name="data[zalo]">
                                     </div>
@@ -325,7 +325,7 @@
                                         <label for="linkedin">Linkedin</label>
                                         <input type="text" class="form-control" value="{{setting()->lin ?? old('data.lin')}}"  id="linkedin" name="data[lin]">
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group mb-0">
                                         <label for="pinterest">Pinterest</label>
                                         <input type="text" class="form-control" value="{{setting()->pin ?? old('data.pin')}}"  id="pinterest" name="data[pin]">
                                     </div>
@@ -342,7 +342,7 @@
                                         <label for="re_captcha_key">ReCaptcha Key <a href="https://www.google.com/recaptcha/admin/create" target="_blank">(Google reCAPTCHA)</a> </label>
                                         <input type="text" class="form-control" value="{{setting()->re_captcha_key ?? old('data.re_captcha_key')}}" id="re_captcha_key" name="data[re_captcha_key]">
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group mb-0">
                                         <label for="re_captcha_secret">ReCaptcha Secret</label>
                                         <input type="text" class="form-control" value="{{setting()->re_captcha_secret ?? old('data.re_captcha_secret')}}" id="re_captcha_secret" name="data[re_captcha_secret]">
                                     </div>
@@ -354,7 +354,7 @@
                                         <label for="facebook_app_ip">Facebook App ip <a href="https://developers.facebook.com/apps/" target="_blank">(FACEBOOK for Developers)</a> </label>
                                         <input type="text" class="form-control" value="{{setting()->facebook_app_ip ?? old('data.facebook_app_ip')}}" id="facebook_app_ip" name="data[facebook_app_ip]">
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group mb-0">
                                         <label for="facebook_app_secret">Facebook App secret</label>
                                         <input type="text" class="form-control" value="{{setting()->facebook_app_secret ?? old('data.facebook_app_secret')}}" id="facebook_app_secret" name="data[facebook_app_secret]">
                                     </div>

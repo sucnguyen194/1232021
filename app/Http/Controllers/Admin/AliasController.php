@@ -17,7 +17,7 @@ class AliasController extends Controller
      */
     public function index()
     {
-        check_admin_systems($this->type);
+        authorize($this->type);
 
         $alias = Alias::orderByDesc('id')->get();
 
@@ -31,7 +31,7 @@ class AliasController extends Controller
      */
     public function create()
     {
-        check_admin_systems($this->type);
+        authorize($this->type);
 
         return view('Admin.Alias.add');
     }
@@ -44,7 +44,7 @@ class AliasController extends Controller
      */
     public function store(Request $request)
     {
-        check_admin_systems($this->type);
+        authorize($this->type);
 
         $request->validate([
             'alias' => 'required|string',
@@ -82,7 +82,7 @@ class AliasController extends Controller
      */
     public function edit(Alias $alias)
     {
-        check_admin_systems($this->type);
+        authorize($this->type);
 
         return view('Admin.Alias.edit',compact('alias'));
     }
@@ -96,7 +96,7 @@ class AliasController extends Controller
      */
     public function update(Request $request, Alias $alias)
     {
-        check_admin_systems($this->type);
+        authorize($this->type);
 
         $request->validate([
             'alias' => 'required|string',
@@ -128,7 +128,7 @@ class AliasController extends Controller
      */
     public function destroy(Alias $alias)
     {
-        check_admin_systems($this->type);
+        authorize($this->type);
 
         $alias->delete();
 

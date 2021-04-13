@@ -20,7 +20,7 @@ class LangController extends Controller
      */
     public function index()
     {
-        check_admin_systems(SystemsModuleType::LANG);
+        authorize(SystemsModuleType::LANG);
 
         $lang = Lang::orderByDesc('id')->get();
 
@@ -34,7 +34,7 @@ class LangController extends Controller
      */
     public function create()
     {
-        check_admin_systems(SystemsModuleType::LANG);
+        authorize(SystemsModuleType::LANG);
 
         $lang = Lang::orderByDesc('id')->get();
 
@@ -49,7 +49,7 @@ class LangController extends Controller
      */
     public function store(Request $request)
     {
-        check_admin_systems(SystemsModuleType::LANG);
+        authorize(SystemsModuleType::LANG);
 
         $request->validate([
             'name' => 'required|string|unique:lang',
@@ -87,7 +87,7 @@ class LangController extends Controller
      */
     public function edit(Lang $lang)
     {
-        check_admin_systems(SystemsModuleType::LANG);
+        authorize(SystemsModuleType::LANG);
 
         $langs = Lang::orderByDesc('id')->get();
 
@@ -103,7 +103,7 @@ class LangController extends Controller
      */
     public function update(Request $request, Lang $lang)
     {
-        check_admin_systems(SystemsModuleType::LANG);
+        authorize(SystemsModuleType::LANG);
 
         $request->validate([
             'name' => 'required|string',
@@ -130,7 +130,7 @@ class LangController extends Controller
      */
     public function destroy(Lang $lang)
     {
-        if(check_admin_systems(SystemsModuleType::LANG))
+        if(authorize(SystemsModuleType::LANG))
 
             if(Lang::count() == 1)
                 return flash('Bạn không thể thực hiện hành động này!', 3 );
@@ -148,7 +148,7 @@ class LangController extends Controller
     }
 
     public function active($id){
-        if(check_admin_systems(SystemsModuleType::LANG))
+        if(authorize(SystemsModuleType::LANG))
 
         $lang = Lang::findOrFail($id);
         $list = Lang::whereNotIn('id',[$id])->get();
@@ -162,7 +162,7 @@ class LangController extends Controller
     }
 
     public function change($lang){
-        if(check_admin_systems(SystemsModuleType::LANG))
+        if(authorize(SystemsModuleType::LANG))
         Session::put('lang',$lang);
         return flash('Cập nhật thành công!', 1 );
     }

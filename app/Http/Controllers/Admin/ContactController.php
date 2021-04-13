@@ -17,7 +17,7 @@ class ContactController extends Controller
      */
     public function index()
     {
-        check_admin_systems(SystemsModuleType::CONTACT);
+        authorize(SystemsModuleType::CONTACT);
 
         $contact = Contact::when(request()->status,function($q){
             $status = request()->status == 'true' ? 1 : 0 ;
@@ -62,7 +62,7 @@ class ContactController extends Controller
      */
     public function show(Contact $contact)
     {
-        check_admin_systems(SystemsModuleType::CONTACT);
+        authorize(SystemsModuleType::CONTACT);
 
         if($contact->status == 0)
             $contact->update(['status' => 1,'user_edit' => \Auth::id()]);
@@ -100,14 +100,14 @@ class ContactController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function remove($id){
-        check_admin_systems(SystemsModuleType::CONTACT);
+        authorize(SystemsModuleType::CONTACT);
         $contact = Contact::find($id);
         $contact->delete();
         return flash('Xóa thành công', 1);
     }
     public function delete(Request $request)
     {
-        check_admin_systems(SystemsModuleType::CONTACT);
+        authorize(SystemsModuleType::CONTACT);
 
         if($request->destroy == 'delete'){
             $count = count($request->check_del);

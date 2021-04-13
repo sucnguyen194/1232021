@@ -178,7 +178,7 @@
                             </table>
                         </div>
 
-                        <div class="form-group" v-if="revenue_carts">
+                        <div class="form-group" v-if="total > 0">
                             <div class="row">
                                 <div class="col-lg-6 form-group">
                                     <label>Tổng tiền</label>
@@ -258,7 +258,7 @@
                 </div>
                 <div class="col-lg-12">
                     <button type="submit" class="btn btn-warning waves-effect cancel waves-light" onclick="return confirm('Hủy toàn bộ đơn hàng?')" :disabled="total == 0" name="send" value="cancel"><span class="icon-button"><i class="pe-7s-close-circle"></i></span> Hủy đơn hàng</button>
-                    <button type="submit" class="btn btn-primary waves-effect save width-md waves-light float-right" onclick="return confirm('Xác nhận đơn hàng?')" :disabled="customer > 0 && !revenue_carts" name="send" value="save"><span class="icon-button"><i class="fe-plus"></i></span> Xác nhận</button>
+                    <button type="submit" class="btn btn-primary waves-effect save width-md waves-light float-right" onclick="return confirm('Xác nhận đơn hàng?')" :disabled="customer == 0 || total == 0" name="send" value="save"><span class="icon-button"><i class="fe-plus"></i></span> Xác nhận</button>
                 </div>
             </div>
             <!-- end row -->

@@ -2,20 +2,18 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
   <meta http-equiv="content-Type" content="text/html; charset=UTF-8" />
-  <meta http-equiv="content-language" content="vn">
+  <meta http-equiv="content-language" content="{{ str_replace('_', '-', app()->getLocale()) }}">
   <meta charset="utf-8">
-  <title>@yield('title')</title>
+  <title>@hasSection('title') @yield('title') - @endif {{setting()->name}}</title>
   <meta name="keywords" content="@yield('keywords')"/>
   <meta name="description" content="@yield('description')"/>
   <meta property="og:url" content="@yield('url')" />
   <meta property="og:title" content="@yield('title')" />
-  <meta property="og:locale" content="vi_VN" />
+  <meta property="og:locale" content="{{ str_replace('_', '-', app()->getLocale()) }}" />
   <meta property="og:type" content="website" />
   <meta property="fb:app_id" content="{{setting()->facebook_app_id}}" />
-  <meta property="fb:app_id" content="707137683311999" />
-  <meta property="fb:admins" content="100003744052092"/>
   <meta property="og:description" content="@yield('description')" />
-  <meta property="og:image" content="@yield('image')" />
+  <meta property="og:image" content="@hasSection('image') @yield('image') @else {{setting()->og_image ?? setting()->logo}} @endif" />
   <meta property="og:image:type" content="image/jpeg" />
   <meta property="og:image:width" content="400" />
   <meta property="og:image:height" content="300" />
@@ -48,6 +46,7 @@
         @include('Layouts.footer')
     </div>
     {!! @$setting->remarketing_footer !!}
+    @yield('lang')
   </body>
   <!--************START*************---->
 <!-- Vendor js -->

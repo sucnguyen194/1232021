@@ -34,7 +34,7 @@
                         <div class="col-md-8">
                             <div class="card-box">
                                 <div class="form-group">
-                                    <label for="name">Tên khách hàng <span class="required">*</span></label>
+                                    <label for="name">Tên nhân viên <span class="required">*</span></label>
                                     <input type="text" class="form-control" name="data[name]" id="name" value="{{old('data.name')}}" required>
                                 </div>
                                 <div class="form-group mb-0">
@@ -106,7 +106,7 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="job">Công việc</label>
+                                    <label for="job">Chức vụ</label>
                                     <input type="text" class="form-control" value="{{old('data.job')}}" id="job" name="data[job]">
                                 </div>
 
@@ -157,7 +157,7 @@
                 </fieldset>
                 <button type="submit" class="btn btn-primary stepy-finish"><span class="icon-button"><i class="fe-send"></i></span> Lưu lại</button>
             </div>
-            <div class="mt-3">
+            <div class="">
                 <input type="hidden" value="{{\App\Enums\SystemsModuleType::SUPPORT}}" name="data[type]">
                 <a href="{{route('admin.supports.index')}}" class="btn btn-default waves-effect waves-light"><span class="icon-button"><i class="fe-arrow-left"></i></span> Quay lại</a>
                 <button type="submit" class="btn btn-primary waves-effect waves-light float-right" name="send" value="save"><span class="icon-button"><i class="fe-plus"></i></span> Lưu lại</button>

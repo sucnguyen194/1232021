@@ -60,7 +60,7 @@
 
                         </select>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group mb-0">
                         <label>Mô tả</label>
                         <textarea class="form-control summernote" id="summernote" name="data[description]">{!! old('data.description') !!}</textarea>
                     </div>
@@ -102,7 +102,7 @@
 
                             <input type="text" name="data[keyword_seo]" value="{{old('data.keyword_seo')}}" class="form-control"  data-role="tagsinput"/>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group mb-0">
                             <label>Đường dẫn <span class="required">*</span></label>
                             <div class="d-flex form-control">
                                 <span>{{route('home')}}/</span><input type="text" class="border-0 alias" id="alias" value="{{old('data.alias')}}" name="data[alias]" required>

@@ -18,7 +18,7 @@ class PhotoController extends Controller
      */
     public function index()
     {
-        check_admin_systems(SystemsModuleType::PHOTO);
+        authorize(SystemsModuleType::PHOTO);
 
         $photos = Photo::whereType(MediaType::PHOTO)->when(\request()->position, function($q, $position){
             $q->wherePosition($position);
@@ -38,7 +38,7 @@ class PhotoController extends Controller
      */
     public function create()
     {
-        check_admin_systems(SystemsModuleType::PHOTO);
+        authorize(SystemsModuleType::PHOTO);
         $positions = [];
         if(Schema::hasTable('position_image'))
             $positions = \DB::table('position_image')->orderby('id','desc')->get();
@@ -54,7 +54,7 @@ class PhotoController extends Controller
      */
     public function store(Request $request)
     {
-        check_admin_systems(SystemsModuleType::PHOTO);
+        authorize(SystemsModuleType::PHOTO);
         $checkFile = $request->checkFile ?? null;
         if($request->hasFile('image') && $checkFile){
             $count = count($request->file('image'));
@@ -97,7 +97,7 @@ class PhotoController extends Controller
      */
     public function edit(Photo $photo)
     {
-        check_admin_systems(SystemsModuleType::PHOTO);
+        authorize(SystemsModuleType::PHOTO);
         $positions = [];
         if(Schema::hasTable('position_image'))
             $positions = \DB::table('position_image')->orderby('id','desc')->get();
@@ -113,7 +113,7 @@ class PhotoController extends Controller
      */
     public function update(Request $request, Photo $photo)
     {
-        check_admin_systems(SystemsModuleType::PHOTO);
+        authorize(SystemsModuleType::PHOTO);
 
         $photo->forceFill($request->data);
         if($request->hasFile('image')){
@@ -133,7 +133,7 @@ class PhotoController extends Controller
      */
     public function destroy(Photo $photo)
     {
-        check_admin_systems(SystemsModuleType::PHOTO);
+        authorize(SystemsModuleType::PHOTO);
         $photo->delete();
         return flash('Xóa thành công!', 1);
     }

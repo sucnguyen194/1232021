@@ -16,7 +16,7 @@ class UserDebtController extends Controller
      */
     public function index()
     {
-        check_admin_systems($this->type);
+        authorize($this->type);
 
         $users = UserDebt::when(\request()->id,function ($q, $id){
             $q->whereId($id);
@@ -32,7 +32,7 @@ class UserDebtController extends Controller
      */
     public function create()
     {
-        check_admin_systems($this->type);
+        authorize($this->type);
 
         return view('Admin.Debt.create');
     }
@@ -45,7 +45,7 @@ class UserDebtController extends Controller
      */
     public function store(Request $request)
     {
-        check_admin_systems($this->type);
+        authorize($this->type);
         $user = new UserDebt();
         $user->forceFill($request->data);
         $user->save();
@@ -61,7 +61,7 @@ class UserDebtController extends Controller
      */
     public function show(UserDebt $debt)
     {
-        check_admin_systems($this->type);
+        authorize($this->type);
         $transactions = $debt->transactions()->when(date_range(),function ($q, $date){
             $q->whereBetween('created_at', [$date['from']->startOfDay(), $date['to']->endOfDay()]);
         })
@@ -78,7 +78,7 @@ class UserDebtController extends Controller
      */
     public function edit(Request $request, UserDebt $debt)
     {
-        check_admin_systems($this->type);
+        authorize($this->type);
         $debt->load('transactions');
         return view('Admin.Debt.edit',compact('debt'));
     }
@@ -92,7 +92,7 @@ class UserDebtController extends Controller
      */
     public function update(Request $request, UserDebt $debt)
     {
-        check_admin_systems($this->type);
+        authorize($this->type);
         $debt->forceFill($request->data);
         $debt->status = $request->has('stauts') ? 1 : 0;
         $debt->save();
@@ -100,7 +100,7 @@ class UserDebtController extends Controller
     }
 
     public function debts($id,$type, $current){
-        check_admin_systems($this->type);
+        authorize($this->type);
         $user = UserDebt::findOrFail($id);
         switch ($type){
             case 'borrow':
@@ -130,7 +130,7 @@ class UserDebtController extends Controller
      */
     public function destroy(UserDebt $debt)
     {
-        check_admin_systems($this->type);
+        authorize($this->type);
         $debt->transactions()->delete();
         $debt->delete();
         return flash('Xóa thành công!', 1);

@@ -27,7 +27,7 @@ if(!function_exists('create_tags')){
         $type = $data->type ?? $type;
         $tag = null;
         foreach(explode(',', $data->tags) as $items){
-            $alias = Str::slug($items, '-');
+            $alias = Str::slug($items);
             if(!Tags::whereAlias($alias)->whereType($type)->whereTypeId($data->id)->count()){
                 $tag = new Tags();
                 $tag->name = $items;
@@ -137,8 +137,8 @@ if (! function_exists('date_range')) {
     }
 }
 
-if(!function_exists('check_admin_systems')){
-    function check_admin_systems($type){
+if(!function_exists('authorize')){
+    function authorize($type){
 
         if(!auth()->check())
             return abort(403);
@@ -169,6 +169,11 @@ if (! function_exists('flash')) {
         $m['target']=$target;
 
         session()->flash('message',$m);
+
+        if (request()->ajax()){
+            session()->forget('messages');
+            return response()->json($m);
+        }
 
         if($url)
             return redirect($url);
@@ -317,103 +322,87 @@ if(!function_exists('scan_full_dir')){
         $dir_content_list = scandir($dir);
         foreach($dir_content_list as $k=>$value){
             $path = $dir.$icon[0].$value;
-            $arr = [
-                '.',
-                '..',
-                'Admin',
-                'Auth',
-                'Console',
-                'Events',
-                'Commands',
-                'Services',
-                'Handlers',
-                'Exceptions',
-                'Providers',
-                'Middleware',
-                'Requests',
-                'Kernel.php',
-                'route.php',
-                'fonts',
-                'font',
-                'font-awesome',
-            ];
+            $arr = ['.','..','Admin','Auth','Console','Events','Commands','Services','Handlers','Exceptions','Providers','Middleware',              'Requests','Kernel.php','route.php','fonts','font','font-awesome',];
             if(in_array($value,$arr))  {continue;}
             $explode = explode('.',$value);
             $replace = str_replace(array('/','.'),array('_',''), $dir);
             $ext = 'php';
             $event = null;
-            $image = "https://s2d142.cloudnetwork.vn:8443/cp/theme/icons/16/plesk/file-folder.png?377a0415c8e86b629f04f2de969b6dc7";
+            $pic = "https://s2d142.cloudnetwork.vn:8443/cp/theme/icons/16/plesk/file-image.png?1327e17a096bce2f49ad2f66f4abdaf6";
+            $folder = "https://s2d142.cloudnetwork.vn:8443/cp/theme/icons/16/plesk/file-folder.png?377a0415c8e86b629f04f2de969b6dc7";
+            $script = "https://s2d142.cloudnetwork.vn:8443/cp/theme/icons/16/plesk/file-webscript.png?b2aff14c14b05cccbb316c37d48fb591";
+            $privat = "https://s2d142.cloudnetwork.vn:8443/cp/theme/icons/16/plesk/file-private.png?b3e618929415e17caa82f8d04d2aa689";;
 
             if(in_array('html',$explode) && $child){
                 $ext = "html";
-                $image ="https://s2d142.cloudnetwork.vn:8443/cp/theme/icons/16/plesk/file-webscript.png?b2aff14c14b05cccbb316c37d48fb591" ;
+                $folder = $script;
                 $event = "id='show-file'";
             }
             if(in_array('css',$explode) && $child){
                 $ext = "css";
-                $image ="https://s2d142.cloudnetwork.vn:8443/cp/theme/icons/16/plesk/file-webscript.png?b2aff14c14b05cccbb316c37d48fb591";
+                $folder = $script;
                 $event = "id='show-file'";
             }
             if(in_array('scss',$explode) && $child){
                 $ext = "css";
-                $image ="https://s2d142.cloudnetwork.vn:8443/cp/theme/icons/16/plesk/file-webscript.png?b2aff14c14b05cccbb316c37d48fb591";
+                $folder = $script;
                 $event = "id='show-file'";
             }
             if(in_array('php',$explode) && $child){
                 $ext = "php";
-                $image ="https://s2d142.cloudnetwork.vn:8443/cp/theme/icons/16/plesk/file-webscript.png?b2aff14c14b05cccbb316c37d48fb591";
+                $folder = $script;
                 $event = "id='show-file'";
             }
             if(in_array('js',$explode) && $child){
                 $ext = "js";
-                $image ="https://s2d142.cloudnetwork.vn:8443/cp/theme/icons/16/plesk/file-webscript.png?b2aff14c14b05cccbb316c37d48fb591";
+                $folder = $script;
                 $event = "id='show-file'";
             }
             if(in_array('jpg',$explode) && $child){
                 $ext = "image";
-                $image ="https://s2d142.cloudnetwork.vn:8443/cp/theme/icons/16/plesk/file-image.png?1327e17a096bce2f49ad2f66f4abdaf6";
+                $folder = $pic;
             }
             if(in_array('jpeg',$explode) && $child){
                 $ext = "image";
-                $image ="https://s2d142.cloudnetwork.vn:8443/cp/theme/icons/16/plesk/file-image.png?1327e17a096bce2f49ad2f66f4abdaf6";
+                $folder = $pic;
             }
             if(in_array('png',$explode) && $child){
                 $ext = "image";
-                $image ="https://s2d142.cloudnetwork.vn:8443/cp/theme/icons/16/plesk/file-image.png?1327e17a096bce2f49ad2f66f4abdaf6";
+                $folder = $pic;
             }
             if(in_array('svg',$explode) && $child){
                 $ext = "image";
-                $image ="https://s2d142.cloudnetwork.vn:8443/cp/theme/icons/16/plesk/file-image.png?1327e17a096bce2f49ad2f66f4abdaf6";
+                $folder = $pic;
             }
             if(in_array('gif',$explode) && $child){
                 $ext = "image";
-                $image ="https://s2d142.cloudnetwork.vn:8443/cp/theme/icons/16/plesk/file-image.png?1327e17a096bce2f49ad2f66f4abdaf6";
+                $folder = $pic;
             }
             if(in_array('ico',$explode) && $child){
                 $ext = "image";
-                $image ="https://s2d142.cloudnetwork.vn:8443/cp/theme/icons/16/plesk/file-image.png?1327e17a096bce2f49ad2f66f4abdaf6";
+                $folder = $pic;
             }
 
             if(in_array('htaccess',$explode) && $child){
                 $ext = "htaccess";
-                $image ="https://s2d142.cloudnetwork.vn:8443/cp/theme/icons/16/plesk/file-private.png?b3e618929415e17caa82f8d04d2aa689";
+                $folder = $privat;
             }
 
             // check if we have file
             if(is_file($path)) {
-                echo '<li class="file-name text-primary" '.$event.' data-path="'.$path.'" data-ext="'.$ext.'"><i class="icon-img"><img src="'.$image.'"></i> '.$value.'</li>';
+                echo '<li class="file-name text-primary" '.$event.' data-path="'.$path.'" data-ext="'.$ext.'"><i class="icon-img"><img src="'.$folder.'"></i> '.$value.'</li>';
                 continue;
             }
             // check if we have directory
             if (is_dir($path)) {
                 if(!$child){
-                    echo '<li class="folder-name"><a href="javascript:void(0)" id="open-folder" class="open-folder text-primary" data-path="'.$replace.$icon[1].$value.$icon[1].$k.'"><i class="icon-img"><img src="'.$image.'"></i> '.$value.'</a>';
+                    echo '<li class="folder-name"><a href="javascript:void(0)" id="open-folder" class="open-folder text-primary" data-path="'.$replace.$icon[1].$value.$icon[1].$k.'"><i class="icon-img"><img src="'.$folder.'"></i> '.$value.'</a>';
                     echo '<ul class="parent-folder" id="'.$replace.$icon[1].$value.$icon[1].$k.'">';
                     scan_full_dir($dir.$icon[0].$value,$value);
                     echo '</ul>';
                     echo '</li>';
                 }else{
-                    echo '<li class="folder-sub"><a href="javascript:void(0)" id="open-sub-folder" class="open-sub-folder text-primary" data-path="'.$replace.$icon[1].$value.$icon[1].$k.'"><i class="icon-img"><img src="'.$image.'"></i> '.$value.'</a>';
+                    echo '<li class="folder-sub"><a href="javascript:void(0)" id="open-sub-folder" class="open-sub-folder text-primary" data-path="'.$replace.$icon[1].$value.$icon[1].$k.'"><i class="icon-img"><img src="'.$folder.'"></i> '.$value.'</a>';
                     echo '<ul class="parent-folder" id="'.$replace.$icon[1].$value.$icon[1].$k.'">';
                     scan_full_dir($dir.$icon[0].$value,$value);
                     echo '</ul>';

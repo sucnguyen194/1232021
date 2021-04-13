@@ -1,8 +1,9 @@
 @extends('Layouts.layout')
-@section('title') {!!$gallery->title!!} @stop
-@section('url') {{url($gallery->alias)}} @stop
-@section('description') {!!$gallery->title!!} @stop
-@section('keywords') {!!$gallery->title!!} @stop
+@section('title') {{$gallery->title_seo}} @stop
+@section('url') {{route('alias',$gallery->alias)}} @stop
+@section('description') {{$gallery->description_seo}} @stop
+@section('keywords') {{$gallery->keywords_seo}} @stop
+@section('lang') {{redirect_lang($gallery->alias)}} @stop
 @section('content')
 <!-------------------------->
 <!-----------SOURCSE----------->
@@ -200,5 +201,4 @@
 <!-------------------------->
 <!-----------SOURCSE----------->
 <!-------------------------->
-<input type="hidden" id="getDataLang" data-id="{{$gallery->id}}" data-type="gallery">
 @stop

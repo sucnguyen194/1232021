@@ -19,7 +19,7 @@ class ModulesController extends Controller
      */
     public function index()
     {
-        if(check_admin_systems(SystemsModuleType::ADD_MODULE))
+        if(authorize(SystemsModuleType::ADD_MODULE))
 
         $modules = Modules::orderByDesc('id')->get();
 
@@ -33,7 +33,7 @@ class ModulesController extends Controller
      */
     public function create()
     {
-        if(check_admin_systems(SystemsModuleType::ADD_MODULE))
+        if(authorize(SystemsModuleType::ADD_MODULE))
 
         return view('Admin.Module.add');
     }
@@ -46,7 +46,7 @@ class ModulesController extends Controller
      */
     public function store(Request $request)
     {
-        if(check_admin_systems(SystemsModuleType::ADD_MODULE))
+        if(authorize(SystemsModuleType::ADD_MODULE))
 
         $request->validate([
             'module' => 'required',
@@ -117,7 +117,7 @@ class ModulesController extends Controller
      */
     public function show(Modules $module)
     {
-        if(check_admin_systems(SystemsModuleType::ADD_MODULE))
+        if(authorize(SystemsModuleType::ADD_MODULE))
 
         return view('Admin.Module.show',compact('module'));
     }
@@ -153,7 +153,7 @@ class ModulesController extends Controller
      */
     public function destroy(Modules $module)
     {
-        if(check_admin_systems(SystemsModuleType::ADD_MODULE))
+        if(authorize(SystemsModuleType::ADD_MODULE))
 
         if(Schema::hasTable($module->table)){
             Schema::drop($module->table);
@@ -166,7 +166,7 @@ class ModulesController extends Controller
 
     public function actionIndex($table){
 
-        if(check_admin_systems(SystemsModuleType::ADD_MODULE))
+        if(authorize(SystemsModuleType::ADD_MODULE))
 
         $module = Modules::whereTable($table)->firstOrFail();
 
@@ -176,7 +176,7 @@ class ModulesController extends Controller
     }
 
     public function createAction($table){
-        if(check_admin_systems(SystemsModuleType::ADD_MODULE))
+        if(authorize(SystemsModuleType::ADD_MODULE))
 
         $module = Modules::whereTable($table)->firstOrFail();
 
@@ -186,7 +186,7 @@ class ModulesController extends Controller
 
     public function storeAction(Request $request, $table) {
 
-        if(check_admin_systems(SystemsModuleType::ADD_MODULE));
+        if(authorize(SystemsModuleType::ADD_MODULE));
 
         $module = Modules::whereTable($table)->firstOrFail();
 
@@ -214,7 +214,7 @@ class ModulesController extends Controller
     }
 
     public function editAction($table, $id){
-        if(check_admin_systems(SystemsModuleType::ADD_MODULE));
+        if(authorize(SystemsModuleType::ADD_MODULE));
 
         $module = Modules::whereTable($table)->firstOrFail();
 
@@ -225,7 +225,7 @@ class ModulesController extends Controller
     }
 
     public function updateAction(Request $request, $table, $id){
-        if(check_admin_systems(SystemsModuleType::ADD_MODULE));
+        if(authorize(SystemsModuleType::ADD_MODULE));
 
         $module = Modules::whereTable($table)->firstOrFail();
 
@@ -271,7 +271,7 @@ class ModulesController extends Controller
     }
 
     public function detroyAction($table, $id){
-        if(check_admin_systems(SystemsModuleType::ADD_MODULE));
+        if(authorize(SystemsModuleType::ADD_MODULE));
 
         $module = Modules::whereTable($table)->firstOrFail();
 

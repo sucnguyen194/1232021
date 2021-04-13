@@ -29,7 +29,7 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        check_admin_systems($this->type);
+        authorize($this->type);
 
         $lang = isset(request()->lang) ? request()->lang : Session::get('lang');
         $supports = Support::where('lang',$lang)->whereType($this->type)
@@ -60,7 +60,7 @@ class CustomerController extends Controller
      */
     public function create()
     {
-        check_admin_systems($this->type);
+        authorize($this->type);
 
         return view('Admin.Support.Customer.create');
     }
@@ -87,7 +87,7 @@ class CustomerController extends Controller
      */
     public function edit(Support $customer)
     {
-        check_admin_systems($this->type);
+        authorize($this->type);
 
         return view('Admin.Support.Customer.edit',compact('customer'));
     }

@@ -26,7 +26,7 @@
                 @csrf
                 <div class="col-lg-4">
                     <div class="card-box">
-                        <div class="form-group">
+                        <div class="form-group mb-0">
                             <label>Tên module <span class="required">*</span></label>
                             <p>* Ghi chú: Không trùng với các module trước</p>
                             <input type="text" class="form-control" value="{{old('module')}}" id="module" name="module" required>
@@ -36,7 +36,7 @@
                 </div>
                 <div class="col-lg-4">
                     <div class="card-box">
-                        <div class="form-group">
+                        <div class="form-group mb-0">
                             <label>Tên bảng <span class="required">*</span></label>
                             <p class="font-13">* Không trùng với các bảng trước</p>
                             <input type="text" class="form-control" value="{{old('table')}}" id="table" name="table" required>
@@ -46,7 +46,7 @@
                 </div>
                 <div class="col-lg-4">
                     <div class="card-box">
-                        <div class="form-group">
+                        <div class="form-group mb-0">
                             <label>Số cột <span class="required">*</span></label>
                             <p class="font-13">* Dạng số và lớn hơn 0</p>
                             <input type="number" class="form-control" value="{{old('column')}}" min="1" id="column" name="column" required>

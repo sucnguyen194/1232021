@@ -40,18 +40,18 @@ Thêm thành viên
 
                                     <div class="form-group">
                                         <label for="email">Tài khoản email <span class="required">*</span></label>
-                                        <input type="text" class="form-control" id="email" name="data[email]"  value="{{old('data.email')}}" placeholder="nguyenvan@gmail.com">
+                                        <input type="text" class="form-control" id="email" name="data[email]"  value="{{old('data.email') ?? \Illuminate\Support\Str::upper(\Illuminate\Support\Str::random(7))}}@gmail.com" placeholder="nguyenvan@gmail.com">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="password">Mật khẩu <span class="required">*</span></label>
-                                        <input type="text" class="form-control" id="password" name="password" value="1234567890" required placeholder="******">
+                                        <input type="text" class="form-control" id="password" name="password" value="QAZ123" required placeholder="******">
                                     </div>
 
                                     <div class="form-group">
                                         <label for="re_password">Xác nhận mật khẩu <span class="required">*</span></label>
-                                        <input type="text" class="form-control" id="re_password" name="re_password" value="1234567890" required placeholder="******">
+                                        <input type="text" class="form-control" id="re_password" name="re_password" value="QAZ123" required placeholder="******">
                                     </div>
                                 </div>
                             </div>

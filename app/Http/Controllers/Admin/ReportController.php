@@ -17,14 +17,13 @@ class ReportController extends Controller
      */
     public function index()
     {
-        check_admin_systems(SystemsModuleType::REPORT);
+        authorize(SystemsModuleType::REPORT);
 
         $products = Product::public()->orderByDesc('created_at')->get();
         $sessions = ProductSession::selectRaw('*, SUM(amount) as amount1, SUM(amount_export) as amount2, SUM(amount * price_in - amount_export * price_in) as balance')->with('product')
             ->when(\request()->product,function ($q, $id){
                 $q->where('product_id',$id);
             })
-            ->whereType('import')
             ->groupBy('product_id')
             ->latest()
             ->orderByDesc('created_at')->get();
@@ -65,11 +64,11 @@ class ReportController extends Controller
      */
     public function show($id)
     {
-        check_admin_systems(SystemsModuleType::REPORT);
+        authorize(SystemsModuleType::REPORT);
         $sessions = ProductSession::when(date_range(),function($q, $date){
                 $q->whereBetween('created_at', [$date['from']->startOfDay(), $date['to']->endOfDay()]);
             })
-            ->whereProductId($id)->whereType('import')->get();
+            ->whereProductId($id)->get();
 
         $product = Product::find($id);
         $amount = $sessions->sum('amount');

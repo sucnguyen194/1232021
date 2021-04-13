@@ -25,7 +25,7 @@ class CommentController extends Controller
     }
 
     public function list($type){
-        check_admin_systems(SystemsModuleType::COMMENTS);
+        authorize(SystemsModuleType::COMMENTS);
 
        $comment = new Comment();
        $class = $comment->find_class($type);
@@ -42,7 +42,7 @@ class CommentController extends Controller
         return  view('Admin.Comment.index',compact('comments','type'));
     }
     public function detail($type,$id){
-        check_admin_systems(SystemsModuleType::COMMENTS);
+        authorize(SystemsModuleType::COMMENTS);
         switch ($type){
             case 'products':
                 $class = new Product();
@@ -73,7 +73,7 @@ class CommentController extends Controller
     }
     public function destroys($type, $id){
 
-        check_admin_systems(SystemsModuleType::COMMENTS);
+        authorize(SystemsModuleType::COMMENTS);
         $comment = new Comment();
         $class = $comment->find_class($type);
 
@@ -100,7 +100,7 @@ class CommentController extends Controller
      */
     public function store(Request $request)
     {
-        check_admin_systems(SystemsModuleType::COMMENTS);
+        authorize(SystemsModuleType::COMMENTS);
 
         $request->validate([
             'comment' => 'required',
@@ -148,7 +148,7 @@ class CommentController extends Controller
      */
     public function edit($id)
     {
-        check_admin_systems(SystemsModuleType::COMMENTS);
+        authorize(SystemsModuleType::COMMENTS);
         $slug = Alias::findOrFail($id);
         $model = $slug->findModel($slug->type,$slug->type_id);
 
@@ -168,7 +168,7 @@ class CommentController extends Controller
      */
     public function update(Request $request, Comment $comment)
     {
-        check_admin_systems(SystemsModuleType::COMMENTS);
+        authorize(SystemsModuleType::COMMENTS);
 
         if($comment->hidden == 0){
             $comment->update([
@@ -190,7 +190,7 @@ class CommentController extends Controller
      */
     public function destroy($id)
     {
-        check_admin_systems(SystemsModuleType::COMMENTS);
+        authorize(SystemsModuleType::COMMENTS);
         $slug = Alias::findOrFail($id);
         $model = $slug->findModel($slug->type,$slug->type_id);
 

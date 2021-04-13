@@ -14,7 +14,7 @@ class PageController extends Controller
 {
     public function index()
     {
-        check_admin_systems(SystemsModuleType::PAGE);
+        authorize(SystemsModuleType::PAGE);
         $lang = isset(request()->lang) ? request()->lang : Session::get('lang');
 
         $posts = Post::with(['language'])->where('lang',$lang)->whereType(SystemsModuleType::PAGE)
@@ -38,14 +38,14 @@ class PageController extends Controller
     }
 
     public function create(){
-        check_admin_systems(SystemsModuleType::PAGE);
+        authorize(SystemsModuleType::PAGE);
 
         return view('Admin.Page.create');
     }
 
     public function edit(Post $page){
 
-        check_admin_systems(SystemsModuleType::PAGE);
+        authorize(SystemsModuleType::PAGE);
 
         if($page->postLangsBefore){
             $id = array_unique($page->postLangsBefore->pluck('post_id')->toArray());
@@ -60,7 +60,7 @@ class PageController extends Controller
     }
 
     public function lang($lang , $id){
-        check_admin_systems(SystemsModuleType::PAGE);
+        authorize(SystemsModuleType::PAGE);
         $post = Post::findOrFail($id);
         return view('Admin.Page.lang',compact('post','lang'));
     }

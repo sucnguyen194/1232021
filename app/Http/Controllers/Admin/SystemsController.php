@@ -17,7 +17,7 @@ class SystemsController extends Controller
 
     public function index()
     {
-        check_admin_systems($this->type);
+        authorize($this->type);
         $systems = System::orderby('sort','asc')->get();
         return view('Admin.Module.systems.list',compact('systems'));
     }
@@ -29,7 +29,7 @@ class SystemsController extends Controller
      */
     public function create()
     {
-        if(check_admin_systems($this->type))
+        if(authorize($this->type))
             $systems = System::where('parent_id',0)->orderby('sort','asc')->get();
         return view('Admin.Module.systems.add',compact('systems'));
 
@@ -43,7 +43,7 @@ class SystemsController extends Controller
      */
     public function store(SystemsRequest $request)
     {
-        if(check_admin_systems($this->type))
+        if(authorize($this->type))
 
             if($request->send == 'save'){
 
@@ -79,7 +79,7 @@ class SystemsController extends Controller
      */
     public function edit(System $system)
     {
-        if(check_admin_systems($this->type))
+        if(authorize($this->type))
 
             $systems = System::where('parent_id',0)->orderby('sort','asc')->get();
 
@@ -95,7 +95,7 @@ class SystemsController extends Controller
      */
     public function update(SystemsRequest $request, System $system)
     {
-        if(check_admin_systems($this->type))
+        if(authorize($this->type))
 
             if($request->send == 'update'){
 
@@ -121,7 +121,7 @@ class SystemsController extends Controller
      */
     public function destroy(System $system)
     {
-        if(check_admin_systems($this->type))
+        if(authorize($this->type))
             $system->delete();
 
         return flash('Xóa thành công', 1);

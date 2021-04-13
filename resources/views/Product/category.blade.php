@@ -1,17 +1,12 @@
 @extends('Layouts.layout')
-@section('title') {!!$cate_current->title_seo!!} @stop
-@section('site_name') {!!$cate_current->name!!} @stop
-@section('url') {{url($cate_current->alias)}} @stop
-@section('description') {!!$cate_current->description_seo!!} @stop
-@section('keywords') {!!$cate_current->keyword_seo!!} @stop
-@section('image') {!!url($cate_current->image)!!} @stop
+@section('title') {{$category->title_seo}} @stop
+@section('site_name') {{$category->title_seo}} @stop
+@section('url') {{route('alias',$category->alias)}} @stop
+@section('description') {{$category->description_seo}} @stop
+@section('keywords') {{$category->keyword_seo}} @stop
+@section('image') {{asset($category->image)}} @stop
+@section('lang') {{redirect_lang($category->alias)}} @stop
 @section('content')
-<?php use App\model\FHomeModel;
-$user = new FHomeModel();
-?>
-<?php  $background = $user->getFirstRowWhere('image',['lang' => Session::get('lang'),'position'=>'Background'],'sort','asc');
-?>
-{{getDataLang($cate_current->id,'catepro')}}
 <!-------------------------->
 <!-----------SOURCSE----------->
 <!-------------------------->

@@ -172,6 +172,7 @@ function number_format(int){
     }
 }
 function flash(obj){
+    console.log(obj.type);
     switch (obj.type){
         case 'success':
           var color = '#5ba035';
@@ -181,10 +182,10 @@ function flash(obj){
             break;
         case 'error':
             var color = '#bf441d';
-        default:
-            var color = '#ffa91c';
-            obj.message = 'Đã có lỗi xảy ra!';
-            obj.type = 'warning';
+        // default:
+        //     var color = '#ffa91c';
+        //     obj.message = 'Đã có lỗi xảy ra!';
+        //     obj.type = 'warning';
     }
     return $.toast({
         heading: "Thông báo!",

@@ -24,7 +24,7 @@ class OrderController extends Controller
      */
     public function index()
     {
-        check_admin_systems(SystemsModuleType::EXPORT);
+        authorize(SystemsModuleType::EXPORT);
 
         $orders = Order::with(['user','customer','sessions'])
             ->when(\request()->status,function($q, $status){
@@ -54,7 +54,7 @@ class OrderController extends Controller
      */
     public function create()
     {
-        check_admin_systems(SystemsModuleType::EXPORT);
+        authorize(SystemsModuleType::EXPORT);
 
         $products = Product::selectRaw('id, name, amount')->public()->orderby('name', 'asc')->get();
         $users = User::selectRaw('id,name,account,phone')->whereLever(LeverUser::USER)->orderByDesc('id')->get();
@@ -93,7 +93,7 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        check_admin_systems(SystemsModuleType::EXPORT);
+        authorize(SystemsModuleType::EXPORT);
 
         switch ($request->send){
             case "cancel":
@@ -143,7 +143,7 @@ class OrderController extends Controller
      */
     public function show(Order $order)
     {
-        check_admin_systems(SystemsModuleType::EXPORT);
+        authorize(SystemsModuleType::EXPORT);
         return view('Admin.Order.edit',compact('order'));
 
     }
@@ -156,7 +156,7 @@ class OrderController extends Controller
      */
     public function edit(Order $order)
     {
-        check_admin_systems(SystemsModuleType::EXPORT);
+        authorize(SystemsModuleType::EXPORT);
 
         $users = User::selectRaw('id,name,account')->whereLever(LeverUser::ADMIN)->get();
         $customers = User::selectRaw('id,name,account,phone')->whereLever(LeverUser::USER)->get();
@@ -199,7 +199,7 @@ class OrderController extends Controller
      */
     public function update(Request $request, Order $order)
     {
-        check_admin_systems(SystemsModuleType::EXPORT);
+        authorize(SystemsModuleType::EXPORT);
 
         switch ($request->send){
             case "cancel":
@@ -320,13 +320,13 @@ class OrderController extends Controller
         return flash('Cập nhật thành công!',1);
     }
     public function getItemSession($id){
-        check_admin_systems(SystemsModuleType::EXPORT);
+        authorize(SystemsModuleType::EXPORT);
         $session = ProductSession::find($id);
         if (!$session) return 'error';
         return $session->load('product');
     }
     public function updateItemSession($id, $amount, $price, $revenue){
-        check_admin_systems(SystemsModuleType::EXPORT);
+        authorize(SystemsModuleType::EXPORT);
         $product_session = new ProductSession();
         $session = ProductSession::find($id);
         $product_session->updateAmountSessionAfter($session->product_id, $amount);
@@ -365,7 +365,7 @@ class OrderController extends Controller
         return $data;
     }
     public function destroyItemSession($id){
-        check_admin_systems(SystemsModuleType::EXPORT);
+        authorize(SystemsModuleType::EXPORT);
 
         $session = ProductSession::find($id);
         if(!$session) return 'error';
@@ -458,7 +458,7 @@ class OrderController extends Controller
 
     }
     public function getItemCart($order, $rowId){
-        check_admin_systems(SystemsModuleType::EXPORT);
+        authorize(SystemsModuleType::EXPORT);
         $order = Order::find($order);
         $item = Cart::instance('export_'.$order->id)->get($rowId);
         $data['item'] = $item;
@@ -467,7 +467,7 @@ class OrderController extends Controller
     }
     public function updateItemCart($order, $rowId, $amount, $price, $revenue){
 
-        check_admin_systems(SystemsModuleType::EXPORT);
+        authorize(SystemsModuleType::EXPORT);
         $order = Order::find($order);
         $cart = Cart::instance('export_'.$order->id)->get($rowId);
 
@@ -490,7 +490,7 @@ class OrderController extends Controller
         return response()->json($data);
     }
     public function destroyItemCart($order, $rowId){
-        check_admin_systems(SystemsModuleType::EXPORT);
+        authorize(SystemsModuleType::EXPORT);
         $order = Order::find($order);
         Cart::instance('export_'.$order->id)->remove($rowId);
         $data['cart'] = Cart::instance('export_'.$order->id)->content()->sort();
@@ -529,7 +529,7 @@ class OrderController extends Controller
      */
     public function destroy(Order $order)
     {
-        check_admin_systems(SystemsModuleType::EXPORT);
+        authorize(SystemsModuleType::EXPORT);
         if($order->sessions->count())
             return flash('Bạn không thể thực hiện hành động này!',3);
         $order->delete();

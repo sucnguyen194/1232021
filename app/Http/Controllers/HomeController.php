@@ -78,7 +78,8 @@ class HomeController extends Controller
                 $data['cate'] = Category::whereAlias($alias)->public()->firstOrFail();
                 $data['posts'] = Post::with(['category','user','categories'])->orwhereHas('categories',function($q) use ($data) {
                     $q->where('category_id',$data['cate']->id);
-                })->orWhere('category_id',$data['cate']->id)->public()->langs()->paginate(20);
+                })->orWhere('category_id',$data['cate']->id)
+                    ->public()->langs()->paginate(20);
 
                 return view('Post.index', $data);
                 break;

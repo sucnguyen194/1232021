@@ -26,7 +26,7 @@ class ProductController extends Controller
     public function index()
     {
         $type = SystemsModuleType::PRODUCT;
-        check_admin_systems($type);
+        authorize($type);
         $lang = isset(request()->lang) ? request()->lang : Session::get('lang');
         $products = Product::with('category')->whereType($type)->where('lang',$lang)
             ->when(request()->user,function($q, $user){
@@ -55,7 +55,7 @@ class ProductController extends Controller
         return view('Admin.Product.list',compact('products','categories','langs','users'));
     }
     public function stock(){
-        check_admin_systems(SystemsModuleType::STOCK);
+        authorize(SystemsModuleType::STOCK);
 
         $products = Product::public()->orderByDesc('created_at')->get();
 
@@ -100,7 +100,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        check_admin_systems(SystemsModuleType::ADD_PRODUCT);
+        authorize(SystemsModuleType::ADD_PRODUCT);
 
         $categories = Category::whereType(CategoryType::PRODUCT_CATEGORY)->public()->langs()->orderByDesc('id')->get();
         return view('Admin.Product.add', compact('categories'));
@@ -114,7 +114,7 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        check_admin_systems(SystemsModuleType::ADD_PRODUCT);
+        authorize(SystemsModuleType::ADD_PRODUCT);
 
         Validator::make($request->data,[
             'name' => 'required',
@@ -168,7 +168,7 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        check_admin_systems(SystemsModuleType::ADD_PRODUCT);
+        authorize(SystemsModuleType::ADD_PRODUCT);
         $user = User::where('lever','>=',\Auth::user()->lever)->get();
 
         $sessions = $product->sessions()
@@ -203,7 +203,7 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        check_admin_systems(SystemsModuleType::ADD_PRODUCT);
+        authorize(SystemsModuleType::ADD_PRODUCT);
 
         $category = Category::whereType(CategoryType::PRODUCT_CATEGORY)->public()->langs()->orderByDesc('id')->get();
         $photo = $product->photos()->orderby('sort','asc')->get();
@@ -228,7 +228,7 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        check_admin_systems(SystemsModuleType::ADD_PRODUCT);
+        authorize(SystemsModuleType::ADD_PRODUCT);
 
         Validator::make($request->data,[
             'name' => 'required',
@@ -284,7 +284,7 @@ class ProductController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function remove($id){
-        check_admin_systems(SystemsModuleType::PRODUCT);
+        authorize(SystemsModuleType::PRODUCT);
         $product = Product::findOrFail($id);
         $product->delete();
         return flash('Xóa thành công!', 1);
@@ -292,7 +292,7 @@ class ProductController extends Controller
 
     public function delete(Request $request)
     {
-        check_admin_systems(SystemsModuleType::PRODUCT);
+        authorize(SystemsModuleType::PRODUCT);
 
         if($request->destroy == 'delete'){
             $count = count($request->check_del);
@@ -311,7 +311,7 @@ class ProductController extends Controller
 
     public function lang($lang, $id)
     {
-        check_admin_systems(SystemsModuleType::ADD_PRODUCT);
+        authorize(SystemsModuleType::ADD_PRODUCT);
 
         if(!Lang::whereValue($lang)->count())
             return flash('Ngôn ngữ chưa được cấu hình!', 3);
@@ -323,7 +323,7 @@ class ProductController extends Controller
 
     public function add(Request $request , $lang, $id)
     {
-        check_admin_systems(SystemsModuleType::ADD_PRODUCT);
+        authorize(SystemsModuleType::ADD_PRODUCT);
 
         Validator::make($request->data,[
             'name' => 'required',

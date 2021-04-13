@@ -31,7 +31,7 @@ class MenuController extends Controller
      */
     public function index()
     {
-        if(check_admin_systems(SystemsModuleType::MENU))
+        if(authorize(SystemsModuleType::MENU))
 
             $categories = Category::langs()->public()->get();
 
@@ -49,7 +49,7 @@ class MenuController extends Controller
      */
     public function create()
     {
-        if(check_admin_systems(SystemsModuleType::MENU))
+        if(authorize(SystemsModuleType::MENU))
 
         $categories = Category::langs()->public()->get();
 
@@ -68,7 +68,7 @@ class MenuController extends Controller
      */
     public function store(Request $request)
     {
-        if(check_admin_systems(SystemsModuleType::MENU))
+        if(authorize(SystemsModuleType::MENU))
 
          $menu = new Menu();
 
@@ -103,7 +103,7 @@ class MenuController extends Controller
      */
     public function edit(Menu $menu)
     {
-        if(check_admin_systems(SystemsModuleType::MENU))
+        if(authorize(SystemsModuleType::MENU))
 
             if($menu->lang <> Session::get('lang'))
                 return redirect()->route('admin.menus.index');
@@ -126,7 +126,7 @@ class MenuController extends Controller
      */
     public function update(Request $request, Menu $menu)
     {
-        if(check_admin_systems(SystemsModuleType::MENU))
+        if(authorize(SystemsModuleType::MENU))
         $menu->forceFill($request->data);
         if($request->unlink){
             if(File::exists($menu->image))
@@ -147,7 +147,7 @@ class MenuController extends Controller
      */
     public function destroy(Menu $menu)
     {
-        if(check_admin_systems(SystemsModuleType::MENU))
+        if(authorize(SystemsModuleType::MENU))
             if(File::exists($menu->image))
                 File::delete($menu->image);
             $menu->delete();

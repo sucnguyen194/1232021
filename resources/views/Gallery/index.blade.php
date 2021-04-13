@@ -1,11 +1,11 @@
 @extends('Layouts.layout')
-@section('title') Thư viện @stop
+@section('title') Thư viện hình ảnh - {{setting()->name}} @stop
 @section('url') {{url('gallery')}}.html @stop
-@section('description') Thư viện  @stop
-@section('keywords') Thư viện  @stop
-@section('image') {{$image}}  @stop
+@section('description') Thư viện - {{setting()->name}} @stop
+@section('keywords') Thư viện - {{setting()->name}} @stop
+@section('image') {{asset(setting()->og_image ?? setting()->logo)}}  @stop
+@section('lang') {{redirect_lang(\App\Enums\AliasType::HOMEGALLERY)}} @stop
 @section('content')
-{{getDataLang('0','homeGallery')}}
 <!-------------------------->
 <!-----------SOURCSE----------->
 <!-------------------------->

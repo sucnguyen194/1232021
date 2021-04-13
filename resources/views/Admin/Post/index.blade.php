@@ -124,7 +124,7 @@
                                         <td>{{$item->id}}</td>
                                         <td><input type="number" style="width: 120px" class="form-control" name="sort" data-id="{{$item->id}}" value="{{$item->sort}}"></td>
                                         <td><a href="{{route('alias',$item->alias)}}" title="{{$item->title}}" target="_blank">{{ $item->title}}</a> </td>
-                                        <td>{{$item->category->title ?? "Chưa có danh mục" }} </td>
+                                        <td>{{$item->category->name ?? "Chưa có danh mục" }} </td>
                                         <td>
                                             {{$item->updated_at->diffForHumans()}}
                                         </td>

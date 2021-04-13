@@ -15,14 +15,14 @@ class SourceController extends Controller
      */
     public function index()
     {
-        if(!check_admin_systems(SystemsModuleType::SOURCE))
+        if(!authorize(SystemsModuleType::SOURCE))
             flash('Bạn không thể thực hiện hành động này!', 3);
 
         return view('Admin.Source.list');
     }
 
     public function load(Request $request){
-        if(!check_admin_systems(SystemsModuleType::SOURCE))
+        if(!authorize(SystemsModuleType::SOURCE))
             flash('Bạn không thể thực hiện hành động này!', 3);
 
         $path = $request->path;
@@ -31,8 +31,7 @@ class SourceController extends Controller
     }
 
     public function push(Request $request){
-        if(!check_admin_systems(SystemsModuleType::SOURCE))
-            flash('Bạn không thể thực hiện hành động này!', 3);
+        authorize(SystemsModuleType::SOURCE);
         $content = $request->put_file;
         $dir = $request->dir;
         file_put_contents($dir,$content);

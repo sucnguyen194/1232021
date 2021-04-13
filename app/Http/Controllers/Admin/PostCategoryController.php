@@ -16,7 +16,7 @@ class PostCategoryController extends Controller
 {
     public function index(){
 
-        check_admin_systems(SystemsModuleType::POST_CATEGORY);
+        authorize(SystemsModuleType::POST_CATEGORY);
 
         $lang = isset(request()->lang) ? request()->lang : Session::get('lang');
 
@@ -41,13 +41,13 @@ class PostCategoryController extends Controller
     }
 
     public function create(){
-        check_admin_systems(SystemsModuleType::POST_CATEGORY);
+        authorize(SystemsModuleType::POST_CATEGORY);
         $categories = Category::whereType(CategoryType::POST_CATEGORY)->langs()->orderByDesc('id')->get();
         return view('Admin.Post.category.create',compact('categories'));
     }
 
     public function edit(Category $category){
-        check_admin_systems(SystemsModuleType::POST_CATEGORY);
+        authorize(SystemsModuleType::POST_CATEGORY);
         $lang = $category->lang;
         $type = SystemsModuleType::POST_CATEGORY;
         $categories = Category::whereLang($lang)->whereType($type)->whereNotIn('id',[$category->id])->orderByDesc('id')->get();

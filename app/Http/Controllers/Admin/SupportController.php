@@ -22,7 +22,7 @@ class SupportController extends Controller
     public function index()
     {
         $type = SystemsModuleType::SUPPORT;
-        check_admin_systems($type);
+        authorize($type);
 
         $lang = isset(request()->lang) ? request()->lang : Session::get('lang');
         $supports = Support::where('lang',$lang)->whereType($type)
@@ -53,7 +53,7 @@ class SupportController extends Controller
      */
     public function create()
     {
-        check_admin_systems(SystemsModuleType::SUPPORT);
+        authorize(SystemsModuleType::SUPPORT);
 
         return view('Admin.Support.create');
     }
@@ -66,7 +66,7 @@ class SupportController extends Controller
      */
     public function store(Request $request)
     {
-        check_admin_systems(SystemsModuleType::SUPPORT) || check_admin_systems(SystemsModuleType::CUSTOMER);
+        authorize(SystemsModuleType::SUPPORT) || authorize(SystemsModuleType::CUSTOMER);
 
         Validator::make($request->data, [
             'name' => 'required',
@@ -102,7 +102,7 @@ class SupportController extends Controller
      */
     public function edit(Support $support)
     {
-        check_admin_systems(SystemsModuleType::CUSTOMER);
+        authorize(SystemsModuleType::CUSTOMER);
 
         return view('Admin.Support.edit',compact('support'));
     }
@@ -116,7 +116,7 @@ class SupportController extends Controller
      */
     public function update(Request $request, Support $support)
     {
-        check_admin_systems(SystemsModuleType::SUPPORT) || check_admin_systems(SystemsModuleType::CUSTOMER);
+        authorize(SystemsModuleType::SUPPORT) || authorize(SystemsModuleType::CUSTOMER);
 
          Validator::make($request->data, [
              'name' => 'required',
@@ -150,7 +150,7 @@ class SupportController extends Controller
        //
     }
     public function remove($id){
-        check_admin_systems(SystemsModuleType::SUPPORT) || check_admin_systems(SystemsModuleType::CUSTOMER);
+        authorize(SystemsModuleType::SUPPORT) || authorize(SystemsModuleType::CUSTOMER);
         $support = Support::findOrFail($id);
         $support->delete();
 
@@ -159,7 +159,7 @@ class SupportController extends Controller
 
     public function delete(Request $request)
     {
-        check_admin_systems(SystemsModuleType::SUPPORT) || check_admin_systems(SystemsModuleType::CUSTOMER);
+        authorize(SystemsModuleType::SUPPORT) || authorize(SystemsModuleType::CUSTOMER);
 
         if($request->destroy == 'delete'){
             $count = count($request->check_del);

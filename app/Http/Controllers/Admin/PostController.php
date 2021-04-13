@@ -8,15 +8,11 @@ use App\Http\Controllers\Controller;
 use App\Models\Alias;
 use App\Models\Category;
 use App\Models\Lang;
-use App\Models\NewsCategory;
-use App\Models\Order;
 use App\Models\Post;
-use App\Models\Tags;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Str;
 use Session;
 
 class PostController extends Controller
@@ -28,7 +24,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        check_admin_systems(SystemsModuleType::POST);
+        authorize(SystemsModuleType::POST);
         $lang = isset(request()->lang) ? request()->lang : Session::get('lang');
 
         $posts = Post::with('category')
@@ -68,7 +64,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        check_admin_systems(SystemsModuleType::ADD_POST);
+        authorize(SystemsModuleType::ADD_POST);
         $categories = Category::wherePublic(ActiveDisable::ACTIVE)
             ->whereType(CategoryType::POST_CATEGORY)
             ->whereLang(Session::get('lang'))
@@ -84,7 +80,7 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        check_admin_systems(SystemsModuleType::ADD_POST) || check_admin_systems(SystemsModuleType::PAGE);
+        authorize(SystemsModuleType::ADD_POST) || authorize(SystemsModuleType::PAGE);
         $request->validate([
             'data.title' => 'required',
             'data.alias' => 'required',
@@ -95,7 +91,8 @@ class PostController extends Controller
             return  flash('Đường dẫn đã tồn tại', 3);
 
         if(!$request->has('unlink') && $request->hasFile('image')){
-            upload_file_image($post, $request->file('image'), 375, 375);
+           upload_file_image($post, $request->file('image'), 375, 375);
+
         }
         $post->save();
 
@@ -125,7 +122,7 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        check_admin_systems(SystemsModuleType::ADD_POST);
+        authorize(SystemsModuleType::ADD_POST);
         $categories = Category::whereType(CategoryType::POST_CATEGORY)->public()->langs()->get();
 
         if($post->postLangsBefore){
@@ -148,7 +145,7 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        check_admin_systems(SystemsModuleType::ADD_POST) || check_admin_systems(SystemsModuleType::PAGE);
+        authorize(SystemsModuleType::ADD_POST) || authorize(SystemsModuleType::PAGE);
         $request->validate([
             'data.title' => 'required',
             'data.alias' => 'required',
@@ -183,7 +180,7 @@ class PostController extends Controller
     }
 
     public function lang($lang, $id){
-        check_admin_systems(SystemsModuleType::ADD_POST);
+        authorize(SystemsModuleType::ADD_POST);
         if(!Lang::whereValue($lang)->count())
             return flash('Ngôn ngữ chưa được cấu hình', 3);
         $post = Post::findOrFail($id);
@@ -191,7 +188,7 @@ class PostController extends Controller
         return view('Admin.Post.lang',compact('post','lang','categories'));
     }
     public function add(Request $request, $lang, $id){
-        check_admin_systems(SystemsModuleType::ADD_POST) || check_admin_systems(SystemsModuleType::PAGE);
+        authorize(SystemsModuleType::ADD_POST) || authorize(SystemsModuleType::PAGE);
 
         $request->validate([
             'data.title' => 'required',
@@ -226,7 +223,7 @@ class PostController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function remove($id){
-        check_admin_systems(SystemsModuleType::POST) || check_admin_systems(SystemsModuleType::PAGE);
+        authorize(SystemsModuleType::POST) || authorize(SystemsModuleType::PAGE);
         $post = Post::findOrFail($id);
         $post->delete();
 
@@ -234,7 +231,7 @@ class PostController extends Controller
     }
 
     public function delete(Request $request){
-        check_admin_systems(SystemsModuleType::POST) || check_admin_systems(SystemsModuleType::PAGE);
+        authorize(SystemsModuleType::POST) || authorize(SystemsModuleType::PAGE);
         if($request->destroy == 'delete'){
             $count = count($request->check_del);
             for($i=0;$i<$count;$i++){

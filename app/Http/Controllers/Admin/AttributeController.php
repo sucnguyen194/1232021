@@ -17,7 +17,7 @@ class AttributeController extends Controller
      */
     public function index()
     {
-        check_admin_systems(SystemsModuleType::ATTRIBUTE);
+        authorize(SystemsModuleType::ATTRIBUTE);
         $category = AttributeCategory::public()->get();
         $attribute = Attribute::with(['category'])
             ->when(\request()->category,function($q){
@@ -38,7 +38,7 @@ class AttributeController extends Controller
      */
     public function create()
     {
-        check_admin_systems(SystemsModuleType::ATTRIBUTE);
+        authorize(SystemsModuleType::ATTRIBUTE);
 
         $category = AttributeCategory::public()->get();
 
@@ -53,7 +53,7 @@ class AttributeController extends Controller
      */
     public function store(Request $request)
     {
-        check_admin_systems(SystemsModuleType::ATTRIBUTE);
+        authorize(SystemsModuleType::ATTRIBUTE);
 
         $request->validate([
             'data.name' => 'required|unique:attributes,name',
@@ -85,7 +85,7 @@ class AttributeController extends Controller
      */
     public function edit(Attribute $attribute)
     {
-        check_admin_systems(SystemsModuleType::ATTRIBUTE);
+        authorize(SystemsModuleType::ATTRIBUTE);
 
         $category = AttributeCategory::public()->get();
 
@@ -101,7 +101,7 @@ class AttributeController extends Controller
      */
     public function update(Request $request, Attribute $attribute)
     {
-        check_admin_systems(SystemsModuleType::ATTRIBUTE);
+        authorize(SystemsModuleType::ATTRIBUTE);
 
         $request->validate([
             'data.name' => 'required|unique:attributes,name,'.$attribute->id,
@@ -120,7 +120,7 @@ class AttributeController extends Controller
      */
     public function destroy(Attribute $attribute)
     {
-        check_admin_systems(SystemsModuleType::ATTRIBUTE);
+        authorize(SystemsModuleType::ATTRIBUTE);
         $attribute->delete();
         return flash('Xóa thành công!', 1);
     }

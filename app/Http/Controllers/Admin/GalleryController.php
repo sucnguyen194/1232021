@@ -19,7 +19,7 @@ class GalleryController extends Controller
     public function index()
     {
         $type = SystemsModuleType::GALLERY;
-        check_admin_systems($type);
+        authorize($type);
         $lang = isset(request()->lang) ? request()->lang : Session::get('lang');
         $galleries = Product::with('category')->whereType($type)->where('lang',$lang)
             ->when(request()->user,function($q, $user){
@@ -55,7 +55,7 @@ class GalleryController extends Controller
      */
     public function create()
     {
-        if(check_admin_systems(SystemsModuleType::GALLERY))
+        if(authorize(SystemsModuleType::GALLERY))
 
         return view('Admin.Gallery.create');
     }
@@ -86,7 +86,7 @@ class GalleryController extends Controller
     public function edit(Product $gallery)
     {
         $type = SystemsModuleType::GALLERY;
-        if(check_admin_systems($type))
+        if(authorize($type))
         $photos = $gallery->photos()->orderby('sort','asc')->get();
         if($gallery->postLangsBefore){
             $id = array_unique($gallery->postLangsBefore->pluck('post_id')->toArray());
@@ -117,7 +117,7 @@ class GalleryController extends Controller
 
     public function lang($lang, $id)
     {
-        if(check_admin_systems(SystemsModuleType::GALLERY))
+        if(authorize(SystemsModuleType::GALLERY))
             if(!Lang::whereValue($lang)->count())
                 return flash('Ngôn ngữ chưa được cấu hình', 3);
             $gallery = Product::findOrFail($id);

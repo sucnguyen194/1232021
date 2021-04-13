@@ -24,7 +24,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        check_admin_systems($this->type);
+        authorize($this->type);
 
             $user = User::when(request()->id,function ($q,$id){
                 $q->where('id',$id);
@@ -42,7 +42,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        check_admin_systems($this->type);
+        authorize($this->type);
             $systems = System::orderby('sort','asc')->get();
 
             return view('Admin.User.add',compact('systems'));
@@ -57,7 +57,7 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
-        check_admin_systems($this->type);
+        authorize($this->type);
         $user = new User();
         $user->forceFill($request->data);
 
@@ -85,7 +85,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        check_admin_systems($this->type);
+        authorize($this->type);
         $transaction = Transaction::whereUserId($user->id)
             ->when(date_range(),function ($q, $date){
                 $q->whereBetween('created_at', [$date['from']->startOfDay(), $date['to']->endOfDay()]);
@@ -104,7 +104,7 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        check_admin_systems($this->type);
+        authorize($this->type);
 
             if($user->lever < Auth::user()->lever)
                 return flash('Lỗi', 3);
@@ -123,7 +123,7 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, User $user)
     {
-       check_admin_systems($this->type);
+       authorize($this->type);
 
             if($user->lever < Auth::user()->lever)
                 return flash('Lỗi', 0, route('admin.users.index'));
@@ -161,7 +161,7 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        check_admin_systems($this->type);
+        authorize($this->type);
         $user->delete();
         return flash('Xóa thành công', 1);
     }

@@ -5,8 +5,9 @@
 @section('description') {{setting()->description_seo}} @stop
 @section('keywords') {{setting()->keyword_seo}} @stop
 @section('image') {{setting()->og_image ?? setting()->logo}} @stop
+@section('lang') {{redirect_lang(\App\Enums\AliasType::CONTACT)}} @stop
 @section('content')
-{{redirect_lang(\App\Enums\AliasType::CONTACT)}}
+
 <script src='https://www.google.com/recaptcha/api.js'></script>
 <!-------------------------->
 <!-----------SOURCSE----------->

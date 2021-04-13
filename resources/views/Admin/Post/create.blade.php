@@ -37,7 +37,7 @@
                             <textarea class="form-control summernote" id="summernote" name="data[description]">{!! old('data.description') !!}</textarea>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group mb-0">
                             <label>Nội dung</label>
                             <textarea class="form-control summerbody" id="summerbody" name="data[content]">{!! old('data.body') !!}</textarea>
                         </div>
@@ -79,7 +79,7 @@
 
                                 <input type="text" name="data[keyword_seo]" value="{{old('data.keyword_seo')}}" class="form-control"  data-role="tagsinput"/>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group mb-0">
                                 <label>Đường dẫn <span class="required">*</span></label>
                                 <div class="d-flex form-control">
                                     <span>{{route('home')}}/</span><input type="text" class="border-0 alias" id="alias" value="{{old('data.alias')}}" name="data[alias]" required>
@@ -102,7 +102,7 @@
 
                         <div class="checkbox">
                             <input id="checkbox_status" type="checkbox" name="data[status]" value="1">
-                            <label for="checkbox_status">Nổi bật</label>
+                            <label for="checkbox_status" class="mb-0">Nổi bật</label>
                         </div>
                     </div>
                     <div class="card-box">
@@ -157,7 +157,7 @@
                     <div class="card-box tags">
                         <label>Tags</label>
                         <p>* Ghi chú: Từ khóa được phân chia sau dấu phẩy <strong>","</strong></p>
-                        <input class="form-control" name="data[tags]" data-role="tagsinput" placeholder="add tags">
+                        <input class="form-control" name="tags" data-role="tagsinput" placeholder="add tags">
                     </div>
                 </div>
 

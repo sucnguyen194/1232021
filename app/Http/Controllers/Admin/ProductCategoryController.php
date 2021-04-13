@@ -19,7 +19,7 @@ class ProductCategoryController extends Controller
      */
     public function index()
     {
-        check_admin_systems(SystemsModuleType::PRODUCT_CATEGORY);
+        authorize(SystemsModuleType::PRODUCT_CATEGORY);
         $lang = isset(request()->lang) ? request()->lang : session()->get('lang');
 
         $categories = Category::whereType(CategoryType::PRODUCT_CATEGORY)->whereLang($lang)
@@ -49,7 +49,7 @@ class ProductCategoryController extends Controller
      */
     public function create()
     {
-        check_admin_systems(SystemsModuleType::PRODUCT_CATEGORY);
+        authorize(SystemsModuleType::PRODUCT_CATEGORY);
         $categories = Category::whereType(CategoryType::PRODUCT_CATEGORY)->langs()->orderByDesc('id')->get();
 
         return view('Admin.Product.category.create',compact('categories'));
@@ -84,7 +84,7 @@ class ProductCategoryController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit(Category $category){
-        check_admin_systems(SystemsModuleType::PRODUCT_CATEGORY);
+        authorize(SystemsModuleType::PRODUCT_CATEGORY);
         $lang = $category->lang;
         $type = SystemsModuleType::PRODUCT_CATEGORY;
         $categories = Category::whereLang($lang)->whereType($type)->whereNotIn('id',[$category->id])->orderByDesc('id')->get();

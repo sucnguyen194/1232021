@@ -1,8 +1,9 @@
 @extends('Layouts.layout')
-@section('title') Video @stop
-@section('url') {{url('video')}}.html @stop
-@section('description') Video - {{$site_option->name}} @stop
-@section('keywords') Video - {{$site_option->name}} @stop
+@section('title') Video - {{setting()->name}} @stop
+@section('url') {{route('video')}} @stop
+@section('description') Video - {{setting()->name}} @stop
+@section('keywords') Video - {{setting()->name}} @stop
+@section('lang') {{redirect_lang(\App\Enums\AliasType::HOMEVIDEO)}} @stop
 @section('content')
 <div class="link cb">
   <div class="container">
@@ -44,5 +45,4 @@
 <!-------------------------->
 <!-----------SOURCSE----------->
 <!-------------------------->
-<input type="hidden" id="getDataLang"  data-type="video">
 @stop

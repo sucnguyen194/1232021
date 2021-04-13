@@ -1,10 +1,11 @@
 @extends('Layouts.layout')
-@section('title') {!!$video->title!!} @stop
-@section('url') {{url($video->alias)}} @stop
-@section('description') {!!$video->title!!} @stop
-@section('keywords') {!!$video->title!!} @stop
-@section('site_name') {!!$video->title!!}  @stop
-@section('image') {!!url($video->image)!!} @stop
+@section('title') {{$video->name}} @stop
+@section('url') {{route('alias', $video->alias)}} @stop
+@section('description') {{$video->description_seo}} @stop
+@section('keywords') {{$video->keywords_seo}} @stop
+@section('site_name') {{$video->name}}  @stop
+@section('image') {{asset($video->image)}} @stop
+@section('lang') {{redirect_lang($video->alias)}} @stop
 @section('content')
 <div class="link cb">
   <div class="container">

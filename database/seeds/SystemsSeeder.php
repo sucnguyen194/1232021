@@ -285,19 +285,19 @@ class SystemsSeeder extends Seeder
             'type' =>  \App\Enums\SystemsModuleType::STOCK,
             'position' => 2,
             'parent_id'=> 0,
-            'icon' => 'pe-7s-box2',
+            'icon' => 'pe-7s-ticket',
             'sort' => 5,
         ]);
 
-        System::create([
-            'name' => 'Báo cáo',
-            'route' => 'admin.reports.index',
-            'type' =>  \App\Enums\SystemsModuleType::REPORT,
-            'position' => 2,
-            'parent_id'=> 0,
-            'icon' => 'pe-7s-ribbon',
-            'sort' => 7,
-        ]);
+//        System::create([
+//            'name' => 'Báo cáo',
+//            'route' => 'admin.reports.index',
+//            'type' =>  \App\Enums\SystemsModuleType::REPORT,
+//            'position' => 2,
+//            'parent_id'=> 0,
+//            'icon' => 'pe-7s-ribbon',
+//            'sort' => 7,
+//        ]);
 
         System::create([
             'name' => 'Bình luận',
@@ -328,11 +328,5 @@ class SystemsSeeder extends Seeder
         $systems = System::get()->pluck('id');
         $user = User::whereAccount('admin')->first();
         $user->systems()->attach($systems);
-//        foreach($systems as $system):
-//            \App\Models\UserModuleSystems::create([
-//                'user_id'  => $user->id,
-//                'type' => $system->type,
-//            ]);
-//        endforeach;
     }
 }

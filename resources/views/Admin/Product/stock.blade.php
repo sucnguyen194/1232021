@@ -136,7 +136,7 @@
                         <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Phân loại</th>
+{{--                            <th>Phân loại</th>--}}
                             <th>Thời gian</th>
                             <th style="width: 20%">Sản phẩm</th>
                             <th>Số lượng</th>
@@ -148,12 +148,16 @@
 
                         <tbody>
                         @foreach($sessions as $item)
-                            <tr class="{{$item->type == 'import' ? 'text-default' : "text-primary"}}">
+                            <tr>
                                 <td>{{$item->id}}</td>
-                                <td>{{$item->type == 'import' ? 'Nhập hàng' : "Xuất hàng"}}</td>
+{{--                                <td>{{$item->type == 'import' ? 'Nhập hàng' : "Xuất hàng"}}</td>--}}
                                 <td>{{$item->created_at->format('d/m/Y H:i')}} <Br> <em>({{$item->created_at->diffForHumans()}})</em></td>
                                 <td>{{$item->product->name ?? "Sản phẩm đã xóa"}}</td>
-                                <td >{{$item->amount}}</td>
+                                @if($item->type =='import')
+                                    <td class="text-success font-weight-bold"> +{{$item->amount}}</td>
+                                @else
+                                    <td class="text-danger font-weight-bold"> -{{$item->amount}}</td>
+                                @endif
 
                                 @if($item->type =='import')
                                 <td>{{number_format($item->price_in) ?? ""}}</td>

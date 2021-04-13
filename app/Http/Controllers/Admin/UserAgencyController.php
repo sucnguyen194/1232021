@@ -23,7 +23,7 @@ class UserAgencyController extends Controller
      */
     public function index()
     {
-        check_admin_systems(SystemsModuleType::AGENCY);
+        authorize(SystemsModuleType::AGENCY);
 
         $agencys = UserAgency::when(\request()->id,function ($q, $id){
             $q->whereId($id);
@@ -39,7 +39,7 @@ class UserAgencyController extends Controller
      */
     public function create()
     {
-        check_admin_systems(SystemsModuleType::AGENCY);
+        authorize(SystemsModuleType::AGENCY);
 
         return view('Admin.User.agency.add');
     }
@@ -52,7 +52,7 @@ class UserAgencyController extends Controller
      */
     public function store(Request $request)
     {
-        check_admin_systems(SystemsModuleType::AGENCY);
+        authorize(SystemsModuleType::AGENCY);
 
         $request->validate([
             'data.name' => 'required',
@@ -71,7 +71,7 @@ class UserAgencyController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(UserAgency $agency){
-        check_admin_systems(SystemsModuleType::AGENCY);
+        authorize(SystemsModuleType::AGENCY);
         $transaction = Transaction::whereAgencyId($agency->id)
             ->when(date_range(),function ($q, $date){
                 $q->whereBetween('created_at', [$date['from']->startOfDay(), $date['to']->endOfDay()]);
@@ -83,7 +83,7 @@ class UserAgencyController extends Controller
     }
 //    public function show(UserAgency $agency)
 //    {
-//        check_admin_systems(SystemsModuleType::AGENCY);
+//        authorize(SystemsModuleType::AGENCY);
 //
 //        $users = User::whereLever(LeverUser::ADMIN)->get();
 //
@@ -119,7 +119,7 @@ class UserAgencyController extends Controller
      */
     public function edit(UserAgency $agency)
     {
-        check_admin_systems(SystemsModuleType::AGENCY);
+        authorize(SystemsModuleType::AGENCY);
         return view('Admin.User.agency.edit',compact('agency'));
     }
 
@@ -132,7 +132,7 @@ class UserAgencyController extends Controller
      */
     public function update(Request $request, UserAgency $agency)
     {
-        check_admin_systems(SystemsModuleType::AGENCY);
+        authorize(SystemsModuleType::AGENCY);
 
         $request->validate([
             'data.name' => 'required',
@@ -153,7 +153,7 @@ class UserAgencyController extends Controller
      */
     public function destroy(UserAgency $agency)
     {
-        check_admin_systems(SystemsModuleType::AGENCY);
+        authorize(SystemsModuleType::AGENCY);
         $agency->delete();
 
         return back()->with(['message' => 'Xóa thành công!']);

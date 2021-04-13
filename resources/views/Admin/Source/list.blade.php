@@ -54,9 +54,9 @@ Trình biên tập mã nguồn
 
                         </div>
                     </div>
-                    <div class="card-box text-center">
+                    <div class="">
                         <a href="{{route('admin.source.index')}}" class="btn btn-default waves-effect waves-light"><span class="icon-button"><i class="fe-arrow-left"></i></span> Quay lại</a>
-                        <button type="submit" class="btn btn-primary waves-effect width-md waves-light" id="submit" name="send" value="save"><span class="icon-button"><i class="fe-plus"></i></span> Lưu lại</button>
+                        <button type="submit" class="btn btn-primary waves-effect width-md waves-light float-right" id="submit" name="send" value="save"><span class="icon-button"><i class="fe-plus"></i></span> Lưu lại</button>
                     </div>
             </form>
 
@@ -64,7 +64,7 @@ Trình biên tập mã nguồn
     </div>
     <!-- end row -->
 </div> <!-- end container-fluid -->
-<div id="toast-container" class="toast-top-right"></div>
+
   @stop
 @section('css')
     <style type="text/css">
@@ -185,28 +185,16 @@ Trình biên tập mã nguồn
             var url =  '{{route('admin.ajax.push.source')}}';
             var _token = $('input[name="_token"]').val();
             var dir = $('#dir-file').val();
-            //console.log(dir);
             $.ajax({
                 type: "post",
                 cache:false,
                 url: url,
                 data: data,
                 success: function (response) {
-                    $('#toast-container').append('<div class="toast toast-success" id="toast-'+response+'" aria-live="polite" style="display: block;"><div class="toast-message">Lưu file thành công</div></div>');
-                    $('.toast').each(function(){
-                        setTimeout(function(){
-                            $('.toast').fadeOut();
-                        },7000)
-                    })
-                    console.log(response);
+                    flash({'message':'Lưu file thành công', 'type':'success'});
                 },
                 error: function (response) {
-                    $('#toast-container').append('<div class="toast toast-error" id="toast-'+response+'" aria-live="polite" style="display: block;"><div class="toast-message">Không tìm thấy đường dẫn file</div></div>');
-                    $('.toast').each(function(){
-                        setTimeout(function(){
-                            $('.toast').fadeOut();
-                        },7000)
-                    })
+                    flash({'message':'Không tìm thấy đường dẫn file', 'type':'error'});
                 }
             });
         })

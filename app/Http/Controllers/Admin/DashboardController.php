@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Auth;
 class DashboardController extends Controller {
 	public function index(){
 
-            check_admin_systems(SystemsModuleType::DASHBOARD);
+            authorize(SystemsModuleType::DASHBOARD);
 
             $star = now()->startOfMonth();
             $end = now()->endOfMonth();

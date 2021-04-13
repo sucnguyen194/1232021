@@ -13,7 +13,7 @@ class VideoController extends Controller {
 
 	public function index(){
 	    $type = SystemsModuleType::VIDEO;
-        check_admin_systems($type);
+        authorize($type);
         $lang = isset(request()->lang) ? request()->lang : Session::get('lang');
         $videos = Product::with('category')->whereType($type)->where('lang',$lang)
             ->when(request()->user,function($q, $user){
@@ -43,13 +43,13 @@ class VideoController extends Controller {
 	}
 
 	public function create(){
-        check_admin_systems(SystemsModuleType::VIDEO);
+        authorize(SystemsModuleType::VIDEO);
 
         return view('Admin.Video.create');
     }
 
 	public function edit(Product $video){
-        check_admin_systems(SystemsModuleType::VIDEO);
+        authorize(SystemsModuleType::VIDEO);
         if($video->postLangsBefore){
             $id = array_unique($video->postLangsBefore->pluck('post_id')->toArray());
             $posts = Product::whereIn('id',$id)->get()->load('language');
@@ -62,7 +62,7 @@ class VideoController extends Controller {
     }
 
     public function lang($lang, $id){
-        check_admin_systems(SystemsModuleType::VIDEO);
+        authorize(SystemsModuleType::VIDEO);
         if(!Lang::whereValue($lang)->count())
             return flash('Ngôn ngữ chưa được cấu hình', 3);
         $video = Product::findOrFail($id);
