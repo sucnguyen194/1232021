@@ -346,9 +346,6 @@
             let image = $(this).attr('data-image');
             $('.showImage').attr('src', image);
         })
-        function removePhoto(id){
-            return  $('[data-toggle='+id+']').remove();
-        }
     </script>
 
     <script>
