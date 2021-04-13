@@ -49,12 +49,12 @@
                                         @if($item->status == 1) <strong class="text-info"><span class="icon-button"><i class="pe-7s-star"></i></span> Mặc định</strong> @endif
                                     </td>
                                     <td>
-                                        <a href="{{route('admin.lang.edit',$item)}}" class="btn btn-default waves-effect waves-light">
+                                        <a href="{{route('admin.lang.edit',$item)}}" class="btn btn-primary waves-effect waves-light">
                                             <span class="icon-button"><i class="pe-7s-look"></i></span></a>
                                     <form method="post" action="{{route('admin.lang.destroy',$item)}}" class="d-inline-block">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-default waves-effect waves-light" {{$lang->count() == 1 ? "disabled" : ""}} onclick="return confirm('Bạn có chắc muốn xóa?');" ><span class="icon-button"><i class="fe-x"></i></span></button>
+                                        <button type="submit" class="btn btn-warning waves-effect waves-light" {{$lang->count() == 1 ? "disabled" : ""}} onclick="return confirm('Bạn có chắc muốn xóa?');" ><span class="icon-button"><i class="fe-x"></i></span></button>
                                     </form>
                                         <a href="{{route('admin.active.lang',$item->id)}}" title="Đặt {{$item->name}} làm ngôn ngữ mặc định" onclick="return confirm('Bạn chắc chắn đặt {{$item->name}} làm ngôn ngữ mặc định?');" class="btn btn-info waves-effect waves-light">
                                             <span class="icon-button"><i class="fe-star-on"></i></span></a>

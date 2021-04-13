@@ -33,7 +33,7 @@
                             <input type="text" class="form-control" value="{{old('title')}}" id="title" onkeyup="ChangeToSlug();" name="title" required>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group mb-0">
                             <label>Mô tả</label>
                             <textarea class="form-control summernote" id="summernote" name="description">{!! old('description') !!}</textarea>
                         </div>
@@ -106,7 +106,7 @@
 
                         <div class="checkbox">
                             <input id="checkbox_status" type="checkbox" name="status">
-                            <label for="checkbox_status">Nổi bật</label>
+                            <label for="checkbox_status" class="mb-0">Nổi bật</label>
                         </div>
                     </div>
                     <div class="card-box">

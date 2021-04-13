@@ -24,10 +24,10 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-12">
-                <div class="form-group">
-                    <a href="{{route('admin.menus.index')}}" class="btn btn-default waves-effect waves-light"><span class="icon-button"><i class="fe-arrow-left"></i></span> Quay lại</a>
-                    <button type="submit" class="btn btn-primary waves-effect width-md waves-light float-right" onclick="document.querySelector('#form-update').submit()" name="send" value="save"><span class="icon-button"><i class="fe-plus"></i></span> Lưu lại</button>
-                </div>
+{{--                <div class="form-group">--}}
+{{--                    <a href="{{route('admin.menus.index')}}" class="btn btn-default waves-effect waves-light"><span class="icon-button"><i class="fe-arrow-left"></i></span> Quay lại</a>--}}
+{{--                    <button type="submit" class="btn btn-primary waves-effect width-md waves-light float-right" onclick="document.querySelector('#form-update').submit()" name="send" value="save"><span class="icon-button"><i class="fe-plus"></i></span> Lưu lại</button>--}}
+{{--                </div>--}}
                 <form method="post" action="{{route('admin.menus.update',$menu)}}" enctype="multipart/form-data" id="form-update">
                     @csrf
                     @method('PUT')

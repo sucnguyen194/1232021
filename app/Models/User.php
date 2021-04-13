@@ -45,7 +45,7 @@ class User extends Authenticatable
     ];
 
     public function getGravatarAttribute(){
-        return 'https://www.gravatar.com/avatar/'.md5(strtolower($this->email)).'.jpg?s=200&d=identicon';
+        return 'https://www.gravatar.com/avatar/'.md5(strtolower($this->email ?? $this->account)).'.jpg?s=200&d=identicon';
     }
 
     public function systems(){

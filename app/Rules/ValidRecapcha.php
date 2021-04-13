@@ -50,6 +50,6 @@ class ValidRecapcha extends Controller implements Rule
      */
     public function message()
     {
-        return 'Mã xác nhận không chính xác!';
+        return  flash('Mã xác nhận không chính xác!', 3);
     }
 }

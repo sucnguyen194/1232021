@@ -104,10 +104,10 @@
                                     </td>
 
                                     <td>
-                                        <a href="{{route('admin.contacts.show',$item)}}" class="btn btn-default waves-effect waves-light">
+                                        <a href="{{route('admin.contacts.show',$item)}}" class="btn btn-primary waves-effect waves-light">
                                             <span class="icon-button"><i class="pe-7s-look"></i></span></a>
 
-                                        <a href="{{route('admin.contacts.remove',$item->id)}}" onclick="return confirm('Bạn có chắc muốn xóa?');" class="btn btn-default waves-effect waves-light">
+                                        <a href="{{route('admin.contacts.remove',$item->id)}}" onclick="return confirm('Bạn có chắc muốn xóa?');" class="btn btn-warning waves-effect waves-light">
                                             <span class="icon-button"><i class="fe-x"></i></span></a>
                                     </td>
                                 </tr>

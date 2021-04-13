@@ -8,11 +8,12 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 if(!function_exists('send_mail')){
-    function send_email($template, $data){
+    function send_email($template, $data, $email = null){
         $setting = setting();
-       return Mail::send($template,$data,function($msg) use ($setting){
+        $emails = $email ? $email : $setting->email;
+       return Mail::send('Emails.'.$template,$data,function($msg) use ($setting, $emails){
             $msg->from(env('MAIL_USERNAME'),'Thông báo');
-            $msg->to($setting->email)->subject($setting->name);
+            $msg->to($emails)->subject($setting->name);
         });
     }
 }
@@ -169,7 +170,7 @@ if (! function_exists('flash')) {
         session()->flash('message',$m);
 
         if (request()->ajax()){
-            session()->forget('messages');
+            session()->forget('message');
             return response()->json($m);
         }
 

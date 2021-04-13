@@ -23,10 +23,10 @@ Thêm mới
         <!-- end page title -->
     </div> <!-- end container-fluid -->
     <div class="container">
-        <div class="form-group">
-            <a href="{{route('admin.menus.index')}}" class="btn btn-default waves-effect waves-light"><span class="icon-button"><i class="fe-arrow-left"></i></span> Quay lại</a>
-            <button type="submit" class="btn btn-primary waves-effect width-md waves-light float-right" onclick="document.querySelector('#form-store').submit()" name="send" value="save"><span class="icon-button"><i class="fe-plus"></i></span> Lưu lại</button>
-        </div>
+{{--        <div class="form-group">--}}
+{{--            <a href="{{route('admin.menus.index')}}" class="btn btn-default waves-effect waves-light"><span class="icon-button"><i class="fe-arrow-left"></i></span> Quay lại</a>--}}
+{{--            <button type="submit" class="btn btn-primary waves-effect width-md waves-light float-right" onclick="document.querySelector('#form-store').submit()" name="send" value="save"><span class="icon-button"><i class="fe-plus"></i></span> Lưu lại</button>--}}
+{{--        </div>--}}
         <form method="post" action="{{route('admin.menus.store')}}" id="form-store" enctype="multipart/form-data">
             @csrf
             <div class="row">

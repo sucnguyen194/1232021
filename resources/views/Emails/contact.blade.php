@@ -1,8 +1,8 @@
 <div>
-  <table align="center" cellpadding="0" cellspacing="0" style="background-color:#d4eefb;margin:auto;border-collapse:collapse;width:700px;font-family:verdana;color:#222">
+  <table align="center" cellpadding="0" cellspacing="0" style="background-color:#d4eefb;margin:auto;border-collapse:collapse;font-family:verdana;color:#222">
     <tbody>
       <tr>
-        <td style="padding:20px 30px;width:auto"><table cellpadding="0" cellspacing="0" style="border-collapse:collapse;background-color:white;width:700px;margin:auto">
+        <td style="padding:20px 30px;width:auto"><table cellpadding="0" cellspacing="0" style="border-collapse:collapse;background-color:white;margin:auto">
           <tbody>
             <tr>
               <td style="background-color:#00c0f1"><table cellpadding="0" cellspacing="0" style="border-collapse:collapse;width:100%">
@@ -25,20 +25,20 @@
                       <table>
                         <tbody>
                           <tr>
-                            <td>Tên khách hàng: </td>
+                            <td style="width:150px">Tên khách hàng: </td>
                             <td>{{request()->input('data.name')}}</td>
                           </tr>
 
                           <tr>
-                            <td>E-mail: </td>
+                            <td style="width:150px">Email: </td>
                             <td>{{request()->input('data.email')}}</td>
                           </tr>
                           <tr>
-                            <td>Số điện thoại: </td>
+                            <td style="width:150px">Số điện thoại: </td>
                             <td>{{request()->input('data.phone')}}</td>
                           </tr>
                           <tr>
-                            <td>Lời nhắn: </td>
+                            <td style="width:150px">Lời nhắn: </td>
                             <td>{{request()->input('data.note')}}</td>
                           </tr>
                         </tbody>
@@ -46,12 +46,11 @@
                     </td>
                   </tr>
                 </tbody>
-              </table></td>
+              </table>
+              </td>
             </tr>
-
             <tr>
-
-              <td style="padding:5px; font-size: 11px">Website: <a href="{{route('home')}}" target="_blank">{{$setting->name}} </td>
+              <td style="padding:5px; font-size: 11px">Website: <a href="{{route('home')}}" target="_blank">{{setting()->name}} </td>
               </tr>
             </tbody>
           </table></td>

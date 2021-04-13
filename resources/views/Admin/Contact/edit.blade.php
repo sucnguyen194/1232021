@@ -23,85 +23,95 @@
         <!-- end page title -->
     </div>
     <div class="container">
+        <!-- end page title -->
         <div class="row">
-            <div class="col-lg-6">
-                <div class="card-box">
-                    <blockquote class="blockquote mb-0">
-                        <footer class="blockquote-footer mb-1"><cite title="Họ & tên" class="font-weight-bold">Họ & tên</cite></footer>
-                        <p class="mb-0">{{$contact->name}}</p>
-                    </blockquote>
-                </div>
-            </div>
-            <div class="col-lg-6">
-                <div class="card-box">
-                    <blockquote class="blockquote mb-0">
-                        <footer class="blockquote-footer mb-1"><cite title="Giới tính" class="font-weight-bold">Giới tính</cite></footer>
-                        <p class="mb-0">{{$contact->gender}}</p>
-                    </blockquote>
-                </div>
-            </div>
-            <div class="col-lg-6">
-                <div class="card-box">
-                    <blockquote class="blockquote mb-0">
-                        <footer class="blockquote-footer mb-1"><cite title="Email" class="font-weight-bold">Email</cite></footer>
-                        <p class="mb-0">{{$contact->email}}</p>
-                    </blockquote>
-                </div>
-            </div>
 
-            <div class="col-lg-6">
+            <!-- Right Sidebar -->
+            <div class="col-lg-12">
                 <div class="card-box">
-                    <blockquote class="blockquote mb-0">
-                        <footer class="blockquote-footer mb-1"><cite title="Số điện thoại" class="font-weight-bold">Số điện thoại</cite></footer>
-                        <p class="mb-0">{{$contact->phone}}</p>
-                    </blockquote>
+                    <div class="mt-0">
+                        <div class="media mb-4">
+                            <img class="d-flex mr-3 rounded-circle avatar-sm" src="{{$contact->avatar}}" alt="Generic placeholder image">
+                            <div class="media-body">
+                                <span class="float-right">{{$contact->created_at->diffForHumans()}}</span>
+                                <h5 class="m-0">{{$contact->name}}</h5>
+                                <small class="text-muted">From: {{$contact->email}}</small><br>
+                                <small class="text-muted">Phone: {{$contact->phone}}</small>
+                            </div>
+                        </div>
+
+                        <p>{!! nl2br($contact->note) !!}</p>
+                        <hr/>
+
+                        <h6> <i class="fa fa-paperclip mb-2"></i> File đính kèm <span>(0)</span> </h6>
+
+{{--                        <div class="row">--}}
+{{--                            <div class="col-xl-2 col-md-4">--}}
+{{--                                <a href="#"> <img src="assets/images/attached-files/img-1.jpg" alt="attachment" class="img-thumbnail img-fluid"> </a>--}}
+{{--                            </div>--}}
+{{--                            <div class="col-xl-2 col-md-4">--}}
+{{--                                <a href="#"> <img src="assets/images/attached-files/img-2.jpg" alt="attachment" class="img-thumbnail img-fluid"> </a>--}}
+{{--                            </div>--}}
+{{--                            <div class="col-xl-2 col-md-4">--}}
+{{--                                <a href="#"> <img src="assets/images/attached-files/img-3.png" alt="attachment" class="img-thumbnail img-fluid"> </a>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+                    </div> <!-- card-box -->
+                    <hr>
+                    <div class="ml-3">
+                        @foreach($replys as $item)
+                        <div class="media mb-4">
+                            <img class="d-flex mr-3 rounded-circle avatar-sm" src="{{$item->user->gravatar}}" alt="Generic placeholder image">
+                            <div class="media-body">
+                                <span class="float-right">{{$item->created_at->diffForHumans()}}</span>
+                                <h5 class="m-0">{{$item->user->name ?? $item->user->account}}</h5>
+                                <small class="text-muted">To: {{$item->user->email}}</small><br>
+                                <small class="text-muted">Phone: {{$item->user->phone}}</small>
+                            </div>
+                        </div>
+                        <p>{!! $item->note !!}</p>
+                        <hr/>
+                        @endforeach
+                    </div>
+                    @if($contact->email)
+                    <form method="post" action="{{route('admin.contacts.update',$contact)}}">
+                        @csrf
+                        @method('PUT')
+                        <div class="media mb-0 mt-5">
+                            <img class="d-flex mr-3 rounded-circle avatar-sm" src="{{auth()->user()->gravatar}}" alt="Generic placeholder image">
+                            <div class="media-body">
+                                <div class="card-box reply-box">
+                                    <p>* Nội dung email không được bỏ trống!</p>
+                                    <textarea class="form-control" id="note" name="data[note]" required>{!! old('data.note') !!}</textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="text-right">
+                            <a href="{{route('admin.contacts.index')}}" class="btn btn-default waves-effect waves-light"><span class="icon-button"><i class="fe-arrow-left"></i></span> Quay lại</a>
+                            @if(setting()->email)
+                            <button type="submit" class="btn btn-primary waves-effect waves-light"><span class="icon-button"><i class="fe-edit-1"></i></span> Trả lời</button>
+                            @else
+                                <a href="{{route('admin.settings')}}" class="btn btn-primary waves-effect waves-light"><span class="icon-button"><i class="fe-edit-1"></i></span> Email nhận thông tin trống!</a>
+                            @endif
+                        </div>
+                    </form>
+                    @else
+                        <div class="text-right">
+                            <a href="{{route('admin.contacts.index')}}" class="btn btn-default waves-effect waves-light"><span class="icon-button"><i class="fe-arrow-left"></i></span> Quay lại</a>
+                        </div>
+                    @endif
+                    <div class="clearfix"></div>
                 </div>
-            </div>
-            <div class="col-md-12">
-                <div class="card-box">
-                    <blockquote class="blockquote mb-0">
-                        <footer class="blockquote-footer mb-1"><cite title="Địa chỉ" class="font-weight-bold">Địa chỉ</cite></footer>
-                        <p class="mb-0">{!! $contact->address !!}</p>
-                    </blockquote>
-                </div>
-            </div>
-            <div class="col-md-12">
-                <div class="card-box">
-                    <blockquote class="blockquote mb-0">
-                        <footer class="blockquote-footer mb-1"><cite title="Lời nhắn" class="font-weight-bold">Lời nhắn</cite></footer>
-                        <p class="mb-0">{!! $contact->note !!}</p>
-                    </blockquote>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="card-box">
-                    <blockquote class="blockquote mb-0">
-                        <footer class="blockquote-footer mb-1"><cite title="Thời gian gửi tin nhắn" class="font-weight-bold">Thời gian gửi tin nhắn</cite></footer>
-                        <p class="mb-0">{{$contact->created_at->diffForHumans()}}</p>
-                    </blockquote>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="card-box">
-                    <blockquote class="blockquote mb-0">
-                        <footer class="blockquote-footer mb-1"><cite title="Thời gian duyệt tin nhắn" class="font-weight-bold">Thời gian duyệt tin nhắn</cite></footer>
-                        <p class="mb-0">{{$contact->updated_at->diffForHumans()}}</p>
-                    </blockquote>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="card-box">
-                    <blockquote class="blockquote mb-0">
-                        <footer class="blockquote-footer mb-1"><cite title="Người duyệt" class="font-weight-bold">Người duyệt</cite></footer>
-                        <p class="mb-0">{{$contact->user->name ?? $contact->user->email}}</p>
-                    </blockquote>
-                </div>
-            </div>
-            <div class="col-lg-12 text-right">
-               <a href="{{route('admin.contacts.index')}}" class="btn btn-default waves-effect waves-light"><span class="icon-button"><i class="fe-arrow-left"></i></span> Quay lại</a>
-            </div>
-        </div>
-        <!-- end row -->
+
+            </div> <!-- end Col -->
+
+        </div><!-- End row -->
     </div>
+    <script>
+        CKEDITOR.replace('note',{
+            height: 250
+        })
+    </script>
 @stop
 

@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Contact;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class ContactController extends Controller
 {
@@ -26,6 +27,7 @@ class ContactController extends Controller
             ->when(request()->user,function($q, $user){
                 $q->where('user_id',$user);
             })
+            ->whereRepId(0)
             ->orderByDesc('id')->get();
 
         $user = User::where('lever','>=',\Auth::user()->lever)->get();
@@ -64,10 +66,12 @@ class ContactController extends Controller
     {
         authorize(SystemsModuleType::CONTACT);
 
+        $replys = Contact::whereRepId($contact->id)->get();
+
         if($contact->status == 0)
             $contact->update(['status' => 1,'user_edit' => \Auth::id()]);
 
-        return view('Admin.Contact.edit',compact('contact'));
+        return view('Admin.Contact.edit',compact('contact','replys'));
     }
 
     /**
@@ -88,9 +92,22 @@ class ContactController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Contact $contact)
     {
-        return abort(404);
+        authorize(SystemsModuleType::CONTACT);
+
+        Validator::make($request->data,[
+            'note' => 'required'
+        ])->validate();
+        $post = new Contact();
+        $post->forceFill($request->data);
+        $post->user_id = auth()->id();
+        $post->rep_id = $contact->id;
+        $post->save();
+
+        send_email('reply',$request->data,$contact->email);
+
+        return flash('Gửi phản hồi thành công!');
     }
 
     /**

@@ -34,7 +34,7 @@
                             <input type="text" class="form-control" value="{{$video->name}}" id="title" onkeyup="ChangeToSlug();" name="data[name]" required>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group mb-0">
                             <label>Mô tả</label>
                             <textarea class="form-control summernote" id="summernote" name="data[content]">{!! $video->content !!}</textarea>
                         </div>
@@ -105,7 +105,7 @@
 
                         <div class="checkbox">
                             <input id="checkbox_status" {{$video->status == 1 ? "checked" : ""}} type="checkbox" name="status">
-                            <label for="checkbox_status">Nổi bật</label>
+                            <label for="checkbox_status" class="mb-0">Nổi bật</label>
                         </div>
                     </div>
 

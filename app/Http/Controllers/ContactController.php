@@ -19,11 +19,10 @@ class ContactController extends Controller {
             'g-recaptcha-response' => ['required', new  ValidRecapcha()]
         ]);
         $contact = new Contact();
-
 	    $contact->forceFill($request->data);
 	    $contact->save();
 
-        send_email('Emails.contact',$request->data);
+	    send_email('contact',$request->data);
 
         return flash('Gửi thông tin thành công', 1);
 	}

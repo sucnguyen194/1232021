@@ -43,13 +43,13 @@
                         <label>Hình ảnh</label>
                         <div class="position-absolute font-weight-normal text-primary" id="box-input" style="right:2.2rem;top:1.3rem">
                             <label class="item-input">
-                                <input type="file" name="photo[]" class="d-none" v-on:change="uploadPhoto(event.target.files)" multiple> Chọn ảnh
+                                <input type="file" name="photo[]" id="choiseImage" class="d-none" v-on:change="uploadPhoto(event.target.files)" multiple> Chọn ảnh
                             </label>
                         </div>
                         <p class="font-13">* Định dạng ảnh jpg, jpeg, png, gif</p>
                         <div class="dropzone pl-2 pr-2 pb-1">
                             <div class="dz-message text-center needsclick mb-2" v-if="photos.length == 0" id="remove-label">
-                                <label for="fileUploadMultiple" class="w-100 mb-0">
+                                <label for="choiseImage" class="w-100 mb-0">
                                     <div class="icon-dropzone pt-2">
                                         <i class="h1 text-muted dripicons-cloud-upload"></i>
                                     </div>
@@ -111,7 +111,7 @@
                                 <p class="font-13">* Giới hạn tối đa 320 ký tự</p>
                                 <textarea  class="form-control" rows="3" name="data[description_seo]" maxlength="320" id="alloptions">{{$gallery->description_seo}}</textarea>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group mb-0">
                                 <label>Từ khóa</label>
                                 <p class="font-13">* Từ khóa được phân chia sau dấu phẩy <strong>","</strong></p>
 
@@ -139,7 +139,7 @@
 
                         <div class="checkbox">
                             <input id="checkbox_status" {{$gallery->status == 1 ? "checked" : ""}} type="checkbox" name="status">
-                            <label for="checkbox_status">Nổi bật</label>
+                            <label for="checkbox_status" class="mb-0">Nổi bật</label>
                         </div>
                     </div>
                     <div class="card-box d-none">

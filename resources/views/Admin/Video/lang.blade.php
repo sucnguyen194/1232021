@@ -32,7 +32,7 @@
                             <label>Tiêu đề <span class="required">*</span></label>
                             <input type="text" class="form-control" value="{{old('data.name')}}" id="title" onkeyup="ChangeToSlug();" name="data[name]" required>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group mb-0">
                             <label>Mô tả</label>
                             <textarea class="form-control summernote" id="summernote" name="data[content]">{!! old('data.content') !!}</textarea>
                         </div>
@@ -102,7 +102,7 @@
 
                         <div class="checkbox">
                             <input id="checkbox_status" type="checkbox" name="data[status]" value="1">
-                            <label for="checkbox_status">Nổi bật</label>
+                            <label for="checkbox_status" class="mb-0">Nổi bật</label>
                         </div>
                     </div>
 

@@ -181,10 +181,11 @@ function flash(obj){
             break;
         case 'error':
             var color = '#bf441d';
-        // default:
-        //     var color = '#ffa91c';
-        //     obj.message = 'Đã có lỗi xảy ra!';
-        //     obj.type = 'warning';
+            break;
+        default:
+            var color = '#ffa91c';
+            obj.message = 'Vui lòng nhập đầy đủ thông tin!';
+            obj.type = 'warning';
     }
     return $.toast({
         heading: "Thông báo!",
