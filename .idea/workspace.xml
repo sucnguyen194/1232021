@@ -21,7 +21,18 @@
   <component name="ChangeListManager">
     <list default="true" id="b3b9f26c-59c6-4a81-8472-a31af9821b60" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Controller.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Controller.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/admin/assets/js/pages/form-pickers.init.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/admin/assets/js/pages/form-pickers.init.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/Admin/Gallery/create.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Admin/Gallery/create.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/Admin/Gallery/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Admin/Gallery/edit.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/Admin/Gallery/lang.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Admin/Gallery/lang.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/Admin/Order/add.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Admin/Order/add.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/Admin/Order/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Admin/Order/edit.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/Admin/Product/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Admin/Product/edit.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/Admin/Product/list.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Admin/Product/list.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/Admin/Product/stock.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Admin/Product/stock.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/Layouts/home.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Layouts/home.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/Layouts/layout.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Layouts/layout.blade.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -219,14 +230,14 @@
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="D:\laragon\www\1232021\app\Http\Controllers\Admin" />
-      <recent name="D:\laragon\www\1232021\app\Models" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\laragon\www\1232021\resources\views\Admin" />
       <recent name="D:\laragon\www\1232021\app\Http\Controllers\Admin" />
       <recent name="D:\laragon\www\1232021\database\migrations" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\laragon\www\1232021\app\Http\Controllers\Admin" />
+      <recent name="D:\laragon\www\1232021\app\Models" />
     </key>
   </component>
   <component name="RunManager">
@@ -268,7 +279,9 @@
       <workItem from="1618214016790" duration="9959000" />
       <workItem from="1618278835651" duration="4055000" />
       <workItem from="1618283347455" duration="3000" />
-      <workItem from="1618283379988" duration="23680000" />
+      <workItem from="1618283379988" duration="24245000" />
+      <workItem from="1618365468411" duration="13000" />
+      <workItem from="1618366039110" duration="11743000" />
     </task>
     <servers />
   </component>
@@ -300,10 +313,10 @@
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
     <state x="-1828" y="92" width="1736" height="856" key="DiffContextDialog/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1617249922213" />
-    <state x="-1180" y="262" key="FileChooserDialogImpl" timestamp="1618283404207">
+    <state x="-1180" y="262" key="FileChooserDialogImpl" timestamp="1618375518053">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
-    <state x="-1180" y="262" key="FileChooserDialogImpl/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1618283404207" />
+    <state x="-1180" y="262" key="FileChooserDialogImpl/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1618375518053" />
     <state x="-1459" y="165" key="SettingsEditor" timestamp="1617016996857">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>

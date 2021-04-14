@@ -74,7 +74,7 @@
                     </div>
                     <div class="form-group" v-if="action.products.id > 0">
                         <label>Thông tin sản phẩm</label>
-                        <div class="alert alert-icon alert-danger text-danger alert-dismissible fade show" role="alert" v-if="action.products.amount > action.products.max">
+                        <div class="alert alert-icon alert-danger text-danger alert-dismissible fade show" role="alert" v-if="action.products.amount > action.products.max || action.products.max == 0">
                             <button type="button" class="close" data-dismiss="alert"
                                     aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
@@ -96,7 +96,7 @@
                                 </thead>
                                 <tbody>
                                 <tr>
-                                    <td><div class="font-weight-bold mb-1"> @{{ action.products.name }} <a href="javascript:void(0)" v-if="action.products.amount > action.products.max" data-toggle="modal" v-on:click="getProduct(action.products.id)" data-target="#update-product" class="font-weight-bold text-purple"> [ Cập nhật ]</a></div>
+                                    <td><div class="font-weight-bold mb-1"> @{{ action.products.name }} <a href="javascript:void(0)" v-if="action.products.amount > action.products.max || action.products.max == 0" data-toggle="modal" v-on:click="getProduct(action.products.id)" data-target="#update-product" class="font-weight-bold text-purple"> [ Cập nhật ]</a></div>
                                         <div class="text-primary">[Giá nhập: <span class="text-danger">@{{ number_format(action.products.price_in) }}</span>]</div>
                                         <div class="text-primary">[Giá bán gần nhất: <span class="text-danger">@{{ number_format(action.products.price_buy) }}</span>]</div>
                                     </td>

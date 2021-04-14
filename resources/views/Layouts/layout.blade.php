@@ -5,25 +5,25 @@
   <meta http-equiv="content-language" content="{{ str_replace('_', '-', app()->getLocale()) }}">
   <meta charset="utf-8">
   <title>@hasSection('title') @yield('title') - @endif {{setting()->name}}</title>
-  <meta name="keywords" content="@yield('keywords')"/>
-  <meta name="description" content="@yield('description')"/>
-  <meta property="og:url" content="@yield('url')" />
-  <meta property="og:title" content="@yield('title')" />
+  <meta name="keywords" content="@hasSection('keywords') @yield('keywords') @else {{setting()->keyword_seo}} @endif"/>
+  <meta name="description" content="@hasSection('description') @yield('description') @else {{setting()->description_seo}} @endif"/>
+  <meta property="og:url" content="@hasSection('url') @yield('url') @else {{url('/')}} @endif" />
+  <meta property="og:title" content="@hasSection('title') @yield('title') - @endif {{setting()->name}}" />
   <meta property="og:locale" content="{{ str_replace('_', '-', app()->getLocale()) }}" />
   <meta property="og:type" content="website" />
   <meta property="fb:app_id" content="{{setting()->facebook_app_id}}" />
-  <meta property="og:description" content="@yield('description')" />
+  <meta property="og:description" content="@hasSection('description') @yield('description') @else {{setting()->description_seo}} @endif" />
   <meta property="og:image" content="@hasSection('image') @yield('image') @else {{setting()->og_image ?? setting()->logo}} @endif" />
   <meta property="og:image:type" content="image/jpeg" />
   <meta property="og:image:width" content="400" />
   <meta property="og:image:height" content="300" />
-  <meta property="og:image:alt" content="@yield('title')" />
-  <meta property="og:site_name" content="@yield('title')" />
+  <meta property="og:image:alt" content="@hasSection('title') @yield('title') - @endif {{setting()->name}}" />
+  <meta property="og:site_name" content="@hasSection('title') @yield('title') - @endif {{setting()->name}}" />
   <meta name="twitter:card" content="summary"/>
-  <meta name="twitter:description" content="@yield('description')"/>
-  <meta name="twitter:title" content="@yield('title')"/>
+  <meta name="twitter:description" content="@hasSection('description') @yield('description') @else {{setting()->description_seo}} @endif"/>
+  <meta name="twitter:title" content="@hasSection('title') @yield('title') - @endif {{setting()->name}}"/>
   <meta name="robots" content="index, follow">
-  <link rel="canonical" href="@yield('url')">
+  <link rel="canonical" href="@hasSection('url') @yield('url') @else {{url('/')}} @endif">
   <link rel="icon" href="{{asset(setting()->favicon)}}">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
   <!--*************************---->
@@ -37,7 +37,7 @@
     <!-- load stylesheets -->
 
   <!--*********************************---->
-    {!! @$setting->remarketing_header !!}
+    {!! setting()->remarketing_header !!}
 </head>
   <body>
     <div id="app-body">
@@ -45,7 +45,7 @@
         @yield('content')
         @include('Layouts.footer')
     </div>
-    {!! @$setting->remarketing_footer !!}
+    {!! setting()->remarketing_footer !!}
     @yield('lang')
   </body>
   <!--************START*************---->
@@ -112,14 +112,14 @@
     })
 </script>
 <!--*************************---->
-@if(@$setting->numbercall)
+@if(setting()->numbercall)
 <!--****STARTACTION CALL*****---->
 <div class="action-call">
   <div id="phonering-alo-phoneIcon" class="phonering-alo-phone phonering-alo-green phonering-alo-show">
     <div class="phonering-alo-ph-circle"></div>
     <div class="phonering-alo-ph-circle-fill"></div>
     <div class="phonering-alo-ph-img-circle">
-      <a class="pps-btn-img " href="tel:{{@$setting->numbercall}}"> <img src="https://wonderads.vn/themes/default/images/v8TniL3.png" alt="Liên hệ" width="50" class="img-responsive"/> </a>
+      <a class="pps-btn-img " href="tel:{{setting()->numbercall}}"> <img src="https://wonderads.vn/themes/default/images/v8TniL3.png" alt="Liên hệ" width="50" class="img-responsive"/> </a>
     </div>
   </div>
 </div>

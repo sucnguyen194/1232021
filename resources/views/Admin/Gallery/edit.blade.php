@@ -34,7 +34,7 @@
                             <input type="text" class="form-control" value="{{$gallery->name}}" id="title" onkeyup="ChangeToSlug();" name="data[name]" required>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group mb-0">
                             <label>Mô tả</label>
                             <textarea class="form-control summernote" id="summernote" name="data[description]">{!! $gallery->description !!}</textarea>
                         </div>
@@ -117,7 +117,7 @@
 
                                 <input type="text" name="data[keyword_seo]" value="{{$gallery->keyword_seo}}" class="form-control"  data-role="tagsinput"/>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group mb-0">
                                 <label>Đường dẫn <span class="required">*</span></label>
                                 <div class="d-flex form-control">
                                     <span>{{route('home')}}/</span><input type="text" class="border-0 alias" id="alias" value="{{$gallery->alias}}" name="data[alias]" required>
@@ -152,7 +152,7 @@
                     <div class="card-box">
                         <label class="w-100">Ngôn ngữ</label>
                         @foreach($langs as $lang)
-                            <a href="{{route('admin.products.lang',[$lang->value,$gallery->id])}}" class="btn btn-primary waves-effect width-md waves-light mb-1"><span class="icon-button"><i class="fe-plus"></i> {{$lang->name}}</a>
+                            <a href="{{route('admin.products.galleries.lang',[$lang->value,$gallery->id])}}" class="btn btn-primary waves-effect width-md waves-light mb-1"><span class="icon-button"><i class="fe-plus"></i> {{$lang->name}}</a>
                         @endforeach
 
                         @if($gallery->postLangsBefore)
@@ -164,7 +164,7 @@
                     </div>
 
                     <div class="card-box">
-                        <div class="form-group">
+                        <div class="form-group mb-0">
                             <label>Tags</label>
                             <p class="font-13">* Từ khóa được phân chia sau dấu phẩy <strong>","</strong></p>
 

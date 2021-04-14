@@ -44,10 +44,9 @@
                             </select>
                             <p v-if="product_id == 0" class="text-danger mt-1">Vui lòng chọn sản phẩm</p>
                         </div>
-
                         <div class="form-group" v-if="product != 0">
                             <label>Thông tin sản phẩm</label>
-                            <div class="alert alert-icon alert-danger text-danger alert-dismissible fade show" role="alert" v-if="amount > product.max && product_id > 0 && customer > 0">
+                            <div class="alert alert-icon alert-danger text-danger alert-dismissible fade show" role="alert" v-if="amount > product.max || product.max == 0">
                                 <button type="button" class="close" data-dismiss="alert"
                                         aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
@@ -68,8 +67,9 @@
                                     </tr>
                                     </thead>
                                     <tbody>
+
                                     <tr v-if="product_id > 0 && customer > 0">
-                                         <td><div class="font-weight-bold mb-1"> @{{ product.name }} <a href="javascript:void(0)" data-toggle="modal" data-target="#update-product" v-if="amount > product.max" v-on:click="getProduct(product.id)" class="font-weight-bold text-purple"> [ Cập nhật ]</a></div>
+                                         <td><div class="font-weight-bold mb-1"> @{{ product.name }} <a href="javascript:void(0)" data-toggle="modal" data-target="#update-product" v-if="amount > product.max || product.max == 0" v-on:click="getProduct(product.id)" class="font-weight-bold text-purple"> [ Cập nhật ]</a></div>
                                          <div class="text-primary">[Giá nhập: <span class="text-danger">@{{number_format(product.price_in)}}</span>]</div>
 {{--                                             <div class="text-primary">[Giá bán: <span class="text-danger">@{{number_format(product.price)}}</span>]</div>--}}
                                          <div class="text-primary">[Giá bán gần nhất: <span class="text-danger">@{{number_format(product.price_buy)}}</span>]</div>
@@ -282,7 +282,7 @@
                                 <option value="0">--Chọn nhà cung cấp--</option>
                                 <option v-for="(agency,key) in agencys" v-bind:value="agency.id" :selected="key == agency_update">@{{ agency.name }}</option>
                             </select>
-                            <p class="text-danger mt-2" v-if="agency_update == 0">Vui lòng chọn nhà cung cấp</p>
+                            <p class="text-danger mt-1" v-if="agency_update == 0">Vui lòng chọn nhà cung cấp</p>
                         </div>
                         <div class="form-group">
                             <label>Số lượng</label>
@@ -309,7 +309,7 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="basic-addon1">VNĐ</span>
                                 </div>
-                                <div class="form-control font-weight-bold">@{{provisional_update.toLocaleString()}}</div>
+                                <div class="form-control font-weight-bold">@{{number_format(provisional_update)}}</div>
                             </div>
                         </div>
                         <div class="form-group">
@@ -665,6 +665,7 @@
                 fetch("{{route('admin.ajax.choise.export.product',[':id',':user'])}}".replace(":id",this.product_id).replace(":user",this.customer))
                     .then(function (response){
                     return response.json().then(function(data){
+                        console.log(data.price );
                        app.product.id = data.product.id;
                        app.product.name = data.product.name;
                        app.product.price_in = data.price_in;
@@ -748,10 +749,10 @@
                 return this.amount * this.price_out;
             },
             provisional_update:function(){
-                return this.amount_update * this.price_update;
+                return Number(this.amount_update) * Number(this.price_update);
             },
             detb_update:function(){
-                return this.provisional_update - Number(this.checkout_update);
+                return Number(this.provisional_update) - Number(this.checkout_update);
             },
             print_note:function(){
                 return nl2br(this.note);

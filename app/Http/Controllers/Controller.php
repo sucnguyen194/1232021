@@ -16,16 +16,13 @@ abstract class Controller extends BaseController {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
 	public function __construct(){
-		if(Schema::hasTable('users')){
-			if(!Session::has('lang')){
-			    $lang = Lang::whereStatus(ActiveDisable::ACTIVE)->first();
-				$value = $lang ? $lang->value : config('app.locale');
-				Session::put('lang',$value);
-			}
-			if(!session()->has('setting')){
-                $setting = Setting::langs()->firstOrFail();
-                session()->put('setting', $setting);
-            }
-		}
+        if(!Session::has('lang')){
+            $lang = Lang::whereStatus(ActiveDisable::ACTIVE)->first();
+            $value = $lang ? $lang->value : config('app.locale');
+            Session::put('lang',$value);
+        }
+        if(!session()->has('setting')){
+            session()->put('setting', Setting::langs()->firstOrFail());
+        }
 	}
 }

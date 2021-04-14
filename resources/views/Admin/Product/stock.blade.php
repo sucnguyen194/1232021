@@ -150,9 +150,9 @@
                         @foreach($sessions as $item)
                             <tr>
                                 <td>{{$item->id}}</td>
+                                <td>{{$item->created_at->format('d/m/Y H:i')}}</td>
+                                <td>{{$item->product->name ?? "Đã xóa"}}</td>
 {{--                                <td>{{$item->type == 'import' ? 'Nhập hàng' : "Xuất hàng"}}</td>--}}
-                                <td>{{$item->created_at->format('d/m/Y H:i')}} <Br> <em>({{$item->created_at->diffForHumans()}})</em></td>
-                                <td>{{$item->product->name ?? "Sản phẩm đã xóa"}}</td>
                                 @if($item->type =='import')
                                     <td class="text-success font-weight-bold"> +{{$item->amount}}</td>
                                 @else
@@ -160,18 +160,18 @@
                                 @endif
 
                                 @if($item->type =='import')
-                                <td>{{number_format($item->price_in) ?? ""}}</td>
+                                <td>{{number_format($item->price_in) ?? 0}}</td>
                                 @else
-                                <td>{{number_format($item->price) ?? ""}}</td>
+                                <td>{{number_format($item->price) ?? 0}}</td>
                                 @endif
                                 <td>
-                                    <a href="{{route('admin.users.index',['id' => $item->admin->id ?? 0])}}" target="_blank" class="{{$item->type == 'import' ? 'text-default' : "text-primary"}}" >{{$item->admin->name ?? "Tài khoản chưa đặt tên hoặc đã xóa"}}</a>
+                                    <a href="{{route('admin.users.index',['id' => $item->admin->id ?? 0])}}" target="_blank" class="{{$item->type == 'import' ? 'text-default' : "text-primary"}}" >{{$item->admin->name ?? "#".$item->admin->id}}</a>
                                 </td>
                                 <td>
                                     @if($item->type =='export')
-                                        <a href="{{route('admin.users.index',['id' => $item->user->id ?? 0])}}" target="_blank" class="text-primary">{{$item->user->name ?? "TK chưa đặt tên hoặc đã xóa"}}</a>
-                                        @else
-                                        <a href="{{route('admin.agencys.index',['id' => $item->agency->id ?? 0])}}" target="_blank" class="text-default">{{$item->agency->name ?? "TK chưa đặt tên hoặc đã xóa"}}</a>
+                                        <a href="{{route('admin.users.index',['id' => $item->user->id ?? 0])}}" target="_blank" class="text-primary">{{$item->user->name ?? "#".$item->user->id}}</a>
+                                    @else
+                                        <a href="{{route('admin.agencys.index',['id' => $item->agency->id ?? 0])}}" target="_blank" class="text-default">{{$item->agency->name ?? "#".$item->agency->id}}</a>
                                     @endif
                                 </td>
 

@@ -200,7 +200,7 @@
 
                         <div class="checkbox">
                             <input id="checkbox_status" type="checkbox" {{$product->status == 1 ? "checked" : ""}} name="data[status]" value="1">
-                            <label for="checkbox_status mb-0">Nổi bật</label>
+                            <label for="checkbox_status" class="mb-0">Nổi bật</label>
                         </div>
                     </div>
                     <div class="card-box">

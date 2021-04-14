@@ -92,7 +92,7 @@ $(document).ready(function () {
         opens: "left",
         drops: "down",
         buttonClasses: ["btn", "btn-sm"],
-        applyClass: "btn-success",
+        applyClass: "btn-primary",
         cancelClass: "btn-light",
         separator: " to ",
         locale: {
