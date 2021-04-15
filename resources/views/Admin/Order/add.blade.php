@@ -44,7 +44,7 @@
                             </select>
                             <p v-if="product_id == 0" class="text-danger mt-1">Vui lòng chọn sản phẩm</p>
                         </div>
-                        <div class="form-group" v-if="product != 0">
+                        <div class="form-group" v-if="product_id > 0 && customer > 0">
                             <label>Thông tin sản phẩm</label>
                             <div class="alert alert-icon alert-danger text-danger alert-dismissible fade show" role="alert" v-if="amount > product.max || product.max == 0">
                                 <button type="button" class="close" data-dismiss="alert"
@@ -69,7 +69,7 @@
                                     <tbody>
 
                                     <tr v-if="product_id > 0 && customer > 0">
-                                         <td><div class="font-weight-bold mb-1"> @{{ product.name }} <a href="javascript:void(0)" data-toggle="modal" data-target="#update-product" v-if="amount > product.max || product.max == 0" v-on:click="getProduct(product.id)" class="font-weight-bold text-purple"> [ Cập nhật ]</a></div>
+                                         <td><div class="font-weight-bold mb-1"> @{{ product.name }} <a href="javascript:void(0)" data-toggle="modal" data-target="#update-product" v-if="amount > product.max || product.max == 0 " v-on:click="getProduct(product.id)" class="font-weight-bold text-purple"> [ Cập nhật ]</a></div>
                                          <div class="text-primary">[Giá nhập: <span class="text-danger">@{{number_format(product.price_in)}}</span>]</div>
 {{--                                             <div class="text-primary">[Giá bán: <span class="text-danger">@{{number_format(product.price)}}</span>]</div>--}}
                                          <div class="text-primary">[Giá bán gần nhất: <span class="text-danger">@{{number_format(product.price_buy)}}</span>]</div>
