@@ -102,7 +102,7 @@ class SystemsSeeder extends Seeder
         System::create([
             'name' => 'Đơn hàng',
             'route' => 'admin.orders.index',
-            'type' =>  \App\Enums\SystemsModuleType::HISTORY_IMPORT,
+            'type' =>  \App\Enums\SystemsModuleType::EXPORT,
             'parent_id'=> 0,
             'position' => 2,
             'icon' => 'pe-7s-cart',

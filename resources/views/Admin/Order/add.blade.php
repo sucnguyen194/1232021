@@ -309,7 +309,7 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="basic-addon1">VNĐ</span>
                                 </div>
-                                <div class="form-control font-weight-bold">@{{number_format(provisional_update)}}</div>
+                                <div class="form-control font-weight-bold">@{{isNaN(provisional_update) ? 0 : number_format(provisional_update)}}</div>
                             </div>
                         </div>
                         <div class="form-group">
@@ -318,7 +318,7 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="basic-addon1">VNĐ</span>
                                 </div>
-                                <div class="form-control font-weight-bold">@{{detb_update.toLocaleString()}}</div>
+                                <div class="form-control font-weight-bold">@{{isNaN(detb_update) ? 0 : detb_update.toLocaleString()}}</div>
                             </div>
                         </div>
                         <div class="form-group">
@@ -665,7 +665,6 @@
                 fetch("{{route('admin.ajax.choise.export.product',[':id',':user'])}}".replace(":id",this.product_id).replace(":user",this.customer))
                     .then(function (response){
                     return response.json().then(function(data){
-                        console.log(data.price );
                        app.product.id = data.product.id;
                        app.product.name = data.product.name;
                        app.product.price_in = data.price_in;
@@ -675,6 +674,7 @@
                        app.amount = 0;
                         app.price_out = 0;
                        $('#customer_update').select2();
+                       console.log(app.price_update);
                     });
                 })
             },

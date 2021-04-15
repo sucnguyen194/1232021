@@ -753,6 +753,7 @@
                                 <option value="0">--Chọn nhà cung cấp--</option>
                                 <option v-for="(agency,key) in agencys" v-bind:value="key">@{{ agency }}</option>
                             </select>
+                            <p class="text-danger mt-1" v-if="action.update.agency == 0">Vui lòng chọn nhà cung cấp</p>
                         </div>
                         <div class="form-group">
                             <label>Số lượng</label>
@@ -779,7 +780,7 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="basic-addon1">VNĐ</span>
                                 </div>
-                                <div class="form-control font-weight-bold">@{{provisional_update.toLocaleString()}}</div>
+                                <div class="form-control font-weight-bold">@{{isNaN(provisional_update) ? 0 : number_format(provisional_update)}}</div>
                             </div>
                         </div>
                         <div class="form-group">
@@ -788,7 +789,7 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="basic-addon1">VNĐ</span>
                                 </div>
-                                <div class="form-control font-weight-bold">@{{detb_update.toLocaleString()}}</div>
+                                <div class="form-control font-weight-bold">@{{isNaN(detb_update) ? 0 : detb_update.toLocaleString()}}</div>
                             </div>
                         </div>
                         <div class="form-group">

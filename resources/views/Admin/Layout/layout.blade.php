@@ -138,15 +138,13 @@
                     @php
                         $post = new \App\Models\Post();
                         $products = new \App\Models\Product();
-                        $type = auth()->user()->systems()->pluck('id');
-                        $nav = \App\Models\System::whereIn('id',$type)->orderby('sort','asc')->get();
+                        $nav = \App\Models\System::whereHas('users',function($q){
+                            $q->whereUserId(auth()->id());
+                        })->oldest('sort')->get();
                         $module = \App\Models\Modules::get();
                         $comments = \App\Models\Comment::whereStatus(0)->get();
-                        $posts = $comments->where('comment_type',get_class($post))->count();
-                        $products = $comments->where('comment_type',get_class($products))->count();
-
                         if(Auth::user()->lever == \App\Enums\LeverUser::SUPPERADMIN)
-                            $nav = \App\Models\System::orderby('sort','asc')->get();
+                            $nav = \App\Models\System::oldest('sort')->get();
                     @endphp
 
                     @foreach($nav->where('parent_id', 0)->where('position',0) as $item)
@@ -165,9 +163,9 @@
                                     @foreach($nav->where('parent_id', $item->id) as $sub)
                                         <li><a href="{{$sub->route ? route($sub->route, $sub->var ?? null) : "javascript:void(0)"}}">{{$sub->name}}
                                                 @if($sub->route == 'admin.comments.list' && $sub->var == 'posts')
-                                                    <span class="badge badge-danger badge-pill float-right">{{$posts}}</span>
+                                                    <span class="badge badge-danger badge-pill float-right">{{$comments->where('comment_type',get_class($post))->count()}}</span>
                                                 @elseif($sub->route == 'admin.comments.list' && $sub->var == 'products')
-                                                    <span class="badge badge-danger badge-pill float-right">{{$products}}</span>
+                                                    <span class="badge badge-danger badge-pill float-right">{{$comments->where('comment_type',get_class($products))->count()}}</span>
                                                 @endif
                                             </a>
                                         </li>
@@ -176,7 +174,7 @@
                             @endif
                         </li>
                     @endforeach
-                    <li class="menu-title" style="{{$nav->where('parent_id', 0)->where('position',1) ? "" : "display:none"}}">Nội dung</li>
+                    <li class="menu-title" style="{{$nav->where('parent_id', 0)->where('position',1)->count() ? "" : "display:none"}}">Nội dung</li>
                     @foreach($nav->where('parent_id', 0)->where('position',1) as $item)
                          <li>
                                 <a href="{{$item->route ? route($item->route) : "javascript:void(0)"}}">
@@ -236,21 +234,19 @@
                             @endif
                         </li>
                     @endforeach
-                    @if(in_array(\App\Enums\SystemsModuleType::CONFIG_MODULE, $type->toArray()) || Auth::user()->lever == \App\Enums\LeverUser::SUPPERADMIN)
-                        @if($module->count())
-                            <li>
-                                <a href="javascript: void(0);">
-                                    <i class="pe-7s-settings"></i>
-                                    <span> Action Modules </span>
-                                    <span class="menu-arrow"></span>
-                                </a>
-                                <ul class="nav-second-level" aria-expanded="false">
-                                    @foreach($module as $sub)
-                                        <li><a href="{{route('admin.action.module.index',$sub->table)}}">{{$sub->name}}</a></li>
-                                    @endforeach
-                                </ul>
-                            </li>
-                        @endif
+                    @if((in_array(\App\Enums\SystemsModuleType::CONFIG_MODULE, auth()->user()->systems()->pluck('type')->toArray()) && $module->count()) || Auth::user()->lever == \App\Enums\LeverUser::SUPPERADMIN)
+                        <li>
+                            <a href="javascript: void(0);">
+                                <i class="pe-7s-settings"></i>
+                                <span> Action Modules </span>
+                                <span class="menu-arrow"></span>
+                            </a>
+                            <ul class="nav-second-level" aria-expanded="false">
+                                @foreach($module as $sub)
+                                    <li><a href="{{route('admin.action.module.index',$sub->table)}}">{{$sub->name}}</a></li>
+                                @endforeach
+                            </ul>
+                        </li>
                     @endif
                 </ul>
             </div>
