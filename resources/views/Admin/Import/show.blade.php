@@ -33,13 +33,13 @@
                             <div class="form-group">
                                 <div class="row">
                                     <div class="col-lg-3">Người nhập hàng</div>
-                                    <div class="col-lg-9 font-weight-bold"><a href="{{route('admin.user.index',['id' => $import->user->id ?? 0])}}" target="_blank">{{$import->user->name ?? 'Tên trống hoặc đã xóa'}}</a> </div>
+                                    <div class="col-lg-9 font-weight-bold"><a href="{{route('admin.users.index',['id' => $import->user->id ?? 0])}}" target="_blank">{{$import->user->name ?? 'Tên trống hoặc đã xóa'}}</a> </div>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="row">
                                     <div class="col-lg-3">Nhà cung cấp</div>
-                                    <div class="col-lg-9 font-weight-bold"><a href="{{route('admin.user.index',['id' => $import->user->id ?? 0])}}" target="_blank">{{$import->agency->name ?? 'Tên trống hoặc đã xóa'}}</a> </div>
+                                    <div class="col-lg-9 font-weight-bold"><a href="{{route('admin.users.index',['id' => $import->user->id ?? 0])}}" target="_blank">{{$import->agency->name ?? 'Tên trống hoặc đã xóa'}}</a> </div>
                                 </div>
                             </div>
                             <div class="form-group">
