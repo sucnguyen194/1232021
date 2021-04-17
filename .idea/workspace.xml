@@ -21,8 +21,12 @@
   <component name="ChangeListManager">
     <list default="true" id="b3b9f26c-59c6-4a81-8472-a31af9821b60" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/Admin/Product/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Admin/Product/edit.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/Layouts/layout.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Layouts/layout.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Product.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Product.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/app.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/app.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/Admin/Support/Customer/create.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Admin/Support/Customer/create.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/Admin/Support/Customer/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Admin/Support/Customer/edit.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/Admin/Support/create.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Admin/Support/create.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/Product/product.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Product/product.blade.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -274,7 +278,7 @@
       <workItem from="1618366039110" duration="16627000" />
       <workItem from="1618452034541" duration="18659000" />
       <workItem from="1618538142012" duration="7868000" />
-      <workItem from="1618621807717" duration="8780000" />
+      <workItem from="1618621807717" duration="12213000" />
     </task>
     <servers />
   </component>
@@ -322,18 +326,18 @@
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
     <state x="-1143" y="434" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1617699629513" />
-    <state x="432" y="22" width="1504" height="736" maximized="true" key="dock-window-1" timestamp="1618626533614">
+    <state x="432" y="22" width="1504" height="736" key="dock-window-1" timestamp="1618635657111">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="432" y="22" width="1504" height="736" maximized="true" key="dock-window-1/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1618626533614" />
+    <state x="432" y="22" width="1504" height="736" key="dock-window-1/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1618635657111" />
     <state x="233" y="138" width="1345" height="710" maximized="true" key="dock-window-2" timestamp="1616989062968">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="233" y="138" width="1345" height="710" maximized="true" key="dock-window-2/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1616989062968" />
-    <state x="-1604" y="124" width="1219" height="823" key="find.popup" timestamp="1618545074508">
-      <screen x="-1920" y="0" width="1920" height="1040" />
+    <state x="430" y="139" width="1219" height="823" key="find.popup" timestamp="1618635614812">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="-1604" y="124" width="1219" height="823" key="find.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1618545074508" />
+    <state x="430" y="139" width="1219" height="823" key="find.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1618635614811" />
     <state x="-1304" y="240" key="run.anything.popup" timestamp="1617879497459">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>

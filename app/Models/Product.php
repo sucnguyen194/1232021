@@ -8,6 +8,7 @@ use App\Enums\SystemsModuleType;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Session;
+use Illuminate\Support\Facades\File;
 
 class Product extends Model
 {
@@ -122,13 +123,12 @@ class Product extends Model
             $product->postLangsAfter()->delete();
             $product->slug()->delete();
             $product->tags()->delete();
+            $product->attributes()->delete();
 
             if($product->photos){
                 foreach ($product->photos()->get() as $item):
-                    if(file_exists($item->image))
-                        unlink($item->image);
-                    if(file_exists($item->thumb))
-                        unlink($item->thumb);
+                    File::delete($item->image);
+                    File::delete($item->thumb);
                     $product->photos()->delete();
                 endforeach;
             }

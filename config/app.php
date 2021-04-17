@@ -178,10 +178,7 @@ return [
         /*
          * Package Service Providers...
          */
-        Laravel\Tinker\TinkerServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
-        Collective\Html\HtmlServiceProvider::class,
-
         /*
          * Application Service Providers...
          */
@@ -191,7 +188,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
-        Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
+//        Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
 //        App\Providers\ViewComposerProvider::class,
 //        App\Providers\GoogleDriveServiceProvider::class
         Laravel\Socialite\SocialiteServiceProvider::class,
@@ -247,8 +244,8 @@ return [
          * Package Aliases
          */
         'Image' => Intervention\Image\Facades\Image::class,
-        'Form' => Collective\Html\FormFacade::class,
-        'Html' => Collective\Html\HtmlFacade::class,
+//        'Form' => Collective\Html\FormFacade::class,
+//        'Html' => Collective\Html\HtmlFacade::class,
         'Imgur' => Yish\Imgur\Facades\Upload::class,
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
     ],

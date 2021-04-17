@@ -133,7 +133,7 @@
                                 <div class="form-group">
                                     <label for="skype">Skype</label>
                                     <input type="text" class="form-control" value="{{old('data.skype')}}" id="skype" name="data[skype]">
-                                </div><div class="form-group">
+                                </div><div class="form-group mb-0">
                                     <label for="zalo">Zalo</label>
                                     <input type="text" class="form-control" value="{{old('data.zalo')}}" id="zalo" name="data[zalo]">
                                 </div>
@@ -147,7 +147,7 @@
                                     <label for="instagram">Instagram</label>
                                     <input type="text" class="form-control" value="{{old('data.instagram')}}"  id="instagram" name="data[instagram]">
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group mb-0">
                                     <label for="youtube">Youtube</label>
                                     <input type="text" class="form-control" value="{{old('data.youtube')}}" id="youtube" name="data[youtube]">
                                 </div>
@@ -185,5 +185,4 @@
             max-height: 150px;
         }
     </style>
-    <!-- Summernote css -->
 @stop

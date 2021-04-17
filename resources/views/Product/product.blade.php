@@ -20,6 +20,14 @@
                 <div class="card-box">
                     <label>Bộ lọc</label>
                     <hr>
+                    @php
+                        use Illuminate\Support\Str;
+
+                        $string = 'Peter Piper picked a peck of pickled peppers.';
+
+                        $removed = Str::remove('e', $string);
+                        echo $removed;
+                    @endphp
                     @foreach(\App\Models\AttributeCategory::public()->oldest('sort')->get() as $attribute)
                         <div class="form-group">
                             <label>{{$attribute->name}}</label>
@@ -29,8 +37,8 @@
                                     <a href="{{route('alias',$product->alias)}}?attribute={{request()->attribute ? request()->attribute .','.$item->name : $item->name}}">{{$item->name}}</a>
                                     @else
                                         <a href="javascript:void(0)">{{$item->name}}</a>
+                                        <a class="small text-danger" href="{{route('alias',$product->alias)}}?attribute={{\Illuminate\Support\Str::remove(','.$item->name, request()->attribute)}}">Xóa</a>
                                     @endif
-                                    <a class="small text-danger" href="{{route('alias',$product->alias)}}?attribute={{request()->attribute ? request()->attribute .','.$item->name : $item->name}}">Xóa</a>
                                 </div>
                             @endforeach
                         </div>
