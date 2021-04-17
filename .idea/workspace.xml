@@ -21,7 +21,21 @@
   <component name="ChangeListManager">
     <list default="true" id="b3b9f26c-59c6-4a81-8472-a31af9821b60" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Helpers/Helper.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Helpers/Helper.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/ProductController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/ProductController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/HomeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/HomeController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Product.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Product.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/Admin/Order/add.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Admin/Order/add.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/Admin/Post/create.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Admin/Post/create.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/Admin/Post/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Admin/Post/edit.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/Admin/Post/lang.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Admin/Post/lang.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/Admin/Product/add.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Admin/Product/add.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/Admin/Product/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Admin/Product/edit.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/Admin/Product/lang.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Admin/Product/lang.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/Layouts/home.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Layouts/home.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/Layouts/layout.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Layouts/layout.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/Product/product.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Product/product.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -219,14 +233,14 @@
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="D:\laragon\www\1232021\app\Http\Controllers\Admin" />
-      <recent name="D:\laragon\www\1232021\app\Models" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\laragon\www\1232021\resources\views\Admin" />
       <recent name="D:\laragon\www\1232021\app\Http\Controllers\Admin" />
       <recent name="D:\laragon\www\1232021\database\migrations" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\laragon\www\1232021\app\Http\Controllers\Admin" />
+      <recent name="D:\laragon\www\1232021\app\Models" />
     </key>
   </component>
   <component name="RunManager">
@@ -271,7 +285,9 @@
       <workItem from="1618283379988" duration="24245000" />
       <workItem from="1618365468411" duration="13000" />
       <workItem from="1618366039110" duration="16627000" />
-      <workItem from="1618452034541" duration="6817000" />
+      <workItem from="1618452034541" duration="18659000" />
+      <workItem from="1618538142012" duration="7868000" />
+      <workItem from="1618621807717" duration="7693000" />
     </task>
     <servers />
   </component>
@@ -319,18 +335,18 @@
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
     <state x="-1143" y="434" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1617699629513" />
-    <state x="-1220" y="270" width="1333" height="710" key="dock-window-1" timestamp="1617158567973">
-      <screen x="-1920" y="0" width="1920" height="1040" />
+    <state x="432" y="22" width="1504" height="736" maximized="true" key="dock-window-1" timestamp="1618626533614">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="-1220" y="270" width="1333" height="710" key="dock-window-1/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1617158567973" />
+    <state x="432" y="22" width="1504" height="736" maximized="true" key="dock-window-1/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1618626533614" />
     <state x="233" y="138" width="1345" height="710" maximized="true" key="dock-window-2" timestamp="1616989062968">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="233" y="138" width="1345" height="710" maximized="true" key="dock-window-2/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1616989062968" />
-    <state x="-1253" y="253" width="585" height="534" key="find.popup" timestamp="1617425503153">
+    <state x="-1604" y="124" width="1219" height="823" key="find.popup" timestamp="1618545074508">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
-    <state x="-1253" y="253" width="585" height="534" key="find.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1617425503153" />
+    <state x="-1604" y="124" width="1219" height="823" key="find.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1618545074508" />
     <state x="-1304" y="240" key="run.anything.popup" timestamp="1617879497459">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
@@ -347,11 +363,6 @@
           <url>file://$PROJECT_DIR$/resources/views/Admin/Order/edit.blade.php</url>
           <line>736</line>
           <option name="timeStamp" value="1" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="php">
-          <url>file://$PROJECT_DIR$/resources/views/Admin/Order/add.blade.php</url>
-          <line>48</line>
-          <option name="timeStamp" value="2" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

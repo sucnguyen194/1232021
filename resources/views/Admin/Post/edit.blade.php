@@ -122,7 +122,7 @@
                     <div class="card-box">
                         <label>Danh mục phụ</label>
 
-                        <select class="form-control select2-multiple" data-toggle="select2" multiple="multiple" name="category_id[]" data-placeholder="Chọn danh mục">
+                        <select class="form-control select2-multiple" data-toggle="select2" multiple="multiple" name="category_id[]" data-placeholder="Chọn danh mục phụ">
                             @foreach($categories->where('parent_id', 0) as $item )
                                 <option value="{{$item->id}}" {{selected($item->id, $post->categories->pluck('id')->toArray())}} class="font-weight-bold">{{$item->name}}</option>
                                 {{sub_option_category($categories ,$item->id, $post)}}

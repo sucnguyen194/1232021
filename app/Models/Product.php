@@ -29,6 +29,10 @@ class Product extends Model
     public function categories(){
         return $this->belongsToMany(Category::class);
     }
+    public function attributes(){
+        return $this->belongsToMany(Attribute::class);
+    }
+
     public function sessions(){
         return $this->hasMany(ProductSession::class,'product_id');
     }

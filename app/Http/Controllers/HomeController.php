@@ -36,7 +36,14 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('Layouts.home');
+        $products = Product::all();
+        $posts = Post::all();
+
+
+
+        //return response()->json(auth()->check());
+
+        return view('Layouts.home',compact('products','posts'));
     }
 
     public function getAlias($alias)
@@ -44,10 +51,10 @@ class HomeController extends Controller
         $object = Alias::whereAlias($alias)->firstOrFail();
         switch ($object->type) {
             case (AliasType::PRODUCT);
-                $model = $object->findModel($object->type,$object->type_id);
-                $data['comments'] = $model->comments->load(['user','admin']);
-                $data['model'] = $model;
                 $data['product'] = Product::whereAlias($alias)->public()->firstOrFail();
+//                $model = $object->findModel($object->type,$object->type_id);
+//                $data['comments'] = $model->comments->load(['user','admin']);
+//                $data['model'] = $model;
                 return view('Product.product',$data);
                 break;
             case (AliasType::PRODUCT_CATEGORY);
@@ -59,7 +66,7 @@ class HomeController extends Controller
 //                $data['model'] = $model;
                 $post = Post::whereAlias($alias)->public()->firstOrFail();
                 $data['post'] = $post;
-                $data['cate'] = $post->category()->get();
+//                $data['cate'] = $post->category()->get();
                 //$data['related'] = $news->categoryid()->newsnotid()->public()->langs()->take(6)->orderByDesc('updated_at')->get();
 //                $data['tags'] = Tags::whereType(AliasType::NEWS)->whereTypeId($news->id)->get();
 //                $data['prev'] = News::where('id','<',$news->id)->whereCategoryId($news->category_id)->langs()->public()->first();
@@ -82,12 +89,6 @@ class HomeController extends Controller
                     ->public()->langs()->paginate(20);
 
                 return view('Post.index', $data);
-                break;
-            case (AliasType::RECRUITMENT);
-                return view('Recruitment.recruitment');
-                break;
-            case (AliasType::RECRUITMENT_CATEGORY);
-                return view('Recruitment.category');
                 break;
             case (AliasType::VIDEO);
                 return view('Video.video');

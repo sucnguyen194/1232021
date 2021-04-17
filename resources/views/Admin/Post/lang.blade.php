@@ -121,7 +121,7 @@
                         <div class="form-group mb-0">
                             <label>Danh mục phụ</label>
                             <p>* Ghi chú: Chọn được nhiều danh mục</p>
-                            <select class="form-control select2-multiple" data-toggle="select2" multiple="multiple" name="category_id[]" data-placeholder="Chọn danh mục">
+                            <select class="form-control select2-multiple" data-toggle="select2" multiple="multiple" name="category_id[]" data-placeholder="Chọn danh mục phụ">
                                 @foreach($categories->where('parent_id', 0) as $item )
                                     <option value="{{$item->id}}" {{old('category') == $item->id ? "selected" : ""}} class="font-weight-bold">{{$item->name}}</option>
                                     {{sub_option_category($categories ,$item->id)}}

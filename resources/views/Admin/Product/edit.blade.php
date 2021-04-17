@@ -208,9 +208,9 @@
                             <label>Danh mục chính</label>
                             <select class="form-control" data-toggle="select2" name="data[category_id]">
                                 <option value="0">Chọn danh mục</option>
-                                @foreach($category->where('parent_id', 0) as $item)
+                                @foreach($categories->where('parent_id', 0) as $item)
                                     <option value="{{$item->id}}" {{$product->category_id == $item->id ? "selected" : ""}} class="font-weight-bold">{{$item->name}}</option>
-                                    {{sub_option_category($category ,$item->id,$product->category_id)}}
+                                    {{sub_option_category($categories ,$item->id,$product->category_id)}}
                                 @endforeach
                             </select>
                         </div>
@@ -219,31 +219,30 @@
                         <div class="form-group mb-0">
                             <label>Danh mục phụ</label>
                             <p class="font-13">* Chọn được nhiều danh mục</p>
-                            <select class="form-control select2-multiple" data-toggle="select2" multiple="multiple" name="category_id[]" data-placeholder="Chọn danh mục">
-                                @foreach($category->where('parent_id', 0) as $item )
+                            <select class="form-control select2-multiple" data-toggle="select2" multiple="multiple" name="category_id[]" data-placeholder="Chọn danh mục phụ">
+                                @foreach($categories->where('parent_id', 0) as $item )
                                     <option value="{{$item->id}}" {{selected($item->id,$product->categories->pluck('id')->toArray())}} class="font-weight-bold">{{$item->name}}</option>
-                                    {{sub_option_category($category ,$item->id,$product)}}
+                                    {{sub_option_category($categories ,$item->id,$product)}}
                                 @endforeach
                             </select>
                         </div>
                     </div>
-                    <div class="card-box position-relative box-action-image d-none">
-                        <label>Ảnh đại diện</label>
-                        <p class="font-13">* Định dạng ảnh jpg, jpeg, png, gif</p>
-
-                        <input type="file" name="image" class="filestyle" id="fileUpload" data-btnClass="btn-primary">
-                        <div class="text-center @if(!file_exists($product->image)) image-holder @endif" id="image-holder">
-                            @if(file_exists($product->image)) <img src="{{asset($product->image)}}" class="img-fluid mt-2 img-responsive" height="120"> @endif
+                    @if($attributes->count())
+                        <div class="card-box">
+                            <label class="mb-0">Bộ lọc</label>
+                            <hr>
+                            @foreach($attributes as $attribute)
+                                <div class="form-group {{$loop->last ? "mb-0" : ""}}">
+                                    <label>{{$attribute->name}}</label>
+                                    <select class="form-control select2-multiple" data-toggle="select2" multiple="multiple" name="attribute[]" data-placeholder="Chọn {{\Illuminate\Support\Str::lower($attributename)}}">
+                                        @foreach($attribute->attributes as $item)
+                                            <option value="{{$item->id}}" {{selected($item->id, $product->attributes->pluck('id')->toArray())}} class="font-weight-bold">{{$item->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            @endforeach
                         </div>
-                        <div class="box-position btn btn-default waves-effect waves-light text-left @if(!file_exists($product->image)) show-box @endif">
-                            <div class="checkbox checkbox-unlink-image">
-                                <input id="checkbox_unlink" class="unlink-image" type="checkbox" name="unlink">
-                                <label for="checkbox_unlink" class="mb-0">Xóa ảnh</label>
-                            </div>
-
-                        </div>
-                    </div>
-
+                    @endif
                     <div class="card-box">
                         <label class="w-100">Ngôn ngữ</label>
                         <div class="clearfix">

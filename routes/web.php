@@ -127,8 +127,8 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
         Route::resource('source','SourceController');
 
         //lang
-        Route::get('change-lang/{lang}', 'LangController@change')->name('change.lang');
-        Route::get('active-lang/{id}','LangController@active')->name('active.lang');
+        Route::get('change/lang/{lang}', 'LangController@change')->name('change.lang');
+        Route::get('active/lang/{id}','LangController@active')->name('active.lang');
         Route::resource('lang','LangController');
 
         //module
@@ -152,46 +152,46 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
         Route::get('ajax/data/public', 'AjaxController@getEditDataPublic')->name('ajax.data.public');
         Route::get('ajax/data/status', 'AjaxController@getEditDataStatus')->name('ajax.data.status');
 
-        Route::get('ajax/menu-sort', 'AjaxController@getEditMenuSort')->name('ajax.menu.sort');
+        Route::get('ajax/menu/sort', 'AjaxController@getEditMenuSort')->name('ajax.menu.sort');
 
         //Import
-        Route::get('ajax/choise-agency/{id}/{product}', 'AjaxController@getImportAgency')->name('ajax.choise.agency');
-        Route::get('ajax/choise-product/{id}/{agency}', 'AjaxController@getImportProduct')->name('ajax.choise.product');
-        Route::get('ajax/import-product/{id}/{amount}/{price}', 'AjaxController@setImportProduct')->name('ajax.import.product');
-        Route::get('ajax/get-item-import/{rowId}','AjaxController@getItemImport')->name('ajax.get.item.import');
-        Route::get('ajax/destroy-item-import/{rowId}','AjaxController@setDestroyItemImport')->name('ajax.destroy.item.import');
-        Route::get('ajax/update-item-import/{rowId}/{amount}/{price}','AjaxController@setUpdateItemImport')->name('ajax.update.item.import');
+        Route::get('ajax/choise/agency/{id}/{product}', 'AjaxController@getImportAgency')->name('ajax.choise.agency');
+        Route::get('ajax/choise/product/{id}/{agency}', 'AjaxController@getImportProduct')->name('ajax.choise.product');
+        Route::get('ajax/import/product/{id}/{amount}/{price}', 'AjaxController@setImportProduct')->name('ajax.import.product');
+        Route::get('ajax/get/item/import/{rowId}','AjaxController@getItemImport')->name('ajax.get.item.import');
+        Route::get('ajax/destroy/item/import/{rowId}','AjaxController@setDestroyItemImport')->name('ajax.destroy.item.import');
+        Route::get('ajax/update/item/import/{rowId}/{amount}/{price}','AjaxController@setUpdateItemImport')->name('ajax.update.item.import');
 
         //End Import
 
         //Export
-        Route::get('ajax/export-product/{id}/{amount}/{price}/{revenue}', 'AjaxController@setExportProduct')->name('ajax.export.product');
-        Route::get('ajax/choise-export-product/{id}/{user}', 'AjaxController@getExportProduct')->name('ajax.choise.export.product');
-        Route::get('ajax/choise-user/{id}/{product}', 'AjaxController@getExportUser')->name('ajax.choise.user');
-        Route::get('ajax/update-product/{id}/{amount}/{price}/{checkout}/{agency}/{customer}','AjaxController@setUpdateProduct')->name('ajax.update.product');
+        Route::get('ajax/export/product/{id}/{amount}/{price}/{revenue}', 'AjaxController@setExportProduct')->name('ajax.export.product');
+        Route::get('ajax/choise/export/product/{id}/{user}', 'AjaxController@getExportProduct')->name('ajax.choise.export.product');
+        Route::get('ajax/choise/user/{id}/{product}', 'AjaxController@getExportUser')->name('ajax.choise.user');
+        Route::get('ajax/update/product/{id}/{amount}/{price}/{checkout}/{agency}/{customer}','AjaxController@setUpdateProduct')->name('ajax.update.product');
 
-        Route::get('ajax/get-item-export/{rowId}','AjaxController@getItemExport')->name('ajax.get.item.export');
-        Route::get('ajax/destroy-item-export/{rowId}','AjaxController@setDestroyItemExport')->name('ajax.destroy.item.export');
-        Route::get('ajax/update-item-export/{rowId}/{amount}/{price}/{revenue}','AjaxController@setUpdateItemExport')->name('ajax.update.item.export');
+        Route::get('ajax/get/item/export/{rowId}','AjaxController@getItemExport')->name('ajax.get.item.export');
+        Route::get('ajax/destroy/item/export/{rowId}','AjaxController@setDestroyItemExport')->name('ajax.destroy.item.export');
+        Route::get('ajax/update/item/export/{rowId}/{amount}/{price}/{revenue}','AjaxController@setUpdateItemExport')->name('ajax.update.item.export');
 
-        Route::get('ajax/get-product-update/{id}','AjaxController@getProductUpdate')->name('ajax.get.product.export');
+        Route::get('ajax/get/product/update/{id}','AjaxController@getProductUpdate')->name('ajax.get.product.export');
 
-        Route::get('ajax/get-data-print/{customer}','AjaxController@getDataPrint')->name('ajax.get.data.print');
+        Route::get('ajax/get/data/print/{customer}','AjaxController@getDataPrint')->name('ajax.get.data.print');
 
         Route::get('ajax/order/print/{id}','AjaxController@getOrderPrint')->name('ajax.get.order.print');
 
-        Route::get('ajax/get-revenue/session/{id}/{amount}/{price}','AjaxController@getRevenueSession')->name('ajax.get.revenue');
-        Route::get('ajax/get-revenue-old/session/{id}/{amount}/{price}','AjaxController@getRenvenueAfter')->name('ajax.get.revenue.old');
+        Route::get('ajax/get/revenue/session/{id}/{amount}/{price}','AjaxController@getRevenueSession')->name('ajax.get.revenue');
+        Route::get('ajax/get/revenue/old/session/{id}/{amount}/{price}','AjaxController@getRenvenueAfter')->name('ajax.get.revenue.old');
 
         //End Export
 
-        Route::get('ajax/position-photo/{json}','AjaxController@setPositionPhoto')->name('ajax.set.position.photo');
+        Route::get('ajax/position/photo/{json}','AjaxController@setPositionPhoto')->name('ajax.set.position.photo');
 
-        Route::get('ajax/edit-alt/{id}/{alt}','AjaxController@setAltPhoto')->name('ajax.set.alt');
-        Route::get('ajax/get-alt/{id}','AjaxController@getAltPhoto')->name('ajax.get.alt');
+        Route::get('ajax/edit/alt/{id}/{alt}','AjaxController@setAltPhoto')->name('ajax.set.alt');
+        Route::get('ajax/get/alt/{id}','AjaxController@getAltPhoto')->name('ajax.get.alt');
 
-        Route::post('ajax/upload-photo/{id}/{type}','AjaxController@uploadPhoto')->name('ajax.upload.photo');
-        Route::get('ajax/remove-photo/{id}','AjaxController@removePhoto')->name('ajax.remove.photo');
+        Route::post('ajax/upload/photo/{id}/{type}','AjaxController@uploadPhoto')->name('ajax.upload.photo');
+        Route::get('ajax/remove/photo/{id}','AjaxController@removePhoto')->name('ajax.remove.photo');
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -202,6 +202,7 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
 Route::fallback(function(){
     return abort(404);
 });
+
 /////////////////////////////////////////////////////////////
 Route::group(['as'=>'user.'], function () {
     Route::get('login', 'UserController@getLogin')->name('login');
@@ -211,25 +212,25 @@ Route::group(['as'=>'user.'], function () {
     Route::post('register', 'UserController@postRegister')->name('register');
     Route::get('profile', 'UserController@getInfo')->name('profile');
     Route::post('profile', 'UserController@postEditUser');
-    Route::post('forget-user', 'UserController@postForgetUser');
-    Route::get('forget-user', 'UserController@getForgetUser')->name('forget');
+    Route::post('forget/user', 'UserController@postForgetUser');
+    Route::get('forget/user', 'UserController@getForgetUser')->name('forget');
     Route::get('password/reset', 'UserController@getPasswordReset')->name('reset');
 
     Route::get('auth/{provider}/login','UserController@redirect')->name('social');
     Route::get('{provider}/callback','UserController@callback')->name('social.callback');
 });
 Route::group(['as' => 'cart.'], function () {
-    Route::get('shopping-cart', 'ShoppingCartController@index');
+    Route::get('shopping/cart', 'ShoppingCartController@index');
     Route::get('checkout', 'ShoppingCartController@checkout');
     Route::post('checkout', 'ShoppingCartController@payment');
-    Route::get('cart-destroy', 'ShoppingCartController@destroy');
-    Route::get('cart-remove/{rowid}', 'ShoppingCartController@remove');
+    Route::get('cart/destroy', 'ShoppingCartController@destroy');
+    Route::get('cart/remove/{rowid}', 'ShoppingCartController@remove');
 });
 Route::group(['prefix' => 'ajax','as' => 'ajax.'], function () {
-    Route::get('add-cart/{id}', 'AjaxController@addShoppingCart');
-    Route::get('update-cart/{rowId}/{num}', 'AjaxController@updateShoppingCart');
-    Route::get('remove-cart/{rowId}', 'AjaxController@removeItemShoppingCart');
-    Route::get('destroy-cart', 'AjaxController@destroyShoppingCart');
+    Route::get('add/cart/{id}', 'AjaxController@addShoppingCart');
+    Route::get('update/cart/{rowId}/{num}', 'AjaxController@updateShoppingCart');
+    Route::get('remove/cart/{rowId}', 'AjaxController@removeItemShoppingCart');
+    Route::get('destroy/cart', 'AjaxController@destroyShoppingCart');
     Route::get('lang/{alias}/{lang}', 'AjaxController@change_lang')->name('change.lang');
 });
 

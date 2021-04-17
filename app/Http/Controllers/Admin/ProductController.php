@@ -5,6 +5,7 @@ use App\Enums\CategoryType;
 use App\Enums\SystemsModuleType;
 use App\Http\Controllers\Controller;
 use App\Models\Alias;
+use App\Models\AttributeCategory;
 use App\Models\Category;
 use App\Models\Lang;
 use App\Models\Product;
@@ -13,6 +14,7 @@ use App\Models\User;
 use App\Models\UserAgency;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
 use Session, Image;
 
@@ -103,7 +105,9 @@ class ProductController extends Controller
         authorize(SystemsModuleType::ADD_PRODUCT);
 
         $categories = Category::whereType(CategoryType::PRODUCT_CATEGORY)->public()->langs()->orderByDesc('id')->get();
-        return view('Admin.Product.add', compact('categories'));
+        $attributes = AttributeCategory::with('attributes')->public()->oldest('sort')->get();
+
+        return view('Admin.Product.add', compact('categories','attributes'));
     }
 
     /**
@@ -156,6 +160,7 @@ class ProductController extends Controller
             create_tags($product);
         }
         $product->categories()->attach($request->category_id);
+        $product->attributes()->attach($request->attribute);
 
         return  flash('Thêm mới thành công', 1 , $product->route);
     }
@@ -205,8 +210,9 @@ class ProductController extends Controller
     {
         authorize(SystemsModuleType::ADD_PRODUCT);
 
-        $category = Category::whereType(CategoryType::PRODUCT_CATEGORY)->public()->langs()->orderByDesc('id')->get();
+        $categories = Category::whereType(CategoryType::PRODUCT_CATEGORY)->public()->langs()->orderByDesc('id')->get();
         $photo = $product->photos()->orderby('sort','asc')->get();
+        $attributes = AttributeCategory::with('attributes')->public()->oldest('sort')->get();
 
         if($product->postLangsBefore){
             $id = array_unique($product->postLangsBefore->pluck('post_id')->toArray());
@@ -216,7 +222,7 @@ class ProductController extends Controller
             $langs = Lang::where('value','<>',$product->lang)->get();
         }
 
-        return view('Admin.Product.edit',compact('product','category','photo','posts','langs'));
+        return view('Admin.Product.edit',compact('product','categories','photo','posts','langs','attributes'));
     }
 
     /**
@@ -253,10 +259,9 @@ class ProductController extends Controller
             $product->options = $fields;
         }
         if($request->unlink){
-            if(file_exists($product->image))
-                unlink($product->image);
-            if(file_exists($product->thumb))
-                unlink($product->thumb);
+            File::delete($product->image);
+            File::delete($product->thumb);
+
             $product->image = null;
             $product->thumb = null;
         }elseif ($request->file('image')){
@@ -273,6 +278,7 @@ class ProductController extends Controller
             create_tags($product);
         }
         $product->categories()->sync($request->category_id);
+        $product->attributes()->sync($request->attribute);
 
         return  flash('Cập nhật thành công!', 1);
     }
@@ -317,8 +323,8 @@ class ProductController extends Controller
             return flash('Ngôn ngữ chưa được cấu hình!', 3);
         $product = Product::find($id);
         $categories = Category::whereType(CategoryType::PRODUCT_CATEGORY)->public()->whereLang($lang)->langs()->orderByDesc('id')->get();
-
-        return view('Admin.Product.lang', compact('categories','product','lang'));
+        $attributes = AttributeCategory::with('attributes')->public()->oldest('sort')->get();
+        return view('Admin.Product.lang', compact('categories','product','lang','attributes'));
     }
 
     public function add(Request $request , $lang, $id)
@@ -359,6 +365,7 @@ class ProductController extends Controller
         $product->save();
 
         $product->categories()->attach($request->category_id);
+        $product->attributes()->attach($request->attribute);
 
         $checkFile = $request->checkFile ?? null;
         if($request->file('photo') && $checkFile){

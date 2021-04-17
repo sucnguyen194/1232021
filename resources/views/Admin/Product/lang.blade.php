@@ -118,10 +118,10 @@
                         <p class="font-13">Thiết lập các thẻ mô tả giúp khách hàng dễ dàng tìm thấy trang trên công cụ tìm kiếm như Google.</p>
 
                         <div class="test-seo">
-                            <div class="">
+                            <div class="mb-1">
                                 <a href="javascript:void(0)" class="title-seo"></a>
                             </div>
-                            <div class="url-seo font-weight-bold mb-1">
+                            <div class="url-seo">
                                 <span class="alias-seo" id="alias_seo">{{route('home')}}</span>
                             </div>
                             <div class="description-seo"></div>
@@ -185,7 +185,7 @@
                         <div class="form-group mb-0">
                             <label>Danh mục phụ</label>
                             <p class="font-13">* Chọn được nhiều danh mục</p>
-                            <select class="form-control select2-multiple" data-toggle="select2" multiple="multiple" name="category_id[]" data-placeholder="Chọn danh mục">
+                            <select class="form-control select2-multiple" data-toggle="select2" multiple="multiple" name="category_id[]" data-placeholder="Chọn danh mục phụ">
                                 @foreach($categories->where('parent_id', 0) as $item )
                                     <option value="{{$item->id}}" {{old('category_id') == $item->id ? "selected" : ""}} class="font-weight-bold">{{$item->name}}</option>
                                     {{sub_option_category($categories ,$item->id)}}
@@ -193,7 +193,22 @@
                             </select>
                         </div>
                     </div>
-
+                    @if($attributes->count())
+                        <div class="card-box">
+                            <label class="mb-0">Bộ lọc</label>
+                            <hr>
+                            @foreach($attributes as $attribute)
+                                <div class="form-group {{$loop->last ? "mb-0" : ""}}">
+                                    <label>{{$attribute->name}}</label>
+                                    <select class="form-control select2-multiple" data-toggle="select2" multiple="multiple" name="attribute[]" data-placeholder="Chọn {{\Illuminate\Support\Str::lower($attribute->name)}}">
+                                        @foreach($attribute->attributes as $item)
+                                            <option value="{{$item->id}}" class="font-weight-bold">{{$item->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            @endforeach
+                        </div>
+                    @endif
                     <div class="card-box tags">
                         <label>Tags</label>
                         <p class="font-13">* Từ khóa được phân chia sau dấu phẩy <strong>","</strong></p>

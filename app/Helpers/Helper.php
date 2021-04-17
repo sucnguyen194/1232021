@@ -284,6 +284,16 @@ if(!function_exists('checked')){
     }
 }
 
+if(!function_exists('disable')){
+    function disable($a,$b){
+        if($a == $b)
+            return true;
+        if(is_array($b) && in_array($a,$b))
+            return true;
+        return false;
+    }
+}
+
 if(!function_exists('sub_option_category')){
     function sub_option_category($data,$parent,$old = null){
         foreach ($data->where('parent_id', $parent) as $key => $value) {
@@ -304,7 +314,7 @@ if(!function_exists('sub_option_category')){
 
 if(!function_exists('str_limit')){
     function str_limit($content, $limit=50){
-        return strip_tags(\Illuminate\Support\Str::limit($content, $limit));
+        return strip_tags(\Illuminate\Support\Str::limit($content, $limit,'...'));
     }
 }
 
