@@ -5,25 +5,25 @@
   <meta http-equiv="content-language" content="{{ str_replace('_', '-', app()->getLocale()) }}">
   <meta charset="utf-8">
   <title>@hasSection('title') @yield('title') - @endif {{setting()->name}}</title>
-  <meta name="keywords" content="@hasSection('keywords') @yield('keywords') @else {{setting()->keyword_seo}} @endif"/>
-  <meta name="description" content="@hasSection('description') @yield('description') @else {{setting()->description_seo}} @endif"/>
-  <meta property="og:url" content="@hasSection('url') @yield('url') @else {{url('/')}} @endif" />
+  <meta name="keywords" content="@yield('keywords',setting()->keyword_seo)"/>
+  <meta name="description" content="@yield('description',setting()->description_seo)"/>
+  <meta property="og:url" content="@yield('url', url('/'))" />
   <meta property="og:title" content="@hasSection('title') @yield('title') - @endif {{setting()->name}}" />
   <meta property="og:locale" content="{{ str_replace('_', '-', app()->getLocale()) }}" />
   <meta property="og:type" content="website" />
   <meta property="fb:app_id" content="{{setting()->facebook_app_id}}" />
-  <meta property="og:description" content="@hasSection('description') @yield('description') @else {{setting()->description_seo}} @endif" />
-  <meta property="og:image" content="@hasSection('image') @yield('image') @else {{setting()->og_image ?? setting()->logo}} @endif" />
+  <meta property="og:description" content="@yield('description',setting()->description_seo)" />
+  <meta property="og:image" content="@yield('image', setting()->og_image ?? setting()->logo)" />
   <meta property="og:image:type" content="image/jpeg" />
   <meta property="og:image:width" content="400" />
   <meta property="og:image:height" content="300" />
   <meta property="og:image:alt" content="@hasSection('title') @yield('title') - @endif {{setting()->name}}" />
   <meta property="og:site_name" content="@hasSection('title') @yield('title') - @endif {{setting()->name}}" />
   <meta name="twitter:card" content="summary"/>
-  <meta name="twitter:description" content="@hasSection('description') @yield('description') @else {{setting()->description_seo}} @endif"/>
+  <meta name="twitter:description" content="@yield('description',setting()->description_seo)"/>
   <meta name="twitter:title" content="@hasSection('title') @yield('title') - @endif {{setting()->name}}"/>
   <meta name="robots" content="index, follow">
-  <link rel="canonical" href="@hasSection('url') @yield('url') @else {{url('/')}} @endif">
+  <link rel="canonical" href="@yield('url', url('/'))">
   <link rel="icon" href="{{asset(setting()->favicon)}}">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
   <!--*************************---->
@@ -52,22 +52,7 @@
 <!-- Vendor js -->
 <script src="/admin/assets/js/vendor.min.js"></script>
 <script src="/admin/assets/libs/jquery-toast/jquery.toast.min.js"></script>
-<style>
-    .qtv {
-        display: inline;
-        vertical-align: middle;
-        font-style: normal;
-        background-color: #eebc49;
-        color: #222;
-        font-size: 10px;
-        padding: 5px 5px 3px 5px;
-        border-radius: 2px;
-        width: auto;
-        height: auto;
-        line-height: 1;
-        margin-left: 5px;
-    }
-</style>
+
 <script src="/admin/js/cpanel.js"></script>
   @include('Errors.note')
   <!--*************************---->

@@ -234,7 +234,7 @@
                             @foreach($attributes as $attribute)
                                 <div class="form-group {{$loop->last ? "mb-0" : ""}}">
                                     <label>{{$attribute->name}}</label>
-                                    <select class="form-control select2-multiple" data-toggle="select2" multiple="multiple" name="attribute[]" data-placeholder="Chọn {{\Illuminate\Support\Str::lower($attributename)}}">
+                                    <select class="form-control select2-multiple" data-toggle="select2" multiple="multiple" name="attribute[]" data-placeholder="Chọn {{\Illuminate\Support\Str::lower($attribute->name)}}">
                                         @foreach($attribute->attributes as $item)
                                             <option value="{{$item->id}}" {{selected($item->id, $product->attributes->pluck('id')->toArray())}} class="font-weight-bold">{{$item->name}}</option>
                                         @endforeach
