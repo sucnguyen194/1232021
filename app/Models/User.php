@@ -51,6 +51,7 @@ class User extends Authenticatable
     public function systems(){
         return $this->belongsToMany(System::class);
     }
+
     public function sessions(){
         return $this->hasMany(ProductSession::class,'user_id');
     }

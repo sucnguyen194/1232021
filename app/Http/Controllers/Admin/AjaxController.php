@@ -189,7 +189,7 @@ class AjaxController extends Controller {
                 'weight'=> $weight,
                 'qty'=>$cart->first()->qty + $qty,
                 'options' => [
-                    'sort' => $product->name
+                    'sort' => time()
                 ],
             ]);
         }else{
@@ -200,7 +200,7 @@ class AjaxController extends Controller {
                 'weight'=> $weight,
                 'qty'=>$qty,
                 'options' => [
-                    'sort' => $product->name
+                    'sort' => time()
                 ],
             ]);
         }
@@ -294,7 +294,7 @@ class AjaxController extends Controller {
                     'revenue' => $revenue,
                     'price_in' => $sesions ? $sesions->price_in : null,
                     'amount' => $product->amount,
-                    'sort' => $product->name,
+                    'sort' => time()
                 ]
             ]);
         }else{
@@ -308,7 +308,7 @@ class AjaxController extends Controller {
                     'revenue' => $revenue,
                     'price_in' => $sesions ? $sesions->price_in : null,
                     'amount' => $product->amount,
-                    'sort' => $product->name,
+                    'sort' => time()
                 ]
             ]);
         }
@@ -438,7 +438,7 @@ class AjaxController extends Controller {
                 'revenue' => $revenue,
                 'price_in' => $cart->options->price_in,
                 'amount' => $cart->options->amount,
-                'sort' => $product->name,
+                'sort' => time()
             ]
         ]);
         $data['cart'] = Cart::instance('export')->content()->sort();

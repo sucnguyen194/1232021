@@ -1118,10 +1118,10 @@
                 $.each(this.carts,function(key,value){
                     revenue += Number(value.options.revenue);
                 })
-                return revenue - Number(this.action.sessions.discount);
+                return revenue;
             },
             revenue_session:function(){
-                return Number(this.action.sessions.revenue) + Number(this.revenue_carts) - (Number(this.action.sessions.discount) - Number(this.action.sessions.discount_default));
+                return Number(this.action.sessions.revenue) + Number(this.revenue_carts) + Number(this.action.sessions.discount_default) - Number(this.action.sessions.discount);
             }
         }
     })

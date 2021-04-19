@@ -430,7 +430,7 @@ class OrderController extends Controller
                     'revenue' => $revenue,
                     'price_in' => $sesions ? $sesions->price_in : null,
                     'amount' => $product->amount,
-                    'sort' => $product->name,
+                    'sort' => time()
                 ]
             ]);
         }else{
@@ -444,7 +444,7 @@ class OrderController extends Controller
                     'revenue' => $revenue,
                     'price_in' => $sesions ? $sesions->price_in : null,
                     'amount' => $product->amount,
-                    'sort' => $product->name,
+                    'sort' => time()
                 ]
             ]);
         }
@@ -481,7 +481,7 @@ class OrderController extends Controller
                 'revenue' => $revenue,
                 'price_in' => $cart->options->price_in,
                 'amount' => $cart->options->amount,
-                'sort' => $product->name,
+                'sort' => time()
             ]
         ]);
 
