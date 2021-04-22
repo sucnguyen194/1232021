@@ -93,14 +93,12 @@
                                     <td>{{number_format($item->debt)}}</td>
                                     <td>
                                         <a href="{{route('admin.imports.show',$item)}}" class="btn btn-primary waves-effect waves-light">
-                                            <span class="icon-button"><i class="pe-7s-magic-wand"></i> </span>Chi tiết</a>
-                                        @if(!$item->sessions->count())
+                                            Chi tiết</a>
                                         <form method="post" action="{{route('admin.imports.destroy',$item)}}" class="d-inline-block">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-warning waves-effect waves-light" onclick="return confirm('Bạn có chắc muốn xóa?');"><span class="icon-button"><i class="fe-x"></i></span></button>
                                         </form>
-                                        @endif
                                     </td>
                                 </tr>
                             @endforeach

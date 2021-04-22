@@ -13,7 +13,7 @@
                             <li class="breadcrumb-item active">Danh sách thành viên</li>
                         </ol>
                     </div>
-                    <h4 class="page-title">Danh sách thành viên</h4>
+                    <h4 class="page-title">Danh sách thành viên (Tổng công nợ: {{number_format($user->sum('debt'))}})</h4>
                 </div>
             </div>
         </div>
@@ -35,7 +35,7 @@
                             <th>Công nợ</th>
                             <th>Email</th>
                             <th>SĐT</th>
-                            <th>Địa chỉ</th>
+                            <th style="width: 200px">Địa chỉ</th>
                             <th>Hành động</th>
                         </tr>
                         </thead>

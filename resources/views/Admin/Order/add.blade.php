@@ -545,7 +545,6 @@
                     fetch('{{route('admin.ajax.get.revenue',[':id',':amount',':price'])}}'.replace(':id',id).replace(':amount',amount).replace(':price',price)).then(function(response){
                         return response.json().then(function(data){
                             app.cart.revenue = data;
-                            console.log(data);
                         })
                     })
                 }

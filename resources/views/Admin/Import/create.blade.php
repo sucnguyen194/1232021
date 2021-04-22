@@ -283,7 +283,7 @@
                         return reponse.json().then(function (data) {
                             app.carts = data.cart;
                             app.total = data.total.replaceAll(',','');
-                            flash({'message': 'Xóa sản phẩm thành công!'});
+                            flash({'message': 'Xóa sản phẩm thành công!','type': 'success'});
                         });
                     })
                 }
@@ -293,7 +293,7 @@
                     return reponse.json().then(function(data){
                         app.carts = data.cart;
                         app.total = data.total.replaceAll(',','');
-                        flash({'message': 'Thêm sản phẩm thành công!'});
+                        flash({'message': 'Thêm sản phẩm thành công!','type': 'success'});
                     });
                 })
             },
@@ -314,7 +314,7 @@
                             app.carts = data.cart;
                             app.total = data.total.replaceAll(',','');
                             $('#item-cart').modal('hide');
-                            flash('success','Cập nhật thành công!');
+                            flash({'message': 'Cập nhật thành công!','type': 'success'});
                         })
                     })
                 }

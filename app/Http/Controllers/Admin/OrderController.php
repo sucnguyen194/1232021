@@ -530,8 +530,7 @@ class OrderController extends Controller
     public function destroy(Order $order)
     {
         authorize(SystemsModuleType::EXPORT);
-        if($order->sessions->count())
-            return flash('Bạn không thể thực hiện hành động này!',3);
+
         $order->delete();
         return flash('Xóa thành công!',1);
     }

@@ -306,8 +306,8 @@ class ImportController extends Controller
     public function destroy(Import $import)
     {
         authorize(SystemsModuleType::IMPORT);
-        if(!$import->sessions->count())
-            $import->delete();
+//        if(!$import->sessions->count())
+        $import->delete();
         return flash('Xóa thành công!', 1);
     }
 }

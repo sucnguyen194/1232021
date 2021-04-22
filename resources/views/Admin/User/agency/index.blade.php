@@ -13,7 +13,7 @@
                             <li class="breadcrumb-item active">Nhà cung cấp</li>
                         </ol>
                     </div>
-                    <h4 class="page-title">Nhà cung cấp</h4>
+                    <h4 class="page-title">Nhà cung cấp (Tổng công nợ: {{number_format($agencys->sum('debt'))}})</h4>
                 </div>
             </div>
         </div>
@@ -34,7 +34,7 @@
                             <th>Họ & tên</th>
                             <th>Công nợ</th>
                             <th>SĐT</th>
-                            <th>Địa chỉ</th>
+                            <th style="width: 200px">Địa chỉ</th>
                             <th>Trạng thái</th>
                             <th>Hành động</th>
                         </tr>

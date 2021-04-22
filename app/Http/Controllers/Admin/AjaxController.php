@@ -470,25 +470,25 @@ class AjaxController extends Controller {
     public function getRevenueSession($id,$quantity,$price){
         $item = ProductSession::whereProductId($id)->whereType('import')->whereColumn('amount_export','<','amount')->oldest()->first();
         if($item){
-            $amount = $item->amount - abs($quantity);
+            $amount = ($item->amount - $item->amount_export) - abs($quantity);
             if($amount >= 0){
                 $revenue = $price * $quantity - $item->price_in *  $quantity;
             }else{
-                $revenue = $price * $item->amount - $item->price_in *  $item->amount;
+                $revenue = $price * abs($amount) - $item->price_in *  abs($amount);
                 $revenue += $this->sumRevenueSession($item,abs($amount),$price);
             }
             return response()->json($revenue);
         }
-        return response()->json('error');
+        return response()->json(404);
     }
 
     public function sumRevenueSession($item, $quantity, $price){
         $session = $item->where('id','>',$item->id)->whereProductId($item->product_id)->whereType('import')->oldest()->first();
-        $amount = $session->amount - $quantity;
+        $amount = ($session->amount - $session->amount_export) - $quantity;
         if($amount >= 0) {
             $revenue = $price * abs($quantity) - $session->price_in *  abs($quantity);
         }else{
-            $revenue = $price * $session->amount - $session->price_in *  $session->amount;
+            $revenue = $price * abs($amount) - $session->price_in *  abs($amount);
             $revenue += $this->sumRevenueSession($session, abs($amount),$price);
         }
         return $revenue;
@@ -511,7 +511,7 @@ class AjaxController extends Controller {
                 $revenue = $revenue_order - $revenue_session;
             }
         }else{
-            $revenue = $this->getRevenueSession(12, $quatity,$price)->original;
+            $revenue = $this->getRevenueSession($session->id, $quatity,$price)->original;
         }
 
         return response()->json($revenue);

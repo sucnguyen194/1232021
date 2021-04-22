@@ -83,7 +83,7 @@
                             <div class="form-group">
                                 <label>Đường dẫn <span class="required">*</span></label>
                                 <div class="d-flex form-control">
-                                    <span>{{route('home')}}/</span><input type="text" class="border-0 alias" id="alias" value="{{old('data.alias')}}" name="data[alias]" required>
+                                    <span>{{route('home')}}/</span><input type="text" class="border-0 alias" id="alias" value="{{old('data.alias')}}" name="data[alias]" required><span>.html</span>
                                 </div>
 
                             </div>

@@ -21,7 +21,8 @@ Danh sách menu
             </div>
         </div>
         <!-- end page title -->
-
+    </div> <!-- end container-fluid -->
+    <div class="container">
         <div class="row">
             <div class="col-lg-12">
                 <div class="text-left" id="nestable_list_menu">
@@ -44,34 +45,34 @@ Danh sách menu
                                 * Phía dưới gồm các danh mục sản phẩm, bài viết, page... Click vào tên danh mục, bài viết... sẽ được thêm trực tiếp vào menu.
                             </p>
                         </div>
-                            <div class="card-box">
-                                <h4 class="header-title mb-3"><b>Danh mục sản phẩm</b></h4>
-                                <div class="form-groupmb mb-0">
-                                    @foreach($categories->where('parent_id', 0)->where('type',\App\Enums\SystemsModuleType::PRODUCT_CATEGORY) as $item)
-                                        <label class="w-100"><a href="javascript:void(0)" class="addmenu text-secondary"  title='Thêm ::::::{{$item->name}}:::::: vào menu'charset=""  data-name="{{$item->name}}" data-url="{{$item->alias}}" data-image="{{$item->image}}" data-thumb="{{$item->thumb}}"><span class=""><i class="fe-plus pr-1"></i>  {{$item->name}}</span></a></label>
-                                        {{sub_menu_category_checkbox($categories,$item->id)}}
-                                    @endforeach
-                                </div>
+                        <div class="card-box">
+                            <h4 class="header-title mb-3"><b>Danh mục sản phẩm</b></h4>
+                            <div class="form-groupmb mb-0">
+                                @foreach($categories->where('parent_id', 0)->where('type',\App\Enums\SystemsModuleType::PRODUCT_CATEGORY) as $item)
+                                    <label class="w-100"><a href="javascript:void(0)" class="addmenu text-secondary"  title='Thêm ::::::{{$item->name}}:::::: vào menu'charset=""  data-name="{{$item->name}}" data-url="{{$item->alias}}" data-image="{{$item->image}}" data-thumb="{{$item->thumb}}"><span class=""><i class="fe-plus pr-1"></i>  {{$item->name}}</span></a></label>
+                                    {{sub_menu_category_checkbox($categories,$item->id)}}
+                                @endforeach
                             </div>
+                        </div>
 
-                            <div class="card-box">
-                                <h4 class="header-title mb-3"><b>Danh mục Blog</b></h4>
-                                <div class="form-group mb-0">
-                                    @foreach($categories->where('parent_id', 0)->where('type',\App\Enums\SystemsModuleType::POST_CATEGORY) as $item)
-                                        <label class="w-100"><a href="javascript:void(0)" class="addmenu text-secondary"  title='Thêm ::::::{{$item->name}}:::::: vào menu'charset=""  data-name="{{$item->name}}" data-url="{{$item->alias}}" data-image="{{$item->image}}" data-thumb="{{$item->thumb}}"><span class=""><i class="fe-plus pr-1"></i>  {{$item->name}}</span></a></label>
-                                        {{sub_menu_category_checkbox($categories,$item->id)}}
-                                    @endforeach
-                                </div>
+                        <div class="card-box">
+                            <h4 class="header-title mb-3"><b>Danh mục Blog</b></h4>
+                            <div class="form-group mb-0">
+                                @foreach($categories->where('parent_id', 0)->where('type',\App\Enums\SystemsModuleType::POST_CATEGORY) as $item)
+                                    <label class="w-100"><a href="javascript:void(0)" class="addmenu text-secondary"  title='Thêm ::::::{{$item->name}}:::::: vào menu'charset=""  data-name="{{$item->name}}" data-url="{{$item->alias}}" data-image="{{$item->image}}" data-thumb="{{$item->thumb}}"><span class=""><i class="fe-plus pr-1"></i>  {{$item->name}}</span></a></label>
+                                    {{sub_menu_category_checkbox($categories,$item->id)}}
+                                @endforeach
                             </div>
+                        </div>
 
-                            <div class="card-box">
-                                <h4 class="header-title mb-3"><b>Pages</b></h4>
-                                <div class="form-group mb-0">
-                                    @foreach($pages as $item)
-                                        <label class="w-100"><a href="javascript:void(0)" class="addmenu text-secondary"  title='Thêm ::::::{{$item->title}}:::::: vào menu'charset=""  data-name="{{$item->title}}" data-url="{{$item->alias}}" data-image="{{$item->image}}" data-thumb="{{$item->thumb}}"><span class=""><i class="fe-plus pr-1"></i>  {{$item->title}}</span></a></label>
-                                    @endforeach
-                                </div>
+                        <div class="card-box">
+                            <h4 class="header-title mb-3"><b>Pages</b></h4>
+                            <div class="form-group mb-0">
+                                @foreach($pages as $item)
+                                    <label class="w-100"><a href="javascript:void(0)" class="addmenu text-secondary"  title='Thêm ::::::{{$item->title}}:::::: vào menu'charset=""  data-name="{{$item->title}}" data-url="{{$item->alias}}" data-image="{{$item->image}}" data-thumb="{{$item->thumb}}"><span class=""><i class="fe-plus pr-1"></i>  {{$item->title}}</span></a></label>
+                                @endforeach
                             </div>
+                        </div>
                     </div>
                     <div class="col-md-6">
                         <div class="card-box">
@@ -94,25 +95,25 @@ Danh sách menu
                             <div class="custom-dd dd" id="nestable">
                                 <ol class="dd-list" id="result_data">
                                     @foreach($menus->where('parent_id', 0) as $items)
-                                    <li class="dd-item" data-id="{{$items->id}}">
-                                        <div class="dd-handle">
-                                            <i class="fa fa-star pr-1" aria-hidden="true"></i> {{$items->name}}
-                                        </div>
+                                        <li class="dd-item" data-id="{{$items->id}}">
+                                            <div class="dd-handle">
+                                                <i class="fa fa-star pr-1" aria-hidden="true"></i> {{$items->name}}
+                                            </div>
 
-                                           <div class="menu_action">
-                                               <a href="{{route('admin.menus.edit',$items)}}" title="Sửa" class="btn btn-primary waves-effect waves-light"><i class="fe-edit-2"></i></a>
-                                               <form method="post" action="{{route('admin.menus.destroy',$items)}}" class="d-inline-block">
-                                                   @method('DELETE')
-                                                   @csrf
-                                                   <button type="submit" onclick="return confirm('Bạn chắc chắn muốn xóa?')" class="btn btn-warning waves-effect waves-light"><i class="fe-x"></i></button>
-                                               </form>
-                                           </div>
+                                            <div class="menu_action">
+                                                <a href="{{route('admin.menus.edit',$items)}}" title="Sửa" class="btn btn-primary waves-effect waves-light"><i class="fe-edit-2"></i></a>
+                                                <form method="post" action="{{route('admin.menus.destroy',$items)}}" class="d-inline-block">
+                                                    @method('DELETE')
+                                                    @csrf
+                                                    <button type="submit" onclick="return confirm('Bạn chắc chắn muốn xóa?')" class="btn btn-warning waves-effect waves-light"><i class="fe-x"></i></button>
+                                                </form>
+                                            </div>
 
-                                        <ol class="dd-list">
-                                            {{admin_menu_sub($menus, $items->id)}}
-                                        </ol>
+                                            <ol class="dd-list">
+                                                {{admin_menu_sub($menus, $items->id)}}
+                                            </ol>
 
-                                    </li>
+                                        </li>
                                     @endforeach
 
                                 </ol>
@@ -124,9 +125,7 @@ Danh sách menu
             </div> <!-- end col -->
         </div>
         <!-- end Row -->
-
-    </div> <!-- end container-fluid -->
-
+    </div>
 @stop
 @section('css')
     <style>

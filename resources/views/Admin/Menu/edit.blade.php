@@ -51,7 +51,11 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Đường dẫn</label>
-                                    <input id="alias" class="form-control"  value="{{$menu->url}}" name="data[url]" type="text">
+                                    <div class="d-flex form-control">
+                                        <span>{{route('home')}}/</span>
+                                        <input type="text" class="border-0 alias" id="alias" value="{{$menu->url}}" name="data[url]" required>
+                                        <span>.html</span>
+                                    </div>
                                 </div>
 
                                 <div class="form-group">

@@ -91,11 +91,11 @@
                     <a href="{{route('admin.users.edit',Auth::id())}}" class="dropdown-item notify-item"> <i class="fe-user"></i> <span>Tài khoản</span> </a>
 
                     <!-- item-->
-{{--                    <a href="javascript:void(0);" class="dropdown-item notify-item"> <i class="fe-settings"></i> <span>Settings</span> </a>--}}
+                    <a href="{{route('admin.settings')}}" class="dropdown-item notify-item"> <i class="fe-settings"></i> <span>Settings</span> </a>
 
                     <!-- item-->
 {{--                    <a href="javascript:void(0);" class="dropdown-item notify-item"> <i class="fe-lock"></i> <span>Lock Screen</span> </a>--}}
-{{--                    <div class="dropdown-divider"></div>--}}
+                    <div class="dropdown-divider"></div>
 
                     <!-- item-->
                     <a href="{{route('admin.logout')}}" class="dropdown-item notify-item"> <i class="fe-log-out"></i> <span>Thoát</span> </a> </div>
@@ -116,7 +116,7 @@
 {{--                <form class="app-search" method="get" action="">--}}
 {{--                    <div class="app-search-box">--}}
 {{--                        <div class="input-group">--}}
-{{--                            <input type="text" class="form-control" placeholder="Search...">--}}
+{{--                            <input type="text" class="form-control bg-white text-secondary" placeholder="Search...">--}}
 {{--                            <div class="input-group-append">--}}
 {{--                                <button class="btn" type="submit"> <i class="fe-search"></i> </button>--}}
 {{--                            </div>--}}
